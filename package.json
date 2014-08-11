@@ -1,0 +1,50 @@
+{
+  "name": "zanata-spa",
+  "version": "1.0.0",
+  "description": "Zanata Single Page Application",
+  "homepage": "https://github.com/lukebrooker/zanata-spa",
+  "main": "index.js",
+  "keywords": [
+    "css",
+    "rework"
+  ],
+  "bugs": {
+    "url": "https://github.com/lukebrooker/zanata-spa/issues"
+  },
+  "author": {
+    "name": "Luke Brooker",
+    "email": "mail@Lukebrooker.com",
+    "url": "http://lukebrooker.com"
+  },
+  "scripts": {
+    "setup": "make setup",
+    "watch": "make watch",
+    "make": "make build"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.8.6",
+    "gulp-angular-templatecache": "^1.3.0",
+    "gulp-autoprefixer": "^0.0.8",
+    "gulp-cache": "^0.1.3",
+    "gulp-concat": "^2.2.0",
+    "gulp-csso": "^0.2.9",
+    "gulp-imagemin": "^0.1.5",
+    "gulp-jshint": "^1.5.1",
+    "gulp-ng-annotate": "^0.3.0",
+    "gulp-notify": "^1.2.4",
+    "gulp-rename": "^1.2.0",
+    "gulp-rework": "^0.4.0",
+    "gulp-rimraf": "^0.1.0",
+    "gulp-uglify": "^0.2.1",
+    "gulp-webserver": "^0.4.0",
+    "main-bower-files": "^1.0.2",
+    "rework-calc": "^1.0.0",
+    "rework-color-function": "^1.0.0",
+    "rework-custom-media": "^0.1.0",
+    "rework-ie-limits": "^0.1.1",
+    "rework-npm": "^1.0.0",
+    "rework-suit-conformance": "^0.4.0",
+    "rework-vars": "^3.1.1"
+  }
+}

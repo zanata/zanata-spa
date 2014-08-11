@@ -1,0 +1,38 @@
+{
+  "name": "Zanata SPA",
+  "main": "app.js",
+  "version": "1.0.0",
+  "authors": [
+    "Luke Brooker <mail@lukebrooker.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.14",
+    "highlightjs": "~8.0.0",
+    "angular-elastic": "~2.3.2",
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.2.3",
+    "angular-ui-router": "~0.2.10"
+  },
+  "overrides": {
+    "angular-hotkeys": {
+      "main": [
+        "build/hotkeys.min.js",
+        "build/hotkeys.css"
+      ]
+    },
+    "highlightjs": {
+      "main": [
+        "highlight.pack.js",
+        "styles/tomorrow.css"
+      ]
+    }
+  }
+}
