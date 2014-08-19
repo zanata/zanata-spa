@@ -1,3 +1,10 @@
-body {
-  margin: 0;
+/*Fix for hotkeys*/
+
+.fade {
+  opacity: 0;
+  transition: opacity .25s easein;
+}
+
+.fade.in {
+  opacity: 1;
 }

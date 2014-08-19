@@ -23,10 +23,12 @@ var gulp = require('gulp'),
   angularTemplatecache = require('gulp-angular-templatecache'),
   pathBuild = './build',
   pathDeps = './bower_main',
-  pathJSdeps = pathDeps + '/**/*.js', // Main Bower Components
+  pathJSdeps = [pathDeps + '/**/angular.js', pathDeps + '/**/*.js'] // Get Angular first
   pathJSapp = './app/**/*.js',
-  pathCSSdeps = pathDeps + '/**/*.css', // Main Bower Components
+  pathCSSdeps = pathDeps + '/**/*.css',
   pathCSSapp = './app/**/*.css',
+  pathFontdeps = pathDeps + '/**/fonts/**/*',
+  pathImagedeps = pathDeps + '/**/img/**/*',
   pathTemplates = ['!./app/index.html', './app/**/*.html'];
 
 gulp.task('bowerClean', function() {
@@ -42,12 +44,12 @@ gulp.task('bowerMain', ['bowerClean'], function(){
 
 gulp.task('css', function () {
 // Use this when CSS lives here
-  gulp.src(pathCSSapp)
+  return gulp.src(pathCSSapp)
     .pipe(gulp.dest(pathBuild));
 });
 
 gulp.task('cssDeps', ['bowerMain'], function(){
-  gulp.src(pathCSSdeps)
+  return gulp.src(pathCSSdeps)
     .pipe(concat('libs.css'))
     .pipe(gulp.dest(pathBuild));
 });
@@ -62,26 +64,42 @@ gulp.task('js',function(){
 
 gulp.task('jsDeps', ['bowerMain'], function(){
   //concatenate vendor JS files
-  gulp.src(pathJSdeps)
+  return gulp.src(pathJSdeps)
     .pipe(ngAnnotate())
     .pipe(concat('libs.js'))
     .pipe(uglify())
     .pipe(gulp.dest(pathBuild));
 });
 
+gulp.task('imageDeps', ['bowerMain'], function(){
+  return gulp.src(pathImagedeps)
+    .pipe(rename(function(path) {
+      path.dirname = path.dirname.replace('zanata-assets/php/master/assets/', '');
+    }))
+    .pipe(gulp.dest(pathBuild));
+});
+
+gulp.task('fontDeps', ['bowerMain'], function(){
+  return gulp.src(pathFontdeps)
+    .pipe(rename(function(path) {
+      path.dirname = path.dirname.replace('zanata-assets/php/master/assets/', '');
+    }))
+    .pipe(gulp.dest(pathBuild));
+});
+
 gulp.task('templates', function(){
   //combine all template files of the app into a js file
-  gulp.src(pathTemplates)
+  return gulp.src(pathTemplates)
     .pipe(angularTemplatecache('templates.js',{standalone:true}))
     .pipe(gulp.dest(pathBuild));
 });
 
-gulp.task('copy-index', function() {
-  gulp.src('./app/index.html')
+gulp.task('copyIndex', function() {
+  return gulp.src('./app/index.html')
     .pipe(gulp.dest('./build'));
 });
 
-gulp.task('build', ['jsDeps', 'js', 'cssDeps', 'css', 'templates', 'copy-index']);
+gulp.task('build', ['jsDeps', 'js', 'cssDeps', 'css', 'fontDeps', 'imageDeps', 'templates', 'copyIndex']);
 
 gulp.task('webserver', ['build'], function() {
   gulp.src('build')
