@@ -116,7 +116,7 @@ gulp.task('watch', ['serve'], function(){
   gulp.watch(pathCSSdeps, ['cssDeps']);
   gulp.watch(pathCSSapp, ['css']);
   gulp.watch(pathTemplates, ['templates']);
-  gulp.watch('./app/index.html', ['copy-index']);
+  gulp.watch('./app/index.html', ['copyIndex']);
 });
 
 gulp.task('default',['build']);
