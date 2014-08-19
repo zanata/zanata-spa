@@ -1,5 +1,5 @@
 <!DOCTYPE>
-<html class="new-zanata" lang="en">
+<html class="new-zanata" lang="en" ng-app="app">
 
 <head>
   <meta charset="utf-8">
@@ -12,21 +12,164 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="cleartype" content="on">
 
-  <link rel="stylesheet" href="//assets-zanata.rhcloud.com/master/assets/css/style.min.css">
+  <link rel="stylesheet" href="http://localhost/zanata-assets/php/dev/assets/css/style.css">
   <link rel="stylesheet" href="libs.css">
   <link rel="stylesheet" href="app.css">
 
-  <script src="libs.js" async></script>
-  <script src="app.js" async></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+  <script src="libs.js"></script>
+  <script src="templates.js"></script>
+  <script src="app.js"></script>
+
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,400italic' rel='stylesheet' type='text/css' async>
 
 </head>
 
-<body class="new-zanata">
-  <h1>Zanata</h1>
+<body class="new-zanata" ng-controller="MainCtrl as main">
   <noscript>
     <div class="l__wrapper l--push-v-1">
       <p class="message--danger">We're sorry, this application needs Javascript to run.</p>
     </div>
   </noscript>
+
+  <div ng-controller="EditorCtrl as editor">
+
+    <header role="banner" class="header-banner">
+      <nav role="navigation" class="p-relative txt--align-center txt--align-center-s" ng-class="{'is-hidden': editor.settings.hideMainNav}">
+        <div class="p-absolute-left">
+          <a href="/projects/mortal-kombat/master" class="bx--inline-block link--invert header-banner__item">
+            <span class="l--pad-h-quarter w--r-1 is-hidden--m-l-up"><i class="i i--arrow-left"></i></span>
+            <span class="editor__current-project is-hidden--m-l-down l--push-left-half">Mortal Kombat <span class="txt--muted">master</span></span>
+          </a>
+          <i class="i i--arrow-right l--push-h-quarter txt--invert txt--muted is-hidden--m-l-down"></i>
+          <ul class="list--horizontal bx--inline-block">
+            <li>
+              <button class="button--link link--invert">
+                <h1 class="editor__current-doc zeta l--push-all-0 bx--inline-block txt--invert header-banner__item l--push-right-quarter">MK9Story.txt</h1>
+                <span class="is-hidden--s"><i class="i i--arrow-down"></i></span>
+              </button>
+            </li>
+            <li>
+              <button class="button--link link--invert">
+                <span class="is-hidden--s">
+                <h2 class="editor__current-lang zeta l--push-all-0 bx--inline-block txt--invert header-banner__item l--push-right-quarter">French</h2>
+                <i class="i i--arrow-down"></i>
+                </span>
+              </button>
+            </li>
+          </ul>
+        </div>
+        <a href="/">
+          <img class="h--1h l--push-v-quarter" src="http://localhost/zanata-assets/php/dev/assets/img/logo/logo-invert.svg">
+          <!-- <span class="spinner is-loading"><span class="is-sr-only">Loading</span></span> -->
+        </a>
+        <ul class="list--inline p-absolute-right l--push-right-half">
+          <li class="is-hidden--s"><a href="settings" class="link--invert header-banner__item w--r-1h" title="Editor Settings"><i class="i i--large i--settings"></i><span class="is-sr-only"> Settings</span></a></li>
+          <li><button class="button--link link--invert header-banner__item w--r-1h" title="More"><i class="i i--large i--ellipsis"></i><span class="is-sr-only">More</span></button></li>
+          <li><button class="button--link link--invert header-banner__item w--r-1h" title="Notifications"><i class="i i--large i--notification"></i><span class="is-sr-only">Notifications</span></button></li>
+          <li>
+            <a href="/dashboard" class="h--2 w--r-1h">
+              <img class="bx--round header__avatar" src="http://www.gravatar.com/avatar/fd8eefdca68e2044a7680d7a0cf574d7?d=mm&amp;r=g&amp;s=72"/>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <nav class="bg--highest l--pad-h-half l--cf-of h--1h">
+        <button class="button--link link--neutral l--pad-v-quarter l--float-left h--1h l--push-right-quarter"><i class="i i--large i--translate"></i><span class="is-hidden--s l--push-right-quarter"> Translating</span></button>
+        <ul class="list--inline l--float-left">
+          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block bg--secondary bx--round link--invert" title="Total Phrases">378<span class="is-sr-only">Total Phrases</span></a></li>
+          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block" title="Approved"><i class="i i--dot"></i><strong>6</strong><span class="is-sr-only">Approved</span></a></li>
+          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--success" title="Translated"><i class="i i--dot"></i><strong>256</strong><span class="is-sr-only">Translated</span></a></li>
+          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--unsure" title="Fuzzy"><i class="i i--dot"></i><strong>5</strong><span class="is-sr-only">Fuzzy</span></a></li>
+          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--neutral" title="Untranslated"><i class="i i--dot"></i><strong>111</strong><span class="is-sr-only">Untranslated</span></a></li>
+          <li><button class="button--link link--neutral h--1h w--r-1h" title="Filters"><i class="i i--large i--filter"></i><span class="is-sr-only">More filters</span></button></li>
+          <li><button class="button--link link--neutral h--1h w--r-1h" title="Search"><i class="i i--large i--search"></i><span class="is-sr-only">Search</span></button></li>
+        </ul>
+        <div class="l--float-right">
+          <ul class="list--inline">
+            <li><button class="button--link link--neutral h--1h w--r-1h" title="Translation Memory"><i class="i i--large i--suggestion"></i><span class="is-sr-only">Translation Memory</span></button></li>
+            <li><button class="button--link link--neutral h--1h w--r-1h" title="Details"><i class="i i--large i--info"></i><span class="is-sr-only">Details</span></button></li>
+            <li><button class="button--link link--neutral h--1h w--r-1h" title="Glossary"><i class="i i--large i--glossary"></i><span class="is-sr-only">Glossary</span></button></li>
+            <li>
+              <button class="button--link link--neutral h--1h w--r-1h" title="Hide Menubar" ng-click="editor.settings.hideMainNav = !editor.settings.hideMainNav">
+                <i class="i i--large" ng-class="{'i--hide-down': editor.settings.hideMainNav, 'i--hide-up': !editor.settings.hideMainNav}"></i>
+                <span class="is-sr-only">Hide Menubar</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="progress-bar progress-bar--full">
+        <span class="progress-bar__approved" style="width: 1.58%"></span>
+        <span class="progress-bar__translated" style="width: 67.72%"></span>
+        <span class="progress-bar__fuzzy" style="margin-left: 67.72%; width: 1.32%"></span>
+        <span class="progress-bar__untranslated" style="margin-left: 69.04%; width: 30.96%"></span>
+      </div>
+    </header>
+
+    <main role="main">
+      <ul class="editor__content list--no-bullets">
+        <li ng-repeat="phrase in editor.phrases">
+          <div class="edit-item edit-item--{{ phrase.status }}" ng-class="phrase.classes">
+            <div class="edit-item__panel edit-item__source">
+              <div class="edit-item__panel-header">
+                <h3 class="edit-item__heading">English <span class="txt--muted">EN-US</span></h3>
+                <ul class="edit-item__panel-header-actions list--inline">
+                  <li><button class="button--link link--neutral h--1h w--r-1h" title="Do not translate"><i class="i i--large i--block"></i><span class="is-sr-only">Do not translate</span></button></li>
+                </ul>
+              </div>
+              <div class="edit-item__text" ng-bind="phrase.source"></div>
+              <div class="edit-item__panel-footer is-hidden--s">
+                <div class="h--1h">
+                  <button class="button--link link--neutral h--1h w--r-1h" title="Details"><i class="i i--large i--info"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="edit-item__status">
+              <span class="is-sr-only" ng-bind="phrase.status"></span>
+              <ul class="list--no-bullets edit-item__meta-data">
+                <li ng-if="phrase.comments" class="edit-item__meta-data-item edit-item__meta-data-comments"><button tabindex="-1" class="edit-item__meta-data-button button--unstyled" title="{{phrase.comments}} comments"><i class="i i--comment"></i><br><span ng-bind="phrase.comments"></span></button></li>
+                <li ng-if="phrase.errors" class="edit-item__meta-data-item edit-item__meta-data-errors"><button tabindex="-1" class="edit-item__meta-data-button button--unstyled" title="1 Error"><i class="i i--dot txt--danger"></i></li>
+              </ul>
+            </div>
+            <div class="edit-item__panel edit-item__translation">
+              <div class="edit-item__panel-header">
+                <h3 class="edit-item__heading">French <span class="txt--muted">FR</span></h3>
+                <ul class="edit-item__panel-header-actions list--inline">
+                  <li><button class="button--link link--neutral h--1h w--r-1h" title="Copy English (EN-US)"><i class="i i--large i--copy"></i><span class="is-sr-only">Copy English (EN-US)</span></button></li>
+                  <li><button class="button--link link--neutral h--1h w--r-1h" title="Cancel edit"><i class="i i--large i--cancel"></i><span class="is-sr-only">Cancel edit</span></button></li>
+                </ul>
+              </div>
+              <textarea msd-elastic ng-model="phrase.translation" class="edit-item__text" rows="1" placeholder="Enter a translation…"></textarea>
+              <div class="edit-item__panel-footer l--cf-of">
+                <div class="l--float-left h--1h">
+                  <ul class="list--inline">
+                    <li class="is-hidden--m-up"><button class="button--link link--neutral h--1h w--r-1h" title="Details"><i class="i i--large i--info"></i></button></li>
+                    <li><button class="button--link link--neutral h--1h w--r-1h" title="Translation Memory"><i class="i i--large i--suggestion"></i><span class="is-sr-only">Translation Memory</span></button></li>
+                  </ul>
+                </div>
+                <div class="l--float-right">
+                  <div class="button--group">
+                    <button class="button button--flat button--success h--1h" title="Ctrl + Enter">Save as translated</button>
+                    <button class="button button--flat button--success h--1h " title="Save as…"><i class="i i--arrow-down"></i><span class="is-sr-only">Save as…</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </main>
+
+    <aside class="editor__suggestions editor__panel">
+
+    </aside>
+
+    <aside class="editor__suggestions editor__panel">
+
+    </aside>
+
+  </div>
+
 </body>
 </html>

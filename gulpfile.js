@@ -42,6 +42,8 @@ gulp.task('bowerMain', ['bowerClean'], function(){
 
 gulp.task('css', function () {
 // Use this when CSS lives here
+  gulp.src(pathCSSapp)
+    .pipe(gulp.dest(pathBuild));
 });
 
 gulp.task('cssDeps', ['bowerMain'], function(){
@@ -67,7 +69,7 @@ gulp.task('jsDeps', ['bowerMain'], function(){
     .pipe(gulp.dest(pathBuild));
 });
 
-gulp.task('templates',function(){
+gulp.task('templates', function(){
   //combine all template files of the app into a js file
   gulp.src(pathTemplates)
     .pipe(angularTemplatecache('templates.js',{standalone:true}))
