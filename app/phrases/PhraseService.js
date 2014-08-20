@@ -614,6 +614,11 @@ function PhraseService ($q, $filter, $timeout) {
   // service with a JSON service that gets its data from a remote server without having to changes anything
   // in the modules invoking the data service since the api is already async.
 
+  function test() {
+    //rest call server
+    return;
+  }
+
   PhraseService.findAll = function(limit) {
     var deferred = $q.defer(),
         limit = limit || false;
