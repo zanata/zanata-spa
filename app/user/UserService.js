@@ -1,16 +1,18 @@
+'use strict';
+
 (function () {
 
 /**
  * UserService.js
  */
 function UserService () {
-  var UserService = {};
-  UserService.settings = {
+  var userService = {};
+  userService.settings = {
     editor: {
       hideMainNav: false
     }
-  }
-  return UserService;
+  };
+  return userService;
 }
 
 angular

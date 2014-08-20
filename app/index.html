@@ -12,8 +12,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="cleartype" content="on">
 
+  <link rel="stylesheet" href="http://localhost/zanata-assets/php/dev/assets/css/style.css">
   <!-- Currently importing zanata assets with bower into libs.css -->
-  <link rel="stylesheet" href="libs.css">
+  <!-- <link rel="stylesheet" href="libs.css"> -->
   <link rel="stylesheet" href="app.css">
 
   <script src="libs.js"></script>
@@ -117,7 +118,7 @@
                   <li><button class="button--link link--neutral h--1h w--r-1h" title="Do not translate"><i class="i i--large i--block"></i><span class="is-sr-only">Do not translate</span></button></li>
                 </ul>
               </div>
-              <div class="edit-item__text" ng-bind="phrase.source"></div>
+              <div match-height-target class="edit-item__text" ng-bind="phrase.source"></div>
               <div class="edit-item__panel-footer is-hidden--s">
                 <div class="h--1h">
                   <button class="button--link link--neutral h--1h w--r-1h" title="Details"><i class="i i--large i--info"></i></button>
@@ -139,7 +140,7 @@
                   <li><button class="button--link link--neutral h--1h w--r-1h" title="Cancel edit"><i class="i i--large i--cancel"></i><span class="is-sr-only">Cancel edit</span></button></li>
                 </ul>
               </div>
-              <textarea msd-elastic ng-model="phrase.translation" class="edit-item__text" rows="1" placeholder="Enter a translation…"></textarea>
+              <textarea msd-elastic match-height-source ng-model="phrase.translation" class="edit-item__text" rows="1" placeholder="Enter a translation…"></textarea>
               <div class="edit-item__panel-footer l--cf-of">
                 <div class="l--float-left h--1h">
                   <ul class="list--inline">

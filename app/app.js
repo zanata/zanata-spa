@@ -14,7 +14,7 @@ angular.module('app',
   .config(function ($stateProvider, $urlRouterProvider) {
 
     // For any unmatched url, redirect to /editor
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise('/');
 
     // $locationProvider
     //   .html5Mode(true)
