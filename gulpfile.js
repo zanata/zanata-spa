@@ -56,6 +56,8 @@ gulp.task('cssDeps', ['bowerMain'], function(){
 
 gulp.task('js',function(){
   return gulp.src(pathJSapp)
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'))
     .pipe(ngAnnotate())
     .pipe(concat('app.js'))
     .pipe(uglify())
