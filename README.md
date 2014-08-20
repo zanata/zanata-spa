@@ -20,3 +20,7 @@ And [these](https://github.com/airbnb/javascript) for Javascript.
 For CSS I am aiming to move to [these guidelines](https://github.com/suitcss/suit/blob/master/doc/README.md).
 
 For now, CSS still lives in [Zanata Assets](https://github.com/zanata/zanata-assets).
+
+## License
+
+Zanata is Free software, licensed under the [LGPL](http://www.gnu.org/licenses/lgpl-2.1.html).
