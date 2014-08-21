@@ -20,14 +20,16 @@
     "angular-elastic": "~2.3.2",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.2.3",
     "angular-ui-router": "~0.2.10",
-    "zanata-assets": "zanata/zanata-assets#spa-1.0.0"
+    "zanata-assets": "zanata/zanata-assets#spa-1.0.0",
+    "angular-resource": "~1.2.22"
   },
   "overrides": {
     "zanata-assets": {
       "main": [
         "./php/master/assets/css/style.css",
         "./php/master/assets/fonts/zanata/*",
-        "./php/master/assets/img/*"
+        "./php/master/assets/img/*",
+        "./php/master/assets/img/logo/*"
       ]
     },
     "angular-hotkeys": {

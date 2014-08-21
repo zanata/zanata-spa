@@ -3,3 +3,8 @@ bower_main
 build
 components
 node_modules
+npm-debug.log
+
+# idea
+*.idea/
+*.iml
