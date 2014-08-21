@@ -14,7 +14,7 @@
         'monospaced.elastic',
         'ngResource'
       ]).config(
-      function($stateProvider, $urlRouterProvider, $httpProvider) {
+      function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
 
         //handles global error for $resource call
         var interceptor = ['$rootScope', '$q', function(scope, $q) {
@@ -46,8 +46,7 @@
         // For any unmatched url, redirect to /editor
         $urlRouterProvider.otherwise('/');
 
-        // $locationProvider
-        //   .html5Mode(true)
+        $locationProvider.html5Mode(true);
         //   .hashPrefix('!');
 
       });

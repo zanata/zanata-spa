@@ -7,7 +7,7 @@
    * @ngInject
    */
   function DocumentService($q, $filter, $timeout,
-    $http, $resource) {
+    $http, $resource, UrlService) {
     var documentService = {};
 
     documentService.findAll = function(_projectSlug, _versionSlug) {
@@ -15,7 +15,7 @@
           documents;
 
       documents = $resource(
-        '/' + (CONTEXT_PATH ? CONTEXT_PATH + '/': '') +
+        '/' + (UrlService.contextPath ? UrlService.contextPath + '/': '') +
         'rest/projects/p/:projectSlug/iterations/i/:versionSlug/r',
         {}, {
           query : {
