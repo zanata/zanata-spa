@@ -20,7 +20,7 @@
     "angular-elastic": "~2.3.2",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.2.3",
     "angular-ui-router": "~0.2.10",
-    "zanata-assets": "https://github.com/zanata/zanata-assets.git#spa-1.0.0"
+    "zanata-assets": "zanata/zanata-assets#spa-1.0.0"
   },
   "overrides": {
     "zanata-assets": {
