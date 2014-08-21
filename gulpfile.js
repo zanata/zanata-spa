@@ -24,7 +24,7 @@ var gulp = require('gulp'),
   pathBuild = './build',
   pathDeps = './bower_main',
   pathJSdeps = [pathDeps + '/**/angular.js', pathDeps + '/**/*.js'] // Get Angular first
-  pathJSapp = './app/**/*.js',
+  pathJSapp = ['./app/app.js','./app/**/*.js'], // Get app definition first
   pathCSSdeps = pathDeps + '/**/*.css',
   pathCSSapp = './app/**/*.css',
   pathFontdeps = pathDeps + '/**/fonts/**/*',
@@ -60,7 +60,7 @@ gulp.task('js',function(){
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(ngAnnotate())
     .pipe(concat('app.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest(pathBuild + '/js'));
 });
 
@@ -69,7 +69,7 @@ gulp.task('jsDeps', ['bowerMain'], function(){
   return gulp.src(pathJSdeps)
     .pipe(ngAnnotate())
     .pipe(concat('libs.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest(pathBuild + '/js'));
 });
 
