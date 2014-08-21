@@ -1036,7 +1036,7 @@ function PhraseService ($q, $filter) {
   };
 
   return phraseService;
-};
+}
 
 angular
   .module('app')
