@@ -18,7 +18,7 @@ function UserService () {
   userService.isLoggedIn = true;
 
   userService.login = function(username, apiToken) {
-    //perform login to server, if true, set username, password and token
+    //perform login to server, if true, set username and token
     if(userService.isLoggedIn) {
       userService.username = username;
       userService.apiToken = apiToken;
