@@ -15,6 +15,8 @@ Stick very closely to [these Angular guidelines](https://github.com/toddmotto/an
 
 And [these](https://github.com/airbnb/javascript) for Javascript.
 
+Always add documentation and follow the [ngdoc format](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation).
+
 ### CSS
 
 For CSS I am aiming to move to [these guidelines](https://github.com/suitcss/suit/blob/master/doc/README.md).
