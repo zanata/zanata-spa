@@ -3,7 +3,8 @@
 (function () {
 
 /**
- * PhraseService.js
+ * @name PhraseService
+ * @description Provides a list of phrases for the current document(s)
  */
 function PhraseService ($q, $filter) {
   var phraseService = {};

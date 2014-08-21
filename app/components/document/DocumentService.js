@@ -15,7 +15,8 @@
           documents;
 
       documents = $resource(
-        '/' + (CONTEXT_PATH ? CONTEXT_PATH + '/': '') + 'rest/projects/p/:projectSlug/iterations/i/:versionSlug/r',
+        '/' + (CONTEXT_PATH ? CONTEXT_PATH + '/': '') +
+        'rest/projects/p/:projectSlug/iterations/i/:versionSlug/r',
         {}, {
           query : {
             method : 'GET',
