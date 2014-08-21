@@ -10,13 +10,12 @@
     $http, $resource) {
     var documentService = {};
 
-    documentService.findAll = function() {
+    documentService.findAll = function(_projectSlug, _versionSlug) {
       var deferred = $q.defer(),
           documents;
 
       documents = $resource(
-        'http://localhost:8080/zanata/rest/projects/p/' +
-        ':projectSlug/iterations/i/:versionSlug/r',
+        '/zanata/rest/projects/p/:projectSlug/iterations/i/:versionSlug/r',
         {}, {
           query : {
             method : 'GET',
@@ -26,8 +25,8 @@
             //   'X-Auth-Token' : UserService.apiToken
             // },
             params : {
-              projectSlug : 'anaconda',
-              versionSlug : '19.31.17'
+              projectSlug : _projectSlug,
+              versionSlug : _versionSlug
             },
             isArray : true
           }

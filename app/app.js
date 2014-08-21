@@ -19,7 +19,7 @@
         //handles global error for $resource call
         var interceptor = ['$rootScope', '$q', function(scope, $q) {
           function success(response) {
-            console.info('Success');
+            console.debug('Success');
             return response;
           }
 
