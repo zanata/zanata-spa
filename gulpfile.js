@@ -45,13 +45,13 @@ gulp.task('bowerMain', ['bowerClean'], function(){
 gulp.task('css', function () {
 // Use this when CSS lives here
   return gulp.src(pathCSSapp)
-    .pipe(gulp.dest(pathBuild));
+    .pipe(gulp.dest(pathBuild + '/css'));
 });
 
 gulp.task('cssDeps', ['bowerMain'], function(){
   return gulp.src(pathCSSdeps)
     .pipe(concat('libs.css'))
-    .pipe(gulp.dest(pathBuild));
+    .pipe(gulp.dest(pathBuild + '/css'));
 });
 
 gulp.task('js',function(){
@@ -61,7 +61,7 @@ gulp.task('js',function(){
     .pipe(ngAnnotate())
     .pipe(concat('app.js'))
     .pipe(uglify())
-    .pipe(gulp.dest(pathBuild));
+    .pipe(gulp.dest(pathBuild + '/js'));
 });
 
 gulp.task('jsDeps', ['bowerMain'], function(){
@@ -70,7 +70,7 @@ gulp.task('jsDeps', ['bowerMain'], function(){
     .pipe(ngAnnotate())
     .pipe(concat('libs.js'))
     .pipe(uglify())
-    .pipe(gulp.dest(pathBuild));
+    .pipe(gulp.dest(pathBuild + '/js'));
 });
 
 gulp.task('imageDeps', ['bowerMain'], function(){
@@ -93,7 +93,7 @@ gulp.task('templates', function(){
   //combine all template files of the app into a js file
   return gulp.src(pathTemplates)
     .pipe(angularTemplatecache('templates.js',{standalone:true}))
-    .pipe(gulp.dest(pathBuild));
+    .pipe(gulp.dest(pathBuild + '/js'));
 });
 
 gulp.task('copyIndex', function() {
