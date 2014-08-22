@@ -7,7 +7,7 @@
    * @ngInject
    */
   function EditorCtrl (UserService, PhraseService, DocumentService,
-    UrlService) {
+    ContextService) {
     var limit = 50,
       editorCtrl = this;
 
@@ -17,7 +17,9 @@
     //http://localhost:8080/zanata/app/?projectSlug=projectName&versionSlug=versionName&docId=docId&localeId=en
     editorCtrl.context = ContextService.loadEditorContext();
 
-    DocumentService.findAll(editorCtrl.context.projectSlug, editorCtrl.context.versionSlug).then(function(documents){
+    DocumentService.findAll(editorCtrl.context.projectSlug,
+                            editorCtrl.context.versionSlug)
+                   .then(function(documents){
           editorCtrl.documents = documents;
       });
 
