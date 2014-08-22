@@ -1,0 +1,8 @@
+<li ng-class="{divider: dropdownMenuItem.divider}">
+  <a href="" class="dropdown-item"
+    ng-if="!dropdownMenuItem.divider"
+    ng-href="{{dropdownMenuItem.href}}"
+    ng-click="selectItem()">
+    {{dropdownMenuItem[dropdownItemLabel]}}
+  </a>
+</li>

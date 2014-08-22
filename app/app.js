@@ -14,7 +14,8 @@
         'monospaced.elastic',
         'ngResource'
       ]).config(
-      function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
+      function($stateProvider, $urlRouterProvider, $httpProvider,
+        $locationProvider) {
 
         //handles global error for $resource call
         var interceptor = ['$rootScope', '$q', function(scope, $q) {

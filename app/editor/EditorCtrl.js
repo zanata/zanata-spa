@@ -6,7 +6,8 @@
    * EditorCtrl.js
    * @ngInject
    */
-  function EditorCtrl (UserService, PhraseService, DocumentService, UrlService) {
+  function EditorCtrl (UserService, PhraseService, DocumentService,
+    UrlService) {
     var limit = 50,
       editorCtrl = this;
 
