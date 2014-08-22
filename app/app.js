@@ -23,23 +23,19 @@
             console.debug('Success');
             return response;
           }
-
           function error(response) {
             console.error('Unexpected error');
             var status = response.status;
             if (status === 401) {
               console.error('Unauthorized access. Please login');
-              //              window.location = './index.html';
               return;
             }
             // otherwise
             return $q.reject(response);
           }
-
           return function(promise) {
             return promise.then(success, error);
           };
-
         } ];
 
         $httpProvider.responseInterceptors.push(interceptor);
