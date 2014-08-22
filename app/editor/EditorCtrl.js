@@ -6,38 +6,23 @@
    * EditorCtrl.js
    * @ngInject
    */
-  function EditorCtrl (UserService, PhraseService, DocumentService, UrlService) {
+  function EditorCtrl (UserService, PhraseService, DocumentService, ContextService) {
     var limit = 50,
       editorCtrl = this;
 
-    //hard code for testing
-    var projectSlug = 'anaconda', versionSlug = '19.31.17';
-//  var username = 'aeng', apiKey = '79834005e9a0206453cdc9f0a33aef66';
-
     //perform login
-//  UserService.login(username, apiKey);
+    //UserService.login('aeng', '79834005e9a0206453cdc9f0a33aef66');
 
-    editorCtrl.editorContext = function() {
-      var projectSlug, versionSlug, docId, localeId;
-    };
+    //http://localhost:8080/zanata/app/?projectSlug=projectName&versionSlug=versionName&docId=docId&localeId=en
+    editorCtrl.context = ContextService.loadEditorContext();
+
+    DocumentService.findAll(editorCtrl.context.projectSlug, editorCtrl.context.versionSlug).then(function(documents){
+          editorCtrl.documents = documents;
+      });
 
     PhraseService.findAll(limit).then(function(phrases){
       editorCtrl.phrases = phrases;
     });
-
-    DocumentService.findAll(projectSlug, versionSlug).then(function(documents){
-      editorCtrl.documents = documents;
-    });
-
-    editorCtrl.editorContext.projectSlug = UrlService.readValue('projectSlug');
-    editorCtrl.editorContext.versionSlug = UrlService.readValue('versionSlug');
-    editorCtrl.editorContext.docId = UrlService.readValue('docId');
-    editorCtrl.editorContext.localeId = UrlService.readValue('localeId');
-
-    console.info(editorCtrl.editorContext.projectSlug);
-    console.info(editorCtrl.editorContext.versionSlug);
-    console.info(editorCtrl.editorContext.docId);
-    console.info(editorCtrl.editorContext.localeId);
 
     this.settings = UserService.settings.editor;
   }

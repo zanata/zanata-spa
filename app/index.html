@@ -37,9 +37,9 @@
     <header role="banner" class="header-banner">
       <nav role="navigation" class="p-relative txt--align-center txt--align-center-s" ng-class="{'is-hidden': editor.settings.hideMainNav}">
         <div class="p-absolute-left">
-          <a href="/projects/mortal-kombat/master" class="bx--inline-block link--invert header-banner__item">
+          <a href="/projects/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}" class="bx--inline-block link--invert header-banner__item">
             <span class="l--pad-h-quarter w--r-1 is-hidden--m-l-up"><i class="i i--arrow-left"></i></span>
-            <span class="editor__current-project is-hidden--m-l-down l--push-left-half">Mortal Kombat <span class="txt--muted">master</span></span>
+            <span class="editor__current-project is-hidden--m-l-down l--push-left-half">{{editor.context.projectName}} <span class="txt--muted">{{editor.context.versionSlug}}</span></span>
           </a>
           <i class="i i--arrow-right l--push-h-quarter txt--invert txt--muted is-hidden--m-l-down"></i>
           <ul class="list--horizontal bx--inline-block">
