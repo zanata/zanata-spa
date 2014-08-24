@@ -7,9 +7,7 @@
      * @ngInject
      */
     function LocaleService($q, $resource, UrlService) {
-        var localeService = {},
-        localeRestUrl = UrlService.constructRestUrl(
-          'rest/projects/p/:projectSlug/iterations/i/:versionSlug/locales/l');
+        var localeService = {};
 
         localeService.getSupportedLocales = function(_projectSlug,
                                                      _versionSlug) {
@@ -17,7 +15,7 @@
                 locales;
 
             locales =
-                $resource(localeRestUrl, {}, {
+                $resource(UrlService.LOCALE_LIST_URL, {}, {
                     query: {
                         method: 'GET',
                         params: {

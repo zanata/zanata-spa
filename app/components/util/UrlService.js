@@ -10,12 +10,19 @@
 
     //TODO: get from url
     urlService.contextPath = 'zanata';
+    urlService.host = 'http://localhost:7878/';
+
+    urlService.LOCALE_LIST_URL = urlService.constructRestUrl
+    ('rest/projects/p/:projectSlug/iterations/i/:versionSlug/locales/l');
+
+    urlService.DOCUMENT_LIST_URL = urlService.constructRestUrl
+    ('rest/projects/p/:projectSlug/iterations/i/:versionSlug/r');
 
     urlService.baseUrl = location.protocol + '://' + location.host + '/' +
       (urlService.contextPath ? urlService.contextPath + '/' : '');
 
     urlService.constructRestUrl = function(url) {
-      return 'http://localhost:7878/' +
+      return urlService.host +
         (urlService.contextPath ? urlService.contextPath + '/' : '') +
         url;
     };
