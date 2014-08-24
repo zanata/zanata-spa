@@ -15,7 +15,7 @@
       (urlService.contextPath ? urlService.contextPath + '/' : '');
 
     urlService.constructRestUrl = function(url) {
-      return '/' +
+      return 'http://localhost:7878/' +
         (urlService.contextPath ? urlService.contextPath + '/' : '') +
         url;
     };

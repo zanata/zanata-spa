@@ -25,8 +25,8 @@
             editorContext.locale = 'English';
 
             //TODO: remove hard coded slug
-            editorContext.projectSlug = 'anaconda';
-            editorContext.versionSlug = '19.31.17';
+            editorContext.projectSlug = 'tiny-project';
+            editorContext.versionSlug = '1';
 
             console.debug(editorContext);
 
