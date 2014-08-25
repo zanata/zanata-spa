@@ -1,11 +1,28 @@
 # Zanata (Single Page Application)
 
-## Steps to run
 
-1. Make sure [node and npm](http://nodejs.org/) are installed
-2. Setup dependencies. `npm run setup`
-3. Build and run a server. `npm run watch`
-4. Go to [localhost:8000](http://localhost:8000)
+
+## Setup and Deployment
+
+1. Make sure [node and npm](http://nodejs.org/) are installed.
+2. Setup dependencies: `npm run setup`.
+
+### Run with live reload
+
+Build and run a server: `npm run watch`.
+
+ - Editor is available at [localhost:8000](http://localhost:8000)
+ - Assumes a server is already serving the Zanata REST API.
+
+
+### Run with live reload and local API server
+
+Build and run server and API server: `npm run fakewatch`.
+
+ - Editor is available at [localhost:8000](http://localhost:8000)
+ - REST API server is available at
+   [localhost:7878/zanata/rest](http://localhost:7878/zanata/rest)
+
 
 ## Code Guidelines
 

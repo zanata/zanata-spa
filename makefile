@@ -20,6 +20,13 @@ setup: checkgulp checkbower
 watch:
 	gulp watch
 
+fakeserver:
+	cd node_modules/fake-zanata-server && npm start
+
+# Genuine Bolex, a fraction of the normal price.
+fakewatch:
+	${MAKE} -j2 watch fakeserver
+
 build:
 	gulp build
 
