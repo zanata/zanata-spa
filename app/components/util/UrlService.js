@@ -6,32 +6,39 @@
    * @ngInject
    */
   function UrlService($location) {
-    var urlService = {};
+    var versionUrl = '/projects/p/:projectSlug/iterations/i/:versionSlug';
 
-    //TODO: get from url
-    urlService.contextPath = 'zanata';
-    urlService.host = 'http://localhost:7878/';
+    //TODO: get from document, configuration or URL
+    var baseUrl = 'http://localhost:7878/zanata/rest';
+      // baseUrl = location.protocol + '://' + location.host + '/' +
+      //   (urlService.contextPath ? urlService.contextPath + '/' : '')
 
-    urlService.LOCALE_LIST_URL = urlService.constructRestUrl
-    ('rest/projects/p/:projectSlug/iterations/i/:versionSlug/locales/l');
+    /**
+     * Create a REST URL by appending all the given URL part arguments to the
+     * base URL.
+     *
+     * No separators will be added or removed, so all parts should include
+     * leading / and exclude trailing / to avoid problems.
+     */
+    function constructRestUrl() {
+      // return '/' +
+      //   (urlService.contextPath ? urlService.contextPath + '/' : '') +
+      //   url;
+      return baseUrl + Array.prototype.join.call(arguments, '');
+    }
 
-    urlService.DOCUMENT_LIST_URL = urlService.constructRestUrl
-    ('rest/projects/p/:projectSlug/iterations/i/:versionSlug/r');
+    return {
+      LOCALE_LIST_URL: constructRestUrl(versionUrl, '/locales'),
+      DOCUMENT_LIST_URL: constructRestUrl(versionUrl, '/r'),
 
-    urlService.baseUrl = location.protocol + '://' + location.host + '/' +
-      (urlService.contextPath ? urlService.contextPath + '/' : '');
+      /**
+       * Get the value of a query string parameter.
+       */
+      readValue: function(key) {
+        return $location.search()[key];
+      }
 
-    urlService.constructRestUrl = function(url) {
-      return urlService.host +
-        (urlService.contextPath ? urlService.contextPath + '/' : '') +
-        url;
     };
-
-    urlService.readValue = function(key) {
-      return $location.search()[key];
-    };
-
-    return urlService;
   }
 
   angular.module('app').factory('UrlService', UrlService);

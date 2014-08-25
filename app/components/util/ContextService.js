@@ -2,40 +2,29 @@
 (function() {
   'use strict';
 
-    /**
-     * ContextService.js
-     * @ngInject
-     */
-    function ContextService(UrlService) {
-        var contextService = {};
-
-        //construct editor context
-        contextService.loadEditorContext = function() {
-            var editorContext = {};
-            //should be details through rest
-            editorContext.projectSlug = UrlService.readValue('projectSlug');
-            editorContext.projectName = 'Mortal combat';
-
-            editorContext.versionSlug = UrlService.readValue('versionSlug');
-
-            editorContext.docId = UrlService.readValue('docId');
-            editorContext.docName = 'document name';
-
-            editorContext.localeId = UrlService.readValue('localeId');
-            editorContext.locale = 'English';
-
-            //TODO: remove hard coded slug
-            editorContext.projectSlug = 'tiny-project';
-            editorContext.versionSlug = '1';
-
-            console.debug(editorContext);
-
-            return editorContext;
-        } ;
-
-
-        return contextService;
-    }
-
-    angular.module('app').factory('ContextService', ContextService);
+  /**
+   * ContextService.js
+   * @ngInject
+   */
+  function ContextService(UrlService) {
+    return {
+      //construct editor context
+      loadEditorContext: function() {
+        var editorContext = {
+          // projectSlug: UrlService.readValue('projectSlug'),
+          // versionSlug: UrlService.readValue('versionSlug'),
+          projectSlug: 'tiny-project',
+          versionSlug: '1',
+          projectName: 'Tiny project',
+          docId: UrlService.readValue('docId'),
+          docName: 'document name',
+          localeId: UrlService.readValue('localeId'),
+          locale: 'English'
+        };
+        console.debug(editorContext);
+        return editorContext;
+      }
+    };
+  }
+  angular.module('app').factory('ContextService', ContextService);
 })();
