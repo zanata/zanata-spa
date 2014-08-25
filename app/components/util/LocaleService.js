@@ -1,38 +1,36 @@
 
 (function() {
-    'use strict';
+  'use strict';
 
-    /**
-     * LocaleService.js
-     * @ngInject
-     */
-    function LocaleService($q, $resource, UrlService) {
-        var localeService = {};
+  /**
+   * Handle server communication about active locales for the project-version.
+   *
+   * LocaleService.js
+   * @ngInject
+   */
+  function LocaleService($resource, UrlService) {
 
-        localeService.getSupportedLocales = function(_projectSlug,
-                                                     _versionSlug) {
-            var deferred = $q.defer(),
-                locales;
+    function getSupportedLocales(projectSlug, versionSlug) {
 
-            locales =
-                $resource(UrlService.LOCALE_LIST_URL, {}, {
-                    query: {
-                        method: 'GET',
-                        params: {
-                            projectSlug: _projectSlug,
-                            versionSlug: _versionSlug
-                        },
-                        isArray: true
-                    }
-                });
+      var Locales = $resource(UrlService.LOCALE_LIST_URL, {},
+        {
+          query: {
+            method: 'GET',
+            params: {
+              projectSlug: projectSlug,
+              versionSlug: versionSlug
+            },
+            isArray: true
+          }
+        });
 
-            deferred.resolve(locales.query());
-            return deferred.promise;
-        } ;
-
-
-        return localeService;
+      return Locales.query().$promise;
     }
 
-    angular.module('app').factory('LocaleService', LocaleService);
+    return {
+      getSupportedLocales: getSupportedLocales
+    };
+  }
+
+  angular.module('app').factory('LocaleService', LocaleService);
 })();
