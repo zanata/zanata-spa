@@ -15,7 +15,7 @@
                 locales;
 
             locales =
-                $resource(UrlService.LOCALE_LIST_URL, {}, {
+                $resource(UrlService.getLocaleListUrl(), {}, {
                     query: {
                         method: 'GET',
                         params: {

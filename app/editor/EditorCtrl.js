@@ -20,11 +20,17 @@
                             editorCtrl.context.versionSlug)
                    .then(function(documents){
           editorCtrl.documents = documents;
+      },
+      function(error) {
+            console.error('Error getting document list:' + error);
       });
 
       LocaleService.getSupportedLocales(editorCtrl.context.projectSlug,
           editorCtrl.context.versionSlug).then(function(locales) {
           editorCtrl.locales = locales;
+      },
+      function(error) {
+          console.error('Error getting locale list:' + error);
       });
 
     PhraseService.findAll(limit).then(function(phrases){

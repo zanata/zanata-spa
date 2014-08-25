@@ -14,14 +14,9 @@
         documents;
 
       documents =
-        $resource(UrlService.DOCUMENT_LIST_URL, {}, {
+        $resource(UrlService.getDocumentListUrl(), {}, {
             query: {
               method: 'GET',
-              // headers : {
-              //   'Access-Control-Allow-Origin' : '*',
-              //   'X-Auth-User' : UserService.username,
-              //   'X-Auth-Token' : UserService.apiToken
-              // },
               params: {
                 projectSlug: _projectSlug,
                 versionSlug: _versionSlug
@@ -33,6 +28,14 @@
       deferred.resolve(documents.query());
       return deferred.promise;
     };
+
+//    documentService.getStatistic =
+//        function(_projectSlug, _versionSlug, _docId, _localeId) {
+//      var deferred = $q.defer(), stats;
+//
+//      deferred.resolve(stats.query());
+//      return deferred.promise;
+//    };
 
     return documentService;
   }

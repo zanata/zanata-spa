@@ -12,11 +12,15 @@
     urlService.contextPath = 'zanata';
     urlService.host = 'http://localhost:7878/';
 
-    urlService.LOCALE_LIST_URL = urlService.constructRestUrl
-    ('rest/projects/p/:projectSlug/iterations/i/:versionSlug/locales/l');
+    urlService.getLocaleListUrl = function() {
+        return urlService.constructRestUrl
+        ('rest/projects/p/:projectSlug/iterations/i/:versionSlug/locales/l');
+    };
 
-    urlService.DOCUMENT_LIST_URL = urlService.constructRestUrl
-    ('rest/projects/p/:projectSlug/iterations/i/:versionSlug/r');
+    urlService.getDocumentListUrl = function() {
+        return urlService.constructRestUrl
+        ('rest/projects/p/:projectSlug/iterations/i/:versionSlug/r');
+    };
 
     urlService.baseUrl = location.protocol + '://' + location.host + '/' +
       (urlService.contextPath ? urlService.contextPath + '/' : '');
