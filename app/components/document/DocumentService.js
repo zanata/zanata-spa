@@ -14,7 +14,7 @@
         documents;
 
       documents =
-        $resource(UrlService.getDocumentListUrl(), {}, {
+        $resource(UrlService.DOCUMENT_LIST_URL, {}, {
             query: {
               method: 'GET',
               params: {

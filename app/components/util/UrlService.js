@@ -6,36 +6,34 @@
    * @ngInject
    */
   function UrlService($location) {
-    var urlService = {};
+    var versionUrl = '/projects/p/:projectSlug/iterations/i/:versionSlug';
 
-    //TODO: get from url
-    urlService.contextPath = 'zanata';
-    urlService.host = 'http://localhost:7878/';
+    //TODO: get from document, configuration or URL
+    var baseUrl = 'http://localhost:7878/zanata/rest';
 
-    urlService.getLocaleListUrl = function() {
-        return urlService.constructRestUrl
-        ('rest/projects/p/:projectSlug/iterations/i/:versionSlug/locales/l');
+    /**
+     * Create a REST URL by appending all the given URL part arguments to the
+     * base URL.
+     *
+     * No separators will be added or removed, so all parts should include
+     * leading / and exclude trailing / to avoid problems.
+     */
+    function constructRestUrl() {
+      return baseUrl + Array.prototype.join.call(arguments, '');
+    }
+
+    return {
+      LOCALE_LIST_URL: constructRestUrl(versionUrl, '/locales'),
+      DOCUMENT_LIST_URL: constructRestUrl(versionUrl, '/r'),
+
+      /**
+       * Get the value of a query string parameter.
+       */
+      readValue: function(key) {
+        return $location.search()[key];
+      }
+
     };
-
-    urlService.getDocumentListUrl = function() {
-        return urlService.constructRestUrl
-        ('rest/projects/p/:projectSlug/iterations/i/:versionSlug/r');
-    };
-
-    urlService.baseUrl = location.protocol + '://' + location.host + '/' +
-      (urlService.contextPath ? urlService.contextPath + '/' : '');
-
-    urlService.constructRestUrl = function(url) {
-      return urlService.host +
-        (urlService.contextPath ? urlService.contextPath + '/' : '') +
-        url;
-    };
-
-    urlService.readValue = function(key) {
-      return $location.search()[key];
-    };
-
-    return urlService;
   }
 
   angular.module('app').factory('UrlService', UrlService);

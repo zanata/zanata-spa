@@ -18,8 +18,8 @@
 
     DocumentService.findAll(editorCtrl.context.projectSlug,
                             editorCtrl.context.versionSlug)
-                   .then(function(documents){
-          editorCtrl.documents = documents;
+      .then(function(documents){
+            editorCtrl.documents = documents;
       },
       function(error) {
             console.error('Error getting document list:' + error);
@@ -43,5 +43,4 @@
   angular
     .module('app')
     .controller('EditorCtrl', EditorCtrl);
-
 })();
