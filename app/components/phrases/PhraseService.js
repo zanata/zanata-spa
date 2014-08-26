@@ -1017,6 +1017,18 @@ function PhraseService ($q, $filter) {
   // to changes anything in the modules invoking the data service since the api
   // is already async.
 
+//  phraseService.findAll = function(_projectSlug, _versionSlug,
+// _docId, limit) {
+//    var deferred = $q.defer();
+//
+//    if (limit) {
+//      phrases = $filter('limitTo')(phrases, limit);
+//    }
+//
+//    deferred.resolve(phrases);
+//    return deferred.promise;
+//  };
+
   phraseService.findAll = function(limit) {
     var deferred = $q.defer();
 

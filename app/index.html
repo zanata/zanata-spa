@@ -75,11 +75,11 @@
       <nav class="bg--highest l--pad-h-half l--cf-of h--1h">
         <button class="button--link link--neutral l--pad-v-quarter l--float-left h--1h l--push-right-quarter"><i class="i i--large i--translate"></i><span class="is-hidden--s l--push-right-quarter"> Translating</span></button>
         <ul class="list--inline l--float-left">
-          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block bg--secondary bx--round link--invert" title="Total Phrases">378<span class="is-sr-only">Total Phrases</span></a></li>
-          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block" title="Approved"><i class="i i--dot"></i><strong>6</strong><span class="is-sr-only">Approved</span></a></li>
-          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--success" title="Translated"><i class="i i--dot"></i><strong>256</strong><span class="is-sr-only">Translated</span></a></li>
-          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--unsure" title="Fuzzy"><i class="i i--dot"></i><strong>5</strong><span class="is-sr-only">Fuzzy</span></a></li>
-          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--neutral" title="Untranslated"><i class="i i--dot"></i><strong>111</strong><span class="is-sr-only">Untranslated</span></a></li>
+          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block bg--secondary bx--round link--invert" title="Total Phrases">{{editor.statistic.total}}<span class="is-sr-only">Total Phrases</span></a></li>
+          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block" title="Approved"><i class="i i--dot"></i><strong>{{editor.statistic.approved}}</strong><span class="is-sr-only">Approved</span></a></li>
+          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--success" title="Translated"><i class="i i--dot"></i><strong>{{editor.statistic.translated}}</strong><span class="is-sr-only">Translated</span></a></li>
+          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--unsure" title="Fuzzy"><i class="i i--dot"></i><strong>{{editor.statistic.fuzzy}}</strong><span class="is-sr-only">Fuzzy</span></a></li>
+          <li class="is-hidden--m-l-down"><a class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--neutral" title="Untranslated"><i class="i i--dot"></i><strong>{{editor.statistic.untranslated}}</strong><span class="is-sr-only">Untranslated</span></a></li>
           <li><button class="button--link link--neutral h--1h w--r-1h" title="Filters"><i class="i i--large i--filter"></i><span class="is-sr-only">More filters</span></button></li>
           <li><button class="button--link link--neutral h--1h w--r-1h" title="Search"><i class="i i--large i--search"></i><span class="is-sr-only">Search</span></button></li>
         </ul>
@@ -98,10 +98,10 @@
         </div>
       </nav>
       <div class="progress-bar progress-bar--full">
-        <span class="progress-bar__approved" style="width: 1.58%"></span>
-        <span class="progress-bar__translated" style="width: 67.72%"></span>
-        <span class="progress-bar__fuzzy" style="margin-left: 67.72%; width: 1.32%"></span>
-        <span class="progress-bar__untranslated" style="margin-left: 69.04%; width: 30.96%"></span>
+        <span class="progress-bar__approved" ng-style="{'width': editor.statisticStyles.approved.width, 'margin-left': editor.statisticStyles.approved.marginLeft}"></span>
+        <span class="progress-bar__translated" ng-style="{'width': editor.statisticStyles.translated.width, 'margin-left': editor.statisticStyles.translated.marginLeft}"></span>
+        <span class="progress-bar__fuzzy" ng-style="{'width': editor.statisticStyles.fuzzy.width, 'margin-left': editor.statisticStyles.fuzzy.marginLeft}"></span>
+        <span class="progress-bar__untranslated" ng-style="{'width': editor.statisticStyles.untranslated.width, 'margin-left': editor.statisticStyles.untranslated.marginLeft}"></span>
       </div>
     </header>
 

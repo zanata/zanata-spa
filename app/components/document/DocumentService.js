@@ -8,12 +8,17 @@
   function DocumentService($q, $filter, $timeout, $http, $resource,
                            UrlService) {
     var documentService = {};
+    documentService.statisticMap = {};
 
+    /**
+     * Finds all documents in given project version
+     *
+     * @param _projectSlug
+     * @param _versionSlug
+     * @returns {$promise|*|N.$promise}
+     */
     documentService.findAll = function (_projectSlug, _versionSlug) {
-      var deferred = $q.defer(),
-        documents;
-
-      documents =
+      var Documents =
         $resource(UrlService.DOCUMENT_LIST_URL, {}, {
             query: {
               method: 'GET',
@@ -25,17 +30,46 @@
             }
           });
 
-      deferred.resolve(documents.query());
-      return deferred.promise;
+      return Documents.query().$promise;
     };
 
-//    documentService.getStatistic =
-//        function(_projectSlug, _versionSlug, _docId, _localeId) {
-//      var deferred = $q.defer(), stats;
-//
-//      deferred.resolve(stats.query());
-//      return deferred.promise;
-//    };
+    /**
+     * Get statistic of document in locale
+     *
+     * @param _projectSlug
+     * @param _versionSlug
+     * @param _docId
+     * @param _localeId
+     * @returns {*}
+     */
+    documentService.getStatistic =
+        function(_projectSlug, _versionSlug, _docId, _localeId) {
+      var key = {
+        docId:_docId, localeId:_localeId
+      };
+
+      if(key in documentService.statisticMap) {
+        var deferred = $q.defer();
+        deferred.resolve(documentService.statisticMap[key]);
+        return deferred.promise;
+      } else {
+        var Statistic =
+          $resource(UrlService.DOC_STATISTIC_URL, {}, {
+            query: {
+              method: 'GET',
+              params: {
+                projectSlug: _projectSlug,
+                versionSlug: _versionSlug,
+                docId: _docId,
+                localeId: _localeId
+              }
+            }
+          });
+        var result = Statistic.query();
+        documentService.statisticMap[key] = result;
+        return result.$promise;
+      }
+    };
 
     return documentService;
   }

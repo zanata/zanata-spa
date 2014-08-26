@@ -6,14 +6,18 @@
    * @ngInject
    */
   function EditorCtrl (UserService, PhraseService, DocumentService,
-    ContextService, LocaleService) {
-    var limit = 50,
+    ContextService, LocaleService, StatisticUtil) {
+    var limit = 50, selectedDocId = 'hello', selectedLocaleId = 'fr',
       editorCtrl = this;
+
+    //TODO: perform login (cross domain)
+    //TODO: URL structure for projectSlug, versionSlug, selectedDocID, selectedLocaleId
+    //TODO: Load statistic and transUnit after doc and locale selected
+
 
     //perform login
     //UserService.login('aeng', '79834005e9a0206453cdc9f0a33aef66');
 
-        //http://localhost:8080/zanata/app/?projectSlug=projectName&versionSlug=versionName&docId=docId&localeId=en
     editorCtrl.context = ContextService.loadEditorContext();
 
     DocumentService.findAll(editorCtrl.context.projectSlug,
@@ -25,13 +29,25 @@
             console.error('Error getting document list:' + error);
       });
 
-      LocaleService.getSupportedLocales(editorCtrl.context.projectSlug,
-          editorCtrl.context.versionSlug).then(function(locales) {
-          editorCtrl.locales = locales;
+    LocaleService.getSupportedLocales(editorCtrl.context.projectSlug,
+        editorCtrl.context.versionSlug).then(function(locales) {
+        editorCtrl.locales = locales;
+    },
+    function(error) {
+        console.error('Error getting locale list:' + error);
+    });
+
+    //should trigger these after selectedDoc and selectedLocale is set
+    DocumentService.getStatistic(editorCtrl.context.projectSlug,
+      editorCtrl.context.versionSlug, selectedDocId, selectedLocaleId).
+      then(function(statistic) {
+        editorCtrl.statistic = statistic;
+        editorCtrl.statisticStyles = StatisticUtil.getStyles(statistic);
       },
       function(error) {
-          console.error('Error getting locale list:' + error);
+        console.error('Error getting statistic:' + error);
       });
+
 
     PhraseService.findAll(limit).then(function(phrases){
       editorCtrl.phrases = phrases;

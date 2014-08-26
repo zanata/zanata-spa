@@ -7,6 +7,7 @@
    */
   function UrlService($location) {
     var versionUrl = '/projects/p/:projectSlug/iterations/i/:versionSlug';
+    var statisticUrl = '/stats/proj/:projectSlug/iter/:versionSlug';
 
     //TODO: get from document, configuration or URL
     var baseUrl = 'http://localhost:7878/zanata/rest';
@@ -25,6 +26,8 @@
     return {
       LOCALE_LIST_URL: constructRestUrl(versionUrl, '/locales'),
       DOCUMENT_LIST_URL: constructRestUrl(versionUrl, '/r'),
+      DOC_STATISTIC_URL: constructRestUrl(statisticUrl,
+        '/doc/:docId/locale/l/:localeId'),
 
       /**
        * Get the value of a query string parameter.
