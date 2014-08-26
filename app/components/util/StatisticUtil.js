@@ -9,9 +9,7 @@
    */
 
   function StatisticUtil() {
-    var statisticUtil = {};
-
-    statisticUtil.getStyles = function(statistic) {
+    function getStyles(statistic) {
       var styles = {};
 
       var widthApproved = statistic.approved / statistic.total * 100;
@@ -23,8 +21,7 @@
       var marginLeftFuzzy = widthApproved + widthTranslated;
 
       var widthUntranslated = statistic.untranslated / statistic.total * 100;
-      var marginLeftUntranslated = widthApproved + widthTranslated +
-        widthFuzzy;
+      var marginLeftUntranslated = widthApproved + widthTranslated + widthFuzzy;
 
       styles.approved = {
         'width' : widthApproved + '%',
@@ -44,9 +41,11 @@
       };
 
       return styles;
-    };
+    }
 
-    return statisticUtil;
+    return {
+      getStyles : getStyles
+    };
   }
   angular.module('app').factory('StatisticUtil', StatisticUtil);
 })();

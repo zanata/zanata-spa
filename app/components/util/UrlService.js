@@ -6,6 +6,7 @@
    * @ngInject
    */
   function UrlService($location) {
+    var projectUrl = '/projects/p/:projectSlug';
     var versionUrl = '/projects/p/:projectSlug/iterations/i/:versionSlug';
     var statisticUrl = '/stats/proj/:projectSlug/iter/:versionSlug';
 
@@ -24,6 +25,7 @@
     }
 
     return {
+      PROJECT_URL: constructRestUrl(projectUrl),
       LOCALE_LIST_URL: constructRestUrl(versionUrl, '/locales'),
       DOCUMENT_LIST_URL: constructRestUrl(versionUrl, '/r'),
       DOC_STATISTIC_URL: constructRestUrl(statisticUrl,

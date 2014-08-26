@@ -13,8 +13,7 @@
         'monospaced.elastic',
         'ngResource'
       ]).config(
-      function($stateProvider, $urlRouterProvider, $httpProvider,
-        $locationProvider) {
+      function($stateProvider, $urlRouterProvider, $httpProvider) {
 
         //handles global error for $resource call
         var interceptor = ['$rootScope', '$q', function(scope, $q) {
@@ -42,7 +41,23 @@
         // For any unmatched url, redirect to /editor
         $urlRouterProvider.otherwise('/');
 
-        $locationProvider.html5Mode(true);
+        $stateProvider
+          .state('editor-default', {
+            url: '/:projectSlug/:versionSlug',
+            templateUrl: function($stateParams) {
+              console.debug($stateParams);
+              return 'editor/editor.html';
+            }
+          })
+          .state('editor-preselected', {
+            url: '/:projectSlug/:versionSlug/:docId/:localeId',
+            templateUrl: function($stateParams) {
+              console.debug($stateParams);
+              return 'editor/editor.html';
+            }
+          });
+
+//        $locationProvider.html5Mode(true);
         //   .hashPrefix('!');
 
       });
