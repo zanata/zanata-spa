@@ -17,7 +17,6 @@
           docId: docId,
           localeId: localeId
         };
-        console.info(editorContext);
         return editorContext;
       }
     };

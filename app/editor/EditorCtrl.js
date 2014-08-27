@@ -13,6 +13,7 @@
     //TODO: perform login (cross domain)
     //TODO: Bind doc and locale dropdown to selectedDocID, selectedLocaleId
     //TODO: Load statistic and transUnit after doc and locale selected
+    //TODO: Localized string
 
     //Working URL: http://localhost:8000/#/tiny-project/1 or
     // http://localhost:8000/#/tiny-project/1/hello/fr
@@ -36,6 +37,11 @@
       editorCtrl.context.versionSlug)
       .then(function (documents) {
         editorCtrl.documents = documents;
+
+        //if docId is not defined in url, set to first from list
+        if(!editorCtrl.context.docId && editorCtrl.documents.length > 0) {
+          editorCtrl.context.docId = editorCtrl.documents[0].docId;
+        }
       },
       function (error) {
         console.error('Error getting document list:' + error);
@@ -44,29 +50,30 @@
     LocaleService.getSupportedLocales(editorCtrl.context.projectSlug,
       editorCtrl.context.versionSlug).then(function(locales) {
         editorCtrl.locales = locales;
+
+        //if localeId is not defined in url, set to first from list
+        if(!editorCtrl.context.localeId && editorCtrl.locales.length > 0) {
+          editorCtrl.context.localeId = editorCtrl.locales[0].localeId;
+        }
       },
       function(error) {
         console.error('Error getting locale list:' + error);
       });
 
-    //if(editorCtrl.context.docId) {
-    // bind to selectedDocId = $stateParams.docId
-    //}
-
-    //if(editorCtrl.context.localeId) {
-    // bind to selectedLocaleId = $stateParams.localeId
-    //}
-
     /**
      * should listen to onChange event in selectedDoc
      * and selectedLocale dropdown
      */
-    DocumentService.getStatistic(editorCtrl.context.projectSlug,
+    DocumentService.getStatistics(editorCtrl.context.projectSlug,
       editorCtrl.context.versionSlug, editorCtrl.context.docId,
       editorCtrl.context.localeId).
-      then(function(statistic) {
-        editorCtrl.statistic = statistic;
-        editorCtrl.statisticStyles = StatisticUtil.getStyles(statistic);
+      then(function(statistics) {
+
+        editorCtrl.wordStatistic = StatisticUtil.getWordStatistic(statistics);
+        editorCtrl.msgStatistic = StatisticUtil.getMsgStatistic(statistics);
+
+        editorCtrl.statisticStyles =
+          StatisticUtil.getStyles(editorCtrl.wordStatistic);
       },
       function(error) {
         console.error('Error getting statistic:' + error);

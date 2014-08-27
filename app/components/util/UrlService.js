@@ -29,7 +29,7 @@
       LOCALE_LIST_URL: constructRestUrl(versionUrl, '/locales'),
       DOCUMENT_LIST_URL: constructRestUrl(versionUrl, '/r'),
       DOC_STATISTIC_URL: constructRestUrl(statisticUrl,
-        '/doc/:docId/locale/l/:localeId'),
+        '/doc/:docId/locale/:localeId'),
 
       /**
        * Get the value of a query string parameter.

@@ -34,7 +34,7 @@
     };
 
     /**
-     * Get statistic of document in locale
+     * Get statistic of document in locale (word and message)
      *
      * @param _projectSlug
      * @param _versionSlug
@@ -42,7 +42,7 @@
      * @param _localeId
      * @returns {*}
      */
-    documentService.getStatistic =
+    documentService.getStatistics =
         function(_projectSlug, _versionSlug, _docId, _localeId) {
       var key = {
         docId:_docId, localeId:_localeId
@@ -53,7 +53,7 @@
         deferred.resolve(documentService.statisticMap[key]);
         return deferred.promise;
       } else {
-        var Statistic =
+        var Statistics =
           $resource(UrlService.DOC_STATISTIC_URL, {}, {
             query: {
               method: 'GET',
@@ -62,10 +62,11 @@
                 versionSlug: _versionSlug,
                 docId: _docId,
                 localeId: _localeId
-              }
+              },
+              isArray: true
             }
           });
-        var result = Statistic.query();
+        var result = Statistics.query();
         documentService.statisticMap[key] = result;
         return result.$promise;
       }

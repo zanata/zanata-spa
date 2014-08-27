@@ -5,11 +5,13 @@
    * StatisticUtil.js
    * @ngInject
    *
-   * Utility method for constructing css style based for statistic bar
+   * Utility method for handling $resource.statistic
    */
 
   function StatisticUtil() {
-    function getStyles(statistic) {
+    var statisticUtil = {};
+
+    statisticUtil.getStyles = function getStyles(statistic) {
       var styles = {};
 
       var widthApproved = statistic.approved / statistic.total * 100;
@@ -41,11 +43,17 @@
       };
 
       return styles;
-    }
-
-    return {
-      getStyles : getStyles
     };
+
+    statisticUtil.getWordStatistic = function(statistics) {
+      return statistics[0].unit === 'WORD' ? statistics[0] : statistics[1];
+    };
+
+    statisticUtil.getMsgStatistic = function(statistics) {
+      return statistics[0].unit === 'MESSAGE' ? statistics[0] : statistics[1];
+    };
+
+    return statisticUtil;
   }
   angular.module('app').factory('StatisticUtil', StatisticUtil);
 })();
