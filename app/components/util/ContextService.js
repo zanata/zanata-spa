@@ -9,13 +9,10 @@
   function ContextService() {
     return {
       //construct editor context
-      loadEditorContext: function(projectSlug, versionSlug,
-                                  docId, localeId) {
+      loadEditorContext: function(projectSlug, versionSlug) {
         var editorContext = {
           projectSlug: projectSlug,
-          versionSlug: versionSlug,
-          docId: docId,
-          localeId: localeId
+          versionSlug: versionSlug
         };
         return editorContext;
       }

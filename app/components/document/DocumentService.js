@@ -1,12 +1,12 @@
-(function () {
+(function() {
   'use strict';
 
   /**
    * DocumentService.js
    * @ngInject
    */
-  function DocumentService($q, $filter, $timeout, $http, $resource,
-                           UrlService) {
+  function DocumentService($q, $filter, $timeout, $http,
+                           $resource, UrlService) {
     var documentService = {};
     documentService.statisticMap = {};
 
@@ -17,18 +17,17 @@
      * @param _versionSlug
      * @returns {$promise|*|N.$promise}
      */
-    documentService.findAll = function (_projectSlug, _versionSlug) {
-      var Documents =
-        $resource(UrlService.DOCUMENT_LIST_URL, {}, {
-            query: {
-              method: 'GET',
-              params: {
-                projectSlug: _projectSlug,
-                versionSlug: _versionSlug
-              },
-              isArray: true
-            }
-          });
+    documentService.findAll = function(_projectSlug, _versionSlug) {
+      var Documents = $resource(UrlService.DOCUMENT_LIST_URL, {}, {
+        query : {
+          method : 'GET',
+          params : {
+            projectSlug : _projectSlug,
+            versionSlug : _versionSlug
+          },
+          isArray : true
+        }
+      });
 
       return Documents.query().$promise;
     };
@@ -42,33 +41,38 @@
      * @param _localeId
      * @returns {*}
      */
-    documentService.getStatistics =
-        function(_projectSlug, _versionSlug, _docId, _localeId) {
-      var key = {
-        docId:_docId, localeId:_localeId
-      };
+    documentService.getStatistics = function(_projectSlug, _versionSlug,
+        _docId, _localeId) {
+      if (_docId && _localeId) {
+//        var key = {
+//          docId : _docId,
+//          localeId : _localeId
+//        };
 
-      if(key in documentService.statisticMap) {
-        var deferred = $q.defer();
-        deferred.resolve(documentService.statisticMap[key]);
-        return deferred.promise;
-      } else {
-        var Statistics =
-          $resource(UrlService.DOC_STATISTIC_URL, {}, {
-            query: {
-              method: 'GET',
-              params: {
-                projectSlug: _projectSlug,
-                versionSlug: _versionSlug,
-                docId: _docId,
-                localeId: _localeId
+          //TODO: need to hash this key
+        var key = _docId + _localeId;
+
+        if (key in documentService.statisticMap) {
+          var deferred = $q.defer();
+          deferred.resolve(documentService.statisticMap[key]);
+          return deferred.promise;
+        } else {
+          var Statistics = $resource(UrlService.DOC_STATISTIC_URL, {}, {
+            query : {
+              method : 'GET',
+              params : {
+                projectSlug : _projectSlug,
+                versionSlug : _versionSlug,
+                docId : _docId,
+                localeId : _localeId
               },
-              isArray: true
+              isArray : true
             }
           });
-        var result = Statistics.query();
-        documentService.statisticMap[key] = result;
-        return result.$promise;
+          var result = Statistics.query();
+          documentService.statisticMap[key] = result;
+          return result.$promise;
+        }
       }
     };
 

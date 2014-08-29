@@ -15,7 +15,7 @@ function dropdownSelect($document) {
     scope: {
       dropdownSelect: '=',
       dropdownModel: '=',
-      dropdownOnchange: '&'
+      dropdownOnChange: '&'
     },
     controller: [
       '$scope', '$element', '$attrs', function($scope, $element, $attrs) {
@@ -23,11 +23,12 @@ function dropdownSelect($document) {
         console.log($scope);
         $scope.labelField = $attrs.dropdownItemLabel != null ?
           $attrs.dropdownItemLabel : 'text';
+
         this.select = function(selected) {
           if (selected !== $scope.dropdownModel) {
-            angular.copy(selected, $scope.dropdownModel);
+              $scope.dropdownModel = selected;
           }
-          $scope.dropdownOnchange({
+          $scope.dropdownOnChange({
             selected: selected
           });
         };
@@ -41,7 +42,12 @@ function dropdownSelect($document) {
         });
       }
     ],
-    templateUrl: 'components/dropdown/dropdownSelect.html'
+    templateUrl: 'components/dropdown/dropdownSelect.html',
+      link: function (scope) {
+          scope.$watch('dropdownModel',function() {
+              scope.dropdownOnChange();
+          },true);
+      }
   };
 }
 

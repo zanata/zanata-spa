@@ -19,14 +19,16 @@
         <ul class="list--horizontal bx--inline-block">
           <li>
             <div dropdown-select="editor.documents"
-              dropdown-model="editor.documents[0]"
-              dropdown-item-label="name">
+              dropdown-model="editor.selectedDocument"
+              dropdown-item-label="name"
+              dropdown-on-change="editor.loadStatistic()">
             </div>
           </li>
           <li>
             <div dropdown-select="editor.locales"
-              dropdown-model="editor.locales[0]"
-              dropdown-item-label="displayName">
+              dropdown-model="editor.selectedLocale"
+              dropdown-item-label="displayName"
+              dropdown-on-change="editor.loadStatistic()">
             </div>
           </li>
         </ul>
