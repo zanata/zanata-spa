@@ -1,35 +1,37 @@
-(function () {
+(function() {
   'use strict';
 
-/**
- * UserService.js
- */
-function UserService () {
+  /**
+   * UserService.js
+   */
+  function UserService() {
+    return {
+      settings: {
+        editor: {
+          hideMainNav: false
+        }
+      },
 
-  var userService = {};
+      editorContext: function(projectSlug, versionSlug, document,
+                              locale, mode) {
+        return {
+          projectSlug: projectSlug,
+          versionSlug: versionSlug,
+          document: document,
+          locale: locale,
+          mode: mode // READ_WRITE, READ_ONLY, REVIEW
+        };
+      },
 
-  userService.settings = {
-    editor: {
-      hideMainNav: false
-    }
-  };
-
-  userService.isLoggedIn = true;
-
-  userService.login = function(username, apiToken) {
-    //perform login to server, if true, set username and token
-    if(userService.isLoggedIn) {
-      userService.username = username;
-      userService.apiToken = apiToken;
-    }
-  };
-
-  return userService;
-
-}
-
-angular
-  .module('app')
-  .factory('UserService', UserService);
-
+      //TODO: Get from server (get current logged in user information)
+      getUserInfo : function() {
+        return {
+          username : 'username',
+          email : 'test@zanata.org',
+          gravatarHash : 'fd8eefdca68e2044a7680d7a0cf574d7'
+        };
+      }
+    };
+  }
+  angular.module('app').factory('UserService', UserService);
 })();

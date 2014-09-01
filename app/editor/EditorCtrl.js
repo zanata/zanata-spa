@@ -6,10 +6,8 @@
    * @ngInject
    */
   function EditorCtrl(UserService, PhraseService, DocumentService,
-      ContextService, LocaleService, UrlService, StatisticUtil,
-      ProjectService, $stateParams) {
-    var limit = 50, editorCtrl = this,
-        gravatarHash = 'fd8eefdca68e2044a7680d7a0cf574d7';
+      LocaleService, UrlService, StatisticUtil, ProjectService, $stateParams) {
+    var limit = 50, editorCtrl = this;
 
     //TODO: perform login (cross domain)
     //TODO: need user information when login
@@ -19,10 +17,13 @@
     //Working URL: http://localhost:8000/#/tiny-project/1 or
     // http://localhost:8000/#/tiny-project/1/hello/fr
 
-    //perform login
-    //UserService.login('aeng', '79834005e9a0206453cdc9f0a33aef66');
+    editorCtrl.context = UserService.editorContext(
+      $stateParams.projectSlug, $stateParams.versionSlug, '', '', 'READ_WRITE');
 
-    editorCtrl.gravatarUrl = UrlService.gravatarUrl(gravatarHash, 72);
+    editorCtrl.userInfo = UserService.getUserInfo();
+
+    editorCtrl.gravatarUrl = UrlService.gravatarUrl(
+      editorCtrl.userContext.gravatarHash, 72);
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
         function(projectInfo) {
@@ -30,9 +31,6 @@
         }, function(error) {
           console.error('Error getting project information:' + error);
         });
-
-    editorCtrl.context = ContextService.loadEditorContext(
-        $stateParams.projectSlug, $stateParams.versionSlug);
 
     DocumentService.findAll(editorCtrl.context.projectSlug,
         editorCtrl.context.versionSlug).then(
