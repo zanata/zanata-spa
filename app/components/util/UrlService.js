@@ -2,10 +2,14 @@
   'use strict';
 
   /**
+   * Utility to handles URL related request.
+   *
    * UrlService.js
    * @ngInject
    */
   function UrlService($location) {
+    var gravatarBaseUrl = 'http://www.gravatar.com/avatar';
+
     var projectUrl = '/projects/p/:projectSlug';
     var versionUrl = '/projects/p/:projectSlug/iterations/i/:versionSlug';
     var statisticUrl = '/stats/proj/:projectSlug/iter/:versionSlug';
@@ -36,6 +40,11 @@
        */
       readValue: function(key) {
         return $location.search()[key];
+      },
+
+      gravatarUrl: function (gravatarHash, size) {
+            return gravatarBaseUrl + '/' + gravatarHash +
+                '?d=mm&amp;r=g&amp;s=' + size;
       }
 
     };

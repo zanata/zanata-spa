@@ -1029,7 +1029,11 @@ function PhraseService ($q, $filter) {
 //    return deferred.promise;
 //  };
 
-  phraseService.findAll = function(limit) {
+  phraseService.findAll = function(limit, projectSlug,
+                                   versionSlug, docId,
+                                   localeId) {
+    console.info('load transunit for-', projectSlug,
+        versionSlug, docId, localeId);
     var deferred = $q.defer();
 
     if (limit) {

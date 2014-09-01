@@ -19,16 +19,16 @@
         <ul class="list--horizontal bx--inline-block">
           <li>
             <div dropdown-select="editor.documents"
-              dropdown-model="editor.selectedDocument"
+              dropdown-model="editor.context.document"
               dropdown-item-label="name"
-              dropdown-on-change="editor.loadStatistic()">
+              dropdown-on-change="editor.onLocaleOrDocumentChanged()">
             </div>
           </li>
           <li>
             <div dropdown-select="editor.locales"
-              dropdown-model="editor.selectedLocale"
+              dropdown-model="editor.context.locale"
               dropdown-item-label="displayName"
-              dropdown-on-change="editor.loadStatistic()">
+              dropdown-on-change="editor.onLocaleOrDocumentChanged()">
             </div>
           </li>
         </ul>
@@ -56,7 +56,7 @@
         <li>
           <a href="/dashboard" class="h--2 w--r-1h">
             <img class="bx--round header__avatar"
-              src="http://www.gravatar.com/avatar/fd8eefdca68e2044a7680d7a0cf574d7?d=mm&amp;r=g&amp;s=72"/>
+              src="{{editor.gravatarUrl}}"/>
           </a>
         </li>
       </ul>

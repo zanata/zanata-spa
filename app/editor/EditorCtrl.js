@@ -6,12 +6,14 @@
    * @ngInject
    */
   function EditorCtrl(UserService, PhraseService, DocumentService,
-      ContextService, LocaleService, StatisticUtil, ProjectService,
-      $stateParams) {
-    var limit = 50, editorCtrl = this;
+      ContextService, LocaleService, UrlService, StatisticUtil,
+      ProjectService, $stateParams) {
+    var limit = 50, editorCtrl = this,
+        gravatarHash = 'fd8eefdca68e2044a7680d7a0cf574d7';
 
     //TODO: perform login (cross domain)
-    //TODO: Load statistic and transUnit after doc and locale selected
+    //TODO: need user information when login
+    //TODO: Unit test
     //TODO: Localized string
 
     //Working URL: http://localhost:8000/#/tiny-project/1 or
@@ -19,6 +21,8 @@
 
     //perform login
     //UserService.login('aeng', '79834005e9a0206453cdc9f0a33aef66');
+
+    editorCtrl.gravatarUrl = UrlService.gravatarUrl(gravatarHash, 72);
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
         function(projectInfo) {
@@ -37,9 +41,9 @@
 
           //if docId is not defined in url, set to first from list
           if (!$stateParams.docId && editorCtrl.documents.length > 0) {
-            editorCtrl.selectedDocument = editorCtrl.documents[0];
+            editorCtrl.context.document = editorCtrl.documents[0];
           } else {
-            editorCtrl.selectedDocument = editorCtrl.getDocById(documents,
+            editorCtrl.context.document = editorCtrl.getDocById(documents,
                 $stateParams.docId);
           }
         }, function(error) {
@@ -53,15 +57,16 @@
 
           //if localeId is not defined in url, set to first from list
           if (!$stateParams.localeId && editorCtrl.locales.length > 0) {
-            editorCtrl.selectedLocale = editorCtrl.locales[0];
+            editorCtrl.context.locale = editorCtrl.locales[0];
           } else {
-            editorCtrl.selectedLocale = editorCtrl.getLocaleByLocaleId(locales,
+            editorCtrl.context.locale = editorCtrl.getLocaleByLocaleId(locales,
                 $stateParams.localeId);
           }
         }, function(error) {
           console.error('Error getting locale list:' + error);
         });
 
+    //Get document by docId from list
     editorCtrl.getDocById = function(documents, docId) {
       for ( var i in documents) {
         if (documents[i].name === docId) {
@@ -70,6 +75,7 @@
       }
     };
 
+    //Get locale by localeId from list
     editorCtrl.getLocaleByLocaleId = function(locales, localeId) {
       for ( var i in locales) {
         if (locales[i].localeId === localeId) {
@@ -78,31 +84,60 @@
       }
     };
 
-    editorCtrl.loadStatistic = function() {
-      if (editorCtrl.selectedDocument && editorCtrl.selectedLocale) {
-        DocumentService.getStatistics(editorCtrl.context.projectSlug,
-            editorCtrl.context.versionSlug, editorCtrl.selectedDocument.name,
-            editorCtrl.selectedLocale.localeId).then(
-            function(statistics) {
-              editorCtrl.wordStatistic = StatisticUtil
-                  .getWordStatistic(statistics);
-              editorCtrl.msgStatistic = StatisticUtil
-                  .getMsgStatistic(statistics);
-              editorCtrl.statisticStyles = StatisticUtil
-                  .getStyles(editorCtrl.wordStatistic);
-            }, function(error) {
-              console.error('Error getting statistic:' + error);
-            });
+    // On selected document or locale changed
+    editorCtrl.onLocaleOrDocumentChanged = function() {
+      if (editorCtrl.context.document && editorCtrl.context.locale) {
+        var context = editorCtrl.context;
+
+        editorCtrl.loadStatistic(context.projectSlug, context.versionSlug,
+            context.document.name, context.locale.localeId);
+
+        editorCtrl.loadPhases(context.projectSlug, context.versionSlug,
+            context.document.name, context.locale.localeId);
       }
     };
 
     /**
-     * should listen to onChange event in selectedDoc
-     * and selectedLocale dropdown
+     * Load document statistics (word and message)
+     * see EditorCtrl.onLocaleOrDocumentChanged
+     *
+     * @param projectSlug
+     * @param versionSlug
+     * @param docId
+     * @param localeId
      */
-    PhraseService.findAll(limit).then(function(phrases) {
-      editorCtrl.phrases = phrases;
-    });
+    editorCtrl.loadStatistic = function(projectSlug, versionSlug, docId,
+        localeId) {
+      DocumentService.getStatistics(projectSlug, versionSlug, docId, localeId)
+          .then(
+              function(statistics) {
+                editorCtrl.wordStatistic = StatisticUtil
+                    .getWordStatistic(statistics);
+                editorCtrl.msgStatistic = StatisticUtil
+                    .getMsgStatistic(statistics);
+                editorCtrl.statisticStyles = StatisticUtil
+                    .getStyles(editorCtrl.wordStatistic);
+              }, function(error) {
+                console.error('Error getting statistic:' + error);
+              });
+    };
+
+      /**
+       * Load transUnit
+       * see EditorCtrl.onLocaleOrDocumentChanged
+       *
+       * @param projectSlug
+       * @param versionSlug
+       * @param docId
+       * @param localeId
+       */
+    editorCtrl.loadPhases = function(projectSlug, versionSlug, docId,
+                                     localeId) {
+      PhraseService.findAll(limit, projectSlug, versionSlug, docId,
+          localeId).then(function(phrases) {
+        editorCtrl.phrases = phrases;
+      });
+    };
 
     this.settings = UserService.settings.editor;
   }

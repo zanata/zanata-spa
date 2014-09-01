@@ -2,16 +2,16 @@
   'use strict';
 
   /**
+   * Utility method for handling $resource.statistic
+   *
    * StatisticUtil.js
    * @ngInject
    *
-   * Utility method for handling $resource.statistic
    */
 
   function StatisticUtil() {
-    var statisticUtil = {};
 
-    statisticUtil.getStyles = function getStyles(statistic) {
+    function getStyles(statistic) {
       var styles = {};
 
       var widthApproved = statistic.approved / statistic.total * 100;
@@ -43,17 +43,21 @@
       };
 
       return styles;
-    };
+    }
 
-    statisticUtil.getWordStatistic = function(statistics) {
+    function getWordStatistic(statistics) {
       return statistics[0].unit === 'WORD' ? statistics[0] : statistics[1];
-    };
+    }
 
-    statisticUtil.getMsgStatistic = function(statistics) {
+    function getMsgStatistic(statistics) {
       return statistics[0].unit === 'MESSAGE' ? statistics[0] : statistics[1];
-    };
+    }
 
-    return statisticUtil;
+    return {
+      getStyles: getStyles,
+      getWordStatistic : getWordStatistic,
+      getMsgStatistic : getMsgStatistic
+    };
   }
   angular.module('app').factory('StatisticUtil', StatisticUtil);
 })();

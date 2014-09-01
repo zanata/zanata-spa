@@ -2,6 +2,7 @@
   'use strict';
 
   /**
+   * Handle communication with server on Project related information.
    * ProjectService.js
    * @ngInject
    */

@@ -20,7 +20,6 @@ function dropdownSelect($document) {
     controller: [
       '$scope', '$element', '$attrs', function($scope, $element, $attrs) {
         var body;
-        console.log($scope);
         $scope.labelField = $attrs.dropdownItemLabel != null ?
           $attrs.dropdownItemLabel : 'text';
 

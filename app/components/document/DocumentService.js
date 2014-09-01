@@ -2,12 +2,15 @@
   'use strict';
 
   /**
+   * Handle server communication on document related
+   * information in project-version.
+   *
    * DocumentService.js
    * @ngInject
    */
   function DocumentService($q, $filter, $timeout, $http,
                            $resource, UrlService) {
-    var documentService = {};
+    var documentService = this;
     documentService.statisticMap = {};
 
     /**
@@ -17,7 +20,7 @@
      * @param _versionSlug
      * @returns {$promise|*|N.$promise}
      */
-    documentService.findAll = function(_projectSlug, _versionSlug) {
+    function findAll(_projectSlug, _versionSlug) {
       var Documents = $resource(UrlService.DOCUMENT_LIST_URL, {}, {
         query : {
           method : 'GET',
@@ -28,9 +31,8 @@
           isArray : true
         }
       });
-
       return Documents.query().$promise;
-    };
+    }
 
     /**
      * Get statistic of document in locale (word and message)
@@ -41,17 +43,11 @@
      * @param _localeId
      * @returns {*}
      */
-    documentService.getStatistics = function(_projectSlug, _versionSlug,
+    function getStatistics (_projectSlug, _versionSlug,
         _docId, _localeId) {
       if (_docId && _localeId) {
-//        var key = {
-//          docId : _docId,
-//          localeId : _localeId
-//        };
-
-          //TODO: need to hash this key
+        //TODO: need to hash this key
         var key = _docId + _localeId;
-
         if (key in documentService.statisticMap) {
           var deferred = $q.defer();
           deferred.resolve(documentService.statisticMap[key]);
@@ -74,9 +70,12 @@
           return result.$promise;
         }
       }
-    };
+    }
 
-    return documentService;
+    return {
+        findAll: findAll,
+        getStatistics : getStatistics
+    };
   }
 
   angular.module('app').factory('DocumentService', DocumentService);
