@@ -21,7 +21,8 @@
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.2.3",
     "angular-ui-router": "~0.2.10",
     "zanata-assets": "zanata/zanata-assets#spa-1.0.0",
-    "angular-resource": "~1.2.22"
+    "angular-resource": "~1.2.22",
+    "angular-gettext": "~1.1.0"
   },
   "overrides": {
     "zanata-assets": {

@@ -8,9 +8,12 @@ var gulp = require('gulp'),
   concat = require('gulp-concat'),
   notify = require('gulp-notify'),
   cache = require('gulp-cache'),
+  fs = require('fs'),
+  debug = require('gulp-debug'),
   webserver = require('gulp-webserver'),
   mainBowerFiles = require('main-bower-files'),
   ngAnnotate = require('gulp-ng-annotate'),
+  gettext = require('gulp-angular-gettext'),
   rework = require('gulp-rework'),
   reworkcalc = require('rework-calc'),
   reworkcustommedia = require('rework-custom-media'),
@@ -29,7 +32,11 @@ var gulp = require('gulp'),
   pathCSSapp = './app/**/*.css',
   pathFontdeps = pathDeps + '/**/fonts/**/*',
   pathImagedeps = pathDeps + '/**/img/**/*',
-  pathTemplates = ['!./app/index.html', './app/**/*.html'];
+  pathTemplates = ['!./app/index.html', './app/**/*.html'],
+  pathTranslationSrc = './app/**/*.html',
+  pathTranslationPo = './app/components/translations',
+  pathTranslationBuild = pathBuild + '/translations';
+
 
 gulp.task('bowerClean', function() {
   return gulp.src(pathDeps, { read: false })
@@ -96,12 +103,53 @@ gulp.task('templates', function(){
     .pipe(gulp.dest(pathBuild + '/js'));
 });
 
+gulp.task('pot', function () {
+  return gulp.src(pathTranslationSrc)
+    .pipe(gettext.extract('template.pot', {
+      // options to pass to angular-gettext-tools...
+    }))
+    .pipe(gulp.dest(pathTranslationPo));
+});
+
+gulp.task('translations', function () {
+  return gulp.src(pathTranslationPo + '/**/*.po')
+    .pipe(gettext.compile({
+      format: 'json'
+      // options to pass to angular-gettext-tools...
+    }))
+    .pipe(gulp.dest(pathTranslationBuild))
+    .on('end', generateLocaleList);
+});
+
+
+function generateLocaleList() {
+  var extension = 'json';
+  var files = fs.readdirSync(pathTranslationBuild).filter(
+    function(file) {
+      return file.indexOf(extension, file.length - extension.length) !== -1;
+    });
+
+  var contents = '{\"locales\": [';
+
+  for (i = 0; i < files.length; i++) {
+    contents += '\"' + files[i].substring(0, files[i].length - extension.length - 1) + '\"';
+    if(i !== files.length - 1) {
+      contents += ',';
+    }
+  }
+  contents = contents + ']}';
+  fs.writeFile(pathTranslationBuild + '/' + 'locales', contents, function (err) {
+    if (err) throw err;
+  });
+}
+
 gulp.task('copyIndex', function() {
   return gulp.src('./app/index.html')
     .pipe(gulp.dest('./build'));
 });
 
-gulp.task('build', ['jsDeps', 'js', 'cssDeps', 'css', 'fontDeps', 'imageDeps', 'templates', 'copyIndex']);
+gulp.task('build', ['jsDeps', 'js', 'cssDeps', 'css', 'fontDeps', 'imageDeps',
+  'templates', 'copyIndex', 'pot', 'translations']);
 
 gulp.task('webserver', ['build'], function() {
   gulp.src('build')
