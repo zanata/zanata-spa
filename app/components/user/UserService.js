@@ -28,7 +28,8 @@
         return {
           username : 'username',
           email : 'test@zanata.org',
-          gravatarHash : 'fd8eefdca68e2044a7680d7a0cf574d7'
+          gravatarHash : 'fd8eefdca68e2044a7680d7a0cf574d7',
+          locale: 'en'
         };
       }
     };

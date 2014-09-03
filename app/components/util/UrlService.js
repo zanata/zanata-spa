@@ -14,6 +14,16 @@
     var versionUrl = '/projects/p/:projectSlug/iterations/i/:versionSlug';
     var statisticUrl = '/stats/proj/:projectSlug/iter/:versionSlug';
 
+    function getLocalHost() {
+      if (!window.location.origin) {
+        return window.location.protocol + '//' + window.location.hostname +
+          (window.location.port ? ':' + window.location.port : '');
+      }
+      return window.location.origin;
+    }
+
+    var translationsURL = getLocalHost() + '/translations';
+
     //TODO: get from document, configuration or URL
     var baseUrl = 'http://localhost:7878/zanata/rest';
 
@@ -29,22 +39,30 @@
     }
 
     return {
-      PROJECT_URL: constructRestUrl(projectUrl),
-      LOCALE_LIST_URL: constructRestUrl(versionUrl, '/locales'),
-      DOCUMENT_LIST_URL: constructRestUrl(versionUrl, '/r'),
-      DOC_STATISTIC_URL: constructRestUrl(statisticUrl,
-        '/doc/:docId/locale/:localeId'),
+      PROJECT_URL : constructRestUrl(projectUrl),
+      LOCALE_LIST_URL : constructRestUrl(versionUrl, '/locales'),
+      DOCUMENT_LIST_URL : constructRestUrl(versionUrl, '/r'),
+      DOC_STATISTIC_URL : constructRestUrl(statisticUrl,
+          '/doc/:docId/locale/:localeId'),
 
       /**
        * Get the value of a query string parameter.
        */
-      readValue: function(key) {
+      readValue : function(key) {
         return $location.search()[key];
       },
 
-      gravatarUrl: function (gravatarHash, size) {
-            return gravatarBaseUrl + '/' + gravatarHash +
-                '?d=mm&amp;r=g&amp;s=' + size;
+      gravatarUrl : function(gravatarHash, size) {
+        return gravatarBaseUrl + '/' + gravatarHash +
+          '?d=mm&amp;r=g&amp;s=' + size;
+      },
+
+      translationURL : function(locale) {
+        return translationsURL + '/' + locale + '.json';
+      },
+
+      translationListURL : function() {
+        return translationsURL + '/locales';
       }
 
     };

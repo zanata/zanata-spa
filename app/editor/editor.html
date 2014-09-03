@@ -11,8 +11,8 @@
           <span class="l--pad-h-quarter w--r-1 is-hidden--m-l-up"><i
             class="i i--arrow-left"></i></span>
           <span
-            class="editor__current-project is-hidden--m-l-down l--push-left-half">{{editor.projectInfo.name}} <span
-            class="txt--muted">{{editor.context.versionSlug}}</span></span>
+            class="editor__current-project is-hidden--m-l-down l--push-left-half"><span ng-bind="editor.projectInfo.name">Loading </span> <span
+            class="txt--muted" ng-bind="editor.context.versionSlug">Loading </span></span>
         </a>
         <i
           class="i i--arrow-right l--push-h-quarter txt--invert txt--muted is-hidden--m-l-down"></i>
@@ -38,19 +38,27 @@
         <!-- <span class="spinner is-loading"><span class="is-sr-only">Loading</span></span> -->
       </a>
       <ul class="list--inline p-absolute-right l--push-right-half">
+        <li>
+        <div dropdown-select="editor.languages"
+          dropdown-model="editor.userInfo.locale"
+          dropdown-item-label="localeId"
+          dropdown-on-change="editor.onChangeUILocale()">
+        </div>
+        </li>
+
         <li class="is-hidden--s"><a href="settings"
           class="link--invert header-banner__item w--r-1h"
-          title="Editor Settings"><i class="i i--large i--settings"></i><span
-          class="is-sr-only"> Settings</span></a></li>
+          title="{{'Editor Settings'|translate}}"><i class="i i--large i--settings"></i><span
+          class="is-sr-only" translate> Settings</span></a></li>
         <li>
           <button class="button--link link--invert header-banner__item w--r-1h"
-            title="More"><i class="i i--large i--ellipsis"></i><span
-            class="is-sr-only">More</span></button>
+            title="{{'More'|translate}}"><i class="i i--large i--ellipsis"></i><span
+            class="is-sr-only" translate>More</span></button>
         </li>
         <li>
           <button class="button--link link--invert header-banner__item w--r-1h"
-            title="Notifications"><i
-            class="i i--large i--notification"></i><span class="is-sr-only">Notifications</span>
+            title="{{'Notifications'|translate}}"><i
+            class="i i--large i--notification"></i><span class="is-sr-only" translate>Notifications</span>
           </button>
         </li>
         <li>
@@ -65,64 +73,64 @@
       <button
         class="button--link link--neutral l--pad-v-quarter l--float-left h--1h l--push-right-quarter">
         <i class="i i--large i--translate"></i><span
-        class="is-hidden--s l--push-right-quarter"> Translating</span></button>
+        class="is-hidden--s l--push-right-quarter" translate> Translating</span></button>
       <ul class="list--inline l--float-left">
         <li class="is-hidden--m-l-down"><a
           class="l--pad-h-quarter l--push-v-quarter bx--inline-block bg--secondary bx--round link--invert"
-          title="Total Phrases">{{editor.wordStatistic.total}}<span
-          class="is-sr-only">Total Phrases</span></a></li>
+          title="{{'Total Phrases'|translate}}" ng-bind="editor.wordStatistic.total">0<span
+          class="is-sr-only" translate>Total Phrases</span></a></li>
         <li class="is-hidden--m-l-down"><a
           class="l--pad-h-quarter l--push-v-quarter bx--inline-block"
-          title="Approved"><i class="i i--dot"></i><strong>{{editor.wordStatistic.approved}}</strong><span
-          class="is-sr-only">Approved</span></a></li>
+          title="{{'Approved'|translate}}"><i class="i i--dot"></i><strong ng-bind="editor.wordStatistic.approved">0</strong><span
+          class="is-sr-only" translate>Approved</span></a></li>
         <li class="is-hidden--m-l-down"><a
           class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--success"
-          title="Translated"><i class="i i--dot"></i><strong>{{editor.wordStatistic.translated}}</strong><span
-          class="is-sr-only">Translated</span></a></li>
+          title="{{'Translated'|translate}}"><i class="i i--dot"></i><strong ng-bind="editor.wordStatistic.translated">0</strong><span
+          class="is-sr-only" translate>Translated</span></a></li>
         <li class="is-hidden--m-l-down"><a
           class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--unsure"
-          title="Fuzzy"><i class="i i--dot"></i><strong>{{editor.wordStatistic.fuzzy}}</strong><span
-          class="is-sr-only">Fuzzy</span></a></li>
+          title="{{'Fuzzy'|translate}}"><i class="i i--dot"></i><strong ng-bind="editor.wordStatistic.needsWork">0</strong><span
+          class="is-sr-only" translate>Fuzzy</span></a></li>
         <li class="is-hidden--m-l-down"><a
           class="l--pad-h-quarter l--push-v-quarter bx--inline-block link--neutral"
-          title="Untranslated"><i class="i i--dot"></i><strong>{{editor.wordStatistic.untranslated}}</strong><span
-          class="is-sr-only">Untranslated</span></a></li>
+          title="{{'Untranslated'|translate}}"><i class="i i--dot"></i><strong ng-bind="editor.wordStatistic.untranslated">0</strong><span
+          class="is-sr-only" translate>Untranslated</span></a></li>
         <li>
           <button class="button--link link--neutral h--1h w--r-1h"
-            title="Filters"><i class="i i--large i--filter"></i><span
-            class="is-sr-only">More filters</span></button>
+            title="{{'Filters'|translate}}"><i class="i i--large i--filter"></i><span
+            class="is-sr-only" translate>More filters</span></button>
         </li>
         <li>
           <button class="button--link link--neutral h--1h w--r-1h"
-            title="Search"><i class="i i--large i--search"></i><span
-            class="is-sr-only">Search</span></button>
+            title="{{'Search'|translate}}"><i class="i i--large i--search"></i><span
+            class="is-sr-only" translate>Search</span></button>
         </li>
       </ul>
       <div class="l--float-right">
         <ul class="list--inline">
           <li>
             <button class="button--link link--neutral h--1h w--r-1h"
-              title="Translation Memory"><i
-              class="i i--large i--suggestion"></i><span class="is-sr-only">Translation Memory</span>
+              title="{{'Translation Memory'|translate}}"><i
+              class="i i--large i--suggestion"></i><span class="is-sr-only" translate>Translation Memory</span>
             </button>
           </li>
           <li>
             <button class="button--link link--neutral h--1h w--r-1h"
-              title="Details"><i class="i i--large i--info"></i><span
-              class="is-sr-only">Details</span></button>
+              title="{{'Details'|translate}}"><i class="i i--large i--info"></i><span
+              class="is-sr-only" translate>Details</span></button>
           </li>
           <li>
             <button class="button--link link--neutral h--1h w--r-1h"
-              title="Glossary"><i class="i i--large i--glossary"></i><span
-              class="is-sr-only">Glossary</span></button>
+              title="{{'Glossary'|translate}}"><i class="i i--large i--glossary"></i><span
+              class="is-sr-only" translate>Glossary</span></button>
           </li>
           <li>
             <button class="button--link link--neutral h--1h w--r-1h"
-              title="Hide Menubar"
+              title="{{'Hide Menubar'|translate}}"
               ng-click="editor.settings.hideMainNav = !editor.settings.hideMainNav">
               <i class="i i--large"
                 ng-class="{'i--hide-down': editor.settings.hideMainNav, 'i--hide-up': !editor.settings.hideMainNav}"></i>
-              <span class="is-sr-only">Hide Menubar</span>
+              <span class="is-sr-only" translate>Hide Menubar</span>
             </button>
           </li>
         </ul>
@@ -134,7 +142,7 @@
       <span class="progress-bar__translated"
         ng-style="{'width': editor.statisticStyles.translated.width, 'margin-left': editor.statisticStyles.translated.marginLeft}"></span>
       <span class="progress-bar__fuzzy"
-        ng-style="{'width': editor.statisticStyles.fuzzy.width, 'margin-left': editor.statisticStyles.fuzzy.marginLeft}"></span>
+        ng-style="{'width': editor.statisticStyles.needsWork.width, 'margin-left': editor.statisticStyles.needsWork.marginLeft}"></span>
       <span class="progress-bar__untranslated"
         ng-style="{'width': editor.statisticStyles.untranslated.width, 'margin-left': editor.statisticStyles.untranslated.marginLeft}"></span>
     </div>

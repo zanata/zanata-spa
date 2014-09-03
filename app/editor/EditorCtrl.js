@@ -6,24 +6,64 @@
    * @ngInject
    */
   function EditorCtrl(UserService, PhraseService, DocumentService,
-      LocaleService, UrlService, StatisticUtil, ProjectService, $stateParams) {
-    var limit = 50, editorCtrl = this;
+      LocaleService, UrlService, StatisticUtil, ProjectService, $stateParams,
+      gettextCatalog, StringUtil) {
+    var limit = 50, editorCtrl = this,
+      defaultLocale = {
+        'localeId' : 'en',
+        'displayName' : 'English'
+      };
+
+    editorCtrl.languages = [defaultLocale];
 
     //TODO: perform login (cross domain)
     //TODO: need user information when login
     //TODO: Unit test
-    //TODO: Localized string
 
     //Working URL: http://localhost:8000/#/tiny-project/1 or
     // http://localhost:8000/#/tiny-project/1/hello/fr
 
-    editorCtrl.context = UserService.editorContext(
-      $stateParams.projectSlug, $stateParams.versionSlug, '', '', 'READ_WRITE');
+    //Get document by docId from list
+    function getDocById(documents, docId) {
+      for ( var i in documents) {
+        if (StringUtil.equals(documents[i].name, docId, true)) {
+          return documents[i];
+        }
+      }
+    }
+
+    //Get locale by localeId from list
+    function getLocaleByLocaleId(locales, localeId) {
+      for ( var i in locales) {
+        if (StringUtil.equals(locales[i].localeId, localeId, true)) {
+          return locales[i];
+        }
+      }
+    }
+
+    editorCtrl.context = UserService.editorContext($stateParams.projectSlug,
+        $stateParams.versionSlug, '', '', 'READ_WRITE');
 
     editorCtrl.userInfo = UserService.getUserInfo();
+    editorCtrl.userInfo.locale = defaultLocale;
 
     editorCtrl.gravatarUrl = UrlService.gravatarUrl(
-      editorCtrl.userContext.gravatarHash, 72);
+        editorCtrl.userInfo.gravatarHash, 72);
+
+
+    LocaleService.getTranslationList().then(function(translationList) {
+      for(var i in translationList.locales) {
+        var language = {
+          'localeId' :translationList.locales[i],
+          'displayName' : ''
+        };
+        editorCtrl.languages.push(language);
+      }
+      editorCtrl.userInfo.locale = getLocaleByLocaleId(editorCtrl.languages,
+        defaultLocale.localeId);
+    }, function(error) {
+      console.error('Error loading translations:' + error);
+    });
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
         function(projectInfo) {
@@ -41,7 +81,7 @@
           if (!$stateParams.docId && editorCtrl.documents.length > 0) {
             editorCtrl.context.document = editorCtrl.documents[0];
           } else {
-            editorCtrl.context.document = editorCtrl.getDocById(documents,
+            editorCtrl.context.document = getDocById(documents,
                 $stateParams.docId);
           }
         }, function(error) {
@@ -57,30 +97,12 @@
           if (!$stateParams.localeId && editorCtrl.locales.length > 0) {
             editorCtrl.context.locale = editorCtrl.locales[0];
           } else {
-            editorCtrl.context.locale = editorCtrl.getLocaleByLocaleId(locales,
+            editorCtrl.context.locale = getLocaleByLocaleId(locales,
                 $stateParams.localeId);
           }
         }, function(error) {
           console.error('Error getting locale list:' + error);
         });
-
-    //Get document by docId from list
-    editorCtrl.getDocById = function(documents, docId) {
-      for ( var i in documents) {
-        if (documents[i].name === docId) {
-          return documents[i];
-        }
-      }
-    };
-
-    //Get locale by localeId from list
-    editorCtrl.getLocaleByLocaleId = function(locales, localeId) {
-      for ( var i in locales) {
-        if (locales[i].localeId === localeId) {
-          return locales[i];
-        }
-      }
-    };
 
     // On selected document or locale changed
     editorCtrl.onLocaleOrDocumentChanged = function() {
@@ -92,6 +114,21 @@
 
         editorCtrl.loadPhases(context.projectSlug, context.versionSlug,
             context.document.name, context.locale.localeId);
+      }
+    };
+
+    // On UI locale changes
+    editorCtrl.onChangeUILocale = function() {
+      var uiLocaleId = editorCtrl.userInfo.locale.localeId;
+      if (!StringUtil.startsWith(uiLocaleId, defaultLocale.localeId, true)) {
+        gettextCatalog.loadRemote(UrlService.translationURL(uiLocaleId)).then(
+            function() {
+              gettextCatalog.setCurrentLanguage(uiLocaleId);
+            }, function(error) {
+              console.error('Error loading locale:' + error);
+            });
+      } else {
+        gettextCatalog.setCurrentLanguage(defaultLocale.localeId);
       }
     };
 
@@ -120,21 +157,21 @@
               });
     };
 
-      /**
-       * Load transUnit
-       * see EditorCtrl.onLocaleOrDocumentChanged
-       *
-       * @param projectSlug
-       * @param versionSlug
-       * @param docId
-       * @param localeId
-       */
-    editorCtrl.loadPhases = function(projectSlug, versionSlug, docId,
-                                     localeId) {
-      PhraseService.findAll(limit, projectSlug, versionSlug, docId,
-          localeId).then(function(phrases) {
-        editorCtrl.phrases = phrases;
-      });
+    /**
+     * Load transUnit
+     * see EditorCtrl.onLocaleOrDocumentChanged
+     *
+     * @param projectSlug
+     * @param versionSlug
+     * @param docId
+     * @param localeId
+     */
+    editorCtrl.loadPhases = function(projectSlug, versionSlug,
+                                     docId, localeId) {
+      PhraseService.findAll(limit, projectSlug, versionSlug, docId, localeId)
+          .then(function(phrases) {
+            editorCtrl.phrases = phrases;
+          });
     };
 
     this.settings = UserService.settings.editor;

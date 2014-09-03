@@ -19,11 +19,12 @@
       var widthTranslated = statistic.translated / statistic.total * 100;
       var marginLeftTranslated = widthApproved;
 
-      var widthFuzzy = statistic.fuzzy / statistic.total * 100;
-      var marginLeftFuzzy = widthApproved + widthTranslated;
+      var widthNeedsWork = statistic.needsWork / statistic.total * 100;
+      var marginLeftNeedsWork = widthApproved + widthTranslated;
 
       var widthUntranslated = statistic.untranslated / statistic.total * 100;
-      var marginLeftUntranslated = widthApproved + widthTranslated + widthFuzzy;
+      var marginLeftUntranslated = widthApproved +
+        widthTranslated + widthNeedsWork;
 
       styles.approved = {
         'width' : widthApproved + '%',
@@ -33,9 +34,9 @@
         'width' : widthTranslated + '%',
         'marginLeft' : marginLeftTranslated + '%'
       };
-      styles.fuzzy = {
-        'width' : widthFuzzy + '%',
-        'marginLeft' : marginLeftFuzzy + '%'
+      styles.needsWork = {
+        'width' : widthNeedsWork + '%',
+        'marginLeft' : marginLeftNeedsWork + '%'
       };
       styles.untranslated = {
         'width' : widthUntranslated + '%',

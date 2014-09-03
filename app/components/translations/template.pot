@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Approved"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Details"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Editor Settings"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Filters"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Fuzzy"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Glossary"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Hide Menubar"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "More"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "More filters"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Notifications"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Search"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Settings"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Total Phrases"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Translated"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Translating"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Translation Memory"
+msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
+msgid "Untranslated"
+msgstr ""
