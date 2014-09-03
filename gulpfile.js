@@ -106,7 +106,9 @@ gulp.task('build', ['jsDeps', 'js', 'cssDeps', 'css', 'fontDeps', 'imageDeps', '
 gulp.task('webserver', ['build'], function() {
   gulp.src('build')
     .pipe(webserver({
-      livereload: true
+      livereload: true,
+      host: '0.0.0.0',
+      port: 8000
     }));
 });
 
