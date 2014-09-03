@@ -64,7 +64,6 @@
       translationListURL : function() {
         return translationsURL + '/locales';
       }
-
     };
   }
 

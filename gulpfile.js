@@ -33,8 +33,10 @@ var gulp = require('gulp'),
   pathFontdeps = pathDeps + '/**/fonts/**/*',
   pathImagedeps = pathDeps + '/**/img/**/*',
   pathTemplates = ['!./app/index.html', './app/**/*.html'],
-  pathTranslation = pathBuild + '/translations',
-  pathTranslationSrc = './app/components/translations';
+  pathTranslationSrc = './app/**/*.html',
+  pathTranslationPo = './app/components/translations',
+  pathTranslationBuild = pathBuild + '/translations';
+
 
 gulp.task('bowerClean', function() {
   return gulp.src(pathDeps, { read: false })
@@ -102,27 +104,27 @@ gulp.task('templates', function(){
 });
 
 gulp.task('pot', function () {
-  return gulp.src(pathTemplates)
+  return gulp.src(pathTranslationSrc)
     .pipe(gettext.extract('template.pot', {
       // options to pass to angular-gettext-tools...
     }))
-    .pipe(gulp.dest(pathTranslationSrc));
+    .pipe(gulp.dest(pathTranslationPo));
 });
 
 gulp.task('translations', function () {
-  return gulp.src(pathTranslationSrc + '/**/*.po')
+  return gulp.src(pathTranslationPo + '/**/*.po')
     .pipe(gettext.compile({
       format: 'json'
       // options to pass to angular-gettext-tools...
     }))
-    .pipe(gulp.dest(pathTranslation))
+    .pipe(gulp.dest(pathTranslationBuild))
     .on('end', generateLocaleList);
 });
 
 
 function generateLocaleList() {
   var extension = 'json';
-  var files = fs.readdirSync(pathTranslation).filter(
+  var files = fs.readdirSync(pathTranslationBuild).filter(
     function(file) {
       return file.indexOf(extension, file.length - extension.length) !== -1;
     });
@@ -136,7 +138,7 @@ function generateLocaleList() {
     }
   }
   contents = contents + ']}';
-  fs.writeFile(pathTranslation + '/' + 'locales', contents, function (err) {
+  fs.writeFile(pathTranslationBuild + '/' + 'locales', contents, function (err) {
     if (err) throw err;
   });
 }

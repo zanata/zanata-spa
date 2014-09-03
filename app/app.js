@@ -49,8 +49,7 @@
               console.debug($stateParams);
               return 'editor/editor.html';
             }
-          })
-          .state('editor-preselected', {
+          }).state('editor-preselected', {
             url: '/:projectSlug/:versionSlug/:docId/:localeId',
             templateUrl: function($stateParams) {
               console.debug($stateParams);

@@ -70,3 +70,9 @@ msgstr ""
 #: /home/aeng/src/workspace/zanata-spa/app/editor/editor.html
 msgid "Untranslated"
 msgstr ""
+
+#: /home/aeng/src/workspace/zanata-spa/app/index.html
+msgid ""
+"We're sorry, this application needs Javascript to\n"
+"      run."
+msgstr ""
