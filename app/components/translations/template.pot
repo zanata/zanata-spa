@@ -3,75 +3,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Approved"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Details"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Editor Settings"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Filters"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Fuzzy"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Glossary"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Hide Menubar"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "More"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "More filters"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Notifications"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Search"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Settings"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Total Phrases"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Translated"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Translating"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Translation Memory"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/editor/editor.html
+#: app/editor/editor.html
 msgid "Untranslated"
 msgstr ""
 
-#: /Users/lukebrooker/Sites/zanata-spa/app/index.html
+#: app/index.html
 msgid ""
 "We're sorry, this application needs Javascript to\n"
 "      run."

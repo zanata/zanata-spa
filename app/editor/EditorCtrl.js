@@ -60,20 +60,24 @@
           }
           editorCtrl.userInfo.locale = getLocaleByLocaleId(
               editorCtrl.languages, defaultLocale.localeId);
-          if(!editorCtrl.userInfo.locale) {
+          if (!editorCtrl.userInfo.locale) {
             editorCtrl.userInfo.locale = defaultLocale;
           }
-        }, function(error) {
-          console.info('Error loading UI locale. Default to \'English\':' +
-          error);
+        },
+        function(error) {
+          MessageHandler.displayInfo('Error loading UI locale. ' +
+            'Default to \'English\':' + error);
+
           editorCtrl.userInfo.locale = defaultLocale;
-      });
+        });
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
         function(projectInfo) {
           editorCtrl.projectInfo = projectInfo;
-        }, function(error) {
-          console.error('Error getting project information:' + error);
+        },
+        function(error) {
+          MessageHandler.displayError('Error getting project ' +
+            'information:' + error);
         });
 
     DocumentService.findAll(editorCtrl.context.projectSlug,
@@ -89,19 +93,19 @@
           } else {
             //if docId is not defined in url, set to first from list
             var selectedDocId = UrlService.readValue('docId');
-//            var selectedDocId = $stateParams.docId;
+            //            var selectedDocId = $stateParams.docId;
             if (!selectedDocId) {
               editorCtrl.context.document = editorCtrl.documents[0];
             } else {
               editorCtrl.context.document = getDocById(editorCtrl.documents,
-                selectedDocId);
+                  selectedDocId);
               if (!editorCtrl.context.document) {
                 editorCtrl.context.document = editorCtrl.documents[0];
               }
             }
           }
         }, function(error) {
-        MessageHandler.displayError('Error getting document list: ' + error);
+          MessageHandler.displayError('Error getting document list: ' + error);
         });
 
     LocaleService.getSupportedLocales(editorCtrl.context.projectSlug,
@@ -156,11 +160,12 @@
         gettextCatalog.loadRemote(UrlService.translationURL(uiLocaleId)).then(
             function() {
               gettextCatalog.setCurrentLanguage(uiLocaleId);
-            }, function(error) {
-              console.info('Error changing UI locale. Default to \'English\':' +
-                error);
+            },
+            function(error) {
+              MessageHandler.displayInfo('Error changing UI locale. ' +
+                'Default to \'English\':' + error);
               gettextCatalog.setCurrentLanguage(defaultLocale);
-            editorCtrl.userInfo.locale = defaultLocale;
+              editorCtrl.userInfo.locale = defaultLocale;
             });
       } else {
         gettextCatalog.setCurrentLanguage(defaultLocale.localeId);
@@ -187,9 +192,10 @@
                     .getMsgStatistic(statistics);
                 editorCtrl.statisticStyles = StatisticUtil
                     .getStyles(editorCtrl.wordStatistic);
-              }, function(error) {
-                MessageHandler.displayError('Error loading statistic: ' +
-                  error);
+              },
+              function(error) {
+                MessageHandler
+                    .displayError('Error loading statistic: ' + error);
               });
     };
 

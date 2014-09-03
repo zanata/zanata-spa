@@ -4,6 +4,7 @@ var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
   imagemin = require('gulp-imagemin'),
   rename = require('gulp-rename'),
+  replace = require('gulp-replace-task'),
   rimraf = require('gulp-rimraf'),
   concat = require('gulp-concat'),
   notify = require('gulp-notify'),
@@ -103,7 +104,7 @@ gulp.task('templates', function(){
     .pipe(gulp.dest(pathBuild + '/js'));
 });
 
-gulp.task('pot', function () {
+gulp.task('generatePot', function () {
   return gulp.src(pathTranslationSrc)
     .pipe(gettext.extract('template.pot', {
       // options to pass to angular-gettext-tools...
@@ -111,7 +112,19 @@ gulp.task('pot', function () {
     .pipe(gulp.dest(pathTranslationPo));
 });
 
-gulp.task('translations', function () {
+gulp.task('filterPotAbsolutePath', ['generatePot'], function () {
+  var regex = new RegExp(process.cwd() + '/', 'g');
+  gulp.src(pathTranslationPo + '/**/*.pot', {base: './'})
+    .pipe(replace({
+      patterns: [{
+          match: regex,
+          replacement: ''
+        }]
+    }))
+    .pipe(gulp.dest('./'))
+});
+
+gulp.task('translations', ['filterPotAbsolutePath'], function () {
   return gulp.src(pathTranslationPo + '/**/*.po')
     .pipe(gettext.compile({
       format: 'json'
@@ -149,7 +162,7 @@ gulp.task('copyIndex', function() {
 });
 
 gulp.task('build', ['jsDeps', 'js', 'cssDeps', 'css', 'fontDeps', 'imageDeps',
-  'templates', 'copyIndex', 'pot', 'translations']);
+  'templates', 'copyIndex', 'generatePot', 'filterPotAbsolutePath', 'translations']);
 
 gulp.task('webserver', ['build'], function() {
   gulp.src('build')
