@@ -19,7 +19,9 @@
   "scripts": {
     "setup": "make setup",
     "watch": "make watch",
-    "make": "make build"
+    "make": "make build",
+    "build": "make build",
+    "fakewatch": "make fakewatch"
   },
   "repository": {
     "type": "git",
