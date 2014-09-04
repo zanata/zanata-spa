@@ -188,10 +188,8 @@
               function(statistics) {
                 editorCtrl.wordStatistic = StatisticUtil
                     .getWordStatistic(statistics);
-                editorCtrl.msgStatistic = StatisticUtil
-                    .getMsgStatistic(statistics);
-                editorCtrl.statisticStyles = StatisticUtil
-                    .getStyles(editorCtrl.wordStatistic);
+                editorCtrl.messageStatistic = StatisticUtil
+                  .getMsgStatistic(statistics);
               },
               function(error) {
                 MessageHandler

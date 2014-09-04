@@ -136,16 +136,9 @@
         </ul>
       </div>
     </nav>
-    <div class="progress-bar progress-bar--full">
-      <span class="progress-bar__approved"
-        ng-style="{'width': editor.statisticStyles.approved.width, 'margin-left': editor.statisticStyles.approved.marginLeft}"></span>
-      <span class="progress-bar__translated"
-        ng-style="{'width': editor.statisticStyles.translated.width, 'margin-left': editor.statisticStyles.translated.marginLeft}"></span>
-      <span class="progress-bar__fuzzy"
-        ng-style="{'width': editor.statisticStyles.needsWork.width, 'margin-left': editor.statisticStyles.needsWork.marginLeft}"></span>
-      <span class="progress-bar__untranslated"
-        ng-style="{'width': editor.statisticStyles.untranslated.width, 'margin-left': editor.statisticStyles.untranslated.marginLeft}"></span>
-    </div>
+
+    <div progressbar progressbar-statistic="editor.wordStatistic" size="full"></div>
+
   </header>
 
   <main role="main">
