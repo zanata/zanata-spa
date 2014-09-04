@@ -1,4 +1,6 @@
-<div class="progress-bar progress-bar--full">
+<div
+  class="progress-bar"
+  ng-class="{'progress-bar--large': size === 'large', 'progress-bar--full': size === 'full'}">
   <span class="progress-bar__approved"
     ng-style="{'width': style.approved.width, 'margin-left': style.approved.marginLeft}"></span>
   <span class="progress-bar__translated"

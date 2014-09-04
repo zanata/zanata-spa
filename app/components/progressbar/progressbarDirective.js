@@ -8,59 +8,38 @@
    */
   function progressbar() {
     return {
-      restrict : 'A',
+      restrict : 'E',
       replace : true,
       required : 'progressbarStatistic',
       scope : {
         progressbarStatistic : '=',
         size : '@' //large, full, or empty
       },
-      controller : [ '$scope', '$element', '$attrs',
-          function($scope, $element) {
-            if($scope.size) {
-              switch($scope.size) {
-                case 'large':
-                  $element.addClass('progress-bar--large');
-                  break;
-                case 'full':
-                  $element.addClass('progress-bar--full');
-                  break;
-                default:
-                //
-              }
-            }
-            if ($scope.progressbarStatistic) {
-               $scope.style = getStyle(
-                 $scope.progressbarStatistic);
-            }
-          } ],
       templateUrl : 'components/progressbar/progressbar.html',
-      link: function(scope) {
+      link: function(scope, element, attr) {
         scope.$watch('progressbarStatistic', function(statistic) {
           if (statistic) {
             scope.style = getStyle(statistic);
           }
         });
+        scope.size = attr.size;
       }
     };
   }
 
   function getStyle(statistic) {
-    var style = {};
+    var total = statistic.total,
+        widthApproved = getWidthPercent(statistic.approved, total),
+        widthTranslated = getWidthPercent(statistic.translated, total),
+        marginLeftTranslated = widthApproved,
+        widthNeedsWork = getWidthPercent(statistic.needsWork, total),
+        marginLeftNeedsWork = widthApproved + widthTranslated,
+        widthUntranslated = getWidthPercent(statistic.untranslated, total),
+        marginLeftUntranslated = widthApproved +
+          widthTranslated + widthNeedsWork,
+        style = {};
 
-    var total = statistic.total;
-
-    var widthApproved = getWidthPercent(statistic.approved, total);
-
-    var widthTranslated = getWidthPercent(statistic.translated, total);
-    var marginLeftTranslated = widthApproved;
-
-    var widthNeedsWork = getWidthPercent(statistic.needsWork, total);
-    var marginLeftNeedsWork = widthApproved + widthTranslated;
-
-    var widthUntranslated = getWidthPercent(statistic.untranslated, total);
-    var marginLeftUntranslated = widthApproved +
-      widthTranslated + widthNeedsWork;
+    console.log(widthApproved, widthNeedsWork, marginLeftUntranslated);
 
     style.approved = {
       'width' : widthApproved + '%',
@@ -82,8 +61,14 @@
   }
 
   function getWidthPercent(value, total) {
-    return value / total * 100;
+    var percent = 0;
+    if (value) {
+      percent = value / total * 100;
+    }
+    return percent;
   }
 
-  angular.module('app').directive('progressbar', progressbar);
+  angular.module('app')
+    .directive('progressbar', progressbar);
+
 })();

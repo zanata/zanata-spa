@@ -117,9 +117,9 @@ gulp.task('filterPotAbsolutePath', ['generatePot'], function () {
   gulp.src(pathTranslationPo + '/**/*.pot', {base: './'})
     .pipe(replace({
       patterns: [{
-          match: regex,
-          replacement: ''
-        }]
+        match: regex,
+        replacement: ''
+      }]
     }))
     .pipe(gulp.dest('./'))
 });
