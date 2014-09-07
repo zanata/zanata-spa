@@ -39,8 +39,6 @@
           widthTranslated + widthNeedsWork,
         style = {};
 
-    console.log(widthApproved, widthNeedsWork, marginLeftUntranslated);
-
     style.approved = {
       'width' : widthApproved + '%',
       'marginLeft' : 0
