@@ -39,10 +39,10 @@
       </a>
       <ul class="list--inline p-absolute-right l--push-right-half">
         <li>
-        <div dropdown-select="editor.languages"
-          dropdown-model="editor.userInfo.locale"
+        <div dropdown-select="app.uiLocaleList"
+          dropdown-model="app.myInfo.locale"
           dropdown-item-label="localeId"
-          dropdown-on-change="editor.onChangeUILocale()">
+          dropdown-on-change="app.onChangeUILocale()">
         </div>
         </li>
 
@@ -62,9 +62,9 @@
           </button>
         </li>
         <li>
-          <a href="/dashboard" class="h--2 w--r-1h" title={{editor.userInfo.username}}>
+          <a href="/dashboard" class="h--2 w--r-1h" title={{app.myInfo.name}}>
             <img class="bx--round header__avatar"
-              src="{{editor.gravatarUrl}}"/>
+              src="{{app.gravatarUrl}}"/>
           </a>
         </li>
       </ul>

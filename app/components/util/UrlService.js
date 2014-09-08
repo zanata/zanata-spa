@@ -10,6 +10,8 @@
   function UrlService($location) {
     var gravatarBaseUrl = 'http://www.gravatar.com/avatar';
 
+    var userUrl = '/user';
+
     var projectUrl = '/projects/p/:projectSlug';
     var versionUrl = '/projects/p/:projectSlug/iterations/i/:versionSlug';
     var statisticUrl = '/stats/proj/:projectSlug/iter/:versionSlug';
@@ -44,6 +46,8 @@
       DOCUMENT_LIST_URL : constructRestUrl(versionUrl, '/r'),
       DOC_STATISTIC_URL : constructRestUrl(statisticUrl,
           '/doc/:docId/locale/:localeId'),
+      MY_INFO_URL : constructRestUrl(userUrl),
+      USER_INFO_URL : constructRestUrl(userUrl, '/:username'),
 
       /**
        * Get the value of a query string parameter.

@@ -4,7 +4,29 @@
   /**
    * UserService.js
    */
-  function UserService() {
+  function UserService($resource, UrlService) {
+
+    function getUserInfo(username) {
+      var UserInfo = $resource(UrlService.USER_INFO_URL, {}, {
+        query : {
+          method : 'GET',
+          params : {
+            username : username
+          }
+        }
+      });
+      return UserInfo.query().$promise;
+    }
+
+    function getMyInfo() {
+      var MyInfo = $resource(UrlService.MY_INFO_URL, {}, {
+        query : {
+          method : 'GET'
+        }
+      });
+      return MyInfo.query().$promise;
+    }
+
     return {
       settings: {
         editor: {
@@ -22,16 +44,8 @@
           mode: mode // READ_WRITE, READ_ONLY, REVIEW
         };
       },
-
-      //TODO: Get from server (get current logged in user information)
-      getUserInfo : function() {
-        return {
-          username : 'username',
-          email : 'test@zanata.org',
-          gravatarHash : 'fd8eefdca68e2044a7680d7a0cf574d7',
-          locale: 'en'
-        };
-      }
+      getUserInfo : getUserInfo,
+      getMyInfo : getMyInfo
     };
   }
   angular.module('app').factory('UserService', UserService);
