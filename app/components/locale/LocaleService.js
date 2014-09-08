@@ -8,7 +8,7 @@
    * LocaleService.js
    * @ngInject
    */
-  function LocaleService($resource, UrlService) {
+  function LocaleService(UrlService, StringUtil, $resource) {
 
     /**
      * Get project-version supported locales
@@ -33,20 +33,29 @@
       return Locales.query().$promise;
     }
 
-    function getTranslationList() {
+    function getUILocaleList() {
       var list = $resource('/translations/locales', {},
         {
           query: {
-            method: 'GET',
+            method: 'GET'
           }
         });
 
       return list.query().$promise;
     }
 
+    function getLocaleByLocaleId(locales, localeId) {
+      for ( var i = 0; i < locales.length; i++) {
+        if (StringUtil.equals(locales[i].localeId, localeId, true)) {
+          return locales[i];
+        }
+      }
+    }
+
     return {
       getSupportedLocales: getSupportedLocales,
-      getTranslationList: getTranslationList
+      getUILocaleList: getUILocaleList,
+      getLocaleByLocaleId: getLocaleByLocaleId
     };
   }
 
