@@ -3,71 +3,71 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Approved"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Details"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Editor Settings"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Filters"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Fuzzy"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Glossary"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Hide Menubar"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "More"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "More filters"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Notifications"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Search"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Settings"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Total Phrases"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Translated"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Translating"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Translation Memory"
 msgstr ""
 
-#: app/editor/editor.html
+#: app/editor/editor-header.html
 msgid "Untranslated"
 msgstr ""
 
