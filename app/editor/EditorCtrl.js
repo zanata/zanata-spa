@@ -97,7 +97,7 @@
         editorCtrl.loadStatistic(context.projectSlug, context.versionSlug,
             context.document.name, context.locale.localeId);
 
-        editorCtrl.loadPhases(context.projectSlug, context.versionSlug,
+        editorCtrl.loadPhrases(context.projectSlug, context.versionSlug,
             context.document.name, context.locale.localeId);
       }
     };
@@ -136,7 +136,7 @@
      * @param docId
      * @param localeId
      */
-    editorCtrl.loadPhases = function(projectSlug, versionSlug,
+    editorCtrl.loadPhrases = function(projectSlug, versionSlug,
                                      docId, localeId) {
       PhraseService.findAll(limit, projectSlug, versionSlug, docId, localeId)
           .then(function(phrases) {
