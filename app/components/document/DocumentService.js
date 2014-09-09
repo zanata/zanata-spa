@@ -9,7 +9,7 @@
    * @ngInject
    */
   function DocumentService($q, $filter, $timeout, $http,
-                           $resource, UrlService) {
+                           $resource, UrlService, StringUtil) {
     var documentService = this;
     documentService.statisticMap = {};
 
@@ -72,9 +72,19 @@
       }
     }
 
+    //Get document by docId from list
+    function getDocById(documents, docId) {
+      for (var i = 0; i < documents.length; i++) {
+        if (StringUtil.equals(documents[i].name, docId, true)) {
+          return documents[i];
+        }
+      }
+    }
+
     return {
         findAll: findAll,
-        getStatistics : getStatistics
+        getStatistics : getStatistics,
+        getDocById: getDocById
     };
   }
 
