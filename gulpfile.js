@@ -81,6 +81,14 @@ gulp.task('jsDeps', ['bowerMain'], function(){
     .pipe(gulp.dest(pathBuild + '/js'));
 });
 
+gulp.task('images', function(){
+  return gulp.src(pathImages)
+    .pipe(rename(function(path) {
+      path.dirname = '';
+    }))
+    .pipe(gulp.dest(pathBuild + '/images'));
+});
+
 gulp.task('imageDeps', ['bowerMain'], function(){
   return gulp.src(pathImagedeps)
     .pipe(rename(function(path) {
@@ -161,8 +169,21 @@ gulp.task('copyIndex', function() {
     .pipe(gulp.dest('./build'));
 });
 
-gulp.task('build', ['jsDeps', 'js', 'cssDeps', 'css', 'fontDeps', 'imageDeps',
-  'templates', 'copyIndex', 'generatePot', 'filterPotAbsolutePath', 'translations']);
+gulp.task('build',
+  [
+    'jsDeps',
+    'js',
+    'cssDeps',
+    'css',
+    'fontDeps',
+    'images',
+    'imageDeps',
+    'templates',
+    'copyIndex',
+    'generatePot',
+    'filterPotAbsolutePath',
+    'translations'
+  ]);
 
 gulp.task('webserver', ['build'], function() {
   gulp.src('build')
