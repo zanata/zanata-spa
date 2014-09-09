@@ -3,7 +3,7 @@
 
   function StringUtil() {
     function startsWith(str, prefix, ignoreCase) {
-      if (ignoreCase) {
+      if (ignoreCase && str && prefix) {
         str = str.toUpperCase();
         prefix = prefix.toUpperCase();
       }
@@ -11,7 +11,7 @@
     }
 
     function endsWith(str, suffix, ignoreCase) {
-      if (ignoreCase) {
+      if (ignoreCase && str && suffix) {
         str = str.toUpperCase();
         suffix = suffix.toUpperCase();
       }
@@ -19,7 +19,7 @@
     }
 
     function equals(from, to, ignoreCase) {
-      if (ignoreCase) {
+      if (ignoreCase && from && to) {
         from = from.toUpperCase();
         to = to.toUpperCase();
       }
