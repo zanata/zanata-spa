@@ -1,14 +1,21 @@
+@import "./components/logo-loader/logo-loader.css";
+
 /*Fix for hotkeys*/
 
 .fade {
-  opacity: 0;
   transition: opacity .25s easein;
+  opacity: 0;
 }
 
 .fade.in {
   opacity: 1;
 }
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
   display: none !important;
 }

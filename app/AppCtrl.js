@@ -6,14 +6,30 @@
    * @description Main controler for the entire app
    * @ngInject
    */
-  function AppCtrl(UserService, UrlService, LocaleService, MessageHandler,
-      gettextCatalog, StringUtil) {
-    this.settings = UserService.settings;
+  function AppCtrl($scope, UserService, UrlService, LocaleService,
+    MessageHandler, gettextCatalog, StringUtil) {
     var appCtrl = this,
       defaultLocale = {
       'localeId' : 'en',
       'displayName' : 'English'
       };
+
+    appCtrl.settings = UserService.settings;
+    appCtrl.loading = true;
+
+    $scope.$on('$stateChangeStart', function(event, toState) {
+        appCtrl.loading = true;
+        if (toState.resolve) {
+          // TODO: Move to here
+        }
+    });
+
+    $scope.$on('$stateChangeSuccess', function(event, toState) {
+        appCtrl.loading = false;
+        if (toState.resolve) {
+          // TODO: Move to here
+        }
+    });
 
     appCtrl.uiLocaleList = [ defaultLocale ];
 

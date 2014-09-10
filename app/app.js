@@ -12,6 +12,7 @@
         'cfp.hotkeys',
         'monospaced.elastic',
         'ngResource',
+        'ngAnimate',
         'gettext'
       ]).config(
       function($stateProvider, $urlRouterProvider, $httpProvider) {
