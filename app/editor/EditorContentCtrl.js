@@ -32,5 +32,7 @@
     return editorContentCtrl;
   }
 
-  angular.module('app').controller('EditorContentCtrl', EditorContentCtrl);
+  angular
+    .module('app')
+    .controller('EditorContentCtrl', EditorContentCtrl);
 })();
