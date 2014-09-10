@@ -43,17 +43,29 @@
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
-          .state('editor-default', {
+          .state('editor', {
             url: '/:projectSlug/:versionSlug',
-            templateUrl: function($stateParams) {
-              console.debug($stateParams);
-              return 'editor/editor.html';
+            views: {
+              'editor': {
+                templateUrl: 'editor/editor.html',
+                controller: 'EditorCtrl as editor'
+              }
             }
-          }).state('editor-preselected', {
-            url: '/:projectSlug/:versionSlug/:docId/:localeId',
-            templateUrl: function($stateParams) {
-              console.debug($stateParams);
-              return 'editor/editor.html';
+          }).state('editor.selected', {
+            url: '/:docId/:localeId',
+            views: {
+              'editor-content': {
+                templateUrl: 'editor/editor-content.html',
+                controller: 'EditorContentCtrl as editorContent'
+              },
+              'editor-suggestions': {
+                templateUrl: 'editor/editor-suggestions.html',
+                controller: 'EditorSuggestionsCtrl as editorSuggestions'
+              },
+              'editor-details': {
+                templateUrl: 'editor/editor-details.html',
+                controller: 'EditorDetailsCtrl as editorDetails'
+              }
             }
           });
 

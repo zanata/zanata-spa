@@ -54,24 +54,23 @@
         });
 
     // On UI locale changes
-    appCtrl.onChangeUILocale = function() {
-      if (appCtrl.myInfo) {
-        var uiLocaleId = appCtrl.myInfo.locale.localeId;
-        if (!StringUtil.startsWith(uiLocaleId, defaultLocale.localeId, true)) {
-          gettextCatalog.loadRemote(UrlService.translationURL(uiLocaleId))
-              .then(
-                  function() {
-                    gettextCatalog.setCurrentLanguage(uiLocaleId);
-                  },
-                  function(error) {
-                    MessageHandler.displayInfo('Error changing UI locale. ' +
-                      'Default to \'English\':' + error);
-                    gettextCatalog.setCurrentLanguage(defaultLocale);
-                    appCtrl.myInfo.locale = defaultLocale;
-                  });
-        } else {
-          gettextCatalog.setCurrentLanguage(defaultLocale.localeId);
-        }
+    appCtrl.onChangeUILocale = function(locale) {
+      appCtrl.myInfo.locale = locale;
+      var uiLocaleId = appCtrl.myInfo.locale.localeId;
+      if (!StringUtil.startsWith(uiLocaleId, defaultLocale.localeId, true)) {
+        gettextCatalog.loadRemote(UrlService.translationURL(uiLocaleId))
+            .then(
+                function() {
+                  gettextCatalog.setCurrentLanguage(uiLocaleId);
+                },
+                function(error) {
+                  MessageHandler.displayInfo('Error changing UI locale. ' +
+                    'Default to \'English\':' + error);
+                  gettextCatalog.setCurrentLanguage(defaultLocale);
+                  appCtrl.myInfo.locale = defaultLocale;
+                });
+      } else {
+        gettextCatalog.setCurrentLanguage(defaultLocale.localeId);
       }
     };
   }

@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "angular": "~1.2.14",
+    "modernizr": "~2.8.3",
     "highlightjs": "~8.0.0",
     "angular-elastic": "~2.3.2",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.2.3",
@@ -31,6 +32,11 @@
         "./php/master/assets/fonts/zanata/*",
         "./php/master/assets/img/*",
         "./php/master/assets/img/logo/*"
+      ]
+    },
+    "modernizr": {
+      "main": [
+        "modernizr.js"
       ]
     },
     "angular-hotkeys": {
