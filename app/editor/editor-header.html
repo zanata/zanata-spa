@@ -1,7 +1,13 @@
-<header role="banner" class="header-banner">
+<a href="/" class="Editor-loader"
+  ng-class="{'is-minimised': editor.settings.hideMainNav}">
+  <logo-loader loading="app.loading"
+               inverted="editor.settings.hideMainNav"
+               ng-click="app.loading = !app.loading"/>
+</a>
+<header role="banner" class="header-banner Editor-header"
+  ng-class="{'is-minimised': editor.settings.hideMainNav}">
   <nav role="navigation"
-    class="p-relative txt--align-center txt--align-center-s"
-    ng-class="{'is-hidden': editor.settings.hideMainNav}">
+    class="Editor-mainNav p-relative txt--align-center txt--align-center-s">
     <div class="p-absolute-left">
       <a
         href="/projects/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}"
@@ -49,9 +55,6 @@
         </li>
       </ul>
     </div>
-    <a href="/">
-      <logo-loader loading="app.loading" ng-click="app.loading = !app.loading"/>
-    </a>
     <ul class="list--inline p-absolute-right l--push-right-half">
       <li>
         <dropdown class="dropdown">
@@ -67,13 +70,7 @@
             </li>
           </ul>
         </dropdown>
-
       </li>
-
-      <li class="is-hidden--s"><a href="settings"
-        class="link--invert header-banner__item w--r-1h"
-        title="{{'Editor Settings'|translate}}"><i class="i i--large i--settings"></i><span
-        class="is-sr-only" translate> Settings</span></a></li>
       <li>
         <button class="button--link link--invert header-banner__item w--r-1h"
           title="{{'More'|translate}}"><i class="i i--large i--ellipsis"></i><span
@@ -131,7 +128,7 @@
       </li>
     </ul>
     <div class="l--float-right">
-      <ul class="list--inline">
+      <ul class="list--inline txt--align-center">
         <li>
           <button class="button--link link--neutral h--1h w--r-1h"
             title="{{'Translation Memory'|translate}}"><i
@@ -147,6 +144,11 @@
           <button class="button--link link--neutral h--1h w--r-1h"
             title="{{'Glossary'|translate}}"><i class="i i--large i--glossary"></i><span
             class="is-sr-only" translate>Glossary</span></button>
+        </li>
+        <li>
+          <button class="button--link link--neutral h--1h w--r-1h"
+          title="{{'Editor Settings'|translate}}"><i class="i i--large i--settings"></i><span
+          class="is-sr-only" translate>Settings</span></button>
         </li>
         <li>
           <button class="button--link link--neutral h--1h w--r-1h"

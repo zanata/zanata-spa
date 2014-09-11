@@ -1,5 +1,5 @@
 <main role="main">
-  <ul class="editor__content list--no-bullets">
+  <ul class="Editor-content u-listUnstyled" ng-class="{'is-maximised': editor.settings.hideMainNav}">
     <li ng-repeat="phrase in editorContent.phrases">
       <div class="edit-item edit-item--{{ phrase.status }}"
         ng-class="phrase.classes">
