@@ -8,9 +8,10 @@
   function EditorSuggestionsCtrl() {
       var editorSuggestionsCtrl = this;
 
-
     return editorSuggestionsCtrl;
   }
 
-  angular.module('app').controller('EditorSuggestionsCtrl', EditorSuggestionsCtrl);
+  angular
+    .module('app')
+    .controller('EditorSuggestionsCtrl', EditorSuggestionsCtrl);
 })();

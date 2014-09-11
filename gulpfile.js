@@ -12,22 +12,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     modulizr = require('gulp-modulizr'),
     ngAnnotate = require('gulp-ng-annotate'),
     notify = require('gulp-notify'),
-    pathBuild = './build',
-    pathDeps = './bower_main',
-    pathCSSapp = './app/**/*.css',
-    pathCSSdeps = pathDeps + '/**/*.css',
-    pathFontdeps = pathDeps + '/**/fonts/**/*',
-    pathImages = ['./app/**/*.svg', './app/**/*.jpg', './app/**/*.png', './app/**/*.gif'],
-    pathImagedeps = pathDeps + '/**/img/**/*',
-    pathJSapp = ['./app/app.js','./app/**/*.js'], // Get app definition first
-    pathJSdeps = [pathDeps + '/**/angular.js', pathDeps + '/**/*.js'], // Get Angular first
-    pathModernizrSrc = pathDeps + '/modernizr/modernizr.js',
-    pathModernizrBuild = pathDeps + '/modernizr',
-    pathModernizrBuildName = 'modernizr-custom.js',
-    pathTemplates = ['!./app/index.html', './app/**/*.html'],
-    pathTranslationBuild = pathBuild + '/translations',
-    pathTranslationPo = './app/components/translations',
-    pathTranslationSrc = './app/**/*.html',
+    paths = require('./gulpfile.paths.js'),
     prefix = require('gulp-autoprefixer');
     rename = require('gulp-rename'),
     replace = require('gulp-replace-task'),
@@ -43,42 +28,64 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     uglify = require('gulp-uglify'),
     webserver = require('gulp-webserver');
 
-
 gulp.task('bowerClean', function() {
-  return gulp.src(pathDeps, { read: false })
+  return gulp.src(paths.bower, { read: false })
     .pipe(rimraf());
 });
 
 gulp.task('bowerMain', ['bowerClean'], function(){
   //concatenate vendor JS files
   return gulp.src(mainBowerFiles(), { base: './bower_components' })
-    .pipe(gulp.dest(pathDeps));
+    .pipe(gulp.dest(paths.bower));
 });
 
 gulp.task('css', function () {
 // Use this when CSS lives here
-  return gulp.src(pathCSSapp)
-    .pipe(gulp.dest(pathBuild + '/css'));
+  return gulp.src(paths.css.app)
+    .pipe(rework(
+      reworkNPM(),
+      reworkvars(),
+      reworkcalc,
+      reworkcolor,
+      reworkcustommedia,
+      reworkielimits,
+      suitconformance
+    ))
+    .pipe(prefix(
+      [
+        'Explorer >= 9',
+        'last 2 Chrome versions',
+        'last 2 Firefox versions',
+        'last 2 Safari versions',
+        'last 2 iOS versions',
+        'Android 4'
+      ],
+      { cascade: true }
+    ))
+    .pipe(gulp.dest(paths.build + '/css'))
+    .pipe(csso())
+    .pipe(rename('app.min.css'))
+    .pipe(gulp.dest(paths.build + '/css'));
 });
 
-gulp.task('cssDeps', ['bowerMain'], function(){
-  return gulp.src(pathCSSdeps)
+gulp.task('cssBower', ['bowerMain'], function(){
+  return gulp.src(paths.css.bower)
     .pipe(concat('libs.css'))
-    .pipe(gulp.dest(pathBuild + '/css'));
+    .pipe(gulp.dest(paths.build + '/css'));
 });
 
 gulp.task('js',function(){
-  return gulp.src(pathJSapp)
+  return gulp.src(paths.js.app)
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(ngAnnotate())
     .pipe(concat('app.js'))
     // .pipe(uglify())
-    .pipe(gulp.dest(pathBuild + '/js'));
+    .pipe(gulp.dest(paths.build + '/js'));
 });
 
 gulp.task('modernize', ['bowerMain'], function() {
-  return gulp.src(pathModernizrSrc)
+  return gulp.src(paths.modernizr.src)
     .pipe(modulizr([
       'csstransforms3d',
       'csstransforms',
@@ -86,59 +93,68 @@ gulp.task('modernize', ['bowerMain'], function() {
       'touch',
       'cssclasses'
     ]))
-    .pipe(rename(pathModernizrBuildName))
-    .pipe(gulp.dest(pathModernizrBuild));
+    .pipe(rename(paths.modernizr.buildName))
+    .pipe(gulp.dest(paths.modernizr.build));
 });
 
 // Remove full size modernizr so only custom remains
 gulp.task('removeModernizr', ['modernize'], function() {
-  return gulp.src(pathModernizrBuild + '/modernizr.js', { read: false })
+  return gulp.src(paths.modernizr.build + '/modernizr.js', { read: false })
     .pipe(rimraf());
 });
 
-gulp.task('jsDeps', ['bowerMain', 'removeModernizr'], function(){
+gulp.task('jsBower', ['bowerMain', 'removeModernizr'], function(){
   //concatenate vendor JS files
-  return gulp.src(pathJSdeps)
+  return gulp.src(paths.js.bower)
     .pipe(ngAnnotate())
     .pipe(concat('libs.js'))
     // .pipe(uglify())
-    .pipe(gulp.dest(pathBuild + '/js'));
+    .pipe(gulp.dest(paths.build + '/js'));
 });
 
-gulp.task('imageDeps', ['bowerMain'], function(){
-  return gulp.src(pathImagedeps)
+gulp.task('images', function(){
+  return gulp.src(paths.images.app)
+    // TODO Clean build first
+    .pipe(rename(function(path) {
+      path.dirname = path.dirname.replace('components/', '');
+    }))
+    .pipe(gulp.dest(paths.build + '/images'));
+});
+
+gulp.task('imagesBower', ['bowerMain'], function(){
+  return gulp.src(paths.images.bower)
     .pipe(rename(function(path) {
       path.dirname = path.dirname.replace('zanata-assets/php/master/assets/', '');
     }))
-    .pipe(gulp.dest(pathBuild));
+    .pipe(gulp.dest(paths.build));
 });
 
-gulp.task('fontDeps', ['bowerMain'], function(){
-  return gulp.src(pathFontdeps)
+gulp.task('fontsBower', ['bowerMain'], function(){
+  return gulp.src(paths.fonts.bower)
     .pipe(rename(function(path) {
       path.dirname = path.dirname.replace('zanata-assets/php/master/assets/', '');
     }))
-    .pipe(gulp.dest(pathBuild));
+    .pipe(gulp.dest(paths.build));
 });
 
 gulp.task('templates', function(){
   //combine all template files of the app into a js file
-  return gulp.src(pathTemplates)
+  return gulp.src(paths.templates)
     .pipe(angularTemplatecache('templates.js',{standalone:true}))
-    .pipe(gulp.dest(pathBuild + '/js'));
+    .pipe(gulp.dest(paths.build + '/js'));
 });
 
 gulp.task('generatePot', function () {
-  return gulp.src(pathTranslationSrc)
+  return gulp.src(paths.translations.src)
     .pipe(gettext.extract('template.pot', {
       // options to pass to angular-gettext-tools...
     }))
-    .pipe(gulp.dest(pathTranslationPo));
+    .pipe(gulp.dest(paths.translations.po));
 });
 
 gulp.task('filterPotAbsolutePath', ['generatePot'], function () {
   var regex = new RegExp(process.cwd() + '/', 'g');
-  gulp.src(pathTranslationPo + '/**/*.pot', {base: './'})
+  gulp.src(paths.translations.po + '/**/*.pot', {base: './'})
     .pipe(replace({
       patterns: [{
         match: regex,
@@ -149,19 +165,19 @@ gulp.task('filterPotAbsolutePath', ['generatePot'], function () {
 });
 
 gulp.task('translations', ['filterPotAbsolutePath'], function () {
-  return gulp.src(pathTranslationPo + '/**/*.po')
+  return gulp.src(paths.translations.po + '/**/*.po')
     .pipe(gettext.compile({
       format: 'json'
       // options to pass to angular-gettext-tools...
     }))
-    .pipe(gulp.dest(pathTranslationBuild))
+    .pipe(gulp.dest(paths.translations.build))
     .on('end', generateLocaleList);
 });
 
 
 function generateLocaleList() {
   var extension = 'json';
-  var files = fs.readdirSync(pathTranslationBuild).filter(
+  var files = fs.readdirSync(paths.translations.build).filter(
     function(file) {
       return file.indexOf(extension, file.length - extension.length) !== -1;
     });
@@ -175,18 +191,31 @@ function generateLocaleList() {
     }
   }
   contents = contents + ']}';
-  fs.writeFile(pathTranslationBuild + '/' + 'locales', contents, function (err) {
+  fs.writeFile(paths.translations.build + '/' + 'locales', contents, function (err) {
     if (err) throw err;
   });
 }
 
 gulp.task('copyIndex', function() {
-  return gulp.src('./app/index.html')
-    .pipe(gulp.dest('./build'));
+  return gulp.src(paths.app + '/index.html')
+    .pipe(gulp.dest(paths.build));
 });
 
-gulp.task('build', ['jsDeps', 'js', 'cssDeps', 'css', 'fontDeps', 'imageDeps',
-  'templates', 'copyIndex', 'generatePot', 'filterPotAbsolutePath', 'translations']);
+gulp.task('build',
+  [
+    'jsBower',
+    'js',
+    'cssBower',
+    'css',
+    'fontsBower',
+    'images',
+    'imagesBower',
+    'templates',
+    'copyIndex',
+    'generatePot',
+    'filterPotAbsolutePath',
+    'translations'
+  ]);
 
 gulp.task('webserver', ['build'], function() {
   gulp.src('build')
@@ -200,12 +229,15 @@ gulp.task('webserver', ['build'], function() {
 gulp.task('serve', ['webserver']);
 
 gulp.task('watch', ['serve'], function(){
-  gulp.watch(pathJSdeps, ['jsDeps']);
-  gulp.watch(pathJSapp, ['js']);
-  gulp.watch(pathCSSdeps, ['cssDeps']);
-  gulp.watch(pathCSSapp, ['css']);
-  gulp.watch(pathTemplates, ['templates']);
-  gulp.watch('./app/index.html', ['copyIndex']);
+  gulp.watch(paths.js.bower, ['jsBower']);
+  gulp.watch(paths.js.app, ['js']);
+  gulp.watch(paths.css.bower, ['cssBower']);
+  gulp.watch(paths.css.app, ['css']);
+  gulp.watch(paths.templates, ['templates']);
+  gulp.watch(paths.images.app, ['images']);
+  gulp.watch(paths.images.bower, ['imagesBower']);
+  gulp.watch(paths.fonts.bower, ['fontsBower']);
+  gulp.watch(paths.app + '/index.html', ['copyIndex']);
 });
 
-gulp.task('default',['build']);
+gulp.task('default', ['build']);

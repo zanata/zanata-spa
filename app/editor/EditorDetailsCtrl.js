@@ -12,5 +12,7 @@
     return editorDetailsCtrl;
   }
 
-  angular.module('app').controller('EditorDetailsCtrl', EditorDetailsCtrl);
+  angular
+    .module('app')
+    .controller('EditorDetailsCtrl', EditorDetailsCtrl);
 })();

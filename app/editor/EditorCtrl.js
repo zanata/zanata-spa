@@ -148,5 +148,7 @@
     this.settings = UserService.settings.editor;
   }
 
-  angular.module('app').controller('EditorCtrl', EditorCtrl);
+  angular
+    .module('app')
+    .controller('EditorCtrl', EditorCtrl);
 })();
