@@ -232,7 +232,7 @@ gulp.task('watch', ['serve'], function(){
   gulp.watch(paths.js.bower, ['jsBower']);
   gulp.watch(paths.js.app, ['js']);
   gulp.watch(paths.css.bower, ['cssBower']);
-  gulp.watch(paths.css.app, ['css']);
+  gulp.watch(paths.css.all, ['css']);
   gulp.watch(paths.templates, ['templates']);
   gulp.watch(paths.images.app, ['images']);
   gulp.watch(paths.images.bower, ['imagesBower']);
