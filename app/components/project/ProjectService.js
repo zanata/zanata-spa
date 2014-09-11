@@ -32,5 +32,7 @@
       getProjectInfo : getProjectInfo
     };
   }
-  angular.module('app').factory('ProjectService', ProjectService);
+  angular
+    .module('app')
+    .factory('ProjectService', ProjectService);
 })();

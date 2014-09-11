@@ -7,12 +7,29 @@ msgstr ""
 msgid "Approved"
 msgstr ""
 
+#: app/components/transUnit/tu-translation.html
+msgid "Cancel edit"
+msgstr ""
+
+#: app/components/transUnit/tu-translation.html
+msgid "Copy {{context.srcLocale.displayName}} ({{context.srcLocale.localeId}})"
+msgstr ""
+
 #: app/editor/editor-header.html
+#: app/components/transUnit/tu-source.html
 msgid "Details"
+msgstr ""
+
+#: app/components/transUnit/tu-source.html
+msgid "Do not translate"
 msgstr ""
 
 #: app/editor/editor-header.html
 msgid "Editor Settings"
+msgstr ""
+
+#: app/components/transUnit/tu-translation.html
+msgid "Enter a translation…"
 msgstr ""
 
 #: app/editor/editor-header.html
@@ -39,8 +56,20 @@ msgstr ""
 msgid "More filters"
 msgstr ""
 
+#: app/editor/editor-content.html
+msgid "No content"
+msgstr ""
+
 #: app/editor/editor-header.html
 msgid "Notifications"
+msgstr ""
+
+#: app/components/transUnit/tu-translation.html
+msgid "Save as translated"
+msgstr ""
+
+#: app/components/transUnit/tu-translation.html
+msgid "Save as…"
 msgstr ""
 
 #: app/editor/editor-header.html
@@ -64,6 +93,7 @@ msgid "Translating"
 msgstr ""
 
 #: app/editor/editor-header.html
+#: app/components/transUnit/tu-translation.html
 msgid "Translation Memory"
 msgstr ""
 

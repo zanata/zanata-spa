@@ -1,0 +1,21 @@
+<div class="edit-item__panel edit-item__source">
+  <div class="edit-item__panel-header">
+    <h3 class="edit-item__heading">{{context.srcLocale.displayName}} <span
+      class="txt--muted txt--uppercase">{{context.srcLocale.localeId}}</span>
+    </h3>
+    <ul class="edit-item__panel-header-actions list--inline">
+      <li>
+        <button class="button--link link--neutral h--1h w--r-1h"
+          title="{{'Do not translate'|translate}}"><i class="i i--large i--block"></i><span
+          class="is-sr-only" translate>Do not translate</span></button>
+      </li>
+    </ul>
+  </div>
+  <div match-height-target class="edit-item__text" ng-bind="phrase.source"></div>
+  <div class="edit-item__panel-footer is-hidden--s">
+    <div class="h--1h">
+      <button class="button--link link--neutral h--1h w--r-1h"
+        title="{{'Details'|translate}}"><i class="i i--large i--info"></i></button>
+    </div>
+  </div>
+</div>

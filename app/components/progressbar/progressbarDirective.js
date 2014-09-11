@@ -66,7 +66,8 @@
     return percent;
   }
 
-  angular.module('app')
+  angular
+    .module('app')
     .directive('progressbar', progressbar);
 
 })();

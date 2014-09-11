@@ -19,5 +19,7 @@
       }
     };
   }
-  angular.module('app').factory('MessageHandler', MessageHandler);
+  angular
+    .module('app')
+    .factory('MessageHandler', MessageHandler);
 })();

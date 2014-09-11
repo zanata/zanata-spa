@@ -18,7 +18,6 @@
      * @param localeId
      */
     function loadPhases(projectSlug, versionSlug, docId, localeId) {
-
       PhraseService.findAll(limit, projectSlug, versionSlug, docId, localeId)
         .then(function(phrases) {
           editorContentCtrl.phrases = phrases;

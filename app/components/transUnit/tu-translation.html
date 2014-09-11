@@ -1,0 +1,51 @@
+<div class="edit-item__panel edit-item__translation">
+  <div class="edit-item__panel-header">
+    <h3 class="edit-item__heading">{{context.locale.displayName}} <span
+      class="txt--muted txt--uppercase">{{context.locale.localeId}}</span></h3>
+    <ul class="edit-item__panel-header-actions list--inline">
+      <li>
+        <button class="button--link link--neutral h--1h w--r-1h"
+          title="Copy {{context.srcLocale.displayName}} ({{context.srcLocale.localeId}})"><i class="i i--large i--copy"></i>
+          <span class="is-sr-only" translate>Copy {{context.srcLocale.displayName}} ({{context.srcLocale.localeId}})</span>
+        </button>
+      </li>
+      <li>
+        <button class="button--link link--neutral h--1h w--r-1h"
+          title="{{'Cancel edit'|translate}}"><i
+          class="i i--large i--cancel"></i><span class="is-sr-only" translate>Cancel edit</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+  <textarea msd-elastic match-height-source
+    ng-model="phrase.translation" class="edit-item__text" rows="1"
+    placeholder="{{'Enter a translation…'|translate}}"></textarea>
+
+  <div class="edit-item__panel-footer l--cf-of">
+    <div class="l--float-left h--1h">
+      <ul class="list--inline">
+        <li class="is-hidden--m-up">
+          <button class="button--link link--neutral h--1h w--r-1h"
+            title="Details"><i class="i i--large i--info"></i>
+          </button>
+        </li>
+        <li>
+          <button class="button--link link--neutral h--1h w--r-1h"
+            title="{{'Translation Memory'|translate}}"><i
+            class="i i--large i--suggestion"></i><span
+            class="is-sr-only" translate>Translation Memory</span></button>
+        </li>
+      </ul>
+    </div>
+    <div class="l--float-right">
+      <div class="button--group">
+        <button class="button button--flat button--success h--1h"
+          title="Ctrl + Enter" translate>Save as translated
+        </button>
+        <button class="button button--flat button--success h--1h "
+          title="{{'Save as…'|translate}}"><i class="i i--arrow-down"></i><span
+          class="is-sr-only" translate>Save as…</span></button>
+      </div>
+    </div>
+  </div>
+</div>
