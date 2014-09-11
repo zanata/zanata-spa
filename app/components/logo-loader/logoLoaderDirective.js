@@ -14,15 +14,25 @@
     return {
       restrict: 'EA',
       scope: {
-        loading: '='
+        loading: '=',
+        inverted: '='
       },
       link: function($scope) {
+        $scope.classes = '';
         $scope.$watch('loading', function(newLoading) {
           if (newLoading) {
-            $scope.classes = 'is-loading';
+            $scope.classes += ' is-loading';
           }
           else {
-            $scope.classes = '';
+            $scope.classes = $scope.classes.replace('is-loading', '');
+          }
+        });
+        $scope.$watch('inverted', function(newInverted) {
+          if (newInverted) {
+            $scope.classes += ' LogoLoader--inverted';
+          }
+          else {
+            $scope.classes = $scope.classes.replace('LogoLoader--inverted', '');
           }
         });
       },

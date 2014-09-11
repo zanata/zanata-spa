@@ -1,9 +1,26 @@
+:root {
+  --rhythm: 1.5rem;
+  --color-logo: #4A9DDF;
+  --color-bg: #FFFFFF;
+  --color-logo-invert: var(--color-bg);
+  --color-bg-invert: var(--color-logo);
+  --transition-ease-out-back: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
 
 .LogoLoader {
   position: relative;
   border-radius: 100px;
-  background-color: #ffffff;
+  background-color: var(--color-bg);
   overflow: hidden;
+  display: inline-block;
+  height: calc(var(--rhythm) * 1.5);
+  width: calc(var(--rhythm) * 1.5);
+  color: var(--color-logo);
+}
+
+.LogoLoader--inverted {
+  color: var(--color-logo-invert);
+  background-color: var(--color-bg-invert);
 }
 
 .LogoLoader.is-loading {
@@ -16,8 +33,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.320, 1.275);
-  transform: scale3d(1,1,1);
+  transition: all 0.25s var(--transition-ease-out-back);
+  transform: scale(1,1);
+  fill: currentColor;
 }
 
 .LogoLoader-logo {
@@ -25,23 +43,35 @@
   opacity: 1;
 }
 
+.LogoLoader:hover .LogoLoader-logo {
+  animation: pop .3s var(--transition-ease-out-back);
+  animation-direction: alternate;
+  animation-iteration-count: 2;
+}
+
 .LogoLoader.is-loading .LogoLoader-logo {
   opacity: 0;
-  transform: scale3d(0,0,1);
+  transform: scale(0,0);
 }
 
 .LogoLoader-loader {
   opacity: 0;
-  transform: scale3d(2.5,2.5,1);
+  transform: scale(2.5,2.5);
 }
 
 .LogoLoader.is-loading .LogoLoader-loader {
   opacity: 1;
-  transform: scale3d(1,1,1);
+  transform: scale(1,1);
 }
 
 @keyframes rotate {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes pop {
+  to {
+    transform: scale(1.2, 1.2) rotate(15deg);
   }
 }

@@ -1,4 +1,31 @@
-@import "./components/logo-loader/logo-loader.css";
+/**
+ * Utils
+ */
+
+@import './components/utils-list/list.css';
+
+
+/**
+ * Components
+ */
+
+@import './components/logo-loader/logo-loader.css';
+
+
+/**
+ * Views
+ */
+
+@import './editor/editor.css';
+
+
+/**
+ * Theme
+ */
+
+@import './components/theme/theme.css';
+@import './components/theme/theme-map.css';
+
 
 /*Fix for hotkeys*/
 

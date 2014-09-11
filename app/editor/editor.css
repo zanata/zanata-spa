@@ -1,0 +1,94 @@
+/** @define Editor; use strict */
+
+:root {
+  --rhythm: 1.5rem;
+  --transition-ease-out-back: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
+
+.Editor {
+  overflow: hidden;
+}
+
+.Editor-header,
+.Editor-loader,
+.Editor-content {
+  transition: .2s all var(--transition-ease-out-back);
+}
+
+.Editor-header.is-minimised {
+  transform: translateY(calc(var(--rhythm) * -2));
+}
+
+.Editor-loader {
+  position: absolute;
+  z-index: 500;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, calc(var(--rhythm) * .25));
+}
+
+.Editor-loader.is-minimised {
+  transform: translateX(-50%) scale(.75, .75);
+}
+
+.Editor-mainNav {
+  height: calc(var(--rhythm) * 2);
+}
+
+.Editor-content {
+  position: fixed;
+  top: calc(var(--rhythm) * 3.5);
+  bottom: 0;
+  overflow: auto;
+  width: 100%;
+  /*TODO: Remove important;*/
+  padding: calc(var(--rhythm) * .5) 0 calc(var(--rhythm) * .5) !important;
+  -webkit-overlow-scrolling: touch;
+}
+
+.Editor-content.is-maximised {
+  transform: translateY(calc(var(--rhythm) * -2));
+  bottom: calc(var(--rhythm) * -2);
+}
+
+.Editor-currentDoc {
+  max-width: calc(var(--rhythm) * 3.5);
+}
+
+.Editor-currentLang {
+  max-width: calc(var(--rhythm) * 3.5);
+}
+
+/**
+ * Media Queries
+ */
+
+@media (--sm-viewport) {
+
+  .Editor-currentProject {
+    max-width: calc(var(--rhythm) * 3.5);
+  }
+
+}
+
+@media (--gtmd-viewport) {
+
+  .Editor-content {
+    background-repeat: repeat-y;
+    background-image: url('../images/editor/editor-bg.gif');
+    background-position: center center;
+  }
+
+  .is-horizontal-editor .Editor-content:before {
+    left: 50%;
+    margin-left: calc(var(--rhythm) * -.5);
+  }
+
+  .is-horizontal-editor .Editor-content:after {
+    width: 50%;
+    right: 0;
+    background-color: #fff;
+    z-index: -1;
+  }
+
+}

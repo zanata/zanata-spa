@@ -8,6 +8,7 @@ paths.app = './app',
 paths.build =  './build';
 paths.bower = './bower_main';
 paths.css = {
+  all: paths.app + '/**/*.css',
   app: paths.app + '/app.css',
   bower: paths.bower + '/**/*.css',
 };

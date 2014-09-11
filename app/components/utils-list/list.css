@@ -1,0 +1,55 @@
+/** @define util-lists; use strict */
+
+/**
+ * Definition lists
+ *
+ * Remove default styling
+ */
+
+.u-dlUnstyled > dd {
+  margin-left: 0 !important;
+}
+
+/**
+ * Display definition lists inline
+ */
+
+.u-dlInline dt,
+.u-dlInline dd {
+  display: inline-block !important;
+  margin-left: 0 !important;
+  margin-right: 3px !important;
+}
+
+/**
+ * Standard lists
+ *
+ * Remove default styling
+ */
+
+.u-listUnstyled {
+  padding-left: 0 !important;
+  margin-bottom: 0 !important;
+  list-style: none !important;
+}
+
+.u-listUnstyled > li {
+  margin-left: 0 !important;
+  list-style: none !important;
+}
+
+/**
+ * Display list items inline
+ */
+
+.u-listInline {
+  padding-left: 0 !important;
+  margin-left: -5px !important;
+  list-style: none !important;
+}
+
+.u-listInline > li {
+  display: inline-block !important;
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+}
