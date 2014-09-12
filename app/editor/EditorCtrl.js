@@ -6,15 +6,17 @@
    * @ngInject
    */
   function EditorCtrl(UserService, DocumentService, LocaleService,
-                      ProjectService, StatisticUtil, $stateParams,
-                      $state, MessageHandler) {
+                      ProjectService, TransUnitService, StatisticUtil,
+                      $stateParams, $state, MessageHandler) {
     var editorCtrl = this;
+
+    //Need to inject all service class needed for this application (initialised)
 
     //TODO: cross domain rest
     //TODO: Unit test
 
-    //Working URL: http://localhost:8000/#/tiny-project/1 or
-    // http://localhost:8000/#/tiny-project/1?docId=hello.txt&localeId=fr
+    //Working URL: http://localhost:8000/#/tiny-project/1/translate or
+    // http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr
 
     editorCtrl.context = UserService.editorContext($stateParams.projectSlug,
         $stateParams.versionSlug, '', LocaleService.DEFAULT_LOCALE,

@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   /**
@@ -8,17 +8,17 @@
    */
   function transUnit() {
     return {
-      restrict : 'E',
-      replace : true,
-      required : ['phrase', 'editorContext'],
-      scope : {
-        phrase : '=',
+      restrict: 'E',
+      replace: true,
+      required: ['phrase', 'editorContext'],
+      scope: {
+        phrase: '=',
         editorContext: '='
       },
-      templateUrl : 'components/transUnit/transUnit.html'
+      controller: 'TransUnitCtrl',
+      templateUrl: 'components/transUnit/trans-unit.html'
     };
   }
-
 
   /**
    * @name trans-unit-source
@@ -27,14 +27,16 @@
    */
   function transUnitSource() {
     return {
-      restrict : 'E',
-      replace : true,
-      required : ['phrase', 'context'],
-      scope : {
-        phrase : '=',
-        context : '='
+      restrict: 'E',
+      replace: true,
+      require: '?^transUnit',
+      required: ['phrase', 'context', 'selected'],
+      scope: {
+        phrase: '=',
+        context: '=',
+        selected: '='
       },
-      templateUrl : 'components/transUnit/tu-source.html'
+      templateUrl: 'components/transUnit/source/source.html'
     };
   }
 
@@ -45,13 +47,14 @@
    */
   function transUnitStatus() {
     return {
-      restrict : 'E',
-      replace : true,
-      required : 'phrase',
-      scope : {
-        phrase : '='
+      restrict: 'E',
+      replace: true,
+      require: '?^transUnit',
+      required: 'phrase',
+      scope: {
+        phrase: '='
       },
-      templateUrl : 'components/transUnit/tu-status.html'
+      templateUrl: 'components/transUnit/tu-status.html'
     };
   }
 
@@ -62,14 +65,17 @@
    */
   function transUnitTranslation() {
     return {
-      restrict : 'E',
-      replace : true,
-      required : ['phrase', 'context'],
-      scope : {
-        phrase : '=',
-        context : '='
+      restrict: 'E',
+      replace: true,
+      require: '?^transUnit',
+      required: ['phrase', 'context'],
+      scope: {
+        phrase: '=',
+        context: '=',
+        selected: '='
       },
-      templateUrl : 'components/transUnit/tu-translation.html'
+      controller: 'TranslationCtrl',
+      templateUrl: 'components/transUnit/translation/translation.html'
     };
   }
 

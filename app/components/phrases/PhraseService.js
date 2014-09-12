@@ -93,7 +93,7 @@ function PhraseService ($q, $filter, $resource, UrlService) {
         return id.indexOf('$') === -1;
       });
 
-      ids.forEach(function (id, index) {
+      ids.forEach(function (id) {
         var textFlow = textFlows[id],
             source = textFlow.source,
             trans = textFlow[locale];
@@ -102,9 +102,8 @@ function PhraseService ($q, $filter, $resource, UrlService) {
           // TODO handle plural content
           source: source.content,
           translation: trans ? trans.content : '',
-          status: trans ? trans.state : 'Untranslated',
-          // TODO handle focus elsewhere.
-          classes: [index === 1 ? 'is-focused' : 'is-unfocused']
+          newTranslation: trans ? trans.content : '',
+          status: trans ? trans.state : 'Untranslated'
         });
       });
       return phrases;
