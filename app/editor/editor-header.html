@@ -29,7 +29,7 @@
             </a>
             <ul class="dropdown__content">
               <li ng-repeat="doc in editor.documents">
-                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/{{doc.name}}/{{editor.context.locale.localeId}}"
+                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{doc.name}}/{{editor.context.locale.localeId}}"
                   ng-click="editor.updateSelectedDoc(doc)">
                   <span ng-bind="doc.name"></span>
                 </a>
@@ -45,7 +45,7 @@
             </a>
             <ul class="dropdown__content">
               <li ng-repeat="locale in editor.locales">
-                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/{{editor.context.document.name}}/{{locale.localeId}}"
+                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.context.document.name}}/{{locale.localeId}}"
                   ng-click="editor.updateSelectedLocale(locale)">
                   <span ng-bind="locale.displayName"></span>
                 </a>
@@ -84,8 +84,7 @@
       </li>
       <li>
         <a href="/dashboard" class="h--2 w--r-1h" title={{app.myInfo.name}}>
-          <img class="bx--round header__avatar"
-            src="{{app.gravatarUrl}}"/>
+          <img class="bx--round header__avatar" ng-src="{{app.myInfo.gravatarUrl}}"/>
         </a>
       </li>
     </ul>

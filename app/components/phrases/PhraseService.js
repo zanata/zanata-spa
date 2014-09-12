@@ -83,7 +83,6 @@ function PhraseService ($q, $filter, $resource, UrlService) {
      * editor.
      */
     function transformToPhrases(textFlows) {
-
       // TODO caching textFlow data in a smart cache when it arrives.
 
       var phrases = [];
@@ -111,16 +110,6 @@ function PhraseService ($q, $filter, $resource, UrlService) {
       return phrases;
     }
   };
-
-
-  // Does not appear to be used anywhere. Removing until phrase-caching code is
-  // added.
-  // phraseService.findById = function(phraseId) {
-  //   var deferred = $q.defer();
-  //   var phrase = phrases[phraseId];
-  //   deferred.resolve(phrase);
-  //   return deferred.promise;
-  // };
 
   return phraseService;
 }

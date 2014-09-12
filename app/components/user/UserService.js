@@ -35,11 +35,12 @@
       },
 
       editorContext: function(projectSlug, versionSlug, document,
-                              locale, mode) {
+                              srcLocale, locale, mode) {
         return {
           projectSlug: projectSlug,
           versionSlug: versionSlug,
           document: document,
+          srcLocale: srcLocale,
           locale: locale,
           mode: mode // READ_WRITE, READ_ONLY, REVIEW
         };
@@ -48,5 +49,7 @@
       getMyInfo : getMyInfo
     };
   }
-  angular.module('app').factory('UserService', UserService);
+  angular
+    .module('app')
+    .factory('UserService', UserService);
 })();

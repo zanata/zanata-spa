@@ -17,7 +17,8 @@
     // http://localhost:8000/#/tiny-project/1?docId=hello.txt&localeId=fr
 
     editorCtrl.context = UserService.editorContext($stateParams.projectSlug,
-        $stateParams.versionSlug, '', '', 'READ_WRITE');
+        $stateParams.versionSlug, '', LocaleService.DEFAULT_LOCALE,
+      '', 'READ_WRITE');
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
         function(projectInfo) {

@@ -55,9 +55,15 @@
     return {
       getSupportedLocales: getSupportedLocales,
       getUILocaleList: getUILocaleList,
-      getLocaleByLocaleId: getLocaleByLocaleId
+      getLocaleByLocaleId: getLocaleByLocaleId,
+      DEFAULT_LOCALE: {
+        'localeId' : 'en',
+        'displayName' : 'English'
+      }
     };
   }
 
-  angular.module('app').factory('LocaleService', LocaleService);
+  angular
+    .module('app')
+    .factory('LocaleService', LocaleService);
 })();

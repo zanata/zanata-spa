@@ -12,5 +12,7 @@
 
     }
 
-    angular.module('app').factory('NotificationService', NotificationService);
+    angular
+      .module('app')
+      .factory('NotificationService', NotificationService);
 })();

@@ -32,5 +32,7 @@
       equals : equals
     };
   }
-  angular.module('app').factory('StringUtil', StringUtil);
+  angular
+    .module('app')
+    .factory('StringUtil', StringUtil);
 })();

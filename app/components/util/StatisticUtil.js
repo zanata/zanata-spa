@@ -19,5 +19,7 @@
       }
     };
   }
-  angular.module('app').factory('StatisticUtil', StatisticUtil);
+  angular
+    .module('app')
+    .factory('StatisticUtil', StatisticUtil);
 })();

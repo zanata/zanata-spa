@@ -83,5 +83,7 @@
     }
   }
 
-  angular.module('app').factory('UrlService', UrlService);
+  angular
+    .module('app')
+    .factory('UrlService', UrlService);
 })();

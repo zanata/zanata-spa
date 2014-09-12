@@ -88,5 +88,7 @@
     };
   }
 
-  angular.module('app').factory('DocumentService', DocumentService);
+  angular
+    .module('app')
+    .factory('DocumentService', DocumentService);
 })();
