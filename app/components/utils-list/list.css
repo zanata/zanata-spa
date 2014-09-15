@@ -17,8 +17,8 @@
 .u-dlInline dt,
 .u-dlInline dd {
   display: inline-block !important;
-  margin-left: 0 !important;
   margin-right: 3px !important;
+  margin-left: 0 !important;
 }
 
 /**
@@ -28,8 +28,8 @@
  */
 
 .u-listUnstyled {
-  padding-left: 0 !important;
   margin-bottom: 0 !important;
+  padding-left: 0 !important;
   list-style: none !important;
 }
 
@@ -43,8 +43,8 @@
  */
 
 .u-listInline {
-  padding-left: 0 !important;
   margin-left: -5px !important;
+  padding-left: 0 !important;
   list-style: none !important;
 }
 

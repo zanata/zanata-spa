@@ -1,21 +1,21 @@
 :root {
   --rhythm: 1.5rem;
-  --color-logo: #4A9DDF;
-  --color-bg: #FFFFFF;
+  --color-logo: #4a9ddf;
+  --color-bg: #fff;
   --color-logo-invert: var(--color-bg);
   --color-bg-invert: var(--color-logo);
-  --transition-ease-out-back: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  --transition-ease-out-back: cubic-bezier(.175, .885, .320, 1.275);
 }
 
 .LogoLoader {
   position: relative;
+  display: inline-block;
+  overflow: hidden;
+  width: calc(var(--rhythm) * 1.5);
+  height: calc(var(--rhythm) * 1.5);
+  color: var(--color-logo);
   border-radius: 100px;
   background-color: var(--color-bg);
-  overflow: hidden;
-  display: inline-block;
-  height: calc(var(--rhythm) * 1.5);
-  width: calc(var(--rhythm) * 1.5);
-  color: var(--color-logo);
 }
 
 .LogoLoader--inverted {
@@ -33,8 +33,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  transition: all 0.25s var(--transition-ease-out-back);
+  transition: all .25s var(--transition-ease-out-back);
   transform: scale(1,1);
+
   fill: currentColor;
 }
 
@@ -45,23 +46,23 @@
 
 .LogoLoader:hover .LogoLoader-logo {
   animation: pop .3s var(--transition-ease-out-back);
-  animation-direction: alternate;
   animation-iteration-count: 2;
+  animation-direction: alternate;
 }
 
 .LogoLoader.is-loading .LogoLoader-logo {
-  opacity: 0;
   transform: scale(0,0);
+  opacity: 0;
 }
 
 .LogoLoader-loader {
-  opacity: 0;
   transform: scale(2.5,2.5);
+  opacity: 0;
 }
 
 .LogoLoader.is-loading .LogoLoader-loader {
-  opacity: 1;
   transform: scale(1,1);
+  opacity: 1;
 }
 
 @keyframes rotate {

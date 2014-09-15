@@ -8,39 +8,37 @@
    */
   function AppCtrl($scope, UserService, UrlService, LocaleService,
                    MessageHandler, gettextCatalog, StringUtil) {
-    this.settings = UserService.settings;
     var appCtrl = this;
 
-    appCtrl.uiLocaleList = [ LocaleService.DEFAULT_LOCALE ];
-
     appCtrl.settings = UserService.settings;
+    appCtrl.uiLocaleList = [ LocaleService.DEFAULT_LOCALE ];
     appCtrl.loading = true;
 
     $scope.$on('$stateChangeStart', function(event, toState) {
-        appCtrl.loading = true;
-        if (toState.resolve) {
-          // TODO: Move to here
-        }
+      appCtrl.loading = true;
+      if (toState.resolve) {
+        // TODO: Move to here
+      }
     });
 
     $scope.$on('$stateChangeSuccess', function(event, toState) {
-        appCtrl.loading = false;
-        if (toState.resolve) {
-          // TODO: Move to here
-        }
+      appCtrl.loading = false;
+      if (toState.resolve) {
+        // TODO: Move to here
+      }
     });
 
     UserService.getMyInfo().then(
-        function(myInfo) {
-          appCtrl.myInfo = myInfo;
-          appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE;
-          appCtrl.myInfo.gravatarUrl = UrlService.gravatarUrl(
-              appCtrl.myInfo.gravatarHash, 72);
+      function(myInfo) {
+        appCtrl.myInfo = myInfo;
+        appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE;
+        appCtrl.myInfo.gravatarUrl = UrlService.gravatarUrl(
+          appCtrl.myInfo.gravatarHash, 72);
 
-          loadUILocale();
-        }, function(error) {
-          MessageHandler.displayInfo('Error loading my info: ' + error);
-        });
+        loadUILocale();
+      }, function(error) {
+        MessageHandler.displayInfo('Error loading my info: ' + error);
+      });
 
     // On UI locale changes listener
     appCtrl.onChangeUILocale = function(locale) {
@@ -113,7 +111,7 @@
       return function(promise) {
         return promise.then(success, error);
       };
-    } ];
+    }];
 
     $httpProvider.responseInterceptors.push(interceptor);
 
@@ -147,8 +145,8 @@
         }
       });
 
-//        $locationProvider.html5Mode(true);
-    //   .hashPrefix('!');
+  //   $locationProvider.html5Mode(true);
+  //     .hashPrefix('!');
 
   };
 

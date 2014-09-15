@@ -6,7 +6,6 @@
    * @ngInject
    */
   function MessageHandler() {
-
     return {
       displayError: function(msg) {
         console.error(msg);
@@ -19,7 +18,9 @@
       }
     };
   }
+
   angular
     .module('app')
     .factory('MessageHandler', MessageHandler);
+
 })();

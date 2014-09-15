@@ -8,10 +8,10 @@
 
     function getUserInfo(username) {
       var UserInfo = $resource(UrlService.USER_INFO_URL, {}, {
-        query : {
-          method : 'GET',
-          params : {
-            username : username
+        query: {
+          method: 'GET',
+          params: {
+            username: username
           }
         }
       });
@@ -20,8 +20,8 @@
 
     function getMyInfo() {
       var MyInfo = $resource(UrlService.MY_INFO_URL, {}, {
-        query : {
-          method : 'GET'
+        query: {
+          method: 'GET'
         }
       });
       return MyInfo.query().$promise;
@@ -35,18 +35,17 @@
       },
 
       editorContext: function(projectSlug, versionSlug, document,
-                              srcLocale, locale, mode) {
+        locale, mode) {
         return {
           projectSlug: projectSlug,
           versionSlug: versionSlug,
           document: document,
-          srcLocale: srcLocale,
           locale: locale,
           mode: mode // READ_WRITE, READ_ONLY, REVIEW
         };
       },
-      getUserInfo : getUserInfo,
-      getMyInfo : getMyInfo
+      getUserInfo: getUserInfo,
+      getMyInfo: getMyInfo
     };
   }
   angular

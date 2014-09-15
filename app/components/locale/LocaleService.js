@@ -1,4 +1,3 @@
-
 (function() {
   'use strict';
 
@@ -18,34 +17,32 @@
      */
     function getSupportedLocales(projectSlug, versionSlug) {
 
-      var Locales = $resource(UrlService.LOCALE_LIST_URL, {},
-        {
-          query: {
-            method: 'GET',
-            params: {
-              projectSlug: projectSlug,
-              versionSlug: versionSlug
-            },
-            isArray: true
-          }
-        });
+      var Locales = $resource(UrlService.LOCALE_LIST_URL, {}, {
+        query: {
+          method: 'GET',
+          params: {
+            projectSlug: projectSlug,
+            versionSlug: versionSlug
+          },
+          isArray: true
+        }
+      });
 
       return Locales.query().$promise;
     }
 
     function getUILocaleList() {
-      var list = $resource('/translations/locales', {},
-        {
-          query: {
-            method: 'GET'
-          }
-        });
+      var list = $resource('/translations/locales', {}, {
+        query: {
+          method: 'GET'
+        }
+      });
 
       return list.query().$promise;
     }
 
     function getLocaleByLocaleId(locales, localeId) {
-      for ( var i = 0; i < locales.length; i++) {
+      for (var i = 0; i < locales.length; i++) {
         if (StringUtil.equals(locales[i].localeId, localeId, true)) {
           return locales[i];
         }
@@ -53,9 +50,9 @@
     }
 
     return {
-      getSupportedLocales: getSupportedLocales,
-      getUILocaleList: getUILocaleList,
-      getLocaleByLocaleId: getLocaleByLocaleId,
+      getSupportedLocales : getSupportedLocales,
+      getUILocaleList     : getUILocaleList,
+      getLocaleByLocaleId : getLocaleByLocaleId,
       DEFAULT_LOCALE: {
         'localeId' : 'en',
         'displayName' : 'English'

@@ -6,7 +6,7 @@
    * @ngInject
    */
   function EditorSuggestionsCtrl() {
-      var editorSuggestionsCtrl = this;
+    var editorSuggestionsCtrl = this;
 
     return editorSuggestionsCtrl;
   }

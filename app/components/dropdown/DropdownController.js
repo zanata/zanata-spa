@@ -1,6 +1,5 @@
 (function() {
-
-'use strict';
+  'use strict';
 
   /**
    * @name DropdownCtrl
@@ -10,7 +9,6 @@
    *
    * @ngInject
    */
-
   function DropdownCtrl($scope, $attrs, $parse, dropdownConfig,
     DropdownService, $animate) {
     var dropdownCtrl = this,
@@ -68,7 +66,9 @@
 
       setIsOpen($scope, isOpen);
       if (angular.isDefined(isOpen) && isOpen !== wasOpen) {
-        toggleInvoker($scope, { open: !!isOpen });
+        toggleInvoker($scope, {
+          open: !!isOpen
+        });
       }
     });
 

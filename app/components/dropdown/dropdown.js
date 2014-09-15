@@ -1,6 +1,5 @@
 (function() {
-
-'use strict';
+  'use strict';
 
   /**
    * @name Dropdown
@@ -9,7 +8,6 @@
    * Custom module for dropdowns
    *
    */
-
   var dropdownConfig = {
     openClass: 'is-active'
   };
