@@ -1,6 +1,5 @@
 (function() {
-
-'use strict';
+  'use strict';
 
   /**
    * @name dropdownService
@@ -13,7 +12,7 @@
 
   function DropdownService($document) {
     var openScope = null,
-      dropdownService = this;
+        dropdownService = this;
 
     dropdownService.open = function(dropdownScope) {
       if (!openScope) {

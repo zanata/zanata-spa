@@ -17,14 +17,14 @@
     // See: https://github.com/jshint/jshint/blob/2.1.4/src/shared/messages.js
     /* jshint -W101 */
     var urls = {
-      project:   restUrl('/projects/p/:projectSlug'),
-      locales:   restUrl('/projects/p/:projectSlug/iterations/i/:versionSlug/locales'),
-      docs:      restUrl('/projects/p/:projectSlug/iterations/i/:versionSlug/r'),
-      states:    restUrl('/projects/p/:projectSlug/iterations/i/:versionSlug/r/:docId/states/:localeId'),
-      textFlows: restUrl('/source+trans/:localeId'),
-      docStats:  restUrl('/stats/proj/:projectSlug/iter/:versionSlug/doc/:docId/locale/:localeId'),
-      myInfo:    restUrl('/user'),
-      userInfo:  restUrl('/user/:username')
+      project   : restUrl('/projects/p/:projectSlug'),
+      locales   : restUrl('/projects/p/:projectSlug/iterations/i/:versionSlug/locales'),
+      docs      : restUrl('/projects/p/:projectSlug/iterations/i/:versionSlug/r'),
+      states    : restUrl('/projects/p/:projectSlug/iterations/i/:versionSlug/r/:docId/states/:localeId'),
+      textFlows : restUrl('/source+trans/:localeId'),
+      docStats  : restUrl('/stats/proj/:projectSlug/iter/:versionSlug/doc/:docId/locale/:localeId'),
+      myInfo    : restUrl('/user'),
+      userInfo  : restUrl('/user/:username')
     };
     /* jshint +W101 */
 
@@ -33,32 +33,32 @@
 
 
     return {
-      PROJECT_URL : urls.project,
-      LOCALE_LIST_URL : urls.locales,
-      DOCUMENT_LIST_URL : urls.docs,
-      TRANSLATION_STATES_URL: urls.states,
-      TEXT_FLOWS_URL: urls.textFlows,
-      DOC_STATISTIC_URL : urls.docStats,
-      MY_INFO_URL : urls.myInfo,
-      USER_INFO_URL : urls.userInfo,
+      PROJECT_URL            : urls.project,
+      LOCALE_LIST_URL        : urls.locales,
+      DOCUMENT_LIST_URL      : urls.docs,
+      TRANSLATION_STATES_URL : urls.states,
+      TEXT_FLOWS_URL         : urls.textFlows,
+      DOC_STATISTIC_URL      : urls.docStats,
+      MY_INFO_URL            : urls.myInfo,
+      USER_INFO_URL          : urls.userInfo,
 
       /**
        * Get the value of a query string parameter.
        */
-      readValue : function(key) {
+      readValue: function(key) {
         return $location.search()[key];
       },
 
-      gravatarUrl : function(gravatarHash, size) {
+      gravatarUrl: function(gravatarHash, size) {
         return gravatarBaseUrl + '/' + gravatarHash +
           '?d=mm&amp;r=g&amp;s=' + size;
       },
 
-      translationURL : function(locale) {
+      translationURL: function(locale) {
         return translationsURL + '/' + locale + '.json';
       },
 
-      translationListURL : function() {
+      translationListURL: function() {
         return translationsURL + '/locales';
       }
     };

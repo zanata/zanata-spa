@@ -28,8 +28,8 @@
 
     return {
       startsWith : startsWith,
-      endsWith : endsWith,
-      equals : equals
+      endsWith   : endsWith,
+      equals     : equals
     };
   }
   angular

@@ -6,8 +6,7 @@
    * @ngInject
    */
   function EditorDetailsCtrl() {
-      var editorDetailsCtrl = this;
-
+    var editorDetailsCtrl = this;
 
     return editorDetailsCtrl;
   }

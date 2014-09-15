@@ -8,14 +8,14 @@
    */
   function transUnit() {
     return {
-      restrict : 'E',
-      replace : true,
-      required : ['phrase', 'editorContext'],
-      scope : {
-        phrase : '=',
+      restrict: 'E',
+      replace: true,
+      required: ['phrase', 'editorContext'],
+      scope: {
+        phrase: '=',
         editorContext: '='
       },
-      templateUrl : 'components/transUnit/transUnit.html'
+      templateUrl: 'components/transUnit/transUnit.html'
     };
   }
 
@@ -27,14 +27,14 @@
    */
   function transUnitSource() {
     return {
-      restrict : 'E',
-      replace : true,
-      required : ['phrase', 'context'],
-      scope : {
-        phrase : '=',
-        context : '='
+      restrict: 'E',
+      replace: true,
+      required: ['phrase', 'context'],
+      scope: {
+        phrase: '=',
+        context: '='
       },
-      templateUrl : 'components/transUnit/tu-source.html'
+      templateUrl: 'components/transUnit/tu-source.html'
     };
   }
 
@@ -45,13 +45,13 @@
    */
   function transUnitStatus() {
     return {
-      restrict : 'E',
-      replace : true,
-      required : 'phrase',
-      scope : {
-        phrase : '='
+      restrict: 'E',
+      replace: true,
+      required: 'phrase',
+      scope: {
+        phrase: '='
       },
-      templateUrl : 'components/transUnit/tu-status.html'
+      templateUrl: 'components/transUnit/tu-status.html'
     };
   }
 
@@ -62,14 +62,14 @@
    */
   function transUnitTranslation() {
     return {
-      restrict : 'E',
-      replace : true,
-      required : ['phrase', 'context'],
-      scope : {
-        phrase : '=',
-        context : '='
+      restrict: 'E',
+      replace: true,
+      required: ['phrase', 'context'],
+      scope: {
+        phrase: '=',
+        context: '='
       },
-      templateUrl : 'components/transUnit/tu-translation.html'
+      templateUrl: 'components/transUnit/tu-translation.html'
     };
   }
 

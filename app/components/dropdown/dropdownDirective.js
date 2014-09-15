@@ -1,6 +1,5 @@
 (function() {
-
-'use strict';
+  'use strict';
 
   /**
    * @name dropdown
@@ -52,8 +51,11 @@
         element.bind('click', toggleDropdown);
 
         // WAI-ARIA
-        element.attr({ 'aria-haspopup': true, 'aria-expanded': false });
-        scope.$watch(dropdownCtrl.isOpen, function( isOpen ) {
+        element.attr({
+          'aria-haspopup': true,
+          'aria-expanded': false
+        });
+        scope.$watch(dropdownCtrl.isOpen, function(isOpen) {
           element.attr('aria-expanded', !!isOpen);
         });
 

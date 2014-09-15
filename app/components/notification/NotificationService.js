@@ -1,18 +1,18 @@
-
 (function() {
-    'use strict';
+  'use strict';
 
-    /**
-     * Handle notification in editor
-     *
-     * NotificationService.js
-     * @ngInject
-     */
-    function NotificationService() {
+  /**
+   * Handle notification in editor
+   *
+   * NotificationService.js
+   * @ngInject
+   */
+  function NotificationService() {
 
-    }
+  }
 
-    angular
-      .module('app')
-      .factory('NotificationService', NotificationService);
+  angular
+    .module('app')
+    .factory('NotificationService', NotificationService);
+
 })();

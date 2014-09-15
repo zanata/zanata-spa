@@ -1,6 +1,6 @@
 (function() {
 
-'use strict';
+  'use strict';
 
   /**
    * @name logoLoader
@@ -9,7 +9,6 @@
    * Logo that is activated on global loading state
    *
    */
-
   function logoLoader() {
     return {
       restrict: 'EA',
@@ -22,16 +21,14 @@
         $scope.$watch('loading', function(newLoading) {
           if (newLoading) {
             $scope.classes += ' is-loading';
-          }
-          else {
+          } else {
             $scope.classes = $scope.classes.replace('is-loading', '');
           }
         });
         $scope.$watch('inverted', function(newInverted) {
           if (newInverted) {
             $scope.classes += ' LogoLoader--inverted';
-          }
-          else {
+          } else {
             $scope.classes = $scope.classes.replace('LogoLoader--inverted', '');
           }
         });

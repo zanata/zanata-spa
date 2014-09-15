@@ -2,7 +2,7 @@
 
 :root {
   --rhythm: 1.5rem;
-  --transition-ease-out-back: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  --transition-ease-out-back: cubic-bezier(.175, .885, .320, 1.275);
 }
 
 .Editor {
@@ -22,8 +22,8 @@
 .Editor-loader {
   position: absolute;
   z-index: 500;
-  left: 50%;
   top: 0;
+  left: 50%;
   transform: translate(-50%, calc(var(--rhythm) * .25));
 }
 
@@ -43,12 +43,13 @@
   width: 100%;
   /*TODO: Remove important;*/
   padding: calc(var(--rhythm) * .5) 0 calc(var(--rhythm) * .5) !important;
+
   -webkit-overlow-scrolling: touch;
 }
 
 .Editor-content.is-maximised {
-  transform: translateY(calc(var(--rhythm) * -2));
   bottom: calc(var(--rhythm) * -2);
+  transform: translateY(calc(var(--rhythm) * -2));
 }
 
 .Editor-currentDoc {
@@ -64,18 +65,15 @@
  */
 
 @media (--sm-viewport) {
-
   .Editor-currentProject {
     max-width: calc(var(--rhythm) * 3.5);
   }
-
 }
 
 @media (--gtmd-viewport) {
-
   .Editor-content {
+    background-image: url("../images/editor/editor-bg.gif");
     background-repeat: repeat-y;
-    background-image: url('../images/editor/editor-bg.gif');
     background-position: center center;
   }
 
@@ -85,10 +83,9 @@
   }
 
   .is-horizontal-editor .Editor-content:after {
-    width: 50%;
-    right: 0;
-    background-color: #fff;
     z-index: -1;
+    right: 0;
+    width: 50%;
+    background-color: #fff;
   }
-
 }

@@ -1,37 +1,35 @@
 (function() {
+  'use strict';
 
-'use strict';
+  /**
+   * @name clickElsewhere
+   * @description Initiate expression when clicking somewhere else
+   * @ngInject
+   */
+  function clickElsewhere($document) {
+    return {
+      restrict: 'A',
+      scope: {
+        callback: '&clickElsewhere'
+      },
+      link: function(scope, element) {
+        var handler = function(e) {
+          if (!element[0].contains(e.target)) {
+            scope.$apply(scope.callback(e));
+          }
+        };
 
-/**
- * @name clickElsewhere
- * @description Initiate expression when clicking somewhere else
- * @ngInject
- */
+        $document.on('click', handler);
 
-function clickElsewhere($document) {
-  return {
-    restrict: 'A',
-    scope: {
-      callback : '&clickElsewhere'
-    },
-    link: function(scope, element) {
-      var handler = function(e) {
-        if (!element[0].contains(e.target)) {
-          scope.$apply(scope.callback(e));
-        }
-      };
+        scope.$on('$destroy', function() {
+          $document.off('click', handler);
+        });
+      }
+    };
+  }
 
-      $document.on('click', handler);
-
-      scope.$on('$destroy', function() {
-        $document.off('click', handler);
-      });
-    }
-  };
-}
-
-angular
-  .module('app')
-  .directive('clickElsewhere', clickElsewhere);
+  angular
+    .module('app')
+    .directive('clickElsewhere', clickElsewhere);
 
 })();
