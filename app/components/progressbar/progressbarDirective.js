@@ -8,14 +8,14 @@
    */
   function progressbar() {
     return {
-      restrict : 'E',
-      replace : true,
-      required : 'progressbarStatistic',
-      scope : {
-        progressbarStatistic : '=',
-        size : '@' //large, full, or empty
+      restrict: 'E',
+      replace: true,
+      required: 'progressbarStatistic',
+      scope: {
+        progressbarStatistic: '=',
+        size: '@' //large, full, or empty
       },
-      templateUrl : 'components/progressbar/progressbar.html',
+      templateUrl: 'components/progressbar/progressbar.html',
       link: function(scope, element, attr) {
         scope.$watch('progressbarStatistic', function(statistic) {
           if (statistic) {
@@ -40,20 +40,20 @@
         style = {};
 
     style.approved = {
-      'width' : widthApproved + '%',
-      'marginLeft' : 0
+      'width': widthApproved + '%',
+      'marginLeft': 0
     };
     style.translated = {
-      'width' : widthTranslated + '%',
-      'marginLeft' : marginLeftTranslated + '%'
+      'width': widthTranslated + '%',
+      'marginLeft': marginLeftTranslated + '%'
     };
     style.needsWork = {
-      'width' : widthNeedsWork + '%',
-      'marginLeft' : marginLeftNeedsWork + '%'
+      'width': widthNeedsWork + '%',
+      'marginLeft': marginLeftNeedsWork + '%'
     };
     style.untranslated = {
-      'width' : widthUntranslated + '%',
-      'marginLeft' : marginLeftUntranslated + '%'
+      'width': widthUntranslated + '%',
+      'marginLeft': marginLeftUntranslated + '%'
     };
     return style;
   }

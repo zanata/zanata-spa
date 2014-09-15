@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   /**
@@ -15,10 +15,14 @@
         phrase: '=',
         editorContext: '='
       },
-      controller: 'TransUnitCtrl',
-      templateUrl: 'components/transUnit/trans-unit.html'
+      controller: 'TransUnitCtrl as transUnitCtrl',
+      templateUrl: 'components/transUnit/trans-unit.html',
+      link: function(scope, element, attr, TransUnitCtrl) {
+        TransUnitCtrl.init();
+      }
     };
   }
+
 
   /**
    * @name trans-unit-source
@@ -74,7 +78,7 @@
         context: '=',
         selected: '='
       },
-      controller: 'TranslationCtrl',
+      controller: 'TranslationCtrl as translationCtrl',
       templateUrl: 'components/transUnit/translation/translation.html'
     };
   }

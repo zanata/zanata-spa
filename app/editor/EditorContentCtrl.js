@@ -7,7 +7,7 @@
    */
   function EditorContentCtrl(PhraseService, $stateParams) {
     var limit = 50,
-      editorContentCtrl = this;
+        editorContentCtrl = this;
 
     /**
      * Load transUnit

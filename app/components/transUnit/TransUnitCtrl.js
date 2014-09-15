@@ -5,15 +5,32 @@
    * TransUnitCtrl.js
    * @ngInject
    */
-  function TransUnitCtrl($scope, $element, EventService) {
-    $scope.selected = false;
+  function TransUnitCtrl($scope, $stateParams, $element,
+                         TransUnitService, EventService) {
+    var transUnitCtrl = this;
+    transUnitCtrl.selected = false;
 
     var onTransUnitClick = function (event) {
       event.preventDefault();
       $scope.$apply(function () {
         EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-          $scope, $scope);
+          {'id': $scope.phrase.id,
+           'updateURL': true}, $scope);
       });
+    };
+
+    transUnitCtrl.getPhrase = function() {
+      return $scope.phrase;
+    };
+
+    transUnitCtrl.init = function() {
+      TransUnitService.addController($scope.phrase.id, transUnitCtrl);
+      if($stateParams.tuId &&
+        parseInt($stateParams.tuId) === $scope.phrase.id) {
+        EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+          {'id': $stateParams.tuId,
+            'updateURL': false}, null);
+      }
     };
 
     $element.bind('click', onTransUnitClick);
@@ -22,7 +39,7 @@
       $element.unbind('click', onTransUnitClick);
     });
 
-    return this;
+    return transUnitCtrl;
   }
 
   angular

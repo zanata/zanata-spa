@@ -6,14 +6,14 @@
    * app.js
    */
   angular.module(
-      'app',
-      [ 'ui.router',
-        'templates',
-        'cfp.hotkeys',
-        'monospaced.elastic',
-        'ngResource',
-        'ngAnimate',
-        'gettext'
-      ]);
+    'app', [
+      'ui.router',
+      'templates',
+      'cfp.hotkeys',
+      'monospaced.elastic',
+      'ngResource',
+      'ngAnimate',
+      'gettext'
+    ]);
 
 })();

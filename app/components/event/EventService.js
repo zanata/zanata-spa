@@ -12,7 +12,8 @@
     eventService.EVENT = {
       SELECT_TRANS_UNIT: 'selectTransUnit',
       COPY_FROM_SOURCE: 'copyFromSource',
-      CANCEL_EDIT: 'cancelEdit'
+      CANCEL_EDIT: 'cancelEdit',
+      SAVE_TRANSLATION: 'saveTranslation'
     };
 
     /**

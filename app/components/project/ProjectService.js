@@ -17,10 +17,10 @@
      */
     function getProjectInfo(projectSlug) {
       var Locales = $resource(UrlService.PROJECT_URL, {}, {
-        query : {
-          method : 'GET',
-          params : {
-            projectSlug : projectSlug
+        query: {
+          method: 'GET',
+          params: {
+            projectSlug: projectSlug
           }
         }
       });
@@ -29,7 +29,7 @@
     }
 
     return {
-      getProjectInfo : getProjectInfo
+      getProjectInfo: getProjectInfo
     };
   }
   angular

@@ -5,21 +5,43 @@
    * TranslationCtrl.js
    * @ngInject
    */
-  function TranslationCtrl($scope, EventService) {
+  function TranslationCtrl($scope, TransUnitService, EventService) {
+    var translationCtrl = this;
 
-    $scope.copySource = function($event) {
+    translationCtrl.copySource = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
         $scope.phrase, $scope);
     };
 
-    $scope.cancelEdit = function($event) {
+    translationCtrl.cancelEdit = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.CANCEL_EDIT,
-        $scope, $scope);
+        $scope.phrase, $scope);
     };
 
-    return this;
+    translationCtrl.saveAsTranslated = function($event) {
+      $event.stopPropagation(); //prevent click event of TU
+      EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+        {'phrase' : $scope.phrase,
+         'status': TransUnitService.TU_STATUS.TRANSLATED}, $scope);
+    };
+
+    translationCtrl.saveAsFuzzy = function($event) {
+      $event.stopPropagation(); //prevent click event of TU
+      EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+        {'phrase' : $scope.phrase,
+          'status': TransUnitService.TU_STATUS.FUZZY}, $scope);
+    };
+
+    translationCtrl.saveAsApproved = function($event) {
+      $event.stopPropagation(); //prevent click event of TU
+      EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+        {'phrase' : $scope.phrase,
+          'status': TransUnitService.TU_STATUS.APPROVED}, $scope);
+    };
+
+    return translationCtrl;
   }
 
   angular

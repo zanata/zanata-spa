@@ -11,10 +11,10 @@
 
   function StatisticUtil() {
     return {
-      getWordStatistic : function(statistics) {
+      getWordStatistic: function(statistics) {
         return statistics[0].unit === 'WORD' ? statistics[0] : statistics[1];
       },
-      getMsgStatistic : function(statistics) {
+      getMsgStatistic: function(statistics) {
         return statistics[0].unit === 'MESSAGE' ? statistics[0] : statistics[1];
       }
     };
