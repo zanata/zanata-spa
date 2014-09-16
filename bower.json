@@ -24,7 +24,8 @@
     "zanata-assets": "zanata/zanata-assets#spa-1.0.0",
     "angular-resource": "~1.2.22",
     "angular-gettext": "~1.1.0",
-    "angular-animate": "~1.2.24"
+    "angular-animate": "~1.2.24",
+    "lodash": "~2.4.1"
   },
   "overrides": {
     "zanata-assets": {
