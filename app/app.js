@@ -14,6 +14,6 @@
       'ngResource',
       'ngAnimate',
       'gettext'
-    ]);
+    ]).constant('_', window._);
 
 })();

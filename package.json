@@ -2,19 +2,14 @@
   "name": "zanata-spa",
   "version": "1.0.0",
   "description": "Zanata Single Page Application",
-  "homepage": "https://github.com/lukebrooker/zanata-spa",
+  "homepage": "https://github.com/zanata/zanata-spa",
   "main": "index.js",
   "keywords": [
     "css",
     "rework"
   ],
   "bugs": {
-    "url": "https://github.com/lukebrooker/zanata-spa/issues"
-  },
-  "author": {
-    "name": "Luke Brooker",
-    "email": "mail@Lukebrooker.com",
-    "url": "http://lukebrooker.com"
+    "url": "https://github.com/zanata/zanata-spa/issues"
   },
   "scripts": {
     "setup": "make setup",
@@ -26,6 +21,10 @@
   "repository": {
     "type": "git",
     "url": "http://github.com/zanata/zanata-spa.git"
+  },
+  "engines": {
+    "node": ">=0.10.28",
+    "npm": ">=1.4.9"
   },
   "license": "LGPL-2.1",
   "devDependencies": {

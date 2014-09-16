@@ -28,9 +28,9 @@ Build and run server and API server: `npm run fakewatch`.
 
 ### Javascript/Angular
 
-Stick very closely to [these Angular guidelines](https://github.com/toddmotto/angularjs-styleguide).
+Stick very closely to [these Angular guidelines](https://github.com/zanata/angularjs-styleguide).
 
-And [these](https://github.com/airbnb/javascript) for Javascript.
+And [these](https://github.com/zanata/javascript) for Javascript.
 
 Always add documentation and follow the [ngdoc format](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation).
 

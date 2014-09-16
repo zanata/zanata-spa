@@ -95,7 +95,6 @@
     //handles global error for $resource call
     var interceptor = ['$rootScope', '$q', function(scope, $q) {
       function success(response) {
-        console.debug('Success');
         return response;
       }
       function error(response) {
@@ -127,8 +126,24 @@
             controller: 'EditorCtrl as editor'
           }
         }
-      }).state('editor.selected', {
+      }).state('editor.selectedContext', {
         url: '/:docId/:localeId',
+        views: {
+          'editor-content': {
+            templateUrl: 'editor/editor-content.html',
+            controller: 'EditorContentCtrl as editorContent'
+          },
+          'editor-suggestions': {
+            templateUrl: 'editor/editor-suggestions.html',
+            controller: 'EditorSuggestionsCtrl as editorSuggestions'
+          },
+          'editor-details': {
+            templateUrl: 'editor/editor-details.html',
+            controller: 'EditorDetailsCtrl as editorDetails'
+          }
+        }
+      }).state('editor.selectedTU', {
+        url: '/:docId/:localeId/:tuId',
         views: {
           'editor-content': {
             templateUrl: 'editor/editor-content.html',

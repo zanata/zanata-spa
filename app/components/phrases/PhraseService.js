@@ -5,7 +5,7 @@
    * @name PhraseService
    * @description Provides a list of phrases for the current document(s)
    */
-  function PhraseService($q, $filter, $resource, UrlService) {
+  function PhraseService($q, $filter, $resource, UrlService, TransUnitService) {
     var phraseService = {};
 
     // FIXME move limit to end so it can be omitted
@@ -95,7 +95,7 @@
           return id.indexOf('$') === -1;
         });
 
-        ids.forEach(function(id, index) {
+        ids.forEach(function(id) {
           var textFlow = textFlows[id],
             source = textFlow.source,
             trans = textFlow[locale];
@@ -103,10 +103,10 @@
             id: parseInt(id),
             // TODO handle plural content
             source: source.content,
-            translation: trans ? trans.content : '',
-            status: trans ? trans.state : 'Untranslated',
-            // TODO handle focus elsewhere.
-            classes: [index === 1 ? 'is-focused' : 'is-unfocused']
+            translation: trans ? trans.content : '',//original translation
+            newTranslation: trans ? trans.content : '',//translation from editor
+            status: trans ? trans.state :
+              TransUnitService.TU_STATUS.UNTRANSLATED
           });
         });
         return phrases;

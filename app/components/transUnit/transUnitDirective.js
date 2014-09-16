@@ -15,7 +15,11 @@
         phrase: '=',
         editorContext: '='
       },
-      templateUrl: 'components/transUnit/transUnit.html'
+      controller: 'TransUnitCtrl as transUnitCtrl',
+      templateUrl: 'components/transUnit/trans-unit.html',
+      link: function(scope, element, attr, TransUnitCtrl) {
+        TransUnitCtrl.init();
+      }
     };
   }
 
@@ -29,12 +33,14 @@
     return {
       restrict: 'E',
       replace: true,
-      required: ['phrase', 'context'],
+      require: '?^transUnit',
+      required: ['phrase', 'context', 'selected'],
       scope: {
         phrase: '=',
-        context: '='
+        context: '=',
+        selected: '='
       },
-      templateUrl: 'components/transUnit/tu-source.html'
+      templateUrl: 'components/transUnit/source/source.html'
     };
   }
 
@@ -47,6 +53,7 @@
     return {
       restrict: 'E',
       replace: true,
+      require: '?^transUnit',
       required: 'phrase',
       scope: {
         phrase: '='
@@ -64,12 +71,15 @@
     return {
       restrict: 'E',
       replace: true,
+      require: '?^transUnit',
       required: ['phrase', 'context'],
       scope: {
         phrase: '=',
-        context: '='
+        context: '=',
+        selected: '='
       },
-      templateUrl: 'components/transUnit/tu-translation.html'
+      controller: 'TranslationCtrl as translationCtrl',
+      templateUrl: 'components/transUnit/translation/translation.html'
     };
   }
 
