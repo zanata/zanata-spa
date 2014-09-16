@@ -7,7 +7,7 @@
    * UrlService.js
    * @ngInject
    */
-  function UrlService($location) {
+  function UrlService($location, _) {
     var gravatarBaseUrl = 'http://www.gravatar.com/avatar';
     //TODO: get from document, configuration or URL
     var baseUrl = 'http://localhost:7878/zanata/rest';
@@ -16,21 +16,19 @@
     // Warnings for jshint are turned off/on with -/+ before the warning code.
     // See: https://github.com/jshint/jshint/blob/2.1.4/src/shared/messages.js
     /* jshint -W101 */
-    var urls = {
-      project   : restUrl('/projects/p/:projectSlug'),
-      locales   : restUrl('/projects/p/:projectSlug/iterations/i/:versionSlug/locales'),
-      docs      : restUrl('/projects/p/:projectSlug/iterations/i/:versionSlug/r'),
-      states    : restUrl('/projects/p/:projectSlug/iterations/i/:versionSlug/r/:docId/states/:localeId'),
-      textFlows : restUrl('/source+trans/:localeId'),
-      docStats  : restUrl('/stats/proj/:projectSlug/iter/:versionSlug/doc/:docId/locale/:localeId'),
-      myInfo    : restUrl('/user'),
-      userInfo  : restUrl('/user/:username')
-    };
+    var urls = _.mapValues({
+      project  : '/projects/p/:projectSlug',
+      locales  : '/projects/p/:projectSlug/iterations/i/:versionSlug/locales',
+      docs     : '/projects/p/:projectSlug/iterations/i/:versionSlug/r',
+      states   : '/projects/p/:projectSlug/iterations/i/:versionSlug/r/:docId/states/:localeId',
+      textFlows: '/source+trans/:localeId',
+      docStats : '/stats/proj/:projectSlug/iter/:versionSlug/doc/:docId/locale/:localeId',
+      myInfo   : '/user',
+      userInfo : '/user/:username'
+    }, unary(restUrl));
     /* jshint +W101 */
 
-
     var translationsURL = getLocalHost() + '/translations';
-
 
     return {
       PROJECT_URL            : urls.project,
@@ -72,6 +70,15 @@
      */
     function restUrl() {
       return baseUrl + Array.prototype.join.call(arguments, '');
+    }
+
+    /**
+     * Decorate a function to ignore all but the first argument.
+     */
+    function unary(fun) {
+      return function(arg) {
+        return fun(arg);
+      };
     }
 
     function getLocalHost() {
