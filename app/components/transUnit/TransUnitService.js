@@ -24,7 +24,9 @@
 
     /**
      * EventService.EVENT.SELECT_TRANS_UNIT listener
-     * Select and focus a trans-unit
+     * - Select and focus a trans-unit.
+     * - Perform implicit save on previous selected TU if changed
+     * - Update url with TU id without reload state
      */
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
@@ -100,11 +102,7 @@
       });
 
     function setFocus(controller, isFocus) {
-      if (isFocus && isFocus === true) {
-        controller.selected = true;
-      } else {
-        controller.selected = false;
-      }
+      controller.selected = isFocus || false;
     }
 
     function resolveTranslationState(phrase, requestStatus) {

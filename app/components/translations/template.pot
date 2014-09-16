@@ -17,6 +17,7 @@ msgstr ""
 
 #: app/editor/editor-header.html
 #: app/components/transUnit/source/footer.html
+#: app/components/transUnit/translation/footer.html
 msgid "Details"
 msgstr ""
 

@@ -10,18 +10,10 @@
     var transUnitCtrl = this;
     transUnitCtrl.selected = false;
 
-    var onTransUnitClick = function (event) {
-      event.preventDefault();
-      $scope.$apply(function () {
-        EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-          {'id': $scope.phrase.id,
-           'updateURL': true}, $scope);
-      });
-    };
-
     transUnitCtrl.getPhrase = function() {
       return $scope.phrase;
     };
+
 
     transUnitCtrl.init = function() {
       TransUnitService.addController($scope.phrase.id, transUnitCtrl);
@@ -39,6 +31,14 @@
       $element.unbind('click', onTransUnitClick);
     });
 
+    function onTransUnitClick(event) {
+      event.preventDefault();
+      $scope.$apply(function () {
+        EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+          {'id': $scope.phrase.id,
+            'updateURL': true}, $scope);
+      });
+    }
     return transUnitCtrl;
   }
 
