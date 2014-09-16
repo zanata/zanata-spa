@@ -24,21 +24,21 @@
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         {'phrase' : $scope.phrase,
-         'status': TransUnitService.TU_STATUS.TRANSLATED}, $scope);
+         'state': TransUnitService.TU_STATE.TRANSLATED}, $scope);
     };
 
     translationCtrl.saveAsFuzzy = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         {'phrase' : $scope.phrase,
-          'status': TransUnitService.TU_STATUS.FUZZY}, $scope);
+          'state': TransUnitService.TU_STATE.FUZZY}, $scope);
     };
 
     translationCtrl.saveAsApproved = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         {'phrase' : $scope.phrase,
-          'status': TransUnitService.TU_STATUS.APPROVED}, $scope);
+          'state': TransUnitService.TU_STATE.APPROVED}, $scope);
     };
 
     return translationCtrl;

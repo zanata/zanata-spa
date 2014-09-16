@@ -6,7 +6,8 @@
    *
    * @ngInject
    */
-  function TransUnitService($rootScope, $state, $stateParams, EventService) {
+  function TransUnitService($rootScope, $state, $stateParams, MessageHandler,
+    EventService) {
     var transUnitService = this,
       controllerList = {},
       selectedTUId;
@@ -15,7 +16,7 @@
       controllerList[id] = controller;
     };
 
-    transUnitService.TU_STATUS = {
+    transUnitService.TU_STATE = {
       'TRANSLATED' : 'translated',
       'FUZZY': 'fuzzy',
       'APPROVED': 'approved',
@@ -34,31 +35,34 @@
           selectedTUController = controllerList[selectedTUId],
           updateURL = data.updateURL;
 
-        if (selectedTUId && selectedTUId !== data.id) {
-          //perform implicit save if changed
-          if(isTranslationModified(selectedTUController.getPhrase())) {
-            EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-              {'phrase' : tuController.getPhrase(),
-                'state': transUnitService.TU_STATUS.TRANSLATED},
-              $rootScope);
+        if(tuController) {
+          if (selectedTUId && selectedTUId !== data.id) {
+            //perform implicit save if changed
+            if(isTranslationModified(selectedTUController.getPhrase())) {
+              EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+                {'phrase' : tuController.getPhrase(),
+                  'state': transUnitService.TU_STATE.TRANSLATED},
+                $rootScope);
+            }
+            setFocus(selectedTUController, false);
           }
-          setFocus(selectedTUController, false);
+
+          selectedTUId = data.id;
+          setFocus(tuController, true);
+
+          //Update url without reload state
+          if(updateURL && updateURL === true) {
+            $state.go('editor.selectedTU', {
+              'docId': $stateParams.docId,
+              'localeId': $stateParams.localeId,
+              'tuId' : data.id
+            },  {
+              notify: false
+            });
+          }
+        } else {
+          MessageHandler.displayWarning('Trans-unit not found:' + data.id);
         }
-
-        selectedTUId = data.id;
-        setFocus(tuController, true);
-
-        //Update url without reload state
-        if(updateURL && updateURL === true) {
-          $state.go('editor.selectedTU', {
-            'docId': $stateParams.docId,
-            'localeId': $stateParams.localeId,
-            'tuId' : data.id
-          },  {
-            notify: false
-          });
-        }
-
       });
 
     /**
@@ -90,14 +94,14 @@
     $rootScope.$on(EventService.EVENT.SAVE_TRANSLATION,
       function (event, data) {
         var phrase = data.phrase,
-          status = data.status;
+          state = data.state;
 
         if(isTranslationModified(phrase)) {
-          status = resolveTranslationState(phrase, status);
+          state = resolveTranslationState(phrase, state);
 
           //TODO: queue save translation request and perform save,
           //lock TU until success (need version no. of TU)
-          console.log('Perform save translation as ' + status);
+          console.log('Perform save translation as ' + state);
         }
       });
 
@@ -105,11 +109,11 @@
       controller.selected = isFocus || false;
     }
 
-    function resolveTranslationState(phrase, requestStatus) {
+    function resolveTranslationState(phrase, requestState) {
       if(phrase.newTranslation === '') {
-        return transUnitService.TU_STATUS.UNTRANSLATED;
+        return transUnitService.TU_STATE.UNTRANSLATED;
       }
-      return requestStatus;
+      return requestState;
     }
 
     function isTranslationModified(phrase) {

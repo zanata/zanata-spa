@@ -5,28 +5,43 @@
    * EditorContentCtrl.js
    * @ngInject
    */
-  function EditorContentCtrl(PhraseService, $stateParams) {
-    var limit = 50,
-        editorContentCtrl = this;
+  function EditorContentCtrl(PhraseService, $stateParams, UrlService) {
+    var maxResult = 50,
+        editorContentCtrl = this,
+      states = UrlService.readValue('states');
+
+    //wrapper for all types of filtering
+    var filter = {
+      'states': states ? states.split(' ') : states
+    };
+
+    loadPhrases($stateParams.projectSlug, $stateParams.versionSlug,
+      $stateParams.docId, $stateParams.localeId, filter);
 
     /**
      * Load transUnit
+     * - get states [id, state]
+     * - get textflow+target
+     * - transform to phrase object
      *
      * @param projectSlug
      * @param versionSlug
      * @param docId
      * @param localeId
      */
-    function loadPhases(projectSlug, versionSlug, docId, localeId) {
-      PhraseService.findAll(limit, projectSlug, versionSlug, docId, localeId)
-        .then(function(phrases) {
-          editorContentCtrl.phrases = phrases;
-        });
-    }
+    function loadPhrases(projectSlug, versionSlug, docId, localeId, filter) {
 
-    loadPhases($stateParams.projectSlug,
-      $stateParams.versionSlug,
-      $stateParams.docId, $stateParams.localeId);
+      PhraseService.getStates(projectSlug, versionSlug, docId, localeId).then(
+        function(states) {
+          PhraseService.states = states;
+
+          PhraseService.getPhrase(0, maxResult, localeId, filter)
+            .then(function(phrases) {
+              editorContentCtrl.phrases = phrases;
+            });
+        }
+      );
+    }
 
     return editorContentCtrl;
   }

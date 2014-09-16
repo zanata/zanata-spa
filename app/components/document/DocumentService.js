@@ -8,8 +8,8 @@
    * DocumentService.js
    * @ngInject
    */
-  function DocumentService($q, $filter, $timeout, $http,
-    $resource, UrlService, StringUtil) {
+  function DocumentService($q, $filter, $timeout, $http, $resource,
+    UrlService, StringUtil) {
     var documentService = this;
     documentService.statisticMap = {};
 
@@ -43,11 +43,9 @@
      * @param _localeId
      * @returns {*}
      */
-    function getStatistics(_projectSlug, _versionSlug,
-      _docId, _localeId) {
+    function getStatistics(_projectSlug, _versionSlug, _docId, _localeId) {
       if (_docId && _localeId) {
-        //TODO: need to hash this key
-        var key = _docId + _localeId;
+        var key = _docId + '-' + _localeId;
         if (key in documentService.statisticMap) {
           var deferred = $q.defer();
           deferred.resolve(documentService.statisticMap[key]);
