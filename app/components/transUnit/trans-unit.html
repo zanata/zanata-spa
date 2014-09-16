@@ -1,0 +1,10 @@
+<div class="edit-item edit-item--{{ phrase.status }}"
+  ng-class="{'is-focused': transUnitCtrl.selected, 'is-unfocused': !transUnitCtrl.selected}">
+  <trans-unit-source phrase="phrase" context="editorContext"
+    selected="transUnitCtrl.selected"></trans-unit-source>
+
+  <trans-unit-status phrase="phrase"></trans-unit-status>
+
+  <trans-unit-translation phrase="phrase" context="editorContext"
+    selected="transUnitCtrl.selected"></trans-unit-translation>
+</div>

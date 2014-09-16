@@ -1,0 +1,7 @@
+<div class="edit-item__panel edit-item__translation">
+  <ng-include src="'components/transUnit/translation/header.html'" ng-if="selected"></ng-include>
+  <textarea msd-elastic match-height-source
+    ng-model="phrase.newTranslation" class="edit-item__text" rows="1"
+    placeholder="{{'Enter a translation…'|translate}}"></textarea>
+  <ng-include src="'components/transUnit/translation/footer.html'" ng-if="selected"></ng-include>
+</div>
