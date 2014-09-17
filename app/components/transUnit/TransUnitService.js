@@ -17,7 +17,7 @@
 
     transUnitService.TU_STATUS = {
       'TRANSLATED' : 'translated',
-      'FUZZY': 'fuzzy',
+      'NEED_REVIEW': 'needReview',
       'APPROVED': 'approved',
       'UNTRANSLATED': 'untranslated'
     };
