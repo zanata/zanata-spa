@@ -18,7 +18,7 @@
 
     transUnitService.TU_STATE = {
       'TRANSLATED' : 'translated',
-      'FUZZY': 'fuzzy',
+      'NEED_REVIEW': 'needReview',
       'APPROVED': 'approved',
       'UNTRANSLATED': 'untranslated'
     };
@@ -51,7 +51,7 @@
           setFocus(tuController, true);
 
           //Update url without reload state
-          if(updateURL && updateURL === true) {
+          if(updateURL) {
             $state.go('editor.selectedTU', {
               'docId': $stateParams.docId,
               'localeId': $stateParams.localeId,

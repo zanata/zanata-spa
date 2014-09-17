@@ -18,22 +18,25 @@
       var filteredResources = [];
 
       resources.forEach(function (resource) {
-        fields.forEach(function (field) {
-          terms.forEach(function (term) {
-            if(isInclude(resource, field, term)) {
-              filteredResources.push(resource);
-            }
-          });
-        });
+        if(isInclude(resource, fields, terms)) {
+          filteredResources.push(resource);
+        }
       });
       return filteredResources;
     }
 
-    function isInclude(resource, field, term) {
-      if(!resource || !field || !term) {
+    function isInclude(resource, fields, terms) {
+      if(!resource || !fields || !terms) {
         return false;
       }
-      return StringUtil.equals(resource[field], term, true);
+      fields.forEach(function (field) {
+        terms.forEach(function (term) {
+          if(StringUtil.equals(resource[field], term, true)) {
+            return true;
+          }
+        });
+      });
+      return false;
     }
 
     return {

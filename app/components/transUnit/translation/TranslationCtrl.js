@@ -31,7 +31,7 @@
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         {'phrase' : $scope.phrase,
-          'state': TransUnitService.TU_STATE.FUZZY}, $scope);
+          'state': TransUnitService.TU_STATE.NEED_REVIEW}, $scope);
     };
 
     translationCtrl.saveAsApproved = function($event) {

@@ -8,39 +8,43 @@
   function EditorContentCtrl(PhraseService, $stateParams, UrlService) {
     var maxResult = 50,
         editorContentCtrl = this,
-      states = UrlService.readValue('states');
+        states = UrlService.readValue('states');
 
     //wrapper for all types of filtering
     var filter = {
       'states': states ? states.split(' ') : states
     };
 
-    loadPhrases($stateParams.projectSlug, $stateParams.versionSlug,
-      $stateParams.docId, $stateParams.localeId, filter);
+    loadPhrases(editorContextHelper($stateParams), filter);
 
     /**
      * Load transUnit
-     * - get states [id, state]
-     * - get textflow+target
-     * - transform to phrase object
      *
-     * @param projectSlug
-     * @param versionSlug
-     * @param docId
-     * @param localeId
+     * @param helperFn
+     * @param filter
      */
-    function loadPhrases(projectSlug, versionSlug, docId, localeId, filter) {
+    function loadPhrases(helperFn, filter) {
 
-      PhraseService.getStates(projectSlug, versionSlug, docId, localeId).then(
+      PhraseService.getStates(helperFn.projectSlug, helperFn.versionSlug,
+        helperFn.docId, helperFn.localeId).then(
         function(states) {
           PhraseService.states = states;
 
-          PhraseService.getPhrase(0, maxResult, localeId, filter)
+          PhraseService.getPhrase(helperFn.localeId, filter, 0, maxResult)
             .then(function(phrases) {
               editorContentCtrl.phrases = phrases;
             });
         }
       );
+    }
+
+    function editorContextHelper($stateParams) {
+      return {
+        projectSlug: $stateParams.projectSlug,
+        versionSlug: $stateParams.versionSlug,
+        docId: $stateParams.docId,
+        localeId: $stateParams.localeId
+      }
     }
 
     return editorContentCtrl;

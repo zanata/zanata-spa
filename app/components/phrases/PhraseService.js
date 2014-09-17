@@ -7,10 +7,26 @@
    */
   function PhraseService($filter, $resource, UrlService, TransUnitService,
                          FilterUtil) {
-    var phraseService = {};
+    var phraseService = {},
+      stateCssClass =  {};
+
+    stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED.toLowerCase()] =
+      'untranslated';
+    stateCssClass[TransUnitService.TU_STATE.NEED_REVIEW.toLowerCase()] =
+      'needsWork';
+    stateCssClass[TransUnitService.TU_STATE.APPROVED.toLowerCase()] =
+      'approved';
+    stateCssClass[TransUnitService.TU_STATE.TRANSLATED.toLowerCase()] =
+      'translated';
 
     //id and states of all tu
     phraseService.states = [];
+
+
+    // FIXME use an object for all the ID arguments - in general we will only
+    // need to modify such an object sporadically when switching document
+    // or locale, and it is neater than passing them all
+    // around separately.
 
 
     /**
@@ -39,18 +55,12 @@
 
     /**
      * Fetch each of the text flows appearing in the given states data.
-     *
-     * Returns a promise that is fulfilled when the request completes.
      */
-      // FIXME use an object for all the ID arguments - in general we will only
-      // need to modify such an object sporadically when switching document
-      // or locale, and it is neater than passing them all
-      // around separately.
-    phraseService.getPhrase = function (offset, maxResult, locale, filter) {
+    phraseService.getPhrase = function (locale, filter, offset, maxResult) {
       var ids = getIds(phraseService.states, filter.states);
 
       if (offset && maxResult) {
-        ids = Array.slice(offset, offset + maxResult);
+        ids = ids.slice(offset, offset + maxResult);
       }
 
       var TextFlows = $resource(UrlService.TEXT_FLOWS_URL, {}, {
@@ -93,7 +103,8 @@
             translation: trans ? trans.content : '',//original translation
             newTranslation: trans ? trans.content : '',//translation from editor
             status: trans ? trans.state :
-              TransUnitService.TU_STATE.UNTRANSLATED
+              TransUnitService.TU_STATE.UNTRANSLATED,
+            statusClass: getStatusClass(trans)
           });
         });
         return phrases;
@@ -111,6 +122,14 @@
         });
       }
       return ids;
+    }
+
+    function getStatusClass(trans) {
+      if(!trans) {
+        return 'untranslated';
+      }
+      var cssClass = stateCssClass[trans.state.toLowerCase()];
+      return cssClass || 'untranslated';
     }
 
 
