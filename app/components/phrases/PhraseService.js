@@ -6,7 +6,17 @@
    * @description Provides a list of phrases for the current document(s)
    */
   function PhraseService($q, $filter, $resource, UrlService, TransUnitService) {
-    var phraseService = {};
+    var phraseService = {},
+      stateCssClass =  {};
+
+    stateCssClass[TransUnitService.TU_STATUS.UNTRANSLATED.toLowerCase()] =
+      'untranslated';
+    stateCssClass[TransUnitService.TU_STATUS.NEED_REVIEW.toLowerCase()] =
+      'needsWork';
+    stateCssClass[TransUnitService.TU_STATUS.APPROVED.toLowerCase()] =
+      'approved';
+    stateCssClass[TransUnitService.TU_STATUS.TRANSLATED.toLowerCase()] =
+      'translated';
 
     // FIXME move limit to end so it can be omitted
     // FIXME use an object for all the ID arguments - in general we will only
@@ -106,13 +116,21 @@
             translation: trans ? trans.content : '',//original translation
             newTranslation: trans ? trans.content : '',//translation from editor
             status: trans ? trans.state :
-              TransUnitService.TU_STATUS.UNTRANSLATED
+              TransUnitService.TU_STATUS.UNTRANSLATED,
+            statusClass: getStatusClass(trans)
           });
         });
         return phrases;
       }
     };
 
+    function getStatusClass(trans) {
+      if(!trans) {
+        return 'untranslated';
+      }
+      var cssClass = stateCssClass[trans.state.toLowerCase()];
+      return cssClass || 'untranslated';
+    }
 
     // Does not appear to be used anywhere. Removing until phrase-caching code
     // is added.
