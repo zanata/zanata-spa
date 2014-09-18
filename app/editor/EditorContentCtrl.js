@@ -7,44 +7,37 @@
    */
   function EditorContentCtrl(PhraseService, $stateParams, UrlService) {
     var maxResult = 50,
-        editorContentCtrl = this,
-        states = UrlService.readValue('states');
+      editorContentCtrl = this,
+      states = UrlService.readValue('states');
 
     //wrapper for all types of filtering
     var filter = {
       'states': states ? states.split(' ') : states
     };
 
-    loadPhrases(editorContextHelper($stateParams), filter);
+    loadPhrases($stateParams.projectSlug, $stateParams.versionSlug,
+      $stateParams.docId, $stateParams.localeId, filter);
 
     /**
      * Load transUnit
      *
-     * @param helperFn
-     * @param filter
+     * @param projectSlug
+     * @param versionSlug
+     * @param docId
+     * @param localeId
      */
-    function loadPhrases(helperFn, filter) {
+    function loadPhrases(projectSlug, versionSlug, docId, localeId, filter) {
 
-      PhraseService.getStates(helperFn.projectSlug, helperFn.versionSlug,
-        helperFn.docId, helperFn.localeId).then(
+      PhraseService.getStates(projectSlug, versionSlug, docId, localeId).then(
         function(states) {
           PhraseService.states = states;
 
-          PhraseService.getPhrase(helperFn.localeId, filter, 0, maxResult)
+          PhraseService.getPhrase(localeId, filter, 0, maxResult)
             .then(function(phrases) {
               editorContentCtrl.phrases = phrases;
             });
         }
       );
-    }
-
-    function editorContextHelper($stateParams) {
-      return {
-        projectSlug: $stateParams.projectSlug,
-        versionSlug: $stateParams.versionSlug,
-        docId: $stateParams.docId,
-        localeId: $stateParams.localeId
-      }
     }
 
     return editorContentCtrl;

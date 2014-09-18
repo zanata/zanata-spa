@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function FilterUtil(StringUtil) {
+  function FilterUtil(StringUtil, _) {
 
     /**
      * Filter in resources on given fields with matched terms
@@ -17,7 +17,7 @@
       }
       var filteredResources = [];
 
-      resources.forEach(function (resource) {
+      _.forEach(resources, function (resource) {
         if(isInclude(resource, fields, terms)) {
           filteredResources.push(resource);
         }
@@ -29,14 +29,19 @@
       if(!resource || !fields || !terms) {
         return false;
       }
-      fields.forEach(function (field) {
-        terms.forEach(function (term) {
+      var toInclude = false;
+      _.every(fields, function (field) {
+        _.every(terms, function (term) {
           if(StringUtil.equals(resource[field], term, true)) {
-            return true;
+            toInclude = true;
+            return false; //this is the way to break loop in .every
           }
         });
+        if(toInclude) {
+          return false; //this is the way to break loop in .every
+        }
       });
-      return false;
+      return toInclude;
     }
 
     return {

@@ -36,21 +36,21 @@
      */
     phraseService.getStates = function (projectId, versionId,
                                         documentId, locale) {
-        var methods = {
-            query: {
-              method: 'GET',
-              params: {
-                projectSlug: projectId,
-                versionSlug: versionId,
-                // This must be encoded for URL, is it passed encoded?
-                docId: documentId,
-                localeId: locale
-              },
-              isArray: true
-            }
-          },
-          States = $resource(UrlService.TRANSLATION_STATES_URL, {}, methods);
-        return States.query().$promise;
+      var methods = {
+          query: {
+            method: 'GET',
+            params: {
+              projectSlug: projectId,
+              versionSlug: versionId,
+              // This must be encoded for URL, is it passed encoded?
+              docId: documentId,
+              localeId: locale
+            },
+            isArray: true
+          }
+        },
+        States = $resource(UrlService.TRANSLATION_STATES_URL, {}, methods);
+      return States.query().$promise;
     };
 
     /**
@@ -60,7 +60,11 @@
       var ids = getIds(phraseService.states, filter.states);
 
       if (offset && maxResult) {
-        ids = ids.slice(offset, offset + maxResult);
+        if(maxResult) {
+          ids = ids.slice(offset, offset + maxResult);
+        } else {
+          ids = ids.slice(offset);
+        }
       }
 
       var TextFlows = $resource(UrlService.TEXT_FLOWS_URL, {}, {
