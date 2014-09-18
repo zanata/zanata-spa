@@ -38,9 +38,9 @@
           //perform implicit save if changed
           if(isTranslationModified(selectedTUController.getPhrase())) {
             EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-              {'phrase' : tuController.getPhrase(),
-                'state': transUnitService.TU_STATUS.TRANSLATED},
-              $rootScope);
+              { 'phrase' : tuController.getPhrase(),
+                'state': transUnitService.TU_STATUS.TRANSLATED
+              }, $rootScope);
           }
           setFocus(selectedTUController, false);
         }
@@ -83,33 +83,8 @@
         selectedTUId = '';
       });
 
-    /**
-     * EventService.EVENT.SAVE_TRANSLATION listener
-     * Perform save translation with given state
-     */
-    $rootScope.$on(EventService.EVENT.SAVE_TRANSLATION,
-      function (event, data) {
-        var phrase = data.phrase,
-          status = data.status;
-
-        if(isTranslationModified(phrase)) {
-          status = resolveTranslationState(phrase, status);
-
-          //TODO: queue save translation request and perform save,
-          //lock TU until success (need version no. of TU)
-          console.log('Perform save translation as ' + status);
-        }
-      });
-
     function setFocus(controller, isFocus) {
       controller.selected = isFocus || false;
-    }
-
-    function resolveTranslationState(phrase, requestStatus) {
-      if(phrase.newTranslation === '') {
-        return transUnitService.TU_STATUS.UNTRANSLATED;
-      }
-      return requestStatus;
     }
 
     function isTranslationModified(phrase) {

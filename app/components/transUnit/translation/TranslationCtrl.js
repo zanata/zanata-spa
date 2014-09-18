@@ -23,22 +23,25 @@
     translationCtrl.saveAsTranslated = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        {'phrase' : $scope.phrase,
-         'status': TransUnitService.TU_STATUS.TRANSLATED}, $scope);
+        { 'phrase' : $scope.phrase,
+          'status': TransUnitService.TU_STATUS.TRANSLATED
+        }, $scope);
     };
 
     translationCtrl.saveAsFuzzy = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        {'phrase' : $scope.phrase,
-          'status': TransUnitService.TU_STATUS.NEED_REVIEW}, $scope);
+        { 'phrase' : $scope.phrase,
+          'status': TransUnitService.TU_STATUS.NEED_REVIEW
+        }, $scope);
     };
 
     translationCtrl.saveAsApproved = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        {'phrase' : $scope.phrase,
-          'status': TransUnitService.TU_STATUS.APPROVED}, $scope);
+        { 'phrase' : $scope.phrase,
+          'status': TransUnitService.TU_STATUS.APPROVED
+        }, $scope);
     };
 
     return translationCtrl;

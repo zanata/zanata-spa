@@ -24,11 +24,12 @@
       textFlows: '/source+trans/:localeId',
       docStats : '/stats/proj/:projectSlug/iter/:versionSlug/doc/:docId/locale/:localeId',
       myInfo   : '/user',
-      userInfo : '/user/:username'
+      userInfo : '/user/:username',
+      translation : '/trans/:localeId'
     }, unary(restUrl));
     /* jshint +W101 */
 
-    var translationsURL = getLocalHost() + '/translations';
+    var uiTranslationsURL = '/translations';
 
     return {
       PROJECT_URL            : urls.project,
@@ -39,6 +40,7 @@
       DOC_STATISTIC_URL      : urls.docStats,
       MY_INFO_URL            : urls.myInfo,
       USER_INFO_URL          : urls.userInfo,
+      TRANSLATION_URL        : urls.translation,
 
       /**
        * Get the value of a query string parameter.
@@ -52,13 +54,11 @@
           '?d=mm&amp;r=g&amp;s=' + size;
       },
 
-      translationURL: function(locale) {
-        return translationsURL + '/' + locale + '.json';
+      uiTranslationURL: function(locale) {
+        return uiTranslationsURL + '/' + locale + '.json';
       },
 
-      translationListURL: function() {
-        return translationsURL + '/locales';
-      }
+      uiTranslationListURL: uiTranslationsURL + '/locales'
     };
 
     /**

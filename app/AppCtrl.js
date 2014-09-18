@@ -46,7 +46,7 @@
       var uiLocaleId = appCtrl.myInfo.locale.localeId;
       if (!StringUtil.startsWith(uiLocaleId,
         LocaleService.DEFAULT_LOCALE.localeId, true)) {
-        gettextCatalog.loadRemote(UrlService.translationURL(uiLocaleId))
+        gettextCatalog.loadRemote(UrlService.uiTranslationURL(uiLocaleId))
             .then(
                 function() {
                   gettextCatalog.setCurrentLanguage(uiLocaleId);

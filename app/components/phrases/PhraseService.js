@@ -23,9 +23,8 @@
     //       need to modify such an object sporadically when switching document
     //       or locale, and it is neater than passing them all
     //       around separately.
-    phraseService.findAll = function(limit, projectId,
-      versionId, documentId,
-      locale) {
+    phraseService.findAll = function(limit, projectId, versionId,
+                                     documentId, locale) {
 
       // Reading for chaining promises https://github.com/kriskowal/q
       // (particularly "Sequences").
@@ -45,7 +44,7 @@
               params: {
                 projectSlug: projectId,
                 versionSlug: versionId,
-                // This must be encoded for URL, is it passed encoded?
+                // TODO: encode docId
                 docId: documentId,
                 localeId: locale
               },

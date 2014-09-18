@@ -20,6 +20,8 @@
     function loadPhases(projectSlug, versionSlug, docId, localeId) {
       PhraseService.findAll(limit, projectSlug, versionSlug, docId, localeId)
         .then(function(phrases) {
+          //TODO: need to move data to cacheService,
+          // so it can be access by other service
           editorContentCtrl.phrases = phrases;
         });
     }
