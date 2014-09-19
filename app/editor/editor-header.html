@@ -18,15 +18,16 @@
             class="Editor-currentProject u-sm-hidden u-sML-1-2"><span ng-bind="editor.projectInfo.name">Loading </span> <span
             class="u-textMuted" ng-bind="editor.context.versionSlug">Loading </span></span>
       </a>
-      <i
-        class="i i--arrow-right u-sMH-1-4 u-textInvert u-textMuted u-sm-hidden"></i>
+      <icon name="chevron-right"
+        class="Icon--sm u-sMH-1-4 u-textInvert u-textMuted u-sm-hidden">
+      </icon>
       <ul class="u-listInline u-inlineBlock">
         <li>
           <dropdown class="Dropdown">
             <button dropdown-toggle
               class="Dropdown-toggle Link--invert"/>
               <span ng-bind="editor.context.document.name"></span>
-              <i class="i i--arrow-down Dropdown-toggleIcon">V</i>
+              <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
             </button>
             <ul class="Dropdown-content">
               <li ng-repeat="doc in editor.documents">
@@ -44,7 +45,7 @@
             <button dropdown-toggle
               class="Dropdown-toggle Link--invert"/>
               <span ng-bind="editor.context.locale.displayName"></span>
-              <i class="i i--arrow-down Dropdown-toggleIcon">V</i>
+              <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
             </button>
             <ul class="Dropdown-content">
               <li ng-repeat="locale in editor.locales">
@@ -63,7 +64,7 @@
       <li>
         <dropdown class="Dropdown Dropdown--right u-sMV-1-2">
           <a dropdown-toggle
-            class="Dropdown-toggle Link--invert u-inlineBlock"
+            class="Dropdown-toggle Link--invert u-inlineBlock u-sizeWidth-1_1-2"
             ng-bind="app.myInfo.locale.localeId"/>
           </a>
           <ul class="Dropdown-content">
@@ -77,17 +78,17 @@
       </li>
       <li>
         <button class="Link--invert Header-item u-sizeWidth-1_1-2"
-          title="{{'More'|translate}}"><i class="i i--large i--ellipsis"></i><span
+          title="{{'More'|translate}}"><icon name="ellipsis"/><span
           class="u-hiddenVisually" translate>More</span></button>
       </li>
       <li>
         <button class="Link--invert Header-item u-sizeWidth-1_1-2"
-          title="{{'Notifications'|translate}}"><i
-          class="i i--large i--notification"></i><span class="u-hiddenVisually" translate>Notifications</span>
+          title="{{'Notifications'|translate}}">
+          <icon name="notification" title="{{'Notifications'|translate}}"/>
         </button>
       </li>
       <li>
-        <a href="/dashboard" class="u-sizeHeight-2 u-sizeWidth-1_1-2" title={{app.myInfo.name}}>
+        <a href="/dashboard" class="u-sizeHeight-2 u-sizeWidth-1_1-2 u-inlineBlock" title={{app.myInfo.name}}>
           <img class="u-round Header-avatar" ng-src="{{app.myInfo.gravatarUrl}}"/>
         </a>
       </li>
@@ -96,11 +97,11 @@
   <nav class="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
     <button
       class="Link--neutral u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2 u-sMR-1-4">
-      <i class="i i--large i--translate"></i><span
-      class="u-sm-hidden u-sMR-1-4" translate> Translating</span></button>
+      <icon name="translate"></icon>
+      <span class="u-sm-hidden u-sMR-1-4" translate> Translating</span></button>
     <div class="u-floatLeft">
-      <ul class="u-listHorizontal u-sizeHeight-1 u-sMV-1-4">
-        <li class="u-sm-hidden">
+      <ul class="u-listHorizontal u-sizeHeight-1">
+        <li class="u-sm-hidden u-sMV-1-4">
           <div class="Toggle u-round u-textSecondary">
             <input class="Toggle-checkbox" type="checkbox" id="filter-phrases-total" checked>
             <span class="Toggle-fakeCheckbox"></span>
@@ -109,97 +110,102 @@
               <span class="u-hiddenVisually" translate>Total Phrases</span>
             </label>
           </div>
-        <li class="u-sm-hidden">
+        <li class="u-sm-hidden u-sMV-1-4">
           <div class="Toggle u-round u-textHighlight">
             <input class="Toggle-checkbox" type="checkbox" id="filter-phrases-approved">
             <span class="Toggle-fakeCheckbox"></span>
             <label class="Toggle-label" for="filter-phrases-approved" title="{{'Approved'|translate}}">
-              <i class="i i--dot"></i>
+              <icon name="dot" class="Icon--xsm"/></icon>
               <span ng-bind="editor.wordStatistic.approved">0</span>
               <span class="u-hiddenVisually" translate>Approved</span>
             </label>
           </div>
         </li>
-        <li class="u-sm-hidden">
+        <li class="u-sm-hidden u-sMV-1-4">
           <div class="Toggle u-round u-textSuccess">
             <input class="Toggle-checkbox" type="checkbox" id="filter-phrases-translated">
             <span class="Toggle-fakeCheckbox"></span>
             <label class="Toggle-label" for="filter-phrases-translated" title="{{'Translated'|translate}}">
-              <i class="i i--dot"></i>
+              <icon name="dot" class="Icon--xsm"/></icon>
               <span ng-bind="editor.wordStatistic.translated">0</span>
               <span class="u-hiddenVisually" translate>Translated</span>
             </label>
           </div>
         </li>
-        <li class="u-sm-hidden">
+        <li class="u-sm-hidden u-sMV-1-4">
           <div class="Toggle u-round u-textUnsure">
             <input class="Toggle-checkbox" type="checkbox" id="filter-phrases-needs-work">
             <span class="Toggle-fakeCheckbox"></span>
             <label class="Toggle-label" for="filter-phrases-needs-work" title="{{'Needs Work'|translate}}">
-              <i class="i i--dot"></i>
+              <icon name="dot" class="Icon--xsm"/></icon>
               <span ng-bind="editor.wordStatistic.needsWork">0</span>
               <span class="u-hiddenVisually" translate>Needs Work</span>
             </label>
           </div>
         </li>
-        <li class="u-sm-hidden">
+        <li class="u-sm-hidden u-sMV-1-4">
           <div class="Toggle u-round u-textNeutral">
             <input class="Toggle-checkbox" type="checkbox" id="filter-phrases-untranslated">
             <span class="Toggle-fakeCheckbox"></span>
             <label class="Toggle-label" for="filter-phrases-untranslated" title="{{'Untranslated'|translate}}">
-              <i class="i i--dot"></i>
+              <icon name="dot" class="Icon--xsm"/></icon>
               <span ng-bind="editor.wordStatistic.untranslated">0</span>
               <span class="u-hiddenVisually" translate>Untranslated</span>
             </label>
           </div>
-        <li>
-          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-            title="{{'Filters'|translate}}"><i class="i i--large i--filter"></i><span
-            class="u-hiddenVisually" translate>More filters</span></button>
+        <li class="u-sML-1-4">
+          <button class="Link--neutral u-sizeHeight-1_1-2"
+            title="{{'Filters'|translate}}">
+            <icon name="filter" title="{{'Filters'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+          </button>
         </li>
         <li>
-          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-            title="{{'Search'|translate}}"><i class="i i--large i--search"></i><span
-            class="u-hiddenVisually" translate>Search</span></button>
+          <button class="Link--neutral u-sizeHeight-1_1-2"
+            title="{{'Search'|translate}}">
+            <icon name="search" title="{{'Search'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+          </button>
         </li>
       </ul>
     </div>
     <div class="u-floatRight">
       <ul class="u-listHorizontal u-textCenter">
         <li>
-          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-            title="{{'Translation Memory'|translate}}"><i
-            class="i i--large i--suggestion"></i><span class="u-hiddenVisually" translate>Translation Memory</span>
+          <button class="Link--neutral u-sizeHeight-1_1-2"
+            title="{{'Translation Memory'|translate}}">
+            <icon name="suggestions" title="{{'Translation Memory'|translate}}" class="u-sizeWidth-1_1-2"></icon>
           </button>
         </li>
         <li>
-          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-            title="{{'Details'|translate}}"><i class="i i--large i--info"></i><span
-            class="u-hiddenVisually" translate>Details</span></button>
+          <button class="Link--neutral u-sizeHeight-1_1-2"
+            title="{{'Details'|translate}}">
+            <icon name="info" title="{{'Details'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+          </button>
         </li>
         <li>
-          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-            title="{{'Glossary'|translate}}"><i class="i i--large i--glossary"></i><span
-            class="u-hiddenVisually" translate>Glossary</span></button>
+          <button class="Link--neutral u-sizeHeight-1_1-2"
+            title="{{'Glossary'|translate}}">
+            <icon name="glossary" title="{{'Glossary'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+          </button>
         </li>
         <li>
-          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-          title="{{'Editor Settings'|translate}}"><i class="i i--large i--settings"></i><span
-          class="u-hiddenVisually" translate>Settings</span></button>
+          <button class="Link--neutral u-sizeHeight-1_1-2"
+          title="{{'Editor Settings'|translate}}">
+            <icon name="settings" title="{{'Editor Settings'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+          </button>
         </li>
         <li>
-          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
+          <button class="Link--neutral u-sizeHeight-1_1-2"
             title="{{'Hide Menubar'|translate}}"
             ng-click="editor.settings.hideMainNav = !editor.settings.hideMainNav">
-            <i class="i i--large"
-              ng-class="{'i--hide-down': editor.settings.hideMainNav, 'i--hide-up': !editor.settings.hideMainNav}"></i>
-            <span class="u-hiddenVisually" translate>Hide Menubar</span>
+            <icon name="chevron-up-double" title="{{'Hide Menubar'|translate}}" class="u-sizeWidth-1_1-2"
+              ng-class="{'is-rotated': editor.settings.hideMainNav}">
+            </icon>
           </button>
         </li>
       </ul>
     </div>
   </nav>
 
-  <progressbar progressbar-statistic="editor.wordStatistic" size="full"></progressbar>
+  <progressbar progressbar-statistic="editor.wordStatistic"></progressbar>
 
 </header>
