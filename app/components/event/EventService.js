@@ -26,7 +26,8 @@
       /**
        * data: {}
        * phrase:
-       * status: request save status
+       * state: request save state
+       * locale: target locale
        */
       SAVE_TRANSLATION: 'saveTranslation'
     };

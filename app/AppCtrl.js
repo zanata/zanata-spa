@@ -127,7 +127,7 @@
           }
         }
       }).state('editor.selectedContext', {
-        url: '/:docId/:localeId',
+        url: '/:docId/:localeId?states',
         views: {
           'editor-content': {
             templateUrl: 'editor/editor-content.html',

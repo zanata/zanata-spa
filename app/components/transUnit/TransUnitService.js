@@ -6,7 +6,8 @@
    *
    * @ngInject
    */
-  function TransUnitService($rootScope, $state, $stateParams, EventService) {
+  function TransUnitService($rootScope, $state, $stateParams, MessageHandler,
+    EventService) {
     var transUnitService = this,
       controllerList = {},
       selectedTUId;
@@ -15,7 +16,7 @@
       controllerList[id] = controller;
     };
 
-    transUnitService.TU_STATUS = {
+    transUnitService.TU_STATE = {
       'TRANSLATED' : 'translated',
       'NEED_REVIEW': 'needReview',
       'APPROVED': 'approved',
@@ -34,31 +35,37 @@
           selectedTUController = controllerList[selectedTUId],
           updateURL = data.updateURL;
 
-        if (selectedTUId && selectedTUId !== data.id) {
-          //perform implicit save if changed
-          if(isTranslationModified(selectedTUController.getPhrase())) {
-            EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-              { 'phrase' : tuController.getPhrase(),
-                'state': transUnitService.TU_STATUS.TRANSLATED
-              }, $rootScope);
+        if(tuController) {
+          if (selectedTUId && selectedTUId !== data.id) {
+            //perform implicit save if changed
+            if(isTranslationModified(selectedTUController.getPhrase())) {
+              EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+                {
+                  'phrase' : tuController.getPhrase(),
+                  'state'  : transUnitService.TU_STATE.TRANSLATED,
+                  'locale' : $stateParams.localeId
+                },
+                $rootScope);
+            }
+            setFocus(selectedTUController, false);
           }
-          setFocus(selectedTUController, false);
+
+          selectedTUId = data.id;
+          setFocus(tuController, true);
+
+          //Update url without reload state
+          if(updateURL) {
+            $state.go('editor.selectedTU', {
+              'docId': $stateParams.docId,
+              'localeId': $stateParams.localeId,
+              'tuId' : data.id
+            },  {
+              notify: false
+            });
+          }
+        } else {
+          MessageHandler.displayWarning('Trans-unit not found:' + data.id);
         }
-
-        selectedTUId = data.id;
-        setFocus(tuController, true);
-
-        //Update url without reload state
-        if(updateURL && updateURL === true) {
-          $state.go('editor.selectedTU', {
-            'docId': $stateParams.docId,
-            'localeId': $stateParams.localeId,
-            'tuId' : data.id
-          },  {
-            notify: false
-          });
-        }
-
       });
 
     /**

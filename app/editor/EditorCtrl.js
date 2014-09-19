@@ -6,8 +6,8 @@
    * @ngInject
    */
   function EditorCtrl(UserService, DocumentService, LocaleService,
-    ProjectService, TransUnitService, StatisticUtil, $stateParams,
-    $state, MessageHandler) {
+    ProjectService, TransUnitService, SaveTranslationService, StatisticUtil,
+    $stateParams, $state, MessageHandler) {
     var editorCtrl = this;
 
     //TODO: cross domain rest

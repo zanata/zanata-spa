@@ -81,13 +81,16 @@
       };
     }
 
-    function getLocalHost() {
-      if (!window.location.origin) {
-        return window.location.protocol + '//' + window.location.hostname +
-          (window.location.port ? ':' + window.location.port : '');
-      }
-      return window.location.origin;
-    }
+    /**
+     * not used at the moment
+     */
+//    function getLocalHost() {
+//      if (!window.location.origin) {
+//        return window.location.protocol + '//' + window.location.hostname +
+//          (window.location.port ? ':' + window.location.port : '');
+//      }
+//      return window.location.origin;
+//    }
   }
 
   angular

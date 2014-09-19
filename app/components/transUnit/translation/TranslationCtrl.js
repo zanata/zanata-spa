@@ -5,7 +5,8 @@
    * TranslationCtrl.js
    * @ngInject
    */
-  function TranslationCtrl($scope, TransUnitService, EventService) {
+  function TranslationCtrl($scope, $stateParams, TransUnitService,
+                           EventService) {
     var translationCtrl = this;
 
     translationCtrl.copySource = function($event) {
@@ -23,16 +24,20 @@
     translationCtrl.saveAsTranslated = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        { 'phrase' : $scope.phrase,
-          'status': TransUnitService.TU_STATUS.TRANSLATED
+        {
+          'phrase' : $scope.phrase,
+          'state'  : TransUnitService.TU_STATE.TRANSLATED,
+          'locale' : $stateParams.localeId
         }, $scope);
     };
 
     translationCtrl.saveAsFuzzy = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        { 'phrase' : $scope.phrase,
-          'status': TransUnitService.TU_STATUS.NEED_REVIEW
+        {
+          'phrase'  : $scope.phrase,
+          'state'  : TransUnitService.TU_STATE.NEED_REVIEW,
+          'locale' : $stateParams.localeId
         }, $scope);
     };
 
@@ -40,7 +45,8 @@
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         { 'phrase' : $scope.phrase,
-          'status': TransUnitService.TU_STATUS.APPROVED
+          'state': TransUnitService.TU_STATE.APPROVED,
+          'locale' : $stateParams.localeId
         }, $scope);
     };
 

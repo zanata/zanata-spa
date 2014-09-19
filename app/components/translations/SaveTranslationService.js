@@ -6,8 +6,8 @@
    * @ngInject
    *
    */
-  function SaveTranslationService($rootScope, UrlService, EventService,
-                                  TransUnitService) {
+  function SaveTranslationService($rootScope, $resource, UrlService,
+                                  EventService, TransUnitService) {
     var saveTranslationService = this,
       queue = {};
 
@@ -21,44 +21,49 @@
     $rootScope.$on(EventService.EVENT.SAVE_TRANSLATION,
       function (event, data) {
         var phrase = data.phrase,
-          status = data.status;
+          state = data.state;
 
         //update pending queue if contains
         if(phrase.id in queue) {
           var pendingRequest = queue[phrase.id];
           pendingRequest.phrase = phrase;
-          pendingRequest.state = status;
+          pendingRequest.state = state;
+          processSaveRequest(phrase.id);
         } else if(isTranslationModified(phrase)) {
-          status = resolveTranslationState(phrase, status);
+          state = resolveTranslationState(phrase, state);
           queue[phrase.id] = {
             'phrase': phrase,
-            'state' : status
-          }
+            'state' : state,
+            'locale': data.locale
+          };
+          processSaveRequest(phrase.id);
         }
-        processSaveRequest(phrase.id);
       });
 
     // Process save translation request
     function processSaveRequest(id) {
       var request = queue[id];
-
       console.log('Perform save translation ' + id + ' as ' + request.state);
 
       var Translation = $resource(UrlService.TRANSLATION_URL, {}, {
-        put: {
-          method: 'PUT'
+        update: {
+          method: 'PUT',
+          params: {
+            localeId: request.locale
+          }
         }
       });
 
-      var data = [{
+      var data = {
         id: request.phrase.id,
         revision: request.phrase.revision,
         content: request.phrase.newTranslation,
         state: request.state,
         plurals: []
-      }];
+      };
 
-      Translation.put(data).$promise.then(translationUpdatedCallback);
+      Translation.update(data).$promise.then(updatedSuccessCallback,
+        updateFailCallback);
       delete queue[id];
     }
 
@@ -67,13 +72,22 @@
      * - update revision, content in cache
      * - update queue if contains tu
      */
-    function translationUpdatedCallback(response) {
+    function updatedSuccessCallback(response) {
+      console.log(response);
+    }
 
+    /**
+     * Notify update failure
+     *
+     * @param response
+     */
+    function updateFailCallback(response) {
+      console.log('translation update fail-' + response);
     }
 
     function resolveTranslationState(phrase, requestStatus) {
       if(phrase.newTranslation === '') {
-        return TransUnitService.TU_STATUS.UNTRANSLATED;
+        return TransUnitService.TU_STATE.UNTRANSLATED;
       }
       return requestStatus;
     }
