@@ -46,6 +46,7 @@
     "gulp-replace-task": "0.0.6",
     "gulp-rework": "^0.4.0",
     "gulp-rimraf": "^0.1.0",
+    "gulp-svg-sprites": "^1.0.3",
     "gulp-uglify": "^0.2.1",
     "gulp-webserver": "^0.4.0",
     "jshint-stylish": "^0.4.0",

@@ -1,0 +1,52 @@
+/** @define Icon; use strict */
+
+:root {
+  --Icon-rhythm: 1.5rem;
+  --Icon-transition: .25s all cubic-bezier(.175, .885, .320, 1.275);
+}
+
+.Icon {
+  text-align: center;
+  display: inline-block;
+  transition: var(--Icon-transition);
+}
+
+.Icon.is-rotated {
+  transform: rotate(180deg);
+}
+
+.Icon-item {
+  vertical-align: -25%;
+  display: inline-block;
+  width: var(--Icon-rhythm);
+  height: var(--Icon-rhythm);
+  fill: currentColor !important;
+}
+
+.Icon--xlg .Icon-item {
+  width: calc(var(--Icon-rhythm) * 2);
+  height: calc(var(--Icon-rhythm) * 2);
+}
+
+.Icon--lg .Icon-item {
+  width: calc(var(--Icon-rhythm) * 1.5);
+  height: calc(var(--Icon-rhythm) * 1.5);
+}
+
+.Icon--sm .Icon-item {
+  vertical-align: -15%;
+  width: calc(var(--Icon-rhythm) * .75);
+  height: calc(var(--Icon-rhythm) * .75);
+}
+
+.Icon--xsm .Icon-item {
+  vertical-align: -5%;
+  width: calc(var(--Icon-rhythm) * .5);
+  height: calc(var(--Icon-rhythm) * .5);
+}
+
+.Icon--stroked .Icon-item {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+}
