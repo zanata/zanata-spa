@@ -16,13 +16,12 @@
         size: '@' //large, full, or empty
       },
       templateUrl: 'components/progressbar/progressbar.html',
-      link: function(scope, element, attr) {
+      link: function(scope) {
         scope.$watch('progressbarStatistic', function(statistic) {
           if (statistic) {
             scope.style = getStyle(statistic);
           }
         });
-        scope.size = attr.size;
       }
     };
   }

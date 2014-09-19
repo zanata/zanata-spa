@@ -30,14 +30,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  visibility: hidden;
+  opacity: 0;
 }
 
 .Toggle-label {
   font-weight: 600;
   display: block;
   position: relative;
-  padding: 0 calc(var(--Toggle-rhythm) * .25);
+  padding: 0 calc(var(--Toggle-rhythm) * .375);
   transition: var(--Toggle-transition);
   text-align: center;
   color: var(--Toggle-color);
@@ -54,7 +54,8 @@
   background-color: transparent;
 }
 
-.Toggle:hover > .Toggle-fakeCheckbox {
+.Toggle:hover > .Toggle-fakeCheckbox,
+.Toggle-checkbox:focus ~ .Toggle-fakeCheckbox {
   background-color: var(--Toggle-color-bg-active);
   opacity: .2;
 }
@@ -70,6 +71,7 @@
 }
 
 .Toggle:hover > .Toggle-checkbox:checked ~ .Toggle-fakeCheckbox,
+.Toggle-checkbox:checked:focus ~ .Toggle-fakeCheckbox,
 .Toggle.is-active:hover > .Toggle-fakeCheckbox {
-  opacity: .9;
+  opacity: .8;
 }

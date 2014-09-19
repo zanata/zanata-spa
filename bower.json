@@ -44,5 +44,8 @@
         "styles/tomorrow.css"
       ]
     }
+  },
+  "resolutions": {
+    "angular": ">= 1.0.8"
   }
 }

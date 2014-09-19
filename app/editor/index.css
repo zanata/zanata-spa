@@ -1,8 +1,8 @@
 /** @define Editor; use strict */
 
 :root {
-  --rhythm: 1.5rem;
-  --transition-ease-out-back: cubic-bezier(.175, .885, .320, 1.275);
+  --Editor-rhythm: 1.5rem;
+  --Editor-transition: cubic-bezier(.175, .885, .320, 1.275);
 }
 
 .Editor {
@@ -12,11 +12,15 @@
 .Editor-header,
 .Editor-loader,
 .Editor-content {
-  transition: .2s all var(--transition-ease-out-back);
+  transition: .2s all var(--Editor-transition);
 }
 
 .Editor-header.is-minimised {
-  transform: translateY(calc(var(--rhythm) * -2));
+  transform: translateY(calc(var(--Editor-rhythm) * -2));
+}
+
+.Editor-header.is-minimised .Editor-mainNav {
+  visibility: hidden;
 }
 
 .Editor-loader {
@@ -24,7 +28,7 @@
   z-index: 500;
   top: 0;
   left: 50%;
-  transform: translate(-50%, calc(var(--rhythm) * .25));
+  transform: translate(-50%, calc(var(--Editor-rhythm) * .25));
 }
 
 .Editor-loader.is-minimised {
@@ -32,32 +36,32 @@
 }
 
 .Editor-mainNav {
-  height: calc(var(--rhythm) * 2);
+  height: calc(var(--Editor-rhythm) * 2);
 }
 
 .Editor-content {
   position: fixed;
-  top: calc(var(--rhythm) * 4);
+  top: calc(var(--Editor-rhythm) * 4);
   bottom: 0;
   overflow: auto;
   width: 100%;
   /*TODO: Remove important;*/
-  padding: calc(var(--rhythm) * 1.5) 0 calc(var(--rhythm) * 1.5) !important;
+  padding: calc(var(--Editor-rhythm) * 1.5) 0 calc(var(--Editor-rhythm) * 1.5) !important;
 
   -webkit-overlow-scrolling: touch;
 }
 
 .Editor-content.is-maximised {
-  bottom: calc(var(--rhythm) * -2);
-  transform: translateY(calc(var(--rhythm) * -2));
+  bottom: calc(var(--Editor-rhythm) * -2);
+  transform: translateY(calc(var(--Editor-rhythm) * -2));
 }
 
 .Editor-currentDoc {
-  max-width: calc(var(--rhythm) * 3.5);
+  max-width: calc(var(--Editor-rhythm) * 3.5);
 }
 
 .Editor-currentLang {
-  max-width: calc(var(--rhythm) * 3.5);
+  max-width: calc(var(--Editor-rhythm) * 3.5);
 }
 
 /**
@@ -66,7 +70,7 @@
 
 @media (--sm-viewport) {
   .Editor-currentProject {
-    max-width: calc(var(--rhythm) * 3.5);
+    max-width: calc(var(--Editor-rhythm) * 3.5);
   }
 }
 
@@ -79,7 +83,7 @@
 
   .is-horizontal-editor .Editor-content:before {
     left: 50%;
-    margin-left: calc(var(--rhythm) * -.5);
+    margin-left: calc(var(--Editor-rhythm) * -.5);
   }
 
   .is-horizontal-editor .Editor-content:after {

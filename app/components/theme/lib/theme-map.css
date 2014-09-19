@@ -56,7 +56,15 @@
  */
 
 :root {
-  --u-text-invert-color: var(--color-lightest-grey);
+  --u-text-color-invert: var(--color-lightest-grey);
+  --u-text-color-primary: var(--color-primary);
+  --u-text-color-secondary: var(--color-secondary);
+  --u-text-color-highlight: var(--color-highlight);
+  --u-text-color-success: var(--color-success);
+  --u-text-color-unsure: var(--color-unsure);
+  --u-text-color-neutral: var(--color-neutral);
+  --u-text-color-warning: var(--color-warning);
+  --u-text-color-danger: var(--color-danger);
   --u-text-muted-opacity: .6;
 }
 
@@ -185,7 +193,6 @@
 
 }
 
-
 /**
  * Progressbar
  */
@@ -212,4 +219,43 @@
   --Toggle-color-active-invert : var(--color-black);
   --Toggle-color-bg-active     : var(--Toggle-color);
   --Toggle-transition          : all .25s var(--transition-ease-out-circ);
+}
+
+/**
+ * TransUnit
+ */
+
+:root {
+  --TransUnit-rhythm: var(--rhythm);
+  --TransUnit-transition-ease: var(--transition-ease-out-circ);
+  --TransUnit-transition: all .25s var(--TransUnit-transition-ease);
+  --TransUnit-translation-color-bg: var(--color-white);
+  --TransUnit-header-footer-color-bg: var(--color-white);
+  --TransUnit-border-color: var(--default-border-color);
+  --TransUnit-heading-font-size: 1rem;
+  --TransUnit-text-font-size: 1rem;
+  --TransUnit-text-font-family: var(--font-size-base);
+  --TransUnit-text-line-height: var(--default-line-height);
+  --TransUnit-color-highlight: var(--color-highlight);
+  --TransUnit-color-success: var(--color-success);
+  --TransUnit-color-unsure: var(--color-unsure);
+  --TransUnit-color-neutral: var(--color-neutral);
+  --TransUnit-color-warning: var(--color-warning);
+  --TransUnit-color-danger: var(--color-danger);
+  --TransUnit-metaDataButton-size: calc(12/16 * 1rem);
+}
+
+/**
+ *
+ * Views
+ *
+ */
+
+/**
+ * Editor
+ */
+
+:root {
+  --Editor-rhythm: var(--rhythm);
+  --Editor-transition: var(--transition-ease-out-back);
 }
