@@ -46,8 +46,7 @@
     function getStatistics(_projectSlug, _versionSlug,
       _docId, _localeId) {
       if (_docId && _localeId) {
-        //TODO: need to hash this key
-        var key = _docId + _localeId;
+        var key = _docId + '-' + _localeId;
         if (key in documentService.statisticMap) {
           var deferred = $q.defer();
           deferred.resolve(documentService.statisticMap[key]);
