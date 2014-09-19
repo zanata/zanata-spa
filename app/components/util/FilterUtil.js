@@ -15,14 +15,10 @@
       if(!resources || !fields || !terms) {
         return resources;
       }
-      var filteredResources = [];
 
-      _.forEach(resources, function (resource) {
-        if(isInclude(resource, fields, terms)) {
-          filteredResources.push(resource);
-        }
+      return _.filter(resources, function (resource) {
+        return isInclude(resource, fields, terms);
       });
-      return filteredResources;
     }
 
     function isInclude(resource, fields, terms) {

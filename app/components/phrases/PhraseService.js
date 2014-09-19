@@ -59,7 +59,7 @@
     phraseService.getPhrase = function (locale, filter, offset, maxResult) {
       var ids = getIds(phraseService.states, filter.states);
 
-      if (offset && maxResult) {
+      if (offset) {
         if(maxResult) {
           ids = ids.slice(offset, offset + maxResult);
         } else {
@@ -116,16 +116,12 @@
     };
 
     function getIds(resources, states) {
-      var ids = [];
       if(states) {
         resources = FilterUtil.filterResources(resources, ['state'], states);
       }
-      if(resources.length > 0) {
-        resources.forEach(function (item) {
-          ids.push(item.id);
-        });
-      }
-      return ids;
+      return _.map(resources, function (item) {
+        return item.id;
+      });
     }
 
     function getStatusClass(trans) {
