@@ -1,0 +1,49 @@
+@import 'suitcss-utils-display';
+
+/**
+ * Round box
+ *
+ * Use of % here will distort box if it is not square
+ */
+
+.u-round {
+  border-radius: 1000px !important;
+  overflow: hidden;
+}
+
+@media (--sm-viewport) {
+  .u-sm-hidden {
+    display: none !important;
+  }
+}
+
+@media (--md-viewport) {
+  .u-md-hidden {
+    display: none !important;
+  }
+}
+
+@media (--ltemd-viewport) {
+  .u-ltemd-hidden {
+    display: none !important;
+  }
+}
+
+
+@media (--gtemd-viewport) {
+  .u-gtemd-hidden {
+    display: none !important;
+  }
+}
+
+@media (--lg-viewport) {
+  .u-lg-hidden {
+    display: none !important;
+  }
+}
+
+@media (--gtelg-viewport) {
+  .u-gtelg-hidden {
+    display: none !important;
+  }
+}

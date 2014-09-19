@@ -1,0 +1,215 @@
+/**
+ *
+ * Utilities
+ *
+ */
+
+/**
+ * Background
+ */
+
+:root {
+
+  --u-bg-transition          : var(--default-transition);
+  --u-bg-border              : var(--default-border);
+  --u-bg-border-bottom-width : 2px;
+  --u-bg-color               : var(--color-bg);
+  --u-bg-color-lightest      : var(--color-bg-lightest);
+  --u-bg-color-lighter       : var(--color-bg-lighter);
+  --u-bg-color-light         : var(--color-bg-light);
+  --u-bg-color-dark          : var(--color-bg-dark);
+  --u-bg-color-darker        : var(--color-bg-darker);
+  --u-bg-color-darkest       : var(--color-bg-darkest);
+  --u-bg-color-primary       : var(--color-primary);
+  --u-bg-color-secondary     : var(--color-secondary);
+  --u-bg-color-neutral       : var(--u-bg-color);
+  --u-bg-color-danger        : color(var(--color-danger) tint(80%));
+  --u-bg-color-warning       : color(var(--color-warning) tint(80%));
+  --u-bg-color-unsure        : color(var(--color-unsure) tint(90%));
+  --u-bg-color-success       : color(var(--color-success) tint(80%));
+  --u-bg-color-highlight     : color(var(--color-highlight) tint(80%));
+
+}
+
+/**
+ * Space
+ */
+
+:root {
+
+  --u-space: var(--rhythm);
+
+}
+
+/**
+ * Size
+ */
+
+:root {
+
+  --u-size: var(--rhythm);
+
+}
+
+/**
+ * Text
+ */
+
+:root {
+  --u-text-invert-color: var(--color-lightest-grey);
+  --u-text-muted-opacity: .6;
+}
+
+
+/**
+ *
+ * Components
+ *
+ */
+
+/**
+ * Base
+ */
+
+:root {
+
+  /* Forms */
+  --base-form-color-placeholder : color(var(--color-secondary) tint(50%));
+
+  /* Global */
+  --base-font-size              : var(--font-size-base);
+  --base-font-family            : var(--font-family-base);
+  --base-color-font             : var(--color-base-font);
+  --base-line-height            : var(--default-line-height);
+  --base-bg-color               : var(--color-bg);
+
+  /* Headings */
+  --base-heading-size           : var(--font-size-base);
+  --base-heading-color          : var(--color-secondary);
+
+  /* Links */
+  --base-link-color             : var(--color-highlight);
+  --base-link-color-hover       : color(var(--base-link-color) shade(5%));
+  --base-link-color-active      : color(var(--base-link-color) shade(10%));
+
+  /* Lists */
+  --base-list-rhythm            : var(--rhythm);
+
+  /* Media */
+  --media-figure-color          : var(--color-grey);
+
+  /* Misc */
+  --base-misc-hr-border         : 1px solid;
+  --base-misc-hr-border-color   : var(--color-grey);
+
+  /* Text */
+  --base-text-code-font-family  : var(--font-family-monospace);
+  --base-text-code-font-size    : 14px;
+  --base-text-code-font-color   : var(--color-light-grey);
+  --base-text-code-font-weight  : 400;
+  --base-text-rhythm            : var(--rhythm);
+
+}
+
+
+/**
+ * Header
+ */
+
+:root {
+  --Header-background : var(--color-primary);
+  --Header-rhythm     : var(--rhythm);
+}
+
+
+/**
+ * Headings
+ */
+
+:root {
+  --Heading-font-family: var(--font-family-base);
+}
+
+
+/**
+ * Links
+ */
+
+:root {
+  --Link-color           : var(--base-link-color);
+  --Link-color-hover     : color(var(--Link-color) shade(5%));
+  --Link-color-active    : color(var(--Link-color) shade(10%));
+  --Link-color-invert    : var(--color-white);
+  --Link-color-neutral   : var(--color-neutral);
+  --Link-color-danger    : var(--color-danger);
+  --Link-color-warning   : var(--color-warning);
+  --Link-color-unsure    : var(--color-unsure);
+  --Link-color-success   : var(--color-success);
+  --Link-color-highlight : var(--color-highlight);
+}
+
+
+/**
+ * Button
+ */
+
+:root {
+  --Button-border-color     : currentcolor;
+  --Button-border-width     : 0;
+  --Button-color            : inherit;
+  --Button-disabled-opacity : 0.6;
+  --Button-font             : inherit;
+  --Button-padding          : 0.375rem 0.75rem;
+}
+
+
+/**
+ * Dropdown
+ */
+
+:root {
+
+  --Dropdown-z                        : var(--z-scale-1);
+  --Dropdown-active-z                 : var(--z-scale-8);
+  --Dropdown-content-z                : var(--z-scale-7);
+  --Dropdown-transition               : all .2s var(--transition-ease-out-back);
+  --Dropdown-rhythm                   : var(--rhythm);
+  --Dropdown-z                        : var(--z-scale-1);
+  --Dropdown-active-z                 : var(--z-scale-8);
+  --Dropdown-content-z                : var(--z-scale-7);
+  --Dropdown-content-background-color : var(--color-white);
+  --Dropdown-content-border           : var(--default-border);
+  --Dropdown-item-transition          : all .2s ease-out;
+  --Dropdown-item-color               : var(--Dropdown-content-background-color);
+  --Dropdown-item-color-bg            : var(--color-highlight);
+
+}
+
+
+/**
+ * Progressbar
+ */
+
+:root {
+  --Progressbar-rhythm    : var(--rhythm);
+  --Progressbar-highlight : var(--color-highlight);
+  --Progressbar-success   : var(--color-success);
+  --Progressbar-unsure    : var(--color-unsure);
+  --Progressbar-neutral   : var(--color-neutral);
+  --Progressbar-warning   : var(--color-warning);
+  --Progressbar-danger    : var(--color-danger);
+}
+
+
+/**
+ * Toggle
+ */
+
+:root {
+  --Toggle-rhythm              : var(--rhythm);
+  --Toggle-color               : currentColor;
+  --Toggle-color-active        : var(--color-white);
+  --Toggle-color-active-invert : var(--color-black);
+  --Toggle-color-bg-active     : var(--Toggle-color);
+  --Toggle-transition          : all .25s var(--transition-ease-out-circ);
+}

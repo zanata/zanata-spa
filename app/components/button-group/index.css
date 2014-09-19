@@ -1,0 +1,10 @@
+/** @define ButtonGroup; use strict */
+
+@import 'suitcss-components-button-group';
+@import 'suitcss-components-button-group/button-group.plugin.css';
+
+:root {
+  /* From suitcss-components-button-group */
+  --font-size-ButtonGroup: 1rem;
+  --border-width-Button: 0;
+}

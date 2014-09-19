@@ -37,12 +37,12 @@
 
 .Editor-content {
   position: fixed;
-  top: calc(var(--rhythm) * 3.5);
+  top: calc(var(--rhythm) * 4);
   bottom: 0;
   overflow: auto;
   width: 100%;
   /*TODO: Remove important;*/
-  padding: calc(var(--rhythm) * .5) 0 calc(var(--rhythm) * .5) !important;
+  padding: calc(var(--rhythm) * 1.5) 0 calc(var(--rhythm) * 1.5) !important;
 
   -webkit-overlow-scrolling: touch;
 }
@@ -70,7 +70,7 @@
   }
 }
 
-@media (--gtmd-viewport) {
+@media (--gtemd-viewport) {
   .Editor-content {
     background-image: url("../images/editor/editor-bg.gif");
     background-repeat: repeat-y;

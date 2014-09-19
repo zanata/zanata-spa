@@ -1,0 +1,57 @@
+@import 'suitcss-utils-size';
+
+:root {
+  --u-size: 1.5rem;
+}
+
+/* Width */
+
+.u-sizeWidth-1-4 {
+  width: calc(var(--u-size) * .25) !important;
+}
+
+.u-sizeWidth-1-2 {
+  width: calc(var(--u-size) * .5) !important;
+}
+
+.u-sizeWidth-3-4 {
+  width: calc(var(--u-size) * .75) !important;
+}
+
+.u-sizeWidth-1 {
+  width: var(--u-size) !important;
+}
+
+.u-sizeWidth-1_1-2 {
+  width: calc(var(--u-size) * 1.5) !important;
+}
+
+.u-sizeWidth-2 {
+  width: calc(var(--u-size) * 2) !important;
+}
+
+/* Height */
+
+.u-sizeHeight-1-4 {
+  height: calc(var(--u-size) * .25) !important;
+}
+
+.u-sizeHeight-1-2 {
+  height: calc(var(--u-size) * .5) !important;
+}
+
+.u-sizeHeight-3-4 {
+  height: calc(var(--u-size) * .75) !important;
+}
+
+.u-sizeHeight-1 {
+  height: var(--u-size) !important;
+}
+
+.u-sizeHeight-1_1-2 {
+  height: calc(var(--u-size) * 1.5) !important;
+}
+
+.u-sizeHeight-2 {
+  height: calc(var(--u-size) * 2) !important;
+}

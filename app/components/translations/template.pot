@@ -38,10 +38,6 @@ msgid "Filters"
 msgstr ""
 
 #: app/editor/editor-header.html
-msgid "Fuzzy"
-msgstr ""
-
-#: app/editor/editor-header.html
 msgid "Glossary"
 msgstr ""
 
@@ -55,6 +51,10 @@ msgstr ""
 
 #: app/editor/editor-header.html
 msgid "More filters"
+msgstr ""
+
+#: app/editor/editor-header.html
+msgid "Needs Work"
 msgstr ""
 
 #: app/editor/editor-content.html
