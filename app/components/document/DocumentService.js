@@ -8,10 +8,8 @@
    * DocumentService.js
    * @ngInject
    */
-  function DocumentService($q, $filter, $timeout, $http,
-    $resource, UrlService, StringUtil) {
-    var documentService = this;
-    documentService.statisticMap = {};
+  function DocumentService($q, $resource, UrlService, StringUtil, _) {
+    var statisticMap = {};
 
     /**
      * Finds all documents in given project version
@@ -47,10 +45,8 @@
       _docId, _localeId) {
       if (_docId && _localeId) {
         var key = _docId + '-' + _localeId;
-        if (key in documentService.statisticMap) {
-          var deferred = $q.defer();
-          deferred.resolve(documentService.statisticMap[key]);
-          return deferred.promise;
+        if (key in statisticMap) {
+          return $q.when(statisticMap[key]);
         } else {
           var Statistics = $resource(UrlService.DOC_STATISTIC_URL, {}, {
             query: {
@@ -64,26 +60,29 @@
               isArray: true
             }
           });
-          var result = Statistics.query();
-          documentService.statisticMap[key] = result;
-          return result.$promise;
+          return Statistics.query().$promise.then(function(statistics) {
+            statisticMap[key] = statistics;
+            return statisticMap[key];
+          });
         }
       }
     }
 
-    //Get document by docId from list
-    function getDocById(documents, docId) {
-      for (var i = 0; i < documents.length; i++) {
-        if (StringUtil.equals(documents[i].name, docId, true)) {
-          return documents[i];
+    function containsDoc(documents, docId) {
+      var contains = false;
+      _.every(documents, function (document) {
+        if (StringUtil.equals(document.name, docId, true)) {
+          contains  = true;
+          return false; //break from loop
         }
-      }
+      });
+      return contains;
     }
 
     return {
       findAll       : findAll,
       getStatistics : getStatistics,
-      getDocById    : getDocById
+      containsDoc   : containsDoc
     };
   }
 

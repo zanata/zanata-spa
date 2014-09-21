@@ -25,12 +25,12 @@
           <dropdown class="dropdown">
             <a dropdown-toggle
               class="dropdown__toggle link--invert"
-              ng-bind="editor.context.document.name"/>
+              ng-bind="editor.context.docId"/>
             </a>
             <ul class="dropdown__content">
               <li ng-repeat="doc in editor.documents">
                 <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{doc.name}}/{{editor.context.locale.localeId}}"
-                  ng-click="editor.updateSelectedDoc(doc)">
+                  ng-click="editor.updateSelectedDoc(doc.name)">
                   <span ng-bind="doc.name"></span>
                 </a>
               </li>
@@ -41,11 +41,11 @@
           <dropdown class="dropdown">
             <a dropdown-toggle
               class="dropdown__toggle link--invert"
-              ng-bind="editor.context.locale.displayName"/>
+              ng-bind="editor.context.locale.displayName">
             </a>
             <ul class="dropdown__content">
               <li ng-repeat="locale in editor.locales">
-                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.context.document.name}}/{{locale.localeId}}"
+                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.context.docId}}/{{locale.localeId}}"
                   ng-click="editor.updateSelectedLocale(locale)">
                   <span ng-bind="locale.displayName"></span>
                 </a>

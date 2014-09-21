@@ -6,8 +6,9 @@
    * @ngInject
    *
    */
-  function SaveTranslationService($rootScope, $resource, UrlService,
-                                  EventService, TransUnitService) {
+  function SaveTranslationService($rootScope, $resource, PhraseService,
+                                  MessageHandler, UrlService, EventService,
+                                  TransUnitService) {
     var saveTranslationService = this,
       queue = {};
 
@@ -43,7 +44,6 @@
     // Process save translation request
     function processSaveRequest(id) {
       var request = queue[id];
-      console.log('Perform save translation ' + id + ' as ' + request.state);
 
       var Translation = $resource(UrlService.TRANSLATION_URL, {}, {
         update: {
@@ -62,27 +62,17 @@
         plurals: []
       };
 
-      Translation.update(data).$promise.then(updatedSuccessCallback,
-        updateFailCallback);
+      Translation.update(data).$promise.then(
+        function(response) {
+          PhraseService.onTransUnitUpdated(data.id, request.locale,
+            response.revision, response.state, request.phrase.newTranslation);
+        },
+        function(response) {
+          MessageHandler.displayWarning('Update translation failed for ' +
+            data.id + ' -' + response);
+          PhraseService.onTransUnitUpdateFailed(data.id);
+        });
       delete queue[id];
-    }
-
-    /*
-     * Callback for translation update:
-     * - update revision, content in cache
-     * - update queue if contains tu
-     */
-    function updatedSuccessCallback(response) {
-      console.log(response);
-    }
-
-    /**
-     * Notify update failure
-     *
-     * @param response
-     */
-    function updateFailCallback(response) {
-      console.log('translation update fail-' + response);
     }
 
     function resolveTranslationState(phrase, requestStatus) {

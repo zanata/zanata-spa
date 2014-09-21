@@ -5,17 +5,18 @@
    * EditorContentCtrl.js
    * @ngInject
    */
-  function EditorContentCtrl(PhraseService, $stateParams, UrlService) {
+  function EditorContentCtrl(PhraseService, UrlService, $stateParams) {
     var maxResult = 50,
         editorContentCtrl = this,
         states = UrlService.readValue('states');
+    editorContentCtrl.phrases = [];
 
     //wrapper for all types of filtering
     var filter = {
       'states': states ? states.split(' ') : states
     };
 
-    loadPhrases($stateParams.projectSlug, $stateParams.versionSlug,
+    init($stateParams.projectSlug, $stateParams.versionSlug,
       $stateParams.docId, $stateParams.localeId, filter);
 
     /**
@@ -26,19 +27,19 @@
      * @param docId
      * @param localeId
      */
-    function loadPhrases(projectSlug, versionSlug, docId, localeId, filter) {
-
-      PhraseService.getStates(projectSlug, versionSlug, docId, localeId).then(
-        function(states) {
-          PhraseService.states = states;
-
-          PhraseService.getPhrase(localeId, filter, 0, maxResult)
-            .then(function(phrases) {
-              editorContentCtrl.phrases = phrases;
-            });
-        }
-      );
+    function init(projectSlug, versionSlug, docId, localeId, filter) {
+      PhraseService.fetchAllPhrase(projectSlug, versionSlug, docId, localeId,
+        filter, states, 0, maxResult)
+        .then(displayPhrases);
     }
+
+    function displayPhrases(phrases) {
+      editorContentCtrl.phrases = phrases;
+    }
+
+    editorContentCtrl.updatePhrase = function() {
+
+    };
 
     return editorContentCtrl;
   }

@@ -5,10 +5,11 @@
    * @name PhraseService
    * @description Provides a list of phrases for the current document(s)
    */
-  function PhraseService($filter, $resource, UrlService, TransUnitService,
-                         FilterUtil, _) {
+  function PhraseService(TransUnitService, FilterUtil, PhraseCache, _) {
     var phraseService = {},
       stateCssClass =  {};
+
+    phraseService.phrases = []; //current displayed phrases
 
     stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED.toLowerCase()] =
       'untranslated';
@@ -19,10 +20,6 @@
     stateCssClass[TransUnitService.TU_STATE.TRANSLATED.toLowerCase()] =
       'translated';
 
-    //id and states of all tu
-    phraseService.states = [];
-
-
     // FIXME use an object for all the ID arguments - in general we will only
     // need to modify such an object sporadically when switching document
     // or locale, and it is neater than passing them all
@@ -30,76 +27,39 @@
 
 
     /**
-     * Fetch full list of translation states for each string in this document.
-     *
-     * Returns a promise that is fulfilled when the request completes.
-     */
-    phraseService.getStates = function (projectId, versionId,
-                                        documentId, locale) {
-      var methods = {
-          query: {
-            method: 'GET',
-            params: {
-              projectSlug: projectId,
-              versionSlug: versionId,
-              // This must be encoded for URL, is it passed encoded?
-              docId: documentId,
-              localeId: locale
-            },
-            isArray: true
-          }
-        },
-        States = $resource(UrlService.TRANSLATION_STATES_URL, {}, methods);
-      return States.query().$promise;
-    };
-
-    /**
      * Fetch each of the text flows appearing in the given states data.
      */
-    phraseService.getPhrase = function (locale, filter, offset, maxResult) {
-      var ids = getIds(phraseService.states, filter.states);
+    phraseService.fetchAllPhrase = function (projectSlug, versionSlug, docId,
+      localeId, filter, states, offset, maxResult) {
 
-      if (offset) {
-        if(maxResult) {
-          ids = ids.slice(offset, offset + maxResult);
-        } else {
-          ids = ids.slice(offset);
-        }
-      }
+      return PhraseCache.getStates(projectSlug, versionSlug, docId, localeId).
+        then(getTransUnits);
 
-      var TextFlows = $resource(UrlService.TEXT_FLOWS_URL, {}, {
-        query: {
-          method: 'GET',
-          params: {
-            localeId: locale,
-            ids: ids.join(',')
+      function getTransUnits(states) {
+        var ids = getIds(states, filter.states);
+        if (offset) {
+          if(maxResult) {
+            ids = ids.slice(offset, offset + maxResult);
+          } else {
+            ids = ids.slice(offset);
           }
         }
-      });
-
-      // Reading for chaining promises https://github.com/kriskowal/q
-      // (particularly "Sequences").
-      return TextFlows.query().$promise.then(transformToPhrases);
+        // Reading for chaining promises https://github.com/kriskowal/q
+        // (particularly "Sequences").
+        return PhraseCache.getTransUnits(ids, localeId).
+          then(transformToPhrases).then(sortPhrases);
+      }
 
       /**
        * Converts text flow data from the API into the form expected in the
        * editor.
        */
-      function transformToPhrases(textFlows) {
-        // TODO caching textFlow data in a smart cache when it arrives.
-
+      function transformToPhrases(transUnits) {
         var phrases = [];
 
-        // a few properties of the object are added by the promise
-        // (all those starting with $, textflow id never contains $).
-        var ids = Object.keys(textFlows).filter(function (id) {
-          return id.indexOf('$') === -1;
-        });
-
-        ids.forEach(function (id) {
-          var textFlow = textFlows[id],
-            source = textFlow.source,
-            trans = textFlow[locale];
+        for (var id in transUnits) {
+          var source = transUnits[id].source,
+            trans = transUnits[id][localeId];
           phrases.push({
             id: parseInt(id),
             // TODO handle plural content
@@ -108,12 +68,55 @@
             newTranslation: trans ? trans.content : '',//translation from editor
             status: trans ? trans.state :
               TransUnitService.TU_STATE.UNTRANSLATED,
+            revision: trans ? parseInt(trans.revision) : 0,
             statusClass: getStatusClass(trans)
           });
-        });
+        }
         return phrases;
       }
+
+      function sortPhrases(phrases) {
+        return PhraseCache.getStates(projectSlug, versionSlug, docId, localeId).
+          then(function(states) {
+            phraseService.phrases = _.sortBy(phrases, function(phrase) {
+              var index = _.findIndex(states, function(state) {
+                return state.id === phrase.id;
+              });
+              return index >= 0 ? index : phrases.length;
+            });
+            return phraseService.phrases;
+          });
+      }
     };
+
+    //update phrase,states and textFlows with given tu id
+    phraseService.onTransUnitUpdated = function(id, localeId, revision,
+                                                state, content, contents) {
+      PhraseCache.onTransUnitUpdated(id, localeId, revision, state, content,
+        contents);
+
+      var phrase = findPhrase(id, phraseService.phrases);
+      //update phrase if found
+      if(phrase) {
+        phrase.translation = content;
+        phrase.revision = revision;
+        phrase.state = state;
+      }
+    };
+
+    //rollback content of phrase
+    phraseService.onTransUnitUpdateFailed = function(id) {
+      var phrase = findPhrase(id, phraseService.phrases);
+      if(phrase) {
+        phrase.newTranslation = phrase.translation;
+      }
+    };
+
+    function findPhrase(id, phrases) {
+      return _.find(phrases, function(phrase) {
+        return phrase.id === id;
+      });
+    }
 
     function getIds(resources, states) {
       if(states) {

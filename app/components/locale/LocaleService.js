@@ -54,7 +54,7 @@
       getUILocaleList     : getUILocaleList,
       getLocaleByLocaleId : getLocaleByLocaleId,
       DEFAULT_LOCALE: {
-        'localeId' : 'en',
+        'localeId' : 'en-us',
         'displayName' : 'English'
       }
     };

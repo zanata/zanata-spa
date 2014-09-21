@@ -6,8 +6,8 @@
    * @ngInject
    */
   function EditorCtrl(UserService, DocumentService, LocaleService,
-    ProjectService, TransUnitService, SaveTranslationService, StatisticUtil,
-    $stateParams, $state, MessageHandler) {
+    ProjectService, TransUnitService, SaveTranslationService, EditorService,
+    StatisticUtil, $stateParams, $state, MessageHandler) {
     var editorCtrl = this;
 
     //TODO: cross domain rest
@@ -15,10 +15,9 @@
 
     //Working URL: http://localhost:8000/#/tiny-project/1/translate or
     // http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr
-
-    editorCtrl.context = UserService.editorContext($stateParams.projectSlug,
-        $stateParams.versionSlug, '', LocaleService.DEFAULT_LOCALE,
-      '', 'READ_WRITE');
+    editorCtrl.context = EditorService.initContext($stateParams.projectSlug,
+      $stateParams.versionSlug, $stateParams.docId,
+      LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE, 'READ_WRITE');
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
       function(projectInfo) {
@@ -45,18 +44,18 @@
               context = editorCtrl.context;
 
           if (!selectedDocId) {
-            context.document = editorCtrl.documents[0];
+            context.docId = editorCtrl.documents[0].name;
             transitionToEditorSelectedView();
           } else {
-            context.document = DocumentService.getDocById(
-              editorCtrl.documents, selectedDocId);
-            if (!context.document) {
-              context.document = editorCtrl.documents[0];
+            context.docId = selectedDocId;
+            if (!DocumentService.containsDoc(editorCtrl.documents,
+              selectedDocId)) {
+              context.docId = editorCtrl.documents[0].name;
             }
           }
           if (isDocumentAndLocaleSelected()) {
             loadStatistic(context.projectSlug, context.versionSlug,
-              context.document.name, context.locale.localeId);
+              context.docId, context.locale.localeId);
           }
         }
       }, function(error) {
@@ -90,39 +89,39 @@
           }
           if (isDocumentAndLocaleSelected()) {
             loadStatistic(context.projectSlug, context.versionSlug,
-              context.document.name, context.locale.localeId);
+              context.docId, context.locale.localeId);
           }
         }
       }, function(error) {
         MessageHandler.displayError('Error getting locale list: ' + error);
       });
 
-    editorCtrl.updateSelectedDoc = function(doc) {
-      editorCtrl.context.document = doc;
+    editorCtrl.updateSelectedDoc = function(docId) {
+      editorCtrl.context.docId = docId;
 
       loadStatistic(editorCtrl.context.projectSlug,
-        editorCtrl.context.versionSlug, editorCtrl.context.document.name,
+        editorCtrl.context.versionSlug, editorCtrl.context.docId,
         editorCtrl.context.locale.localeId);
     };
 
     editorCtrl.updateSelectedLocale = function(locale) {
       editorCtrl.context.locale = locale;
       loadStatistic(editorCtrl.context.projectSlug,
-        editorCtrl.context.versionSlug, editorCtrl.context.document.name,
+        editorCtrl.context.versionSlug, editorCtrl.context.docId,
         editorCtrl.context.locale.localeId);
     };
 
     function transitionToEditorSelectedView() {
       if (isDocumentAndLocaleSelected()) {
         $state.go('editor.selectedContext', {
-          'docId': editorCtrl.context.document.name,
+          'docId': editorCtrl.context.docId,
           'localeId': editorCtrl.context.locale.localeId
         });
       }
     }
 
     function isDocumentAndLocaleSelected() {
-      return editorCtrl.context.document && editorCtrl.context.locale;
+      return editorCtrl.context.docId && editorCtrl.context.locale;
     }
 
     /**
