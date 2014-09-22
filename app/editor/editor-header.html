@@ -29,7 +29,7 @@
               <span ng-bind="editor.context.document.name"></span>
               <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
             </button>
-            <ul class="Dropdown-content">
+            <ul class="Dropdown-content Dropdown-content--bordered">
               <li ng-repeat="doc in editor.documents">
                 <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{doc.name}}/{{editor.context.locale.localeId}}"
                   ng-click="editor.updateSelectedDoc(doc)"
@@ -47,7 +47,7 @@
               <span ng-bind="editor.context.locale.displayName"></span>
               <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
             </button>
-            <ul class="Dropdown-content">
+            <ul class="Dropdown-content Dropdown-content--bordered">
               <li ng-repeat="locale in editor.locales">
                 <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.context.document.name}}/{{locale.localeId}}"
                   ng-click="editor.updateSelectedLocale(locale)"
@@ -67,7 +67,7 @@
             class="Dropdown-toggle Link--invert u-inlineBlock u-sizeWidth-1_1-2"
             ng-bind="app.myInfo.locale.localeId"/>
           </a>
-          <ul class="Dropdown-content">
+          <ul class="Dropdown-content Dropdown-content--bordered">
             <li ng-repeat="locale in app.uiLocaleList">
               <a ng-click="app.onChangeUILocale(locale)" class="Dropdown-item">
                 <span ng-bind="locale.localeId"></span>
@@ -109,6 +109,7 @@
               <span class="u-hiddenVisually" translate>Total Phrases</span>
             </label>
           </div>
+        </li>
         <li class="u-ltemd-hidden u-sMV-1-4">
           <div class="Toggle u-round u-textHighlight">
             <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-approved">
