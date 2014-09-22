@@ -2,7 +2,7 @@
 
 :root {
   --Editor-rhythm: 1.5rem;
-  --Editor-transition: cubic-bezier(.175, .885, .320, 1.275);
+  --Editor-transition-ease: cubic-bezier(.175, .885, .320, 1.275);
 }
 
 .Editor {
@@ -12,7 +12,7 @@
 .Editor-header,
 .Editor-loader,
 .Editor-content {
-  transition: .2s all var(--Editor-transition);
+  transition: .2s all var(--Editor-transition-ease);
 }
 
 .Editor-header.is-minimised {

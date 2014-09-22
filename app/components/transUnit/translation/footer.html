@@ -16,18 +16,25 @@
     </ul>
   </div>
   <div class="u-floatRight">
-    <div class="ButtonGroup ButtonGroup--hz ButtonGroup--borderCollapse">
-      <div class="ButtonGroup-item">
-        <button class="Button Button--default Button--success u-sizeHeight-1_1-2"
-          title="Ctrl + Enter" ng-click="translationCtrl.saveAsTranslated($event)" translate>Save as translated
-        </button>
+    <span class="u-textMeta u-sMR-1-4">Save as</span>
+    <dropdown class="Dropdown">
+      <div class="ButtonGroup ButtonGroup--hz ButtonGroup--borderCollapse">
+        <div class="ButtonGroup-item">
+          <button class="Button Button--default Button--success u-sizeHeight-1_1-2"
+            title="Ctrl + Enter" ng-click="translationCtrl.saveAsTranslated($event)" translate>Translated
+          </button>
+        </div>
+        <div class="ButtonGroup-item">
+          <button dropdown-toggle
+            class="Button Button--success Button--snug u-sizeHeight-1_1-2 Dropdown-toggle"
+            title="{{'Save as…'|translate}}">
+            <icon name="chevron-down" title="{{'Save as…'|translate}}" class="Icon--sm Dropdown-toggleIcon"></icon>
+          </button>
+        </div>
       </div>
-      <div class="ButtonGroup-item">
-        <button class="Button Button--success u-sizeHeight-1_1-2"
-          title="{{'Save as…'|translate}}">
-          <icon name="chevron-down" title="{{'Save as…'|translate}}" class="Icon--sm"></icon>
-        </button>
-      </div>
-    </div>
+      <ul class="Dropdown-content">
+        <li><button class="Button Button--unsure u-sizeFull u-textLeft u-sizeHeight-1_1-2">Needs work</button></li>
+      </ul>
+    </dropdown>
   </div>
 </div>

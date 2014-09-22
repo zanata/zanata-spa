@@ -9,7 +9,6 @@
  */
 
 :root {
-
   --u-bg-transition          : var(--default-transition);
   --u-bg-border              : var(--default-border);
   --u-bg-border-bottom-width : 2px;
@@ -28,17 +27,14 @@
   --u-bg-color-unsure        : color(var(--color-unsure) tint(90%));
   --u-bg-color-success       : color(var(--color-success) tint(80%));
   --u-bg-color-highlight     : color(var(--color-highlight) tint(80%));
-
 }
 
 /**
- * Space
+ * List
  */
 
 :root {
-
-  --u-space: var(--rhythm);
-
+  --u-list-rhythm: var(--rhythm);
 }
 
 /**
@@ -46,10 +42,17 @@
  */
 
 :root {
-
-  --u-size: var(--rhythm);
-
+  --u-size-rhythm: var(--rhythm);
 }
+
+/**
+ * Space
+ */
+
+:root {
+  --u-space-rhythm: var(--rhythm);
+}
+
 
 /**
  * Text
@@ -97,8 +100,8 @@
 
   /* Links */
   --base-link-color             : var(--color-highlight);
-  --base-link-color-hover       : color(var(--base-link-color) shade(5%));
-  --base-link-color-active      : color(var(--base-link-color) shade(10%));
+  --base-link-color-hover       : color(var(--base-link-color) shade(10%));
+  --base-link-color-active      : color(var(--base-link-color) shade(20%));
 
   /* Lists */
   --base-list-rhythm            : var(--rhythm);
@@ -121,6 +124,60 @@
 
 
 /**
+ * Button
+ */
+
+:root {
+  --Button-border-color      : currentcolor;
+  --Button-border-width      : 0;
+  --Button-color             : transparent;
+  --Button-disabled-opacity  : 0.6;
+  --Button-font              : inherit;
+  --Button-padding           : calc(var(--rhythm) * .25) calc(var(--rhythm) * .5);
+  --Button-padding-snug      : calc(var(--rhythm) * .25);
+  --Button-color-text-invert : var(--color-white);
+  --Button-color-default     : color(var(--color-secondary) tint(85%));
+  --Button-color-primary     : var(--color-primary);
+  --Button-color-secondary   : var(--color-secondary);
+  --Button-color-highlight   : var(--color-highlight);
+  --Button-color-success     : var(--color-success);
+  --Button-color-unsure      : var(--color-unsure);
+  --Button-color-neutral     : color(var(--color-secondary) tint(50%));
+  --Button-color-warning     : var(--color-warning);
+  --Button-color-danger      : var(--color-danger);
+  --Button-transition        : all .25s var(--transition-ease-out-circ);
+}
+
+
+/**
+ * Button Group
+ */
+
+:root {
+  --ButtonGroup-font-size           : 1rem;
+  --ButtonGroup-button-border-width : 0;
+}
+
+
+/**
+ * Dropdown
+ */
+
+:root {
+  --Dropdown-content-background-color : var(--color-white);
+  --Dropdown-content-border           : var(--default-border);
+  --Dropdown-content-z                : var(--z-scale-7);
+  --Dropdown-item-color               : var(--Dropdown-content-background-color);
+  --Dropdown-item-color-bg            : var(--color-highlight);
+  --Dropdown-item-transition          : all .2s ease-out;
+  --Dropdown-rhythm                   : var(--rhythm);
+  --Dropdown-transition               : all .2s var(--transition-ease-out-back);
+  --Dropdown-z                        : var(--z-scale-1);
+  --Dropdown-z-active                 : var(--z-scale-8);
+}
+
+
+/**
  * Header
  */
 
@@ -135,9 +192,25 @@
  */
 
 :root {
-  --Heading-font-family: var(--font-family-base);
+  --Heading-font-family : var(--font-family-base);
+  --Heading-font-weight : 600;
+  --Heading-size-h1     : 36px;
+  --Heading-size-h2     : 28px;
+  --Heading-size-h3     : 24px;
+  --Heading-size-h4     : 20px;
+  --Heading-size-h5     : 18px;
+  --Heading-size-h6     : 16px;
 }
 
+
+/**
+ * Icon
+ */
+
+:root {
+  --Icon-rhythm: var(--rhythm);
+  --Icon-transition: .25s all var(--transition-ease-out-back);
+}
 
 /**
  * Links
@@ -145,8 +218,8 @@
 
 :root {
   --Link-color           : var(--base-link-color);
-  --Link-color-hover     : color(var(--Link-color) shade(5%));
-  --Link-color-active    : color(var(--Link-color) shade(10%));
+  --Link-color-hover     : color(var(--Link-color) shade(10%));
+  --Link-color-active    : color(var(--Link-color) shade(20%));
   --Link-color-invert    : var(--color-white);
   --Link-color-neutral   : var(--color-neutral);
   --Link-color-danger    : var(--color-danger);
@@ -158,39 +231,16 @@
 
 
 /**
- * Button
+ * LogoLoader
  */
 
 :root {
-  --Button-border-color     : currentcolor;
-  --Button-border-width     : 0;
-  --Button-color            : inherit;
-  --Button-disabled-opacity : 0.6;
-  --Button-font             : inherit;
-  --Button-padding          : 0.375rem 0.75rem;
-}
-
-
-/**
- * Dropdown
- */
-
-:root {
-
-  --Dropdown-z                        : var(--z-scale-1);
-  --Dropdown-active-z                 : var(--z-scale-8);
-  --Dropdown-content-z                : var(--z-scale-7);
-  --Dropdown-transition               : all .2s var(--transition-ease-out-back);
-  --Dropdown-rhythm                   : var(--rhythm);
-  --Dropdown-z                        : var(--z-scale-1);
-  --Dropdown-active-z                 : var(--z-scale-8);
-  --Dropdown-content-z                : var(--z-scale-7);
-  --Dropdown-content-background-color : var(--color-white);
-  --Dropdown-content-border           : var(--default-border);
-  --Dropdown-item-transition          : all .2s ease-out;
-  --Dropdown-item-color               : var(--Dropdown-content-background-color);
-  --Dropdown-item-color-bg            : var(--color-highlight);
-
+  --LogoLoader-color-logo: var(--color-primary);
+  --LogoLoader-color-bg: var(--color-white);
+  --LogoLoader-color-logo-invert: var(--LogoLoader-color-bg);
+  --LogoLoader-color-bg-invert: var(--LogoLoader-color-logo);
+  --LogoLoader-rhythm: var(--rhythm);
+  --LogoLoader-transition-ease: var(--transition-ease-out-back);
 }
 
 /**
@@ -226,23 +276,23 @@
  */
 
 :root {
-  --TransUnit-rhythm: var(--rhythm);
-  --TransUnit-transition-ease: var(--transition-ease-out-circ);
-  --TransUnit-transition: all .25s var(--TransUnit-transition-ease);
-  --TransUnit-translation-color-bg: var(--color-white);
-  --TransUnit-header-footer-color-bg: var(--color-white);
-  --TransUnit-border-color: var(--default-border-color);
-  --TransUnit-heading-font-size: 1rem;
-  --TransUnit-text-font-size: 1rem;
-  --TransUnit-text-font-family: var(--font-size-base);
-  --TransUnit-text-line-height: var(--default-line-height);
-  --TransUnit-color-highlight: var(--color-highlight);
-  --TransUnit-color-success: var(--color-success);
-  --TransUnit-color-unsure: var(--color-unsure);
-  --TransUnit-color-neutral: var(--color-neutral);
-  --TransUnit-color-warning: var(--color-warning);
-  --TransUnit-color-danger: var(--color-danger);
-  --TransUnit-metaDataButton-size: calc(12/16 * 1rem);
+  --TransUnit-border-color           : var(--default-border-color);
+  --TransUnit-color-danger           : var(--color-danger);
+  --TransUnit-color-highlight        : var(--color-highlight);
+  --TransUnit-color-neutral          : var(--color-neutral);
+  --TransUnit-color-success          : var(--color-success);
+  --TransUnit-color-unsure           : var(--color-unsure);
+  --TransUnit-color-warning          : var(--color-warning);
+  --TransUnit-header-footer-color-bg : var(--color-white);
+  --TransUnit-heading-font-size      : 1rem;
+  --TransUnit-metaDataButton-size    : calc(12/16 * 1rem);
+  --TransUnit-rhythm                 : var(--rhythm);
+  --TransUnit-text-font-family       : var(--font-size-base);
+  --TransUnit-text-font-size         : 1rem;
+  --TransUnit-text-line-height       : var(--default-line-height);
+  --TransUnit-transition-ease        : var(--transition-ease-out-circ);
+  --TransUnit-transition             : all .25s var(--TransUnit-transition-ease);
+  --TransUnit-translation-color-bg   : var(--color-white);
 }
 
 /**
@@ -257,5 +307,5 @@
 
 :root {
   --Editor-rhythm: var(--rhythm);
-  --Editor-transition: var(--transition-ease-out-back);
+  --Editor-transition-ease: var(--transition-ease-out-back);
 }

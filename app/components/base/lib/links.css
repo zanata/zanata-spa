@@ -1,7 +1,7 @@
 :root {
   --base-link-color: #4e9fdd;
-  --base-link-color-hover: color(var(--base-link-color) shade(5%));
-  --base-link-color-active: color(var(--base-link-color) shade(10%));
+  --base-link-color-hover: color(var(--base-link-color) shade(10%));
+  --base-link-color-active: color(var(--base-link-color) shade(20%));
 }
 
 a {

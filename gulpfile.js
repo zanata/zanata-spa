@@ -26,7 +26,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     reworkvars = require('rework-vars'),
     rimraf = require('gulp-rimraf'),
     suitconformance = require('rework-suit-conformance'),
-    svgSprite = require("gulp-svg-sprites"),
+    svgSprite = require('gulp-svg-sprites'),
     uglify = require('gulp-uglify'),
     webserver = require('gulp-webserver');
 

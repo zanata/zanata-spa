@@ -1,16 +1,16 @@
 /** @define Dropdown; use strict */
 
 :root {
-  --Dropdown-rhythm: 1.5rem;
-  --Dropdown-transition: all .2s cubic-bezier(.175, .885, .320, 1.275);
-  --Dropdown-z: 100;
-  --Dropdown-active-z: 800;
-  --Dropdown-content-z: 700;
   --Dropdown-content-background-color: #fff;
   --Dropdown-content-border: 1px solid rgba(0,0,0,.15);
-  --Dropdown-item-transition: all .2s ease-out;
+  --Dropdown-content-z: 700;
   --Dropdown-item-color: var(--Dropdown-content-background-color);
   --Dropdown-item-color-bg: #4e9fdd;
+  --Dropdown-item-transition: all .2s ease-out;
+  --Dropdown-rhythm: 1.5rem;
+  --Dropdown-transition: all .2s cubic-bezier(.175, .885, .320, 1.275);
+  --Dropdown-z-active: 800;
+  --Dropdown-z: 100;
 }
 
 .Dropdown {
@@ -21,7 +21,7 @@
 }
 
 .Dropdown.is-active {
-  z-index: var(--Dropdown-active-z);
+  z-index: var(--Dropdown-z-active);
 }
 
 .Dropdown-toggleIcon {
@@ -49,10 +49,13 @@
   transform: translateY(-50%);
   text-align: left;
   opacity: 0;
-  border: var(--Dropdown-content-border);
-  border-bottom-width: 2px;
   background-color: var(--Dropdown-content-background-color);
   background-clip: padding-box;
+}
+
+.Dropdown-content--Bordered {
+  border: var(--Dropdown-content-border);
+  border-bottom-width: 2px;
 }
 
 .Dropdown.is-active > .Dropdown-content {

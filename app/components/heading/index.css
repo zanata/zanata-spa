@@ -1,14 +1,14 @@
-:root {
+/** @define Heading; use strict */
 
+:root {
   --Heading-font-family  : 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+  --Heading-font-weight  : 600;
   --Heading-size-h1      : 36px;
   --Heading-size-h2      : 28px;
   --Heading-size-h3      : 24px;
   --Heading-size-h4      : 20px;
   --Heading-size-h5      : 18px;
   --Heading-size-h6      : 16px;
-  --Heading-font-weight  : 600;
-
 }
 
 .h1,

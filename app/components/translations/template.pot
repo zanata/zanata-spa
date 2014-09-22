@@ -58,10 +58,6 @@ msgid "Notifications"
 msgstr ""
 
 #: app/components/transUnit/translation/footer.html
-msgid "Save as translated"
-msgstr ""
-
-#: app/components/transUnit/translation/footer.html
 msgid "Save as…"
 msgstr ""
 
@@ -74,6 +70,7 @@ msgid "Total Phrases"
 msgstr ""
 
 #: app/editor/editor-header.html
+#: app/components/transUnit/translation/footer.html
 msgid "Translated"
 msgstr ""
 

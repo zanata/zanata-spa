@@ -1,9 +1,8 @@
 <main role="main">
-  <ul class="Editor-content u-listUnstyled" ng-class="{'is-maximised': editor.settings.hideMainNav}">
+  <ul class="Editor-content TransUnit-container u-listUnstyled" ng-class="{'is-maximised': editor.settings.hideMainNav}">
     <li ng-repeat="phrase in editorContent.phrases">
       <trans-unit phrase="phrase" first-phrase="$first" editor-context="editor.context"></trans-unit>
     </li>
-
     <li ng-if="editorContent.phrases.length == 0">
       <strong translate>No content</strong>
     </li>

@@ -2,8 +2,8 @@
 
 :root {
   --Link-color: #4e9fdd;
-  --Link-color-hover: color(var(--Link-color) shade(5%));
-  --Link-color-active: color(var(--Link-color) shade(10%));
+  --Link-color-hover: color(var(--Link-color) shade(10%));
+  --Link-color-active: color(var(--Link-color) shade(20%));
   --Link-color-invert: #fff;
   --Link-color-highlight: #4e9fdd;
   --Link-color-success: #70a98b;

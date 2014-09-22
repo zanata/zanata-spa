@@ -29,6 +29,11 @@
   opacity: var(--u-text-muted-opacity);
 }
 
+.u-textMeta {
+  font-size: calc(14/16 * 1rem);
+  color: color(var(--u-text-color-secondary) tint(50%));
+}
+
 .u-textPrimary {
   color: var(--u-text-color-primary);
 }
