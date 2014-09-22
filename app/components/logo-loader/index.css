@@ -1,26 +1,28 @@
+/** @define LogoLoader; use strict */
+
 :root {
-  --rhythm: 1.5rem;
-  --color-logo: #4a9ddf;
-  --color-bg: #fff;
-  --color-logo-invert: var(--color-bg);
-  --color-bg-invert: var(--color-logo);
-  --transition-ease-out-back: cubic-bezier(.175, .885, .320, 1.275);
+  --LogoLoader-color-logo: #4a9ddf;
+  --LogoLoader-color-bg: #fff;
+  --LogoLoader-color-logo-invert: var(--LogoLoader-color-bg);
+  --LogoLoader-color-bg-invert: var(--LogoLoader-color-logo);
+  --LogoLoader-rhythm: 1.5rem;
+  --LogoLoader-transition-ease: cubic-bezier(.175, .885, .320, 1.275);
 }
 
 .LogoLoader {
   position: relative;
   display: inline-block;
   overflow: hidden;
-  width: calc(var(--rhythm) * 1.5);
-  height: calc(var(--rhythm) * 1.5);
-  color: var(--color-logo);
+  width: calc(var(--LogoLoader-rhythm) * 1.5);
+  height: calc(var(--LogoLoader-rhythm) * 1.5);
+  color: var(--LogoLoader-color-logo);
   border-radius: 100px;
-  background-color: var(--color-bg);
+  background-color: var(--LogoLoader-color-bg);
 }
 
 .LogoLoader--inverted {
-  color: var(--color-logo-invert);
-  background-color: var(--color-bg-invert);
+  color: var(--LogoLoader-color-logo-invert);
+  background-color: var(--LogoLoader-color-bg-invert);
 }
 
 .LogoLoader.is-loading {
@@ -33,7 +35,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  transition: all .25s var(--transition-ease-out-back);
+  transition: all .25s var(--LogoLoader-transition-ease);
   transform: scale(1,1);
 
   fill: currentColor;
@@ -45,7 +47,7 @@
 }
 
 .LogoLoader:hover .LogoLoader-logo {
-  animation: pop .3s var(--transition-ease-out-back);
+  animation: pop .3s var(--LogoLoader-transition-ease);
   animation-iteration-count: 2;
   animation-direction: alternate;
 }

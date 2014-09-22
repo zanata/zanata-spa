@@ -7,13 +7,14 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     gettext = require('gulp-angular-gettext'),
     gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
+    inject = require('gulp-inject'),
     jshint = require('gulp-jshint'),
     mainBowerFiles = require('main-bower-files'),
     modulizr = require('gulp-modulizr'),
     ngAnnotate = require('gulp-ng-annotate'),
     notify = require('gulp-notify'),
     paths = require('./gulpfile.paths.js'),
-    prefix = require('gulp-autoprefixer');
+    prefix = require('gulp-autoprefixer'),
     rename = require('gulp-rename'),
     replace = require('gulp-replace-task'),
     rework = require('gulp-rework'),
@@ -25,6 +26,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     reworkvars = require('rework-vars'),
     rimraf = require('gulp-rimraf'),
     suitconformance = require('rework-suit-conformance'),
+    svgSprite = require('gulp-svg-sprites'),
     uglify = require('gulp-uglify'),
     webserver = require('gulp-webserver');
 
@@ -112,6 +114,24 @@ gulp.task('jsBower', ['bowerMain', 'removeModernizr'], function(){
     .pipe(gulp.dest(paths.build + '/js'));
 });
 
+gulp.task('icons', function () {
+  var svgs = gulp.src(paths.icons.app)
+    .pipe(svgSprite({
+      selector: 'Icon-%f',
+      mode: 'symbols',
+      preview: false
+    }))
+    .pipe(rename('icons.svg'));
+
+  function fileContents (filePath, file) {
+    return file.contents.toString('utf8');
+  }
+
+  return gulp.src(paths.app + '/index.html')
+    .pipe(inject(svgs, {transform: fileContents}))
+    .pipe(gulp.dest(paths.build));
+});
+
 gulp.task('images', function(){
   return gulp.src(paths.images.app)
     // TODO Clean build first
@@ -161,7 +181,7 @@ gulp.task('filterPotAbsolutePath', ['generatePot'], function () {
         replacement: ''
       }]
     }))
-    .pipe(gulp.dest('./'))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('translations', ['filterPotAbsolutePath'], function () {
@@ -184,22 +204,21 @@ function generateLocaleList() {
 
   var contents = '{\"locales\": [';
 
-  for (i = 0; i < files.length; i++) {
-    contents += '\"' + files[i].substring(0, files[i].length - extension.length - 1) + '\"';
+  for (var i = 0; i < files.length; i++) {
+    contents += '\"' + files[i]
+      .substring(0, files[i].length - extension.length - 1) + '\"';
     if(i !== files.length - 1) {
       contents += ',';
     }
   }
   contents = contents + ']}';
-  fs.writeFile(paths.translations.build + '/' + 'locales', contents, function (err) {
+  fs.writeFile(paths.translations.build + '/' + 'locales',
+    contents, function (err) {
     if (err) throw err;
   });
 }
 
-gulp.task('copyIndex', function() {
-  return gulp.src(paths.app + '/index.html')
-    .pipe(gulp.dest(paths.build));
-});
+gulp.task('copyIndex', ['icons']);
 
 gulp.task('build',
   [
@@ -208,10 +227,11 @@ gulp.task('build',
     'cssBower',
     'css',
     'fontsBower',
+    'icons',
     'images',
     'imagesBower',
     'templates',
-    'copyIndex',
+    // 'copyIndex',
     'generatePot',
     'filterPotAbsolutePath',
     'translations'

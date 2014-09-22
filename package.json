@@ -46,6 +46,7 @@
     "gulp-replace-task": "0.0.6",
     "gulp-rework": "^0.4.0",
     "gulp-rimraf": "^0.1.0",
+    "gulp-svg-sprites": "^1.0.3",
     "gulp-uglify": "^0.2.1",
     "gulp-webserver": "^0.4.0",
     "jshint-stylish": "^0.4.0",
@@ -57,5 +58,15 @@
     "rework-npm": "^1.0.0",
     "rework-suit-conformance": "^0.4.0",
     "rework-vars": "^3.1.1"
+  },
+  "dependencies": {
+    "normalize.css": "^3.0.1",
+    "suitcss-components-button": "^4.0.0",
+    "suitcss-components-button-group": "^2.2.0",
+    "suitcss-utils-display": "^0.4.1",
+    "suitcss-utils-layout": "^0.4.1",
+    "suitcss-utils-position": "^0.2.1",
+    "suitcss-utils-size": "^0.7.1",
+    "suitcss-utils-text": "^0.4.1"
   }
 }

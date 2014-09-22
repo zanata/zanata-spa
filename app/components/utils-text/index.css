@@ -1,0 +1,67 @@
+@import 'suitcss-utils-text';
+
+:root {
+  --u-text-color-invert: #fff;
+  --u-text-color-primary: #4e9fdd;
+  --u-text-color-secondary: #416988;
+  --u-text-color-highlight: #4e9fdd;
+  --u-text-color-success: #70a98b;
+  --u-text-color-unsure: #e0c350;
+  --u-text-color-neutral: color(#416988 tint(65%));
+  --u-text-color-warning: #e3824e;
+  --u-text-color-danger: #e0575b;
+  --u-text-muted-opacity: .6;
+}
+
+.u-textUpper {
+  text-transform: uppercase;
+}
+
+.u-textLower {
+  text-transform: lowercase;
+}
+
+.u-textInvert {
+  color: var(--u-text-color-invert);
+}
+
+.u-textMuted {
+  opacity: var(--u-text-muted-opacity);
+}
+
+.u-textMeta {
+  font-size: calc(14/16 * 1rem);
+  color: color(var(--u-text-color-secondary) tint(50%));
+}
+
+.u-textPrimary {
+  color: var(--u-text-color-primary);
+}
+
+.u-textSecondary {
+  color: var(--u-text-color-secondary);
+}
+
+.u-textHighlight {
+  color: var(--u-text-color-highlight);
+}
+
+.u-textSuccess {
+  color: var(--u-text-color-success);
+}
+
+.u-textUnsure {
+  color: var(--u-text-color-unsure);
+}
+
+.u-textNeutral {
+  color: var(--u-text-color-neutral);
+}
+
+.u-textWarning {
+  color: var(--u-text-color-warning);
+}
+
+.u-textDanger {
+  color: var(--u-text-color-danger);
+}
