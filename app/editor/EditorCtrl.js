@@ -100,13 +100,11 @@
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
         editorCtrl.unitSelected = data.id;
-        console.log(editorCtrl.unitSelected);
       });
 
     $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
       function () {
         editorCtrl.unitSelected = false;
-        console.log(editorCtrl.unitSelected);
       });
 
     editorCtrl.updateSelectedDoc = function(doc) {
