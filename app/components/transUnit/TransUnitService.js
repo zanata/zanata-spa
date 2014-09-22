@@ -84,7 +84,7 @@
           phrase.newTranslation = phrase.translation;
         }
         setFocus(controllerList[selectedTUId], false);
-        selectedTUId = '';
+        selectedTUId = false;
       });
 
     /**
