@@ -37,7 +37,7 @@
     "gulp-concat": "^2.2.0",
     "gulp-csso": "^0.2.9",
     "gulp-debug": "^1.0.0",
-    "gulp-imagemin": "^0.1.5",
+    "gulp-imagemin": "^1.0.1",
     "gulp-inject": "^1.0.2",
     "gulp-jshint": "^1.8.4",
     "gulp-modulizr": "0.0.2",
