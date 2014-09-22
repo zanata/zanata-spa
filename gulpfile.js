@@ -1,8 +1,9 @@
+'use strict';
+
 var angularTemplatecache = require('gulp-angular-templatecache'),
-    cache = require('gulp-cache'),
     concat = require('gulp-concat'),
     csso = require('gulp-csso'),
-    debug = require('gulp-debug'),
+    // debug = require('gulp-debug'),
     fs = require('fs'),
     gettext = require('gulp-angular-gettext'),
     gulp = require('gulp'),
@@ -14,6 +15,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     ngAnnotate = require('gulp-ng-annotate'),
     notify = require('gulp-notify'),
     paths = require('./gulpfile.paths.js'),
+    plumber = require('gulp-plumber'),
     prefix = require('gulp-autoprefixer'),
     rename = require('gulp-rename'),
     replace = require('gulp-replace-task'),
@@ -25,10 +27,24 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     reworkNPM = require('rework-npm'),
     reworkvars = require('rework-vars'),
     rimraf = require('gulp-rimraf'),
+    sourcemaps = require('gulp-sourcemaps'),
     suitconformance = require('rework-suit-conformance'),
     svgSprite = require('gulp-svg-sprites'),
     uglify = require('gulp-uglify'),
     webserver = require('gulp-webserver');
+
+function notifyError(err) {
+
+  notify.notifyError({
+    title:    'Gulp',
+    subtitle: 'Failure!',
+    message:  '<%= error.name %>: [<%= error.plugin %>] <%= error.message %>',
+    sound:    'Beep'
+  })(err);
+
+  this.emit('end');
+
+}
 
 gulp.task('bowerClean', function() {
   return gulp.src(paths.bower, { read: false })
@@ -44,6 +60,7 @@ gulp.task('bowerMain', ['bowerClean'], function(){
 gulp.task('css', function () {
 // Use this when CSS lives here
   return gulp.src(paths.css.app)
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(rework(
       reworkNPM(),
       reworkvars(),
@@ -72,22 +89,29 @@ gulp.task('css', function () {
 
 gulp.task('cssBower', ['bowerMain'], function(){
   return gulp.src(paths.css.bower)
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(concat('libs.css'))
     .pipe(gulp.dest(paths.build + '/css'));
 });
 
 gulp.task('js',function(){
   return gulp.src(paths.js.app)
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
+    // Sourcemaps start
+    .pipe(sourcemaps.init())
     .pipe(ngAnnotate())
     .pipe(concat('app.js'))
     // .pipe(uglify())
+    // Sourcemaps end
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.build + '/js'));
 });
 
 gulp.task('modernize', ['bowerMain'], function() {
   return gulp.src(paths.modernizr.src)
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(modulizr([
       'csstransforms3d',
       'csstransforms',
@@ -108,14 +132,20 @@ gulp.task('removeModernizr', ['modernize'], function() {
 gulp.task('jsBower', ['bowerMain', 'removeModernizr'], function(){
   //concatenate vendor JS files
   return gulp.src(paths.js.bower)
+    .pipe(plumber({errorHandler: notifyError}))
+    .pipe(sourcemaps.init())
+    // Sourcemaps start
     .pipe(ngAnnotate())
     .pipe(concat('libs.js'))
-    // .pipe(uglify())
+    .pipe(uglify())
+    // Sourcemaps end
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.build + '/js'));
 });
 
 gulp.task('icons', function () {
   var svgs = gulp.src(paths.icons.app)
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(svgSprite({
       selector: 'Icon-%f',
       mode: 'symbols',
@@ -128,13 +158,17 @@ gulp.task('icons', function () {
   }
 
   return gulp.src(paths.app + '/index.html')
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(inject(svgs, {transform: fileContents}))
     .pipe(gulp.dest(paths.build));
 });
 
 gulp.task('images', function(){
   return gulp.src(paths.images.app)
+    .pipe(plumber({errorHandler: notifyError}))
     // TODO Clean build first
+    .pipe(imagemin({ optimizationLevel: 5,
+      progressive: true, interlaced: true }))
     .pipe(rename(function(path) {
       path.dirname = path.dirname.replace('components/', '');
     }))
@@ -143,29 +177,27 @@ gulp.task('images', function(){
 
 gulp.task('imagesBower', ['bowerMain'], function(){
   return gulp.src(paths.images.bower)
-    .pipe(rename(function(path) {
-      path.dirname = path.dirname.replace('zanata-assets/php/master/assets/', '');
-    }))
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(gulp.dest(paths.build));
 });
 
 gulp.task('fontsBower', ['bowerMain'], function(){
   return gulp.src(paths.fonts.bower)
-    .pipe(rename(function(path) {
-      path.dirname = path.dirname.replace('zanata-assets/php/master/assets/', '');
-    }))
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(gulp.dest(paths.build));
 });
 
 gulp.task('templates', function(){
   //combine all template files of the app into a js file
   return gulp.src(paths.templates)
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(angularTemplatecache('templates.js',{standalone:true}))
     .pipe(gulp.dest(paths.build + '/js'));
 });
 
 gulp.task('generatePot', function () {
   return gulp.src(paths.translations.src)
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(gettext.extract('template.pot', {
       // options to pass to angular-gettext-tools...
     }))
@@ -175,6 +207,7 @@ gulp.task('generatePot', function () {
 gulp.task('filterPotAbsolutePath', ['generatePot'], function () {
   var regex = new RegExp(process.cwd() + '/', 'g');
   gulp.src(paths.translations.po + '/**/*.pot', {base: './'})
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(replace({
       patterns: [{
         match: regex,
@@ -186,6 +219,7 @@ gulp.task('filterPotAbsolutePath', ['generatePot'], function () {
 
 gulp.task('translations', ['filterPotAbsolutePath'], function () {
   return gulp.src(paths.translations.po + '/**/*.po')
+    .pipe(plumber({errorHandler: notifyError}))
     .pipe(gettext.compile({
       format: 'json'
       // options to pass to angular-gettext-tools...
