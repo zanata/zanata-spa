@@ -164,11 +164,15 @@
  */
 
 :root {
-  --Dropdown-content-background-color : var(--color-white);
+  --Dropdown-content-color-bg         : var(--color-white);
   --Dropdown-content-border           : var(--default-border);
   --Dropdown-content-z                : var(--z-scale-7);
-  --Dropdown-item-color               : var(--Dropdown-content-background-color);
-  --Dropdown-item-color-bg            : var(--color-highlight);
+  --Dropdown-title-size               : calc(14/16 * 1rem);
+  --Dropdown-title-color              : color(var(--color-secondary) tint(40%));
+  --Dropdown-title-color-bg           : transparent;
+  --Dropdown-item-color               : var(--color-highlight);
+  --Dropdown-item-hover-color         : var(--Dropdown-content-color-bg);
+  --Dropdown-item-hover-color-bg      : var(--Dropdown-item-color);
   --Dropdown-item-transition          : all .2s ease-out;
   --Dropdown-rhythm                   : var(--rhythm);
   --Dropdown-transition               : all .2s var(--transition-ease-out-back);

@@ -1,11 +1,15 @@
 /** @define Dropdown; use strict */
 
 :root {
-  --Dropdown-content-background-color: #fff;
+  --Dropdown-content-color-bg: #fff;
   --Dropdown-content-border: 1px solid rgba(0,0,0,.15);
   --Dropdown-content-z: 700;
-  --Dropdown-item-color: var(--Dropdown-content-background-color);
-  --Dropdown-item-color-bg: #4e9fdd;
+  --Dropdown-title-size: calc(14/16 * 1rem);
+  --Dropdown-title-color: color(#416988 tint(20%));
+  --Dropdown-title-color-bg: color(#416988 tint(90%));
+  --Dropdown-item-color: #4e9fdd;
+  --Dropdown-item-hover-color: var(--Dropdown-content-color-bg);
+  --Dropdown-item-hover-color-bg: var(--Dropdown-item-color);
   --Dropdown-item-transition: all .2s ease-out;
   --Dropdown-rhythm: 1.5rem;
   --Dropdown-transition: all .2s cubic-bezier(.175, .885, .320, 1.275);
@@ -27,7 +31,6 @@
 .Dropdown-toggleIcon {
   display: inline-block;
   transition: var(--Dropdown-transition);
-  min-width: calc(var(--Dropdown-rhythm) * 1);
   text-align: center;
 }
 
@@ -49,8 +52,9 @@
   transform: translateY(-50%);
   text-align: left;
   opacity: 0;
-  background-color: var(--Dropdown-content-background-color);
+  background-color: var(--Dropdown-content-color-bg);
   background-clip: padding-box;
+  box-shadow: 0 0 var(--Dropdown-rhythm) rgba(0,0,0,0.1);
 }
 
 .Dropdown-content--Bordered {
@@ -64,15 +68,24 @@
   opacity: 1;
 }
 
+.Dropdown-title {
+  font-size: calc(14/16 * 1rem);
+  padding: calc(var(--Dropdown-rhythm) * .125) calc(var(--Dropdown-rhythm) * .25);
+  background-color: var(--Dropdown-title-color-bg);
+  border-bottom: var(--Dropdown-content-border);
+  color: var(--Dropdown-title-color);
+}
+
 .Dropdown-item {
   display: block;
   padding: calc(var(--Dropdown-rhythm) * .125) calc(var(--Dropdown-rhythm) * .25);
   transition: var(--Dropdown-item-transition);
+  color: var(--Dropdown-item-color);
 }
 
 .Dropdown-item:hover {
-  color: var(--Dropdown-item-color);
-  background-color: var(--Dropdown-item-color-bg);
+  color: var(--Dropdown-item-hover-color);
+  background-color: var(--Dropdown-item-hover-color-bg);
 }
 
 /**
