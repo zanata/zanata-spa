@@ -178,20 +178,12 @@ gulp.task('images', function(){
 gulp.task('imagesBower', ['bowerMain'], function(){
   return gulp.src(paths.images.bower)
     .pipe(plumber({errorHandler: notifyError}))
-    .pipe(rename(function(path) {
-      path.dirname =
-        path.dirname.replace('zanata-assets/php/master/assets/', '');
-    }))
     .pipe(gulp.dest(paths.build));
 });
 
 gulp.task('fontsBower', ['bowerMain'], function(){
   return gulp.src(paths.fonts.bower)
     .pipe(plumber({errorHandler: notifyError}))
-    .pipe(rename(function(path) {
-      path.dirname =
-        path.dirname.replace('zanata-assets/php/master/assets/', '');
-    }))
     .pipe(gulp.dest(paths.build));
 });
 
