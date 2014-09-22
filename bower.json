@@ -21,21 +21,12 @@
     "angular-elastic": "~2.3.2",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.2.3",
     "angular-ui-router": "~0.2.10",
-    "zanata-assets": "zanata/zanata-assets#spa-1.0.0",
     "angular-resource": "~1.2.22",
     "angular-gettext": "~1.1.0",
     "angular-animate": "~1.2.24",
     "lodash": "~2.4.1"
   },
   "overrides": {
-    "zanata-assets": {
-      "main": [
-        "./php/master/assets/css/style.css",
-        "./php/master/assets/fonts/zanata/*",
-        "./php/master/assets/img/*",
-        "./php/master/assets/img/logo/*"
-      ]
-    },
     "modernizr": {
       "main": [
         "modernizr.js"
@@ -53,5 +44,8 @@
         "styles/tomorrow.css"
       ]
     }
+  },
+  "resolutions": {
+    "angular": ">= 1.0.8"
   }
 }

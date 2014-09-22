@@ -7,7 +7,7 @@
    */
   function EditorCtrl(UserService, DocumentService, LocaleService,
     ProjectService, TransUnitService, SaveTranslationService, EditorService,
-    StatisticUtil, $stateParams, $state, MessageHandler) {
+    StatisticUtil, $stateParams, $state, MessageHandler, $rootScope, EventService) {
     var editorCtrl = this;
 
     //TODO: cross domain rest
@@ -94,6 +94,16 @@
         }
       }, function(error) {
         MessageHandler.displayError('Error getting locale list: ' + error);
+      });
+
+    $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
+      function (event, data) {
+        editorCtrl.unitSelected = data.id;
+      });
+
+    $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
+      function () {
+        editorCtrl.unitSelected = false;
       });
 
     editorCtrl.updateSelectedDoc = function(docId) {

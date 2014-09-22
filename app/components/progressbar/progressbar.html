@@ -1,12 +1,12 @@
 <div
-  class="progress-bar"
-  ng-class="{'progress-bar--large': size === 'large', 'progress-bar--full': size === 'full'}">
-  <span class="progress-bar__approved"
+  class="Progressbar"
+  ng-class="{'Progressbar--lg': size === 'large', 'Progressbar--sm': size === 'small'}">
+  <span class="Progressbar-item Progressbar-approved"
     ng-style="{'width': style.approved.width, 'margin-left': style.approved.marginLeft}"></span>
-  <span class="progress-bar__translated"
+  <span class="Progressbar-item Progressbar-translated"
     ng-style="{'width': style.translated.width, 'margin-left': style.translated.marginLeft}"></span>
-  <span class="progress-bar__fuzzy"
+  <span class="Progressbar-item Progressbar-needsWork"
     ng-style="{'width': style.needsWork.width, 'margin-left': style.needsWork.marginLeft}"></span>
-  <span class="progress-bar__untranslated"
+  <span class="Progressbar-item Progressbar-untranslated"
     ng-style="{'width': style.untranslated.width, 'margin-left': style.untranslated.marginLeft}"></span>
 </div>

@@ -1,0 +1,27 @@
+:root {
+  --base-text-code-font-family: "Monaco", Courier, "Courier New", monospace;
+  --base-text-code-font-size: 14px;
+  --base-text-code-font-color: #555;
+  --base-text-code-font-weight: 400;
+  --base-text-rhythm: 1.5rem;
+}
+
+code,
+kbd,
+pre,
+samp {
+  padding: 0 calc(var(--base-text-rhythm) * .125);
+  font-family: var(--base-text-code-font-family);
+  font-weight: var(--base-text-code-font-weight);
+  color: var(--base-text-code-font-color);
+  font-size: var(--base-text-code-font-size);
+  margin: 0;
+}
+
+blockquote,
+dl,
+dd,
+p,
+pre {
+  margin: 0;
+}

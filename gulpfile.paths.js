@@ -15,8 +15,12 @@ paths.css = {
 paths.fonts = {
   bower: paths.bower + '/**/fonts/**/*'
 };
+paths.icons = {
+  app: paths.app + '/components/icon/images/*.svg'
+}
 paths.images = {
   app: [
+    '!' + paths.icons.app,
     paths.app + '/**/*.svg',
     paths.app + '/**/*.jpg',
     paths.app + '/**/*.png',

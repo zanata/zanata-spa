@@ -1,19 +1,18 @@
-<div class="edit-item__panel-header">
-  <h3 class="edit-item__heading">{{context.locale.displayName}} <span
-    class="txt--muted txt--uppercase">{{context.locale.localeId}}</span></h3>
-  <ul class="edit-item__panel-header-actions list--inline">
+<div class="TransUnit-panelHeader">
+  <h3 class="TransUnit-Heading">{{context.locale.displayName}} <span
+    class="u-textMuted u-textUpper">{{context.locale.localeId}}</span></h3>
+  <ul class="TransUnit-panelHeaderActions u-listHorizontal">
     <li>
-      <button class="button--link link--neutral h--1h w--r-1h"
+      <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
         title="Copy {{context.srcLocale.displayName}} ({{context.srcLocale.localeId}})"
         ng-click="translationCtrl.copySource($event)">
-        <i class="i i--large i--copy"></i>
-        <span class="is-sr-only" translate>Copy {{context.srcLocale.displayName}} ({{context.srcLocale.localeId}})</span>
+        <icon name="copy" title="Copy {{context.srcLocale.displayName}} ({{context.srcLocale.localeId}})"></icon>
       </button>
     </li>
     <li>
-      <button class="button--link link--neutral h--1h w--r-1h"
-        title="{{'Cancel edit'|translate}}" ng-click="translationCtrl.cancelEdit($event)"><i
-        class="i i--large i--cancel"></i><span class="is-sr-only" translate>Cancel edit</span>
+      <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
+        title="{{'Cancel edit'|translate}}" ng-click="translationCtrl.cancelEdit($event)">
+        <icon name="cross" title="{{'Cancel edit'|translate}}"></icon>
       </button>
     </li>
   </ul>

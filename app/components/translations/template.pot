@@ -11,10 +11,6 @@ msgstr ""
 msgid "Cancel edit"
 msgstr ""
 
-#: app/components/transUnit/translation/header.html
-msgid "Copy {{context.srcLocale.displayName}} ({{context.srcLocale.localeId}})"
-msgstr ""
-
 #: app/editor/editor-header.html
 #: app/components/transUnit/source/footer.html
 #: app/components/transUnit/translation/footer.html
@@ -38,10 +34,6 @@ msgid "Filters"
 msgstr ""
 
 #: app/editor/editor-header.html
-msgid "Fuzzy"
-msgstr ""
-
-#: app/editor/editor-header.html
 msgid "Glossary"
 msgstr ""
 
@@ -54,7 +46,7 @@ msgid "More"
 msgstr ""
 
 #: app/editor/editor-header.html
-msgid "More filters"
+msgid "Needs Work"
 msgstr ""
 
 #: app/editor/editor-content.html
@@ -66,10 +58,6 @@ msgid "Notifications"
 msgstr ""
 
 #: app/components/transUnit/translation/footer.html
-msgid "Save as translated"
-msgstr ""
-
-#: app/components/transUnit/translation/footer.html
 msgid "Save as…"
 msgstr ""
 
@@ -78,14 +66,11 @@ msgid "Search"
 msgstr ""
 
 #: app/editor/editor-header.html
-msgid "Settings"
-msgstr ""
-
-#: app/editor/editor-header.html
 msgid "Total Phrases"
 msgstr ""
 
 #: app/editor/editor-header.html
+#: app/components/transUnit/translation/footer.html
 msgid "Translated"
 msgstr ""
 

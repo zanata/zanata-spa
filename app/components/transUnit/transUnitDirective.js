@@ -13,6 +13,7 @@
       required: ['phrase', 'editorContext'],
       scope: {
         phrase: '=',
+        firstPhrase: '=',
         editorContext: '='
       },
       controller: 'TransUnitCtrl as transUnitCtrl',
