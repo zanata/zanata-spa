@@ -24,8 +24,7 @@
     translationCtrl.saveAsTranslated = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        {
-          'phrase' : $scope.phrase,
+        { 'phrase' : $scope.phrase,
           'state'  : TransUnitService.TU_STATE.TRANSLATED,
           'locale' : $stateParams.localeId
         }, $scope);
@@ -34,8 +33,7 @@
     translationCtrl.saveAsFuzzy = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        {
-          'phrase'  : $scope.phrase,
+        { 'phrase'  : $scope.phrase,
           'state'  : TransUnitService.TU_STATE.NEED_REVIEW,
           'locale' : $stateParams.localeId
         }, $scope);

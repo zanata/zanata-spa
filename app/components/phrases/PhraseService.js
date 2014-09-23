@@ -101,6 +101,8 @@
         phrase.translation = content;
         phrase.revision = revision;
         phrase.state = state;
+        phrase.statusClass = stateCssClass[state.toLowerCase()] ||
+          'untranslated';
       }
     };
 

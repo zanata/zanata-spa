@@ -120,12 +120,8 @@
     $stateProvider
       .state('editor', {
         url: '/:projectSlug/:versionSlug/translate',
-        views: {
-          'editor': {
-            templateUrl: 'editor/editor.html',
-            controller: 'EditorCtrl as editor'
-          }
-        }
+        templateUrl: 'editor/editor.html',
+        controller: 'EditorCtrl as editor'
       }).state('editor.selectedContext', {
         url: '/:docId/:localeId?states',
         views: {
@@ -143,7 +139,7 @@
           }
         }
       }).state('editor.selectedTU', {
-        url: '/:docId/:localeId/:tuId',
+        url: '/:docId/:localeId/:tuId?selected',
         views: {
           'editor-content': {
             templateUrl: 'editor/editor-content.html',

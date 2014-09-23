@@ -37,10 +37,6 @@
       editorContentCtrl.phrases = phrases;
     }
 
-    editorContentCtrl.updatePhrase = function() {
-
-    };
-
     return editorContentCtrl;
   }
 

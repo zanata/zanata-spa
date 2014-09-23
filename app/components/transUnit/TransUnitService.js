@@ -6,8 +6,8 @@
    *
    * @ngInject
    */
-  function TransUnitService($rootScope, $state, $stateParams, MessageHandler,
-    EventService) {
+  function TransUnitService($location, $rootScope, $state, $stateParams,
+    MessageHandler, EventService) {
     var transUnitService = this,
       controllerList = {},
       selectedTUId;
@@ -56,9 +56,10 @@
           //Update url without reload state
           if(updateURL) {
             $state.go('editor.selectedTU', {
-              'docId': $stateParams.docId,
-              'localeId': $stateParams.localeId,
-              'tuId' : data.id
+              docId: $stateParams.docId,
+              localeId: $stateParams.localeId,
+              tuId : data.id,
+              selected: true
             },  {
               notify: false
             });
@@ -88,6 +89,8 @@
         }
         setFocus(controllerList[selectedTUId], false);
         selectedTUId = false;
+
+        $location.search('selected', null);
       });
 
     function setFocus(controller, isFocus) {

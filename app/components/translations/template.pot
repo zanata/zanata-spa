@@ -49,6 +49,10 @@ msgstr ""
 msgid "Needs Work"
 msgstr ""
 
+#: app/components/transUnit/translation/footer.html
+msgid "Needs work"
+msgstr ""
+
 #: app/editor/editor-content.html
 msgid "No content"
 msgstr ""
