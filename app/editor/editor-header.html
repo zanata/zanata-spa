@@ -32,7 +32,6 @@
             <ul class="Dropdown-content Dropdown-content--bordered">
               <li ng-repeat="doc in editor.documents">
                 <a ui-sref="editor.selectedContext({docId: doc.name})"
-                  ng-click="editor.updateSelectedDoc(doc.name)"
                   class="Dropdown-item">
                   <span ng-bind="doc.name"></span>
                 </a>
@@ -50,7 +49,6 @@
             <ul class="Dropdown-content Dropdown-content--bordered">
               <li ng-repeat="locale in editor.locales">
                 <a ui-sref="editor.selectedContext({localeId: locale.localeId})"
-                  ng-click="editor.updateSelectedLocale(locale)"
                   class="Dropdown-item">
                   <span ng-bind="locale.displayName"></span>
                 </a>

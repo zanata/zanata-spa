@@ -54,10 +54,6 @@
               context.docId = editorCtrl.documents[0].name;
             }
           }
-          if (isDocumentAndLocaleSelected()) {
-            loadStatistic(context.projectSlug, context.versionSlug,
-              context.docId, context.locale.localeId);
-          }
         }
       }, function(error) {
         MessageHandler.displayError('Error getting document list: ' + error);
@@ -88,10 +84,6 @@
               context.locale = editorCtrl.locales[0];
             }
           }
-          if (isDocumentAndLocaleSelected()) {
-            loadStatistic(context.projectSlug, context.versionSlug,
-              context.docId, context.locale.localeId);
-          }
         }
       }, function(error) {
         MessageHandler.displayError('Error getting locale list: ' + error);
@@ -107,20 +99,16 @@
         editorCtrl.unitSelected = false;
       });
 
-    editorCtrl.updateSelectedDoc = function(docId) {
-      editorCtrl.context.docId = docId;
+    $rootScope.$on(EventService.EVENT.REFRESH_STATISTIC,
+      function (event, data) {
+        loadStatistic(data.projectSlug, data.versionSlug, data.docId,
+          data.localeId);
 
-      loadStatistic(editorCtrl.context.projectSlug,
-        editorCtrl.context.versionSlug, editorCtrl.context.docId,
-        editorCtrl.context.locale.localeId);
-    };
+        editorCtrl.context.docId = data.docId;
 
-    editorCtrl.updateSelectedLocale = function(locale) {
-      editorCtrl.context.locale = locale;
-      loadStatistic(editorCtrl.context.projectSlug,
-        editorCtrl.context.versionSlug, editorCtrl.context.docId,
-        editorCtrl.context.locale.localeId);
-    };
+        editorCtrl.context.locale = LocaleService.getLocaleByLocaleId(
+          editorCtrl.locales, data.localeId);
+      });
 
     function transitionToEditorSelectedView() {
       if (isDocumentAndLocaleSelected()) {

@@ -30,7 +30,7 @@
         }, $scope);
     };
 
-    translationCtrl.saveAsFuzzy = function($event) {
+    translationCtrl.saveAsNeedsWork = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         { 'phrase'  : $scope.phrase,

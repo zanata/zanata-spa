@@ -35,7 +35,8 @@
           queue[phrase.id] = {
             'phrase': phrase,
             'state' : state,
-            'locale': data.locale
+            'locale': data.locale,
+            'docId' : data.docId
           };
           processSaveRequest(phrase.id);
         }
@@ -66,6 +67,9 @@
         function(response) {
           PhraseService.onTransUnitUpdated(data.id, request.locale,
             response.revision, response.state, request.phrase.newTranslation);
+
+//          DocumentService.updateStatistic(request.docId, request.locale,
+//            phrase.state, response.state, response.wordCount);
         },
         function(response) {
           MessageHandler.displayWarning('Update translation failed for ' +

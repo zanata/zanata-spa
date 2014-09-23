@@ -105,9 +105,13 @@
           return response || $q.when(response);
         },
         responseError: function(rejection) {
-          console.error('Error in response ', rejection);
           if (rejection.status === 401) {
             console.error('Unauthorized access. Please login');
+          } else if (rejection.status === 404) {
+            console.error('Service end point not found- ',
+              rejection.config.url);
+          } else {
+            console.error('Error in response ', rejection);
           }
           return $q.reject(rejection);
         }

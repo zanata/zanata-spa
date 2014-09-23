@@ -42,9 +42,11 @@
     }
 
     function getLocaleByLocaleId(locales, localeId) {
-      for (var i = 0; i < locales.length; i++) {
-        if (StringUtil.equals(locales[i].localeId, localeId, true)) {
-          return locales[i];
+      if(locales) {
+        for (var i = 0; i < locales.length; i++) {
+          if (StringUtil.equals(locales[i].localeId, localeId, true)) {
+            return locales[i];
+          }
         }
       }
     }

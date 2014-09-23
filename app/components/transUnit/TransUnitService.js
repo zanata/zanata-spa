@@ -43,9 +43,9 @@
                 {
                   'phrase' : tuController.getPhrase(),
                   'state'  : transUnitService.TU_STATE.TRANSLATED,
-                  'locale' : $stateParams.localeId
-                },
-                $rootScope);
+                  'locale' : $stateParams.localeId,
+                  'docId'  : $stateParams.docId
+                }, $rootScope);
             }
             setFocus(selectedTUController, false);
           }

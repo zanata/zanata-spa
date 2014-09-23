@@ -8,7 +8,8 @@
    * DocumentService.js
    * @ngInject
    */
-  function DocumentService($q, $resource, UrlService, StringUtil, _) {
+  function DocumentService($rootScope, $q, $resource, UrlService, StringUtil,
+                           EventService, StatisticUtil, _) {
     var statisticMap = {};
 
     /**
@@ -44,7 +45,7 @@
     function getStatistics(_projectSlug, _versionSlug,
       _docId, _localeId) {
       if (_docId && _localeId) {
-        var key = _docId + '-' + _localeId;
+        var key = generateStatisticKey(_docId,  _localeId);
         if (key in statisticMap) {
           return $q.when(statisticMap[key]);
         } else {
@@ -77,6 +78,44 @@
         }
       });
       return contains;
+    }
+
+    function generateStatisticKey(docId, localeId) {
+      return docId + '-' + localeId;
+    }
+
+    $rootScope.$on(EventService.EVENT.UPDATE_STATISTIC,
+      function (event, data) {
+        var key = generateStatisticKey(data.docId, data.localeId);
+        if(key in statisticMap) {
+          //adjust statistic
+          adjustStatistic(statisticMap[key], data.oldState, data.newState,
+            data.wordCount);
+        }
+      });
+
+    /**
+     * Adjust statistic
+     * word - -wordCount of oldState, +wordCount of newState
+     * msg - -1 of oldState, +1 of newState
+     *
+     * @param statistics - statistic to be adjust
+     * @param oldState
+     * @param newState
+     * @param wordCount
+     */
+    function adjustStatistic(statistics, oldState, newState, wordCount) {
+      var wordStatistic = StatisticUtil.getWordStatistic(statistics),
+        messageStatistic = StatisticUtil.getMsgStatistic(statistics);
+
+      if(wordStatistic) {
+        wordStatistic[oldState] = wordStatistic[oldState] - wordCount;
+        wordStatistic[newState] = wordStatistic[newState] + wordCount;
+      }
+      if(messageStatistic) {
+        messageStatistic[oldState] = messageStatistic[oldState] - 1;
+        messageStatistic[newState] = messageStatistic[newState] + 1;
+      }
     }
 
     return {
