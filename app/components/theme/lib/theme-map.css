@@ -312,4 +312,6 @@
 :root {
   --Editor-rhythm: var(--rhythm);
   --Editor-transition-ease: var(--transition-ease-out-back);
+  --Editor-color-status-bg: color(var(--color-secondary) tint(82%));
+  --Editor-color-translation-bg: var(--color-white);
 }

@@ -46,6 +46,7 @@
   top: calc(var(--Editor-rhythm) * 4);
   bottom: 0;
   overflow: auto;
+  overflow-y: scroll;
   width: 100%;
   -webkit-overlow-scrolling: touch;
 }
@@ -56,6 +57,7 @@
 }
 
 .Editor-translations {
+  min-height: 100%;
   padding: calc(var(--Editor-rhythm) * 1.5) 0 calc(var(--Editor-rhythm) * 1.5);
   background-position: left center;
   background-image: linear-gradient(left, var(--Editor-color-status-bg), var(--Editor-color-status-bg));
@@ -87,7 +89,8 @@
       center center;
     background-image:
       linear-gradient(left, var(--Editor-color-status-bg), var(--Editor-color-status-bg)),
-      linear-gradient(left, transparent 0%, transparent 50%, var(--Editor-color-translation-bg) 50%, var(--Editor-color-translation-bg) 100%);
+      linear-gradient(left, transparent 0%, transparent 50%,
+        var(--Editor-color-translation-bg) 50%, var(--Editor-color-translation-bg) 100%);
     background-size:
       var(--rhythm) 100%,
       100% 100%;
