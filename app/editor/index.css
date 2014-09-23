@@ -3,6 +3,8 @@
 :root {
   --Editor-rhythm: 1.5rem;
   --Editor-transition-ease: cubic-bezier(.175, .885, .320, 1.275);
+  --Editor-color-status-bg: color(#416988 tint(82%));
+  --Editor-color-translation-bg: #fff;
 }
 
 .Editor {
@@ -45,15 +47,20 @@
   bottom: 0;
   overflow: auto;
   width: 100%;
-  /*TODO: Remove important;*/
-  padding: calc(var(--Editor-rhythm) * 1.5) 0 calc(var(--Editor-rhythm) * 1.5) !important;
-
   -webkit-overlow-scrolling: touch;
 }
 
 .Editor-content.is-maximised {
   bottom: calc(var(--Editor-rhythm) * -2);
   transform: translateY(calc(var(--Editor-rhythm) * -2));
+}
+
+.Editor-translations {
+  padding: calc(var(--Editor-rhythm) * 1.5) 0 calc(var(--Editor-rhythm) * 1.5);
+  background-position: left center;
+  background-image: linear-gradient(left, var(--Editor-color-status-bg), var(--Editor-color-status-bg));
+  background-size: var(--rhythm) 100%;
+  background-repeat: no-repeat;
 }
 
 .Editor-currentDoc {
@@ -75,21 +82,16 @@
 }
 
 @media (--gtemd-viewport) {
-  .Editor-content {
-    background-image: url("../images/editor/editor-bg.gif");
-    background-repeat: repeat-y;
-    background-position: center center;
-  }
-
-  .is-horizontal-editor .Editor-content:before {
-    left: 50%;
-    margin-left: calc(var(--Editor-rhythm) * -.5);
-  }
-
-  .is-horizontal-editor .Editor-content:after {
-    z-index: -1;
-    right: 0;
-    width: 50%;
-    background-color: #fff;
+  .Editor-translations {
+    background-position:
+      center center;
+    background-image:
+      linear-gradient(left, var(--Editor-color-status-bg), var(--Editor-color-status-bg)),
+      linear-gradient(left, transparent 0%, transparent 50%, var(--Editor-color-translation-bg) 50%, var(--Editor-color-translation-bg) 100%);
+    background-size:
+      var(--rhythm) 100%,
+      100% 100%;
+    background-repeat:
+      no-repeat;
   }
 }
