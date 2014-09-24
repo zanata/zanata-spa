@@ -6,7 +6,7 @@
 </a>
 <header role="banner" class="Header Editor-header"
   ng-class="{'is-minimised': editor.settings.hideMainNav}">
-  <nav role="navigation"
+  <nav role="navigation"                   1
     class="Editor-mainNav u-posRelative u-textCenter">
     <div class="u-posAbsoluteLeft">
       <a
@@ -26,13 +26,12 @@
           <dropdown class="Dropdown">
             <button dropdown-toggle
               class="Dropdown-toggle Link--invert"/>
-              <span ng-bind="editor.context.document.name"></span>
+              <span ng-bind="editor.context.docId"></span>
               <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
             </button>
             <ul class="Dropdown-content Dropdown-content--bordered">
               <li ng-repeat="doc in editor.documents">
-                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{doc.name}}/{{editor.context.locale.localeId}}"
-                  ng-click="editor.updateSelectedDoc(doc)"
+                <a ui-sref="editor.selectedContext({docId: doc.name, localeId: editor.context.localeId})"
                   class="Dropdown-item">
                   <span ng-bind="doc.name"></span>
                 </a>
@@ -44,13 +43,12 @@
           <dropdown class="Dropdown">
             <button dropdown-toggle
               class="Dropdown-toggle Link--invert"/>
-              <span ng-bind="editor.context.locale.displayName"></span>
+              <span ng-bind="editor.getLocaleDisplayName(editor.context.localeId)"></span>
               <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
             </button>
             <ul class="Dropdown-content Dropdown-content--bordered">
               <li ng-repeat="locale in editor.locales">
-                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.context.document.name}}/{{locale.localeId}}"
-                  ng-click="editor.updateSelectedLocale(locale)"
+                <a ui-sref="editor.selectedContext({docId: editor.context.docId, localeId: locale.localeId})"
                   class="Dropdown-item">
                   <span ng-bind="locale.displayName"></span>
                 </a>
@@ -65,12 +63,12 @@
         <dropdown class="Dropdown Dropdown--right u-sMV-1-2">
           <a dropdown-toggle
             class="Dropdown-toggle Link--invert u-inlineBlock u-sizeWidth-1_1-2"
-            ng-bind="app.myInfo.locale.localeId"/>
+            ng-bind="editor.getLocaleDisplayName(app.myInfo.locale.localeId)"/>
           </a>
           <ul class="Dropdown-content Dropdown-content--bordered">
             <li ng-repeat="locale in app.uiLocaleList">
               <a ng-click="app.onChangeUILocale(locale)" class="Dropdown-item">
-                <span ng-bind="locale.localeId"></span>
+                <span ng-bind="editor.getLocaleDisplayName(locale.localeId)"></span>
               </a>
             </li>
           </ul>
@@ -201,7 +199,6 @@
       </ul>
     </div>
   </nav>
-
   <progressbar progressbar-statistic="editor.wordStatistic"></progressbar>
 
 </header>

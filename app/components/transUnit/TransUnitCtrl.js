@@ -17,7 +17,7 @@
 
     transUnitCtrl.init = function() {
       TransUnitService.addController($scope.phrase.id, transUnitCtrl);
-      if($stateParams.tuId &&
+      if($stateParams.tuId && $stateParams.selected &&
         parseInt($stateParams.tuId) === $scope.phrase.id) {
         EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
           {'id': $stateParams.tuId,

@@ -7,7 +7,9 @@
    * LocaleService.js
    * @ngInject
    */
-  function LocaleService(UrlService, StringUtil, $resource) {
+  function LocaleService(UrlService, StringUtil, $resource, _) {
+
+    var locales = [];
 
     /**
      * Get project-version supported locales
@@ -31,6 +33,19 @@
       return Locales.query().$promise;
     }
 
+    //Returns all locales supported in Zanata instance
+    function getAllLocales() {
+      var Locales = $resource(UrlService.ALL_LOCALE_URL, {}, {
+        query: {
+          method: 'GET',
+          isArray: true
+        }
+      });
+      return Locales.query().$promise.then(function(results) {
+        locales = results;
+      });
+    }
+
     function getUILocaleList() {
       var list = $resource('/translations/locales', {}, {
         query: {
@@ -42,19 +57,36 @@
     }
 
     function getLocaleByLocaleId(locales, localeId) {
-      for (var i = 0; i < locales.length; i++) {
-        if (StringUtil.equals(locales[i].localeId, localeId, true)) {
-          return locales[i];
-        }
+      if(locales) {
+        return _.find(locales, function(locale) {
+          return StringUtil.equals(locale.localeId, localeId, true);
+        });
       }
+    }
+
+    function containsLocale (locales, localeId) {
+      return _.any(locales, function(locale) {
+        return StringUtil.equals(locale.localeId, localeId, true);
+      });
+    }
+
+    function getDisplayName(localeId) {
+      var locale = getLocaleByLocaleId(locales, localeId);
+      if(locale) {
+        return locale.displayName;
+      }
+      return localeId;
     }
 
     return {
       getSupportedLocales : getSupportedLocales,
       getUILocaleList     : getUILocaleList,
       getLocaleByLocaleId : getLocaleByLocaleId,
+      getAllLocales : getAllLocales,
+      containsLocale : containsLocale,
+      getDisplayName : getDisplayName,
       DEFAULT_LOCALE: {
-        'localeId' : 'en',
+        'localeId' : 'en-US',
         'displayName' : 'English'
       }
     };

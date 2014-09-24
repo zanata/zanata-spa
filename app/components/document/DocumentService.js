@@ -8,10 +8,10 @@
    * DocumentService.js
    * @ngInject
    */
-  function DocumentService($q, $filter, $timeout, $http,
-    $resource, UrlService, StringUtil) {
-    var documentService = this;
-    documentService.statisticMap = {};
+  function DocumentService($q, $resource, UrlService, StringUtil,
+                           StatisticUtil, EventService, _) {
+    var documentService = this,
+        statisticMap = {};
 
     /**
      * Finds all documents in given project version
@@ -20,7 +20,7 @@
      * @param _versionSlug
      * @returns {$promise|*|N.$promise}
      */
-    function findAll(_projectSlug, _versionSlug) {
+    documentService.findAll = function findAll(_projectSlug, _versionSlug) {
       var Documents = $resource(UrlService.DOCUMENT_LIST_URL, {}, {
         query: {
           method: 'GET',
@@ -32,7 +32,7 @@
         }
       });
       return Documents.query().$promise;
-    }
+    };
 
     /**
      * Get statistic of document in locale (word and message)
@@ -43,14 +43,12 @@
      * @param _localeId
      * @returns {*}
      */
-    function getStatistics(_projectSlug, _versionSlug,
+    documentService.getStatistics = function (_projectSlug, _versionSlug,
       _docId, _localeId) {
       if (_docId && _localeId) {
-        var key = _docId + '-' + _localeId;
-        if (key in documentService.statisticMap) {
-          var deferred = $q.defer();
-          deferred.resolve(documentService.statisticMap[key]);
-          return deferred.promise;
+        var key = generateStatisticKey(_docId,  _localeId);
+        if (_.has(statisticMap, key)) {
+          return $q.when(statisticMap[key]);
         } else {
           var Statistics = $resource(UrlService.DOC_STATISTIC_URL, {}, {
             query: {
@@ -64,27 +62,65 @@
               isArray: true
             }
           });
-          var result = Statistics.query();
-          documentService.statisticMap[key] = result;
-          return result.$promise;
+          return Statistics.query().$promise.then(function(statistics) {
+            statisticMap[key] = statistics;
+            return statisticMap[key];
+          });
         }
       }
-    }
-
-    //Get document by docId from list
-    function getDocById(documents, docId) {
-      for (var i = 0; i < documents.length; i++) {
-        if (StringUtil.equals(documents[i].name, docId, true)) {
-          return documents[i];
-        }
-      }
-    }
-
-    return {
-      findAll       : findAll,
-      getStatistics : getStatistics,
-      getDocById    : getDocById
     };
+
+    documentService.containsDoc = function (documents, docId) {
+      return _.any(documents, function(document) {
+         return StringUtil.equals(document.name, docId, true);
+      });
+    };
+
+    documentService.updateStatistic = function(docId, localeId, oldState,
+                                               newState, wordCount) {
+      var key = generateStatisticKey(docId, localeId);
+      if(_.has(statisticMap, key)) {
+        adjustStatistic(statisticMap[key], oldState, newState,
+          wordCount);
+
+        EventService.emitEvent(EventService.EVENT.REFRESH_STATISTIC,
+          {
+            projectSlug: 'tiny-project',
+            versionSlug: '1',
+            docId: docId,
+            localeId: localeId
+          }
+        );
+      }
+    };
+
+    //Generate unique key from docId and localeId for statistic cache
+    function generateStatisticKey(docId, localeId) {
+      return docId + '-' + localeId;
+    }
+
+    /**
+     * Adjust statistic based on translatio change of state
+     * word - -wordCount of oldState, +wordCount of newState
+     * msg - -1 of oldState, +1 of newState
+     */
+    function adjustStatistic(statistics, oldState, newState, wordCount) {
+      var wordStatistic = StatisticUtil.getWordStatistic(statistics),
+        msgStatistic = StatisticUtil.getMsgStatistic(statistics);
+
+      if(wordStatistic) {
+        wordStatistic[oldState] = (wordStatistic[oldState] - wordCount) < 0 ?
+          0 : wordStatistic[oldState] - wordCount;
+        wordStatistic[newState] = wordStatistic[newState] + wordCount;
+      }
+      if(msgStatistic) {
+        msgStatistic[oldState] = (msgStatistic[oldState] - 1) < 0 ?
+          0 : msgStatistic[oldState] - 1;
+        msgStatistic[newState] = msgStatistic[newState] + 1;
+      }
+    }
+
+    return documentService;
   }
 
   angular

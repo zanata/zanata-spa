@@ -6,8 +6,9 @@
    * @ngInject
    */
   function EditorCtrl(UserService, DocumentService, LocaleService,
-    ProjectService, TransUnitService, StatisticUtil, $stateParams,
-    $state, MessageHandler, $rootScope, EventService) {
+    ProjectService, TransUnitService, SaveTranslationService, EditorService,
+    StatisticUtil, $stateParams, $state, MessageHandler, $rootScope,
+    EventService) {
     var editorCtrl = this;
 
     //TODO: cross domain rest
@@ -15,10 +16,9 @@
 
     //Working URL: http://localhost:8000/#/tiny-project/1/translate or
     // http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr
-
-    editorCtrl.context = UserService.editorContext($stateParams.projectSlug,
-        $stateParams.versionSlug, '', LocaleService.DEFAULT_LOCALE,
-      '', 'READ_WRITE');
+    editorCtrl.context = EditorService.initContext($stateParams.projectSlug,
+      $stateParams.versionSlug, $stateParams.docId,
+      LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE, 'READ_WRITE');
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
       function(projectInfo) {
@@ -27,6 +27,35 @@
       function(error) {
         MessageHandler.displayError('Error getting project ' +
           'information:' + error);
+      });
+
+    LocaleService.getSupportedLocales(editorCtrl.context.projectSlug,
+      editorCtrl.context.versionSlug).then(
+      function(locales) {
+        editorCtrl.locales = locales;
+        if (!editorCtrl.locales || editorCtrl.locales.length <= 0) {
+          //redirect if no supported locale in version
+          MessageHandler.displayError('No supported locales in ' +
+            editorCtrl.context.projectSlug + ' : ' +
+            editorCtrl.context.versionSlug);
+        } else {
+          //if localeId is not defined in url, set to first from list
+          var selectedLocaleId = $state.params.localeId;
+          var context = editorCtrl.context;
+
+          if (!selectedLocaleId) {
+            context.localeId = editorCtrl.locales[0].localeId;
+            transitionToEditorSelectedView();
+          } else {
+            context.localeId = selectedLocaleId;
+            if (!LocaleService.containsLocale(editorCtrl.locales,
+              selectedLocaleId)) {
+              context.localeId = editorCtrl.locales[0].localeId;
+            }
+          }
+        }
+      }, function(error) {
+        MessageHandler.displayError('Error getting locale list: ' + error);
       });
 
     DocumentService.findAll(editorCtrl.context.projectSlug,
@@ -45,57 +74,21 @@
               context = editorCtrl.context;
 
           if (!selectedDocId) {
-            context.document = editorCtrl.documents[0];
+            context.docId = editorCtrl.documents[0].name;
             transitionToEditorSelectedView();
           } else {
-            context.document = DocumentService.getDocById(
-              editorCtrl.documents, selectedDocId);
-            if (!context.document) {
-              context.document = editorCtrl.documents[0];
+            context.docId = selectedDocId;
+            if (!DocumentService.containsDoc(editorCtrl.documents,
+              selectedDocId)) {
+              context.docId = editorCtrl.documents[0].name;
             }
-          }
-          if (isDocumentAndLocaleSelected()) {
-            loadStatistic(context.projectSlug, context.versionSlug,
-              context.document.name, context.locale.localeId);
           }
         }
       }, function(error) {
         MessageHandler.displayError('Error getting document list: ' + error);
       });
 
-    LocaleService.getSupportedLocales(editorCtrl.context.projectSlug,
-      editorCtrl.context.versionSlug).then(
-      function(locales) {
-        editorCtrl.locales = locales;
 
-        if (!editorCtrl.locales || editorCtrl.locales.length <= 0) {
-          //redirect if no supported locale in version
-          MessageHandler.displayError('No supported locales in ' +
-            editorCtrl.context.projectSlug + ' : ' +
-            editorCtrl.context.versionSlug);
-        } else {
-          //if localeId is not defined in url, set to first from list
-          var selectedLocaleId = $state.params.localeId;
-          var context = editorCtrl.context;
-
-          if (!selectedLocaleId) {
-            context.locale = editorCtrl.locales[0];
-            transitionToEditorSelectedView();
-          } else {
-            context.locale = LocaleService.getLocaleByLocaleId(
-              editorCtrl.locales, selectedLocaleId);
-            if (!context.locale) {
-              context.locale = editorCtrl.locales[0];
-            }
-          }
-          if (isDocumentAndLocaleSelected()) {
-            loadStatistic(context.projectSlug, context.versionSlug,
-              context.document.name, context.locale.localeId);
-          }
-        }
-      }, function(error) {
-        MessageHandler.displayError('Error getting locale list: ' + error);
-      });
 
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
@@ -107,32 +100,30 @@
         editorCtrl.unitSelected = false;
       });
 
-    editorCtrl.updateSelectedDoc = function(doc) {
-      editorCtrl.context.document = doc;
+    $rootScope.$on(EventService.EVENT.REFRESH_STATISTIC,
+      function (event, data) {
+        loadStatistic(data.projectSlug, data.versionSlug, data.docId,
+          data.localeId);
 
-      loadStatistic(editorCtrl.context.projectSlug,
-        editorCtrl.context.versionSlug, editorCtrl.context.document.name,
-        editorCtrl.context.locale.localeId);
-    };
+        editorCtrl.context.docId = data.docId;
+        editorCtrl.context.localeId = data.localeId;
+      });
 
-    editorCtrl.updateSelectedLocale = function(locale) {
-      editorCtrl.context.locale = locale;
-      loadStatistic(editorCtrl.context.projectSlug,
-        editorCtrl.context.versionSlug, editorCtrl.context.document.name,
-        editorCtrl.context.locale.localeId);
+    editorCtrl.getLocaleDisplayName = function(localeId) {
+      return LocaleService.getDisplayName(localeId);
     };
 
     function transitionToEditorSelectedView() {
       if (isDocumentAndLocaleSelected()) {
         $state.go('editor.selectedContext', {
-          'docId': editorCtrl.context.document.name,
-          'localeId': editorCtrl.context.locale.localeId
+          'docId': editorCtrl.context.docId,
+          'localeId': editorCtrl.context.localeId
         });
       }
     }
 
     function isDocumentAndLocaleSelected() {
-      return editorCtrl.context.document && editorCtrl.context.locale;
+      return editorCtrl.context.docId && editorCtrl.context.localeId;
     }
 
     /**
@@ -145,8 +136,7 @@
      */
     function loadStatistic(projectSlug, versionSlug, docId, localeId) {
       DocumentService.getStatistics(projectSlug, versionSlug, docId, localeId)
-        .then(
-          function(statistics) {
+        .then(function(statistics) {
             editorCtrl.wordStatistic = StatisticUtil
               .getWordStatistic(statistics);
             editorCtrl.messageStatistic = StatisticUtil

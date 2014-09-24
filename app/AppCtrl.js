@@ -46,7 +46,7 @@
       var uiLocaleId = appCtrl.myInfo.locale.localeId;
       if (!StringUtil.startsWith(uiLocaleId,
         LocaleService.DEFAULT_LOCALE.localeId, true)) {
-        gettextCatalog.loadRemote(UrlService.translationURL(uiLocaleId))
+        gettextCatalog.loadRemote(UrlService.uiTranslationURL(uiLocaleId))
             .then(
                 function() {
                   gettextCatalog.setCurrentLanguage(uiLocaleId);
@@ -92,27 +92,33 @@
 
   AppCtrl.config = function($stateProvider, $urlRouterProvider, $httpProvider) {
 
-    //handles global error for $resource call
-    var interceptor = ['$rootScope', '$q', function(scope, $q) {
-      function success(response) {
-        return response;
-      }
-      function error(response) {
-        console.error('Unexpected error');
-        var status = response.status;
-        if (status === 401) {
-          console.error('Unauthorized access. Please login');
-          return;
+    var interceptor = ['$q', function($q) {
+      return {
+        request: function(config) {
+          return config;
+        },
+        requestError: function(rejection) {
+          console.log('Request error due to ', rejection);
+          return $q.reject(rejection);
+        },
+        response: function(response) {
+          return response || $q.when(response);
+        },
+        responseError: function(rejection) {
+          if (rejection.status === 401) {
+            console.error('Unauthorized access. Please login');
+          } else if (rejection.status === 404) {
+            console.error('Service end point not found- ',
+              rejection.config.url);
+          } else {
+            console.error('Error in response ', rejection);
+          }
+          return $q.reject(rejection);
         }
-        // otherwise
-        return $q.reject(response);
-      }
-      return function(promise) {
-        return promise.then(success, error);
       };
     }];
 
-    $httpProvider.responseInterceptors.push(interceptor);
+    $httpProvider.interceptors.push(interceptor);
 
     // For any unmatched url, redirect to /editor
     $urlRouterProvider.otherwise('/');
@@ -120,10 +126,11 @@
     $stateProvider
       .state('editor', {
         url: '/:projectSlug/:versionSlug/translate',
-        views: {
-          'editor': {
-            templateUrl: 'editor/editor.html',
-            controller: 'EditorCtrl as editor'
+        templateUrl: 'editor/editor.html',
+        controller: 'EditorCtrl as editor',
+        resolve: {
+          locales : function(LocaleService) {
+            return LocaleService.getAllLocales();
           }
         }
       }).state('editor.selectedContext', {
@@ -143,7 +150,7 @@
           }
         }
       }).state('editor.selectedTU', {
-        url: '/:docId/:localeId/:tuId',
+        url: '/:docId/:localeId/:tuId?selected',
         views: {
           'editor-content': {
             templateUrl: 'editor/editor-content.html',

@@ -5,7 +5,8 @@
    * TranslationCtrl.js
    * @ngInject
    */
-  function TranslationCtrl($scope, TransUnitService, EventService) {
+  function TranslationCtrl($scope, $stateParams, TransUnitService,
+                           EventService, LocaleService) {
     var translationCtrl = this;
 
     translationCtrl.copySource = function($event) {
@@ -23,22 +24,35 @@
     translationCtrl.saveAsTranslated = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        {'phrase' : $scope.phrase,
-         'state': TransUnitService.TU_STATE.TRANSLATED}, $scope);
+        { 'phrase' : $scope.phrase,
+          'state'  : TransUnitService.TU_STATE.TRANSLATED,
+          'locale' : $stateParams.localeId,
+          'docId'  : $stateParams.docId
+        }, $scope);
     };
 
-    translationCtrl.saveAsFuzzy = function($event) {
+    translationCtrl.saveAsNeedsWork = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        {'phrase' : $scope.phrase,
-          'state': TransUnitService.TU_STATE.NEED_REVIEW}, $scope);
+        { 'phrase'  : $scope.phrase,
+          'state'  : TransUnitService.TU_STATE.NEED_REVIEW,
+          'locale' : $stateParams.localeId,
+          'docId'  : $stateParams.docId
+        }, $scope);
     };
 
     translationCtrl.saveAsApproved = function($event) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        {'phrase' : $scope.phrase,
-          'state': TransUnitService.TU_STATE.APPROVED}, $scope);
+        { 'phrase' : $scope.phrase,
+          'state': TransUnitService.TU_STATE.APPROVED,
+          'locale' : $stateParams.localeId,
+          'docId'  : $stateParams.docId
+        }, $scope);
+    };
+
+    translationCtrl.getLocaleDisplayName = function(localeId) {
+      return LocaleService.getDisplayName(localeId);
     };
 
     return translationCtrl;
