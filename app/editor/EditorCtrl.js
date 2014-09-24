@@ -29,6 +29,35 @@
           'information:' + error);
       });
 
+    LocaleService.getSupportedLocales(editorCtrl.context.projectSlug,
+      editorCtrl.context.versionSlug).then(
+      function(locales) {
+        editorCtrl.locales = locales;
+        if (!editorCtrl.locales || editorCtrl.locales.length <= 0) {
+          //redirect if no supported locale in version
+          MessageHandler.displayError('No supported locales in ' +
+            editorCtrl.context.projectSlug + ' : ' +
+            editorCtrl.context.versionSlug);
+        } else {
+          //if localeId is not defined in url, set to first from list
+          var selectedLocaleId = $state.params.localeId;
+          var context = editorCtrl.context;
+
+          if (!selectedLocaleId) {
+            context.localeId = editorCtrl.locales[0].localeId;
+            transitionToEditorSelectedView();
+          } else {
+            context.localeId = selectedLocaleId;
+            if (!LocaleService.containsLocale(editorCtrl.locales,
+              selectedLocaleId)) {
+              context.localeId = editorCtrl.locales[0].localeId;
+            }
+          }
+        }
+      }, function(error) {
+        MessageHandler.displayError('Error getting locale list: ' + error);
+      });
+
     DocumentService.findAll(editorCtrl.context.projectSlug,
       editorCtrl.context.versionSlug).then(
       function(documents) {
@@ -59,35 +88,7 @@
         MessageHandler.displayError('Error getting document list: ' + error);
       });
 
-    LocaleService.getSupportedLocales(editorCtrl.context.projectSlug,
-      editorCtrl.context.versionSlug).then(
-      function(locales) {
-        editorCtrl.locales = locales;
 
-        if (!editorCtrl.locales || editorCtrl.locales.length <= 0) {
-          //redirect if no supported locale in version
-          MessageHandler.displayError('No supported locales in ' +
-            editorCtrl.context.projectSlug + ' : ' +
-            editorCtrl.context.versionSlug);
-        } else {
-          //if localeId is not defined in url, set to first from list
-          var selectedLocaleId = $state.params.localeId;
-          var context = editorCtrl.context;
-
-          if (!selectedLocaleId) {
-            context.locale = editorCtrl.locales[0];
-            transitionToEditorSelectedView();
-          } else {
-            context.locale = LocaleService.getLocaleByLocaleId(
-              editorCtrl.locales, selectedLocaleId);
-            if (!context.locale) {
-              context.locale = editorCtrl.locales[0];
-            }
-          }
-        }
-      }, function(error) {
-        MessageHandler.displayError('Error getting locale list: ' + error);
-      });
 
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
@@ -105,22 +106,24 @@
           data.localeId);
 
         editorCtrl.context.docId = data.docId;
-
-        editorCtrl.context.locale = LocaleService.getLocaleByLocaleId(
-          editorCtrl.locales, data.localeId);
+        editorCtrl.context.localeId = data.localeId;
       });
+
+    editorCtrl.getLocaleDisplayName = function(localeId) {
+      return LocaleService.getDisplayName(localeId);
+    };
 
     function transitionToEditorSelectedView() {
       if (isDocumentAndLocaleSelected()) {
         $state.go('editor.selectedContext', {
           'docId': editorCtrl.context.docId,
-          'localeId': editorCtrl.context.locale.localeId
+          'localeId': editorCtrl.context.localeId
         });
       }
     }
 
     function isDocumentAndLocaleSelected() {
-      return editorCtrl.context.docId && editorCtrl.context.locale;
+      return editorCtrl.context.docId && editorCtrl.context.localeId;
     }
 
     /**
@@ -133,8 +136,7 @@
      */
     function loadStatistic(projectSlug, versionSlug, docId, localeId) {
       DocumentService.getStatistics(projectSlug, versionSlug, docId, localeId)
-        .then(
-          function(statistics) {
+        .then(function(statistics) {
             editorCtrl.wordStatistic = StatisticUtil
               .getWordStatistic(statistics);
             editorCtrl.messageStatistic = StatisticUtil

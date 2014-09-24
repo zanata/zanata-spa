@@ -6,7 +6,7 @@
    * @ngInject
    */
   function TranslationCtrl($scope, $stateParams, TransUnitService,
-                           EventService) {
+                           EventService, LocaleService) {
     var translationCtrl = this;
 
     translationCtrl.copySource = function($event) {
@@ -26,7 +26,8 @@
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         { 'phrase' : $scope.phrase,
           'state'  : TransUnitService.TU_STATE.TRANSLATED,
-          'locale' : $stateParams.localeId
+          'locale' : $stateParams.localeId,
+          'docId'  : $stateParams.docId
         }, $scope);
     };
 
@@ -35,7 +36,8 @@
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         { 'phrase'  : $scope.phrase,
           'state'  : TransUnitService.TU_STATE.NEED_REVIEW,
-          'locale' : $stateParams.localeId
+          'locale' : $stateParams.localeId,
+          'docId'  : $stateParams.docId
         }, $scope);
     };
 
@@ -44,8 +46,13 @@
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         { 'phrase' : $scope.phrase,
           'state': TransUnitService.TU_STATE.APPROVED,
-          'locale' : $stateParams.localeId
+          'locale' : $stateParams.localeId,
+          'docId'  : $stateParams.docId
         }, $scope);
+    };
+
+    translationCtrl.getLocaleDisplayName = function(localeId) {
+      return LocaleService.getDisplayName(localeId);
     };
 
     return translationCtrl;

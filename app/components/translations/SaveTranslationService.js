@@ -7,8 +7,8 @@
    *
    */
   function SaveTranslationService($rootScope, $resource, PhraseService,
-                                  MessageHandler, UrlService, EventService,
-                                  TransUnitService) {
+                                  MessageHandler, UrlService, DocumentService,
+                                  EventService, TransUnitService, _) {
     var saveTranslationService = this,
       queue = {};
 
@@ -25,7 +25,7 @@
           state = data.state;
 
         //update pending queue if contains
-        if(phrase.id in queue) {
+        if(_.has(queue,  phrase.id)) {
           var pendingRequest = queue[phrase.id];
           pendingRequest.phrase = phrase;
           pendingRequest.state = state;
@@ -65,11 +65,13 @@
 
       Translation.update(data).$promise.then(
         function(response) {
+          var oldState =  request.phrase.status;
+
           PhraseService.onTransUnitUpdated(data.id, request.locale,
             response.revision, response.state, request.phrase.newTranslation);
 
-//          DocumentService.updateStatistic(request.docId, request.locale,
-//            phrase.state, response.state, response.wordCount);
+          DocumentService.updateStatistic(request.docId, request.locale,
+            oldState, response.state, request.phrase.wordCount);
         },
         function(response) {
           MessageHandler.displayWarning('Update translation failed for ' +

@@ -9,19 +9,22 @@
   function progressbar() {
     return {
       restrict: 'E',
-      replace: true,
       required: 'progressbarStatistic',
       scope: {
-        progressbarStatistic: '=',
+        statistic: '=progressbarStatistic',
         size: '@' //large, full, or empty
       },
       templateUrl: 'components/progressbar/progressbar.html',
-      link: function(scope) {
-        scope.$watch('progressbarStatistic', function(statistic) {
+      controller: function($scope) {
+        /**
+         * Need to set to true for complex object watch. Performance issue.
+         * https://docs.angularjs.org/api/ng/type/$rootScope.Scope
+         */
+        $scope.$watch('statistic', function(statistic) {
           if (statistic) {
-            scope.style = getStyle(statistic);
+            $scope.style = getStyle(statistic);
           }
-        });
+        }, true);
       }
     };
   }

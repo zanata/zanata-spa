@@ -29,11 +29,13 @@
     /**
      * Fetch each of the text flows appearing in the given states data.
      */
-    phraseService.fetchAllPhrase = function (projectSlug, versionSlug, docId,
-      localeId, filter, states, offset, maxResult) {
+    phraseService.fetchAllPhrase = function (context, filter, states,
+                                             offset, maxResult) {
 
-      return PhraseCache.getStates(projectSlug, versionSlug, docId, localeId).
-        then(getTransUnits);
+      var localeId = context.localeId;
+
+      return PhraseCache.getStates(context.projectSlug, context.versionSlug,
+        context.docId, localeId).then(getTransUnits);
 
       function getTransUnits(states) {
         var ids = getIds(states, filter.states);
@@ -69,15 +71,16 @@
             status: trans ? trans.state :
               TransUnitService.TU_STATE.UNTRANSLATED,
             revision: trans ? parseInt(trans.revision) : 0,
-            statusClass: getStatusClass(trans)
+            statusClass: getStatusClass(trans),
+            wordCount: parseInt(source.wordCount)
           });
         }
         return phrases;
       }
 
       function sortPhrases(phrases) {
-        return PhraseCache.getStates(projectSlug, versionSlug, docId, localeId).
-          then(function(states) {
+        return PhraseCache.getStates(context.projectSlug, context.versionSlug,
+          context.docId, localeId).then(function(states) {
             phraseService.phrases = _.sortBy(phrases, function(phrase) {
               var index = _.findIndex(states, function(state) {
                 return state.id === phrase.id;
@@ -100,7 +103,7 @@
       if(phrase) {
         phrase.translation = content;
         phrase.revision = revision;
-        phrase.state = state;
+        phrase.status = state;
         phrase.statusClass = stateCssClass[state.toLowerCase()] ||
           'untranslated';
       }

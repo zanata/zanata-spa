@@ -51,19 +51,11 @@
       if(!resource || !fields || !terms) {
         return false;
       }
-      var toInclude = false;
-      _.every(fields, function (field) {
-        _.every(terms, function (term) {
-          if(StringUtil.equals(resource[field], term, true)) {
-            toInclude = true;
-            return false; //this is the way to break loop in .every
-          }
+      return _.any(fields, function(field) {
+        return _.any(terms, function(term) {
+          return StringUtil.equals(resource[field], term, true);
         });
-        if(toInclude) {
-          return false; //this is the way to break loop in .every
-        }
       });
-      return toInclude;
     }
 
     return {

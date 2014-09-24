@@ -127,7 +127,12 @@
       .state('editor', {
         url: '/:projectSlug/:versionSlug/translate',
         templateUrl: 'editor/editor.html',
-        controller: 'EditorCtrl as editor'
+        controller: 'EditorCtrl as editor',
+        resolve: {
+          locales : function(LocaleService) {
+            return LocaleService.getAllLocales();
+          }
+        }
       }).state('editor.selectedContext', {
         url: '/:docId/:localeId?states',
         views: {

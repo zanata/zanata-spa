@@ -25,7 +25,8 @@
       docStats : '/stats/proj/:projectSlug/iter/:versionSlug/doc/:docId/locale/:localeId',
       myInfo   : '/user',
       userInfo : '/user/:username',
-      translation : '/trans/:localeId'
+      translation : '/trans/:localeId',
+      allLocales: '/locales'
     }, unary(restUrl));
     /* jshint +W101 */
 
@@ -41,6 +42,7 @@
       MY_INFO_URL            : urls.myInfo,
       USER_INFO_URL          : urls.userInfo,
       TRANSLATION_URL        : urls.translation,
+      ALL_LOCALE_URL         : urls.allLocales,
 
       /**
        * Get the value of a query string parameter.

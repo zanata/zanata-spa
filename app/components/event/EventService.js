@@ -40,21 +40,7 @@
        * docId:
        * localeId:
        */
-      REFRESH_STATISTIC: 'refreshStatistic',
-
-
-      /**
-       * Update statistic
-       *
-       * data:{}
-       * docId:
-       * localeId:
-       *
-       * oldState
-       * newState
-       * wordCount
-       */
-      UPDATE_STATISTIC: 'updateStatistic'
+      REFRESH_STATISTIC: 'refreshStatistic'
     };
 
     /**

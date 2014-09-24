@@ -7,7 +7,7 @@
    * TODO: use angular-data for storage
    * @ngInject
    */
-  function PhraseCache($q, $resource, FilterUtil, UrlService) {
+  function PhraseCache($q, $resource, FilterUtil, UrlService, _) {
     var phraseCache = this,
       states = {}, //ids and states of all tu in order
       transUnits = {};
@@ -15,7 +15,7 @@
     phraseCache.getStates = function (projectId, versionId,
                                         documentId, localeId) {
       var key = generateKey(projectId, versionId, documentId, localeId);
-      if(key in states) {
+      if( _.has(states, key)) {
         return $q.when(states[key]);
       } else {
         var methods = {
@@ -45,7 +45,7 @@
         missingTUId = [];
 
       ids.forEach(function(id) {
-        if(id in transUnits) {
+        if(_.has(transUnits, id)) {
           results[id] = transUnits[id];
         } else {
           missingTUId.push(id);

@@ -8,9 +8,10 @@
    * DocumentService.js
    * @ngInject
    */
-  function DocumentService($rootScope, $q, $resource, UrlService, StringUtil,
-                           EventService, StatisticUtil, _) {
-    var statisticMap = {};
+  function DocumentService($q, $resource, UrlService, StringUtil,
+                           StatisticUtil, EventService, _) {
+    var documentService = this,
+        statisticMap = {};
 
     /**
      * Finds all documents in given project version
@@ -19,7 +20,7 @@
      * @param _versionSlug
      * @returns {$promise|*|N.$promise}
      */
-    function findAll(_projectSlug, _versionSlug) {
+    documentService.findAll = function findAll(_projectSlug, _versionSlug) {
       var Documents = $resource(UrlService.DOCUMENT_LIST_URL, {}, {
         query: {
           method: 'GET',
@@ -31,7 +32,7 @@
         }
       });
       return Documents.query().$promise;
-    }
+    };
 
     /**
      * Get statistic of document in locale (word and message)
@@ -42,11 +43,11 @@
      * @param _localeId
      * @returns {*}
      */
-    function getStatistics(_projectSlug, _versionSlug,
+    documentService.getStatistics = function (_projectSlug, _versionSlug,
       _docId, _localeId) {
       if (_docId && _localeId) {
         var key = generateStatisticKey(_docId,  _localeId);
-        if (key in statisticMap) {
+        if (_.has(statisticMap, key)) {
           return $q.when(statisticMap[key]);
         } else {
           var Statistics = $resource(UrlService.DOC_STATISTIC_URL, {}, {
@@ -67,62 +68,59 @@
           });
         }
       }
-    }
+    };
 
-    function containsDoc(documents, docId) {
-      var contains = false;
-      _.every(documents, function (document) {
-        if (StringUtil.equals(document.name, docId, true)) {
-          contains  = true;
-          return false; //break from loop
-        }
+    documentService.containsDoc = function (documents, docId) {
+      return _.any(documents, function(document) {
+         return StringUtil.equals(document.name, docId, true);
       });
-      return contains;
-    }
+    };
 
+    documentService.updateStatistic = function(docId, localeId, oldState,
+                                               newState, wordCount) {
+      var key = generateStatisticKey(docId, localeId);
+      if(_.has(statisticMap, key)) {
+        adjustStatistic(statisticMap[key], oldState, newState,
+          wordCount);
+
+        EventService.emitEvent(EventService.EVENT.REFRESH_STATISTIC,
+          {
+            projectSlug: 'tiny-project',
+            versionSlug: '1',
+            docId: docId,
+            localeId: localeId
+          }
+        );
+      }
+    };
+
+    //Generate unique key from docId and localeId for statistic cache
     function generateStatisticKey(docId, localeId) {
       return docId + '-' + localeId;
     }
 
-    $rootScope.$on(EventService.EVENT.UPDATE_STATISTIC,
-      function (event, data) {
-        var key = generateStatisticKey(data.docId, data.localeId);
-        if(key in statisticMap) {
-          //adjust statistic
-          adjustStatistic(statisticMap[key], data.oldState, data.newState,
-            data.wordCount);
-        }
-      });
-
     /**
-     * Adjust statistic
+     * Adjust statistic based on translatio change of state
      * word - -wordCount of oldState, +wordCount of newState
      * msg - -1 of oldState, +1 of newState
-     *
-     * @param statistics - statistic to be adjust
-     * @param oldState
-     * @param newState
-     * @param wordCount
      */
     function adjustStatistic(statistics, oldState, newState, wordCount) {
       var wordStatistic = StatisticUtil.getWordStatistic(statistics),
-        messageStatistic = StatisticUtil.getMsgStatistic(statistics);
+        msgStatistic = StatisticUtil.getMsgStatistic(statistics);
 
       if(wordStatistic) {
-        wordStatistic[oldState] = wordStatistic[oldState] - wordCount;
+        wordStatistic[oldState] = (wordStatistic[oldState] - wordCount) < 0 ?
+          0 : wordStatistic[oldState] - wordCount;
         wordStatistic[newState] = wordStatistic[newState] + wordCount;
       }
-      if(messageStatistic) {
-        messageStatistic[oldState] = messageStatistic[oldState] - 1;
-        messageStatistic[newState] = messageStatistic[newState] + 1;
+      if(msgStatistic) {
+        msgStatistic[oldState] = (msgStatistic[oldState] - 1) < 0 ?
+          0 : msgStatistic[oldState] - 1;
+        msgStatistic[newState] = msgStatistic[newState] + 1;
       }
     }
 
-    return {
-      findAll       : findAll,
-      getStatistics : getStatistics,
-      containsDoc   : containsDoc
-    };
+    return documentService;
   }
 
   angular
