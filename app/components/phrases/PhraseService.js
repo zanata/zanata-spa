@@ -27,11 +27,10 @@
 
 
     /**
-     * Fetch each of the text flows appearing in the given states data.
+     * Fetch each of the text flows appearing in the given filter data.
      */
-    phraseService.fetchAllPhrase = function (context, filter, states,
-                                             offset, maxResult) {
-
+    phraseService.fetchAllPhrase = function (context, filter, offset,
+                                             maxResult) {
       var localeId = context.localeId;
 
       return PhraseCache.getStates(context.projectSlug, context.versionSlug,

@@ -7,7 +7,9 @@
    */
   function EditorContentCtrl(EditorService, PhraseService, UrlService,
                              EventService, $stateParams) {
-    var maxResult = 50,
+    var COUNT_PER_LOAD = 50,
+        MAX_CACHE_SIZE = COUNT_PER_LOAD,
+        phraseOffset = 0,
         editorContentCtrl = this,
         states = UrlService.readValue('states');
     editorContentCtrl.phrases = [];
@@ -20,7 +22,17 @@
     EditorService.updateContext($stateParams.projectSlug,
       $stateParams.versionSlug, $stateParams.docId, $stateParams.localeId);
 
-    init(EditorService.context, filter);
+    init(filter);
+
+    editorContentCtrl.loadNext = function() {
+      PhraseService.fetchAllPhrase(EditorService.context, filter, phraseOffset,
+        COUNT_PER_LOAD).then(displayPhrases);
+//      displayPhrases(editorContentCtrl.phrases); //for testing
+    };
+
+    editorContentCtrl.loadPrevious = function() {
+      console.log('load previous');
+    };
 
     /**
      * Load transUnit
@@ -30,23 +42,37 @@
      * @param docId
      * @param localeId
      */
-    function init(context, filter) {
+    function init(filter) {
 
       EventService.emitEvent(EventService.EVENT.REFRESH_STATISTIC,
         {
-          projectSlug: context.projectSlug,
-          versionSlug: context.versionSlug,
-          docId: context.docId,
-          localeId: context.localeId
+          projectSlug: EditorService.context.projectSlug,
+          versionSlug: EditorService.context.versionSlug,
+          docId: EditorService.context.docId,
+          localeId: EditorService.context.localeId
         }
       );
 
-      PhraseService.fetchAllPhrase(context, filter, states, 0, maxResult)
-        .then(displayPhrases);
+      PhraseService.fetchAllPhrase(EditorService.context, filter,
+        phraseOffset, COUNT_PER_LOAD).then(displayPhrases);
     }
 
-    function displayPhrases(phrases) {
-      editorContentCtrl.phrases = phrases;
+    function displayPhrases(phrases, insertOnTop) {
+      if(insertOnTop) {
+
+      } else {
+        phraseOffset = phraseOffset + phrases.length;
+        editorContentCtrl.phrases.push.apply(editorContentCtrl.phrases,
+          phrases);
+
+        //remove entry from cache if size > MAX_CACHE_SIZE
+        if(editorContentCtrl.phrases.length > MAX_CACHE_SIZE) {
+            editorContentCtrl.phrases = editorContentCtrl.phrases.slice(
+              (editorContentCtrl.phrases.length - MAX_CACHE_SIZE),
+              editorContentCtrl.phrases.length);
+        }
+      }
+
     }
 
     return editorContentCtrl;

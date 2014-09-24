@@ -23,7 +23,6 @@
       function (event, data) {
         var phrase = data.phrase,
           state = data.state;
-
         //update pending queue if contains
         if(_.has(queue,  phrase.id)) {
           var pendingRequest = queue[phrase.id];
@@ -76,7 +75,19 @@
         function(response) {
           MessageHandler.displayWarning('Update translation failed for ' +
             data.id + ' -' + response);
-          PhraseService.onTransUnitUpdateFailed(data.id);
+
+          //conflict
+          if(response.status === 409) {
+            var oldState =  request.phrase.status;
+
+            PhraseService.onTransUnitUpdated(data.id, request.locale,
+              response.revision, response.state, response.translation);
+
+            DocumentService.updateStatistic(request.docId, request.locale,
+              oldState, response.state, request.phrase.wordCount);
+          } else {
+            PhraseService.onTransUnitUpdateFailed(data.id);
+          }
         });
       delete queue[id];
     }
