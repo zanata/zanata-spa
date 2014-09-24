@@ -27,8 +27,20 @@
        * data: {}
        * phrase:
        * state: request save state
+       * locale: target locale
        */
-      SAVE_TRANSLATION: 'saveTranslation'
+      SAVE_TRANSLATION: 'saveTranslation',
+
+      /**
+       * refresh ui statistic - changes in doc or locale
+       *
+       * data: {}
+       * projectSlug:
+       * versionSlug:
+       * docId:
+       * localeId:
+       */
+      REFRESH_STATISTIC: 'refreshStatistic'
     };
 
     /**

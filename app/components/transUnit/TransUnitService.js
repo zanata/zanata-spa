@@ -6,8 +6,8 @@
    *
    * @ngInject
    */
-  function TransUnitService($rootScope, $state, $stateParams, MessageHandler,
-    EventService) {
+  function TransUnitService($location, $rootScope, $state, $stateParams,
+    MessageHandler, EventService) {
     var transUnitService = this,
       controllerList = {},
       selectedTUId;
@@ -40,9 +40,12 @@
             //perform implicit save if changed
             if(isTranslationModified(selectedTUController.getPhrase())) {
               EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-                {'phrase' : tuController.getPhrase(),
-                  'state': transUnitService.TU_STATE.TRANSLATED},
-                $rootScope);
+                {
+                  'phrase' : tuController.getPhrase(),
+                  'state'  : transUnitService.TU_STATE.TRANSLATED,
+                  'locale' : $stateParams.localeId,
+                  'docId'  : $stateParams.docId
+                }, $rootScope);
             }
             setFocus(selectedTUController, false);
           }
@@ -53,9 +56,10 @@
           //Update url without reload state
           if(updateURL) {
             $state.go('editor.selectedTU', {
-              'docId': $stateParams.docId,
-              'localeId': $stateParams.localeId,
-              'tuId' : data.id
+              docId: $stateParams.docId,
+              localeId: $stateParams.localeId,
+              tuId : data.id,
+              selected: true
             },  {
               notify: false
             });
@@ -85,35 +89,12 @@
         }
         setFocus(controllerList[selectedTUId], false);
         selectedTUId = false;
-      });
 
-    /**
-     * EventService.EVENT.SAVE_TRANSLATION listener
-     * Perform save translation with given state
-     */
-    $rootScope.$on(EventService.EVENT.SAVE_TRANSLATION,
-      function (event, data) {
-        var phrase = data.phrase,
-          state = data.state;
-
-        if(isTranslationModified(phrase)) {
-          state = resolveTranslationState(phrase, state);
-
-          //TODO: queue save translation request and perform save,
-          //lock TU until success (need version no. of TU)
-          console.log('Perform save translation as ' + state);
-        }
+        $location.search('selected', null);
       });
 
     function setFocus(controller, isFocus) {
       controller.selected = isFocus || false;
-    }
-
-    function resolveTranslationState(phrase, requestState) {
-      if(phrase.newTranslation === '') {
-        return transUnitService.TU_STATE.UNTRANSLATED;
-      }
-      return requestState;
     }
 
     function isTranslationModified(phrase) {
