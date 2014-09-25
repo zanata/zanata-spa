@@ -2,11 +2,9 @@
   class="Editor-content TransUnit-container"
   ng-class="{'is-maximised': editor.settings.hideMainNav, 'is-unit-selected': editor.unitSelected}">
   <ul class="Editor-translations">
+    <li ng-style="{'height': editorContent.fixHeight+'px'}"></li>
     <li ng-repeat="phrase in editorContent.phrases track by $index">
       <trans-unit phrase="phrase" first-phrase="$first" editor-context="editor.context"></trans-unit>
-    </li>
-    <li ng-if="editorContent.phrases.length == 0">
-      <strong translate>No content</strong>
     </li>
   </ul>
 </main>

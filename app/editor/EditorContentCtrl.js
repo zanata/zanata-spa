@@ -8,11 +8,12 @@
   function EditorContentCtrl(EditorService, PhraseService, UrlService,
                              EventService, $stateParams) {
     var COUNT_PER_LOAD = 50,
-        MAX_CACHE_SIZE = COUNT_PER_LOAD,
+        MAX_CACHE_SIZE = COUNT_PER_LOAD * 2,
         phraseOffset = 0,
         editorContentCtrl = this,
         states = UrlService.readValue('states');
     editorContentCtrl.phrases = [];
+    editorContentCtrl.fixHeight = 0;
 
     //wrapper for all types of filtering
     var filter = {
@@ -25,9 +26,9 @@
     init(filter);
 
     editorContentCtrl.loadNext = function() {
-      PhraseService.fetchAllPhrase(EditorService.context, filter, phraseOffset,
-        COUNT_PER_LOAD).then(displayPhrases);
-//      displayPhrases(editorContentCtrl.phrases); //for testing
+//      PhraseService.fetchAllPhrase(EditorService.context, filter, phraseOffset,
+//        COUNT_PER_LOAD).then(displayPhrases);
+      displayPhrases(editorContentCtrl.phrases);
     };
 
     editorContentCtrl.loadPrevious = function() {
@@ -67,9 +68,13 @@
 
         //remove entry from cache if size > MAX_CACHE_SIZE
         if(editorContentCtrl.phrases.length > MAX_CACHE_SIZE) {
+          var startIndex = editorContentCtrl.phrases.length - MAX_CACHE_SIZE;
             editorContentCtrl.phrases = editorContentCtrl.phrases.slice(
-              (editorContentCtrl.phrases.length - MAX_CACHE_SIZE),
-              editorContentCtrl.phrases.length);
+              startIndex, editorContentCtrl.phrases.length);
+
+          editorContentCtrl.fixHeight = editorContentCtrl.fixHeight + (165 * startIndex);
+
+          console.log('trim:' + editorContentCtrl.fixHeight);
         }
       }
 
