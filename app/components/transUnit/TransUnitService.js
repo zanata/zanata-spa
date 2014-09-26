@@ -46,11 +46,11 @@
               selectedTUController.getPhrase())) {
               EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
                 {
-                  'phrase' : tuController.getPhrase(),
+                  'phrase' : selectedTUController.getPhrase(),
                   'state'  : transUnitService.TU_STATE.TRANSLATED,
                   'locale' : $stateParams.localeId,
                   'docId'  : $stateParams.docId
-                }, $rootScope);
+                });
             }
             setSelected(selectedTUController, false);
           }
