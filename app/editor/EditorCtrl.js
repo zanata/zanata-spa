@@ -18,7 +18,8 @@
     // http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr
     editorCtrl.context = EditorService.initContext($stateParams.projectSlug,
       $stateParams.versionSlug, $stateParams.docId,
-      LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE, 'READ_WRITE');
+      LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE.localeId,
+      'READ_WRITE');
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
       function(projectInfo) {
