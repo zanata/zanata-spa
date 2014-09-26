@@ -108,15 +108,17 @@
       var wordStatistic = StatisticUtil.getWordStatistic(statistics),
         msgStatistic = StatisticUtil.getMsgStatistic(statistics);
 
+      wordCount = parseInt(wordCount);
       if(wordStatistic) {
-        wordStatistic[oldState] = (wordStatistic[oldState] - wordCount) < 0 ?
-          0 : wordStatistic[oldState] - wordCount;
-        wordStatistic[newState] = wordStatistic[newState] + wordCount;
+        var wordOldState = parseInt(wordStatistic[oldState]) - wordCount;
+        wordStatistic[oldState] = wordOldState < 0 ? 0 : wordOldState;
+        wordStatistic[newState] = parseInt(wordStatistic[newState]) + wordCount;
       }
+
       if(msgStatistic) {
-        msgStatistic[oldState] = (msgStatistic[oldState] - 1) < 0 ?
-          0 : msgStatistic[oldState] - 1;
-        msgStatistic[newState] = msgStatistic[newState] + 1;
+        var msgOldState = parseInt(msgStatistic[oldState]) - 1;
+        msgStatistic[oldState] = msgOldState < 0 ? 0 : msgOldState;
+        msgStatistic[newState] = parseInt(msgStatistic[newState]) + 1;
       }
     }
 
