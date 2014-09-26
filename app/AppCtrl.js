@@ -135,6 +135,7 @@
         }
       }).state('editor.selectedContext', {
         url: '/:docId/:localeId?id&selected?states',
+        reloadOnSearch: false,
         views: {
           'editor-content': {
             templateUrl: 'editor/editor-content.html',
