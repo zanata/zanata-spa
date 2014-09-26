@@ -12,13 +12,13 @@
     phraseService.phrases = []; //current displayed phrases
 
     stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED.toLowerCase()] =
-      'untranslated';
+      'neutral';
     stateCssClass[TransUnitService.TU_STATE.NEED_REVIEW.toLowerCase()] =
-      'needsWork';
+      'unsure';
     stateCssClass[TransUnitService.TU_STATE.APPROVED.toLowerCase()] =
-      'approved';
+      'highlight';
     stateCssClass[TransUnitService.TU_STATE.TRANSLATED.toLowerCase()] =
-      'translated';
+      'success';
 
     // FIXME use an object for all the ID arguments - in general we will only
     // need to modify such an object sporadically when switching document
@@ -105,7 +105,7 @@
         phrase.revision = revision;
         phrase.status = state;
         phrase.statusClass = stateCssClass[state.toLowerCase()] ||
-          'untranslated';
+          stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED.toLowerCase()];
       }
     };
 
@@ -134,10 +134,12 @@
 
     function getStatusClass(trans) {
       if(!trans) {
-        return 'untranslated';
+        return stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED
+          .toLowerCase()];
       }
       var cssClass = stateCssClass[trans.state.toLowerCase()];
-      return cssClass || 'untranslated';
+      return cssClass || stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED
+        .toLowerCase()];
     }
 
 

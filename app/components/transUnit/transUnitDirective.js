@@ -41,6 +41,7 @@
         context: '=',
         selected: '='
       },
+      controller: 'TransUnitCtrl as transUnitCtrl',
       templateUrl: 'components/transUnit/source/source.html'
     };
   }
@@ -79,7 +80,7 @@
         context: '=',
         selected: '='
       },
-      controller: 'TranslationCtrl as translationCtrl',
+      controller: 'TransUnitCtrl as transUnitCtrl',
       templateUrl: 'components/transUnit/translation/translation.html'
     };
   }

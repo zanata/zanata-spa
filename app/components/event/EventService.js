@@ -21,6 +21,9 @@
       COPY_FROM_SOURCE: 'copyFromSource',
 
       //data:phrase
+      UNDO_EDIT: 'undoEdit',
+
+      //data:phrase
       CANCEL_EDIT: 'cancelEdit',
 
       /**

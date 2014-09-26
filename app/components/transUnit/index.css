@@ -91,8 +91,8 @@
   right: 0;
   left: 0;
   visibility: hidden;
-/*  box-sizing: content-box;*/
-  height: calc(var(--TransUnit-rhythm) * 1.6);
+  /* TODO: Work out why random height needed for button */
+  height: 2.38rem;
   padding-right: calc(var(--TransUnit-rhythm) * .5);
   padding-left: calc(var(--TransUnit-rhythm) * .5);
   cursor: default;
@@ -202,9 +202,9 @@
   background-color: var(--TransUnit-color-highlight);
 }
 
-.TransUnit--translated .TransUnit-status,
-.TransUnit--translated .TransUnit-status:before,
-.TransUnit--translated .TransUnit-status:after {
+.TransUnit--success .TransUnit-status,
+.TransUnit--success .TransUnit-status:before,
+.TransUnit--success .TransUnit-status:after {
   background-color: var(--TransUnit-color-success);
 }
 

@@ -8,5 +8,11 @@
         title="{{'Do not translate'|translate}}">
         <icon name="block" title="{{'Do not translate'|translate}}" class="u-sizeWidth-1_1-2"></icon>
     </li>
+    <li class="u-gtemd-hidden" ng-hide="transUnitCtrl.isTranslationModified(phrase)">
+      <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
+        title="{{'Cancel edit'|translate}}" ng-click="transUnitCtrl.cancelEdit($event)">
+        <icon name="cross" title="{{'Cancel edit'|translate}}"></icon>
+      </button>
+    </li>
   </ul>
 </div>

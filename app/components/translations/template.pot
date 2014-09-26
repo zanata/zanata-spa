@@ -7,6 +7,7 @@ msgstr ""
 msgid "Approved"
 msgstr ""
 
+#: app/components/transUnit/source/header.html
 #: app/components/transUnit/translation/header.html
 msgid "Cancel edit"
 msgstr ""
@@ -49,10 +50,6 @@ msgstr ""
 msgid "Needs Work"
 msgstr ""
 
-#: app/components/transUnit/translation/footer.html
-msgid "Needs work"
-msgstr ""
-
 #: app/editor/editor-content.html
 msgid "No content"
 msgstr ""
@@ -74,7 +71,6 @@ msgid "Total Phrases"
 msgstr ""
 
 #: app/editor/editor-header.html
-#: app/components/transUnit/translation/footer.html
 msgid "Translated"
 msgstr ""
 
@@ -85,6 +81,10 @@ msgstr ""
 #: app/editor/editor-header.html
 #: app/components/transUnit/translation/footer.html
 msgid "Translation Memory"
+msgstr ""
+
+#: app/components/transUnit/translation/header.html
+msgid "Undo edit"
 msgstr ""
 
 #: app/editor/editor-header.html

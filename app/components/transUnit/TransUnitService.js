@@ -16,6 +16,10 @@
       controllerList[id] = controller;
     };
 
+    transUnitService.isTranslationModified = function(phrase) {
+      return phrase.newTranslation !== phrase.translation;
+    };
+
     transUnitService.TU_STATE = {
       'TRANSLATED' : 'translated',
       'NEED_REVIEW': 'needReview',
@@ -38,7 +42,8 @@
         if(tuController) {
           if (selectedTUId && selectedTUId !== data.id) {
             //perform implicit save if changed
-            if(isTranslationModified(selectedTUController.getPhrase())) {
+            if(transUnitService.isTranslationModified(
+              selectedTUController.getPhrase())) {
               EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
                 {
                   'phrase' : tuController.getPhrase(),
@@ -79,12 +84,23 @@
       });
 
     /**
+     * EventService.EVENT.UNDO_EDIT listener
+     * Cancel edit and restore translation
+     */
+    $rootScope.$on(EventService.EVENT.UNDO_EDIT,
+      function (event, phrase) {
+        if (transUnitService.isTranslationModified(phrase)) {
+          phrase.newTranslation = phrase.translation;
+        }
+      });
+
+    /**
      * EventService.EVENT.CANCEL_EDIT listener
      * Cancel edit and restore translation
      */
     $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
       function (event, phrase) {
-        if (isTranslationModified(phrase)) {
+        if (transUnitService.isTranslationModified(phrase)) {
           phrase.newTranslation = phrase.translation;
         }
         setFocus(controllerList[selectedTUId], false);
@@ -95,10 +111,6 @@
 
     function setFocus(controller, isFocus) {
       controller.selected = isFocus || false;
-    }
-
-    function isTranslationModified(phrase) {
-      return phrase.newTranslation !== phrase.translation;
     }
 
     return transUnitService;

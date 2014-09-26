@@ -55,3 +55,29 @@
 .u-sizeHeight-2 {
   height: calc(var(--u-size-rhythm) * 2) !important;
 }
+
+/* Line Height */
+
+.u-sizeLineHeight-1-4 {
+  line-height: calc(var(--u-size-rhythm) * .25) !important;
+}
+
+.u-sizeLineHeight-1-2 {
+  line-height: calc(var(--u-size-rhythm) * .5) !important;
+}
+
+.u-sizeLineHeight-3-4 {
+  line-height: calc(var(--u-size-rhythm) * .75) !important;
+}
+
+.u-sizeLineHeight-1 {
+  line-height: var(--u-size-rhythm) !important;
+}
+
+.u-sizeLineHeight-1_1-2 {
+  line-height: calc(var(--u-size-rhythm) * 1.5) !important;
+}
+
+.u-sizeLineHeight-2 {
+  line-height: calc(var(--u-size-rhythm) * 2) !important;
+}

@@ -62,12 +62,12 @@
       <li>
         <dropdown class="Dropdown Dropdown--right u-sMV-1-2">
           <a dropdown-toggle
-            class="Dropdown-toggle Link--invert u-inlineBlock u-sizeWidth-1_1-2"
+            class="Dropdown-toggle Link--invert u-inlineBlock u-textNoWrap u-sPH-1-4"
             ng-bind="editor.getLocaleDisplayName(app.myInfo.locale.localeId)"/>
           </a>
           <ul class="Dropdown-content Dropdown-content--bordered">
             <li ng-repeat="locale in app.uiLocaleList">
-              <a ng-click="app.onChangeUILocale(locale)" class="Dropdown-item">
+              <a ng-click="app.onChangeUILocale(locale)" class="Dropdown-item u-textNoWrap u-textRight">
                 <span ng-bind="editor.getLocaleDisplayName(locale.localeId)"></span>
               </a>
             </li>

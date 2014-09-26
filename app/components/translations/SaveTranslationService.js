@@ -10,7 +10,7 @@
                                   MessageHandler, UrlService, DocumentService,
                                   EventService, TransUnitService, _) {
     var saveTranslationService = this,
-      queue = {};
+        queue = {};
 
     /**
      * EventService.EVENT.SAVE_TRANSLATION listener

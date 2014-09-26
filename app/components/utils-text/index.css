@@ -21,6 +21,10 @@
   text-transform: lowercase;
 }
 
+.u-textCapitalize {
+  text-transform: capitalize;
+}
+
 .u-textInvert {
   color: var(--u-text-color-invert);
 }
