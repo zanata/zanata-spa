@@ -1,6 +1,6 @@
 <main role="main"
   class="Editor-content TransUnit-container"
-  ng-class="{'is-maximised': editor.settings.hideMainNav, 'is-unit-selected': editor.unitSelected}">
+  ng-class="{'is-maximised': editor.settings.hideMainNav, 'is-unit-selected': (editor.unitSelected && editor.focused)}">
   <ul class="Editor-translations">
     <li ng-repeat="phrase in editorContent.phrases">
       <trans-unit phrase="phrase" first-phrase="$first" editor-context="editor.context"></trans-unit>

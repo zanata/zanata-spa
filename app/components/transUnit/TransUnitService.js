@@ -52,22 +52,16 @@
                   'docId'  : $stateParams.docId
                 }, $rootScope);
             }
-            setFocus(selectedTUController, false);
+            setSelected(selectedTUController, false);
           }
 
           selectedTUId = data.id;
-          setFocus(tuController, true);
+          setSelected(tuController, true);
 
           //Update url without reload state
           if(updateURL) {
-            $state.go('editor.selectedTU', {
-              docId: $stateParams.docId,
-              localeId: $stateParams.localeId,
-              tuId : data.id,
-              selected: true
-            },  {
-              notify: false
-            });
+            $location.search('id', data.id);
+            $location.search('selected', data.focus.toString());
           }
         } else {
           MessageHandler.displayWarning('Trans-unit not found:' + data.id);
@@ -103,14 +97,14 @@
         if (transUnitService.isTranslationModified(phrase)) {
           phrase.newTranslation = phrase.translation;
         }
-        setFocus(controllerList[selectedTUId], false);
+        setSelected(controllerList[selectedTUId], false);
         selectedTUId = false;
 
         $location.search('selected', null);
       });
 
-    function setFocus(controller, isFocus) {
-      controller.selected = isFocus || false;
+    function setSelected(controller, isSelected) {
+      controller.selected = isSelected || false;
     }
 
     return transUnitService;
