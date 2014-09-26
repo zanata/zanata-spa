@@ -25,11 +25,10 @@
     // or locale, and it is neater than passing them all
     // around separately.
 
-
     /**
      * Fetch each of the text flows appearing in the given states data.
      */
-    phraseService.fetchAllPhrase = function (context, filter, states,
+    phraseService.fetchAllPhrase = function (context, filter,
                                              offset, maxResult) {
 
       var localeId = context.localeId;
