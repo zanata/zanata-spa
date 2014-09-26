@@ -134,23 +134,7 @@
           }
         }
       }).state('editor.selectedContext', {
-        url: '/:docId/:localeId?states',
-        views: {
-          'editor-content': {
-            templateUrl: 'editor/editor-content.html',
-            controller: 'EditorContentCtrl as editorContent'
-          },
-          'editor-suggestions': {
-            templateUrl: 'editor/editor-suggestions.html',
-            controller: 'EditorSuggestionsCtrl as editorSuggestions'
-          },
-          'editor-details': {
-            templateUrl: 'editor/editor-details.html',
-            controller: 'EditorDetailsCtrl as editorDetails'
-          }
-        }
-      }).state('editor.selectedTU', {
-        url: '/:docId/:localeId/:tuId?selected',
+        url: '/:docId/:localeId?id&selected?states',
         views: {
           'editor-content': {
             templateUrl: 'editor/editor-content.html',

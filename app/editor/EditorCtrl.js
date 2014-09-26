@@ -88,16 +88,16 @@
         MessageHandler.displayError('Error getting document list: ' + error);
       });
 
-
-
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
         editorCtrl.unitSelected = data.id;
+        editorCtrl.focused = data.focus;
       });
 
     $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
       function () {
         editorCtrl.unitSelected = false;
+        editorCtrl.focused = false;
       });
 
     $rootScope.$on(EventService.EVENT.REFRESH_STATISTIC,
