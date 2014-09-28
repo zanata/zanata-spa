@@ -163,6 +163,21 @@
     </div>
     <div class="u-floatRight">
       <ul class="u-listHorizontal u-textCenter">
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+                  title="Previous page" ng-click="editor.previousPage()">
+            <icon name="chevron-left" title="Previous page" class="u-sizeWidth-1_1-2"></icon>
+          </a>
+        </li>
+        <li class="u-smv-1-4">
+          <span ng-bind="editor.pageNumber()" class="u-textNeutral  u-sizeHeight-1_1-2"></span>
+        </li>
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+                  title="Next page" ng-click="editor.nextPage()">
+            <icon name="chevron-right" title="Next page" class="u-sizeWidth-1_1-2"></icon>
+          </a>
+        </li>
         <li>
           <button class="Link--neutral u-sizeHeight-1_1-2"
             title="{{'Translation Memory'|translate}}">

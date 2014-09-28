@@ -42,7 +42,12 @@
        * docId:
        * localeId:
        */
-      REFRESH_STATISTIC: 'refreshStatistic'
+      REFRESH_STATISTIC: 'refreshStatistic',
+
+      GOTO_PREV_PAGE: 'gotoPreviousPage',
+
+      GOTO_NEXT_PAGE: 'gotoNextPage'
+
     };
 
     /**
