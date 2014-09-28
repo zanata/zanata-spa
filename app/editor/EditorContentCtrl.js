@@ -12,7 +12,8 @@
     var COUNT_PER_PAGE = 50,
         editorContentCtrl = this,
         states = UrlService.readValue('states'),
-        isLastPage = false,
+        totalRecords = 0,
+        maxPageIndex = 0,
         filter = {
           'states': states ? states.split(' ') : states
         };
@@ -34,7 +35,7 @@
 
     $rootScope.$on(EventService.EVENT.GOTO_NEXT_PAGE,
       function () {
-        if(!isLastPage && editorContentCtrl.phrases.length === COUNT_PER_PAGE) {
+        if(EditorService.currentPageIndex < maxPageIndex) {
           EditorService.currentPageIndex +=1;
           loadPhrase(EditorService.currentPageIndex);
         }
@@ -57,7 +58,18 @@
           localeId: EditorService.context.localeId
         }
       );
-      loadPhrase(EditorService.currentPageIndex);
+
+      PhraseService.getPhraseCount(EditorService.context, filter).
+        then(function(count) {
+          totalRecords = count;
+          maxPageIndex = parseInt(totalRecords / COUNT_PER_PAGE);
+          if(totalRecords > COUNT_PER_PAGE) {
+            maxPageIndex = totalRecords % COUNT_PER_PAGE !== 0 ?
+              maxPageIndex +=1 : maxPageIndex;
+          }
+
+          loadPhrase(EditorService.currentPageIndex);
+      });
     }
 
     function loadPhrase(pageIndex) {
@@ -68,7 +80,6 @@
 
     function displayPhrases(phrases) {
       editorContentCtrl.phrases = phrases;
-      isLastPage = phrases.length < COUNT_PER_PAGE;
     }
 
     return editorContentCtrl;
