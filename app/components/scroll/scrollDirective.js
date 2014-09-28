@@ -22,29 +22,38 @@
             element[0].clientHeight / 2,
           timeThreshold = scope.timeThreshold || 400,
           promise = null,
-          lastRemaining = 400;
+          lastRemaining = 400,
+          lastScrollTop = 0;
 
         lengthThreshold = parseInt(lengthThreshold, 10);
         timeThreshold = parseInt(timeThreshold, 10);
 
         element.bind('scroll', function () {
-          var remaining = element[0].scrollHeight - (element[0].clientHeight +
-              element[0].scrollTop);
+          var scrollTop = element[0].scrollTop;
+          var remainingBottom = element[0].scrollHeight -
+            (element[0].clientHeight + scrollTop);
 
-          //if we have reached the threshold and we scroll down
-          if (remaining < lengthThreshold && (remaining - lastRemaining) < 0) {
-
-            //if there is already a timer running which has no expired yet
-            // we have to cancel it and restart the timer
-            if (promise !== null) {
-              $timeout.cancel(promise);
+          if(scrollTop > lastScrollTop) {
+            //if we have reached the threshold and we scroll down
+            if (remainingBottom < lengthThreshold && (remainingBottom -
+              lastRemaining) < 0) {
+              //if there is already a timer running which has no expired yet
+              // we have to cancel it and restart the timer
+              if (promise !== null) {
+                $timeout.cancel(promise);
+              }
+              promise = $timeout(function () {
+                scope.$apply(scope.scrollNextHandler());
+                promise = null;
+              }, timeThreshold);
             }
-            promise = $timeout(function () {
-              scope.$apply(scope.scrollNextHandler());
-              promise = null;
-            }, timeThreshold);
+          } else {
+            // scrolling upwards
           }
-          lastRemaining = remaining;
+
+
+          lastScrollTop = scrollTop;
+          lastRemaining = remainingBottom;
         });
       }
     };

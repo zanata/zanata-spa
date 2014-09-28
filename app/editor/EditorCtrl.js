@@ -18,7 +18,8 @@
     // http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr
     editorCtrl.context = EditorService.initContext($stateParams.projectSlug,
       $stateParams.versionSlug, $stateParams.docId,
-      LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE, 'READ_WRITE');
+      LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE.localeId,
+      'READ_WRITE');
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
       function(projectInfo) {
@@ -88,16 +89,16 @@
         MessageHandler.displayError('Error getting document list: ' + error);
       });
 
-
-
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
         editorCtrl.unitSelected = data.id;
+        editorCtrl.focused = data.focus;
       });
 
     $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
       function () {
         editorCtrl.unitSelected = false;
+        editorCtrl.focused = false;
       });
 
     $rootScope.$on(EventService.EVENT.REFRESH_STATISTIC,

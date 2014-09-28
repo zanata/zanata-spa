@@ -11,9 +11,11 @@
     var eventService = this;
     eventService.EVENT = {
       /**
+       * scroll to trans unit
        * data: {}
        * id: (transunit id),
        * updateURL: (flag on whether to update url with trans unit id)
+       * focus: flag on whether to have row in view and focused
        */
       SELECT_TRANS_UNIT: 'selectTransUnit',
 

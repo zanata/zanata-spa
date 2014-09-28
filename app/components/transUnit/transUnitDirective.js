@@ -9,7 +9,6 @@
   function transUnit() {
     return {
       restrict: 'E',
-      replace: true,
       required: ['phrase', 'editorContext'],
       scope: {
         phrase: '=',

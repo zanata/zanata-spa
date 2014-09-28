@@ -53,10 +53,6 @@ msgstr ""
 msgid "Needs work"
 msgstr ""
 
-#: app/editor/editor-content.html
-msgid "No content"
-msgstr ""
-
 #: app/editor/editor-header.html
 msgid "Notifications"
 msgstr ""

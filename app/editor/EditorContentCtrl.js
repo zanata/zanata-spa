@@ -66,15 +66,13 @@
         editorContentCtrl.phrases.push.apply(editorContentCtrl.phrases,
           phrases);
 
-        //remove entry from cache if size > MAX_CACHE_SIZE
+        // remove entry from cache if size > MAX_CACHE_SIZE
         if(editorContentCtrl.phrases.length > MAX_CACHE_SIZE) {
           var startIndex = editorContentCtrl.phrases.length - MAX_CACHE_SIZE;
             editorContentCtrl.phrases = editorContentCtrl.phrases.slice(
               startIndex, editorContentCtrl.phrases.length);
 
           editorContentCtrl.fixHeight = editorContentCtrl.fixHeight + (165 * startIndex);
-
-          console.log('trim:' + editorContentCtrl.fixHeight);
         }
       }
 
