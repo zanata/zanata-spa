@@ -6,6 +6,9 @@
    * @description scroll container
    * @ngInject
    */
+
+  //TODO: insert a div for fix height when scroll down
+  //TODO: handle scroll up event (load previous data)
   function scroll($timeout) {
     return {
       restrict: 'AE',
@@ -49,6 +52,16 @@
             }
           } else {
             // scrolling upwards
+
+            //if firstChild.scrollTop+height < threshold
+            // (scrollTop - paddedHeight)
+//            if (promise !== null) {
+//              $timeout.cancel(promise);
+//            }
+//            promise = $timeout(function () {
+//              scope.$apply(scope.scrollPreviousHandler());
+//              promise = null;
+//            }, timeThreshold);
           }
 
 

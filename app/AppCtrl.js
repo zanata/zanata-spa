@@ -134,8 +134,7 @@
           }
         }
       }).state('editor.selectedContext', {
-        url: '/:docId/:localeId?id&selected?states',
-        reloadOnSearch: false,
+        url: '/:docId/:localeId',
         views: {
           'editor-content': {
             templateUrl: 'editor/editor-content.html',
@@ -150,11 +149,13 @@
             controller: 'EditorDetailsCtrl as editorDetails'
           }
         }
+      }).state('editor.selectedContext.tu', {
+        url: '/?id&selected?states',
+        reloadOnSearch: false
       });
 
   //   $locationProvider.html5Mode(true);
   //     .hashPrefix('!');
-
   };
 
   angular
