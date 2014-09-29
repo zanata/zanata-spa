@@ -6,13 +6,13 @@
    * @ngInject
    */
   function TransUnitCtrl($scope, $element, $stateParams, $filter, _,
-                         TransUnitService, EventService, LocaleService) {
+      TransUnitService, EventService, LocaleService, TransStatusService) {
 
     var transUnitCtrl = this;
 
     transUnitCtrl.selected = false;
-    transUnitCtrl.saveStatus = getSaveDetails($scope.phrase.status);
-    transUnitCtrl.saveOptions = createSaveOptions();
+    transUnitCtrl.saveStatus =
+      TransStatusService.getStatusInfo($scope.phrase.status);
     transUnitCtrl.saveOptionsAvailable =
       filterSaveOptions(transUnitCtrl.saveStatus);
 
@@ -22,15 +22,19 @@
 
     transUnitCtrl.updateSaveState = function() {
       if ($scope.phrase.newTranslation === '') {
-        transUnitCtrl.saveStatus = getSaveDetails('untranslated');
+        transUnitCtrl.saveStatus =
+          TransStatusService.getStatusInfo('untranslated');
       }
       else if ($scope.phrase.translation !== $scope.phrase.newTranslation) {
-        transUnitCtrl.saveStatus = getSaveDetails('translated');
+        transUnitCtrl.saveStatus =
+          TransStatusService.getStatusInfo('translated');
       } else {
-        transUnitCtrl.saveStatus = getSaveDetails($scope.phrase.status);
+        transUnitCtrl.saveStatus =
+          TransStatusService.getStatusInfo($scope.phrase.status);
       }
       transUnitCtrl.saveOptionsAvailable =
         filterSaveOptions(transUnitCtrl.saveStatus);
+      console.log(transUnitCtrl.saveStatus);
     };
 
     transUnitCtrl.getPhrase = function() {
@@ -99,55 +103,14 @@
       });
     }
 
-    function getSaveDetails(saveId) {
-      saveId = angular.lowercase(saveId);
-
-      switch (saveId) {
-        case 'untranslated':
-          return {
-            'id': 'untranslated',
-            'name': 'Untranslated',
-            'class': 'neutral'
-          };
-        case 'needreview':
-          return {
-            'id': 'needReview',
-            'name': 'Needs Work',
-            'class': 'unsure'
-          };
-        case 'translated':
-          return {
-            'id': 'translated',
-            'name': 'Translated',
-            'class': 'success'
-          };
-        case 'approved':
-          return {
-            'id': 'approved',
-            'name': 'Approved',
-            'class': 'highlight'
-          };
-      }
-    }
-
-    function createSaveOptions() {
-      var saveOptions = [];
-
-      _.forOwn(TransUnitService.TU_STATE, function(id) {
-        saveOptions.push(getSaveDetails(id));
-      });
-
-      return saveOptions;
-    }
-
     function filterSaveOptions(saveStatus) {
       var filteredOptions = [];
-      if (saveStatus.id === 'untranslated') {
+      if (saveStatus.ID === 'untranslated') {
         return '';
       } else {
-        filteredOptions =
-          $filter('filter')(transUnitCtrl.saveOptions, {id: '!untranslated'});
-        return $filter('filter')(filteredOptions, {id: '!'+saveStatus.id});
+        filteredOptions = $filter('filter')
+          (TransStatusService.getAllAsArray(), {ID: '!untranslated'});
+        return $filter('filter')(filteredOptions, {ID: '!'+saveStatus.ID});
       }
     }
 

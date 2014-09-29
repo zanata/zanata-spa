@@ -21,15 +21,15 @@
       <div class="ButtonGroup ButtonGroup--hz ButtonGroup--borderCollapse">
         <div class="ButtonGroup-item">
           <button ng-disabled="!transUnitCtrl.isTranslationModified(phrase)"
-            class="Button Button--{{ transUnitCtrl.saveStatus.class }} u-sizeHeight-1_1-2 u-textCapitalize"
-            ng-bind="transUnitCtrl.saveStatus.name"
-            ng-click="transUnitCtrl.saveAs($event, transUnitCtrl.saveStatus.id)">
+            class="Button Button--{{ transUnitCtrl.saveStatus.CSSCLASS }} u-sizeHeight-1_1-2 u-textCapitalize"
+            ng-bind="transUnitCtrl.saveStatus.NAME"
+            ng-click="transUnitCtrl.saveAs($event, transUnitCtrl.saveStatus.ID)">
           </button>
         </div>
         <div class="ButtonGroup-item"
           ng-show="transUnitCtrl.saveOptionsAvailable">
           <button dropdown-toggle
-            class="Button Button--{{ transUnitCtrl.saveStatus.class }} Button--snug u-sizeHeight-1_1-2 Dropdown-toggle"
+            class="Button Button--{{ transUnitCtrl.saveStatus.CSSCLASS }} Button--snug u-sizeHeight-1_1-2 Dropdown-toggle"
             title="{{'Save as…'|translate}}">
             <icon name="chevron-down" title="{{'Save as…'|translate}}" class="Icon--sm Dropdown-toggleIcon"></icon>
           </button>
@@ -37,8 +37,8 @@
       </div>
       <ul class="Dropdown-content">
         <li ng-repeat="option in transUnitCtrl.saveOptionsAvailable">
-          <button class="Button Button--{{option.class}} u-sizeFull u-textLeft u-sizeHeight-1_1-2"
-            ng-click="transUnitCtrl.saveAs($event, option.id)" ng-bind="option.name">
+          <button class="Button Button--{{option.CSSCLASS}} u-sizeFull u-textLeft u-sizeHeight-1_1-2"
+            ng-click="transUnitCtrl.saveAs($event, option.ID)" ng-bind="option.NAME">
           </button>
         </li>
       </ul>

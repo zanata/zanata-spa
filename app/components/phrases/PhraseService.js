@@ -5,20 +5,11 @@
    * @name PhraseService
    * @description Provides a list of phrases for the current document(s)
    */
-  function PhraseService(TransUnitService, FilterUtil, PhraseCache, _) {
-    var phraseService = {},
-      stateCssClass =  {};
+  function PhraseService(TransUnitService, FilterUtil, PhraseCache,
+    TransStatusService, _) {
+    var phraseService = {};
 
     phraseService.phrases = []; //current displayed phrases
-
-    stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED.toLowerCase()] =
-      'neutral';
-    stateCssClass[TransUnitService.TU_STATE.NEED_REVIEW.toLowerCase()] =
-      'unsure';
-    stateCssClass[TransUnitService.TU_STATE.APPROVED.toLowerCase()] =
-      'highlight';
-    stateCssClass[TransUnitService.TU_STATE.TRANSLATED.toLowerCase()] =
-      'success';
 
     // FIXME use an object for all the ID arguments - in general we will only
     // need to modify such an object sporadically when switching document
@@ -68,21 +59,30 @@
 
         for (var id in transUnits) {
           var source = transUnits[id].source,
-            trans = transUnits[id][localeId];
+              trans = transUnits[id][localeId],
+              status = getPhraseStatus(trans);
+
           phrases.push({
             id: parseInt(id),
             // TODO handle plural content
             source: source.content,
             translation: trans ? trans.content : '',//original translation
             newTranslation: trans ? trans.content : '',//translation from editor
-            status: trans ? trans.state :
-              TransUnitService.TU_STATE.UNTRANSLATED,
+            status: status.ID,
             revision: trans ? parseInt(trans.revision) : 0,
-            statusClass: getStatusClass(trans),
+            statusClass: status.CSSCLASS,
             wordCount: parseInt(source.wordCount)
           });
         }
         return phrases;
+      }
+
+      function getPhraseStatus(trans) {
+        if(trans) {
+          return TransStatusService.getStatusInfo(trans.state);
+        } else {
+          return TransStatusService.getStatusInfo('UNTRANSLATED');
+        }
       }
 
       function sortPhrases(phrases) {
@@ -110,9 +110,9 @@
       if(phrase) {
         phrase.translation = content;
         phrase.revision = revision;
-        phrase.status = state;
-        phrase.statusClass = stateCssClass[state.toLowerCase()] ||
-          stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED.toLowerCase()];
+        phrase.status = TransStatusService.getId(state);
+        phrase.statusClass = TransStatusService.getCSSClass(state) ||
+          TransStatusService.getCSSClass('UNTRANSLATED');
       }
     };
 
@@ -138,17 +138,6 @@
         return item.id;
       });
     }
-
-    function getStatusClass(trans) {
-      if(!trans) {
-        return stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED
-          .toLowerCase()];
-      }
-      var cssClass = stateCssClass[trans.state.toLowerCase()];
-      return cssClass || stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED
-        .toLowerCase()];
-    }
-
 
     // Does not appear to be used anywhere. Removing until phrase-caching code
     // is added.

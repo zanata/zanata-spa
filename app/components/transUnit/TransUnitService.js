@@ -7,7 +7,7 @@
    * @ngInject
    */
   function TransUnitService($location, $rootScope, $state, $stateParams,
-    MessageHandler, EventService) {
+    MessageHandler, EventService, TransStatusService) {
     var transUnitService = this,
       controllerList = {},
       selectedTUId;
@@ -18,13 +18,6 @@
 
     transUnitService.isTranslationModified = function(phrase) {
       return phrase.newTranslation !== phrase.translation;
-    };
-
-    transUnitService.TU_STATE = {
-      'TRANSLATED' : 'translated',
-      'NEED_REVIEW': 'needReview',
-      'APPROVED': 'approved',
-      'UNTRANSLATED': 'untranslated'
     };
 
     /**
@@ -47,7 +40,7 @@
               EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
                 {
                   'phrase' : selectedTUController.getPhrase(),
-                  'state'  : transUnitService.TU_STATE.TRANSLATED,
+                  'state'  : TransStatusService.getId('TRANSLATED'),
                   'locale' : $stateParams.localeId,
                   'docId'  : $stateParams.docId
                 });
