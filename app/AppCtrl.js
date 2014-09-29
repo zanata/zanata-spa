@@ -53,7 +53,7 @@
                 },
                 function(error) {
                   MessageHandler.displayInfo('Error loading UI locale. ' +
-                    'Default to \'' + LocaleService.DEFAULT_LOCALE.displayName +
+                    'Default to \'' + LocaleService.DEFAULT_LOCALE.name +
                     '\': ' + error);
                   gettextCatalog.setCurrentLanguage(
                     LocaleService.DEFAULT_LOCALE);
@@ -71,7 +71,7 @@
           for ( var i in translationList.locales) {
             var language = {
               'localeId' : translationList.locales[i],
-              'displayName' : ''
+              'name' : ''
             };
             appCtrl.uiLocaleList.push(language);
           }
@@ -83,7 +83,7 @@
         },
         function(error) {
           MessageHandler.displayInfo('Error loading UI locale. ' +
-            'Default to \'' + LocaleService.DEFAULT_LOCALE.displayName +
+            'Default to \'' + LocaleService.DEFAULT_LOCALE.name +
             '\': ' + error);
           appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE;
         });

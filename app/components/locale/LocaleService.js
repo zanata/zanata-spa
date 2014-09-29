@@ -70,10 +70,10 @@
       });
     }
 
-    function getDisplayName(localeId) {
+    function getname(localeId) {
       var locale = getLocaleByLocaleId(locales, localeId);
       if(locale) {
-        return locale.displayName;
+        return locale.name;
       }
       return localeId;
     }
@@ -84,10 +84,10 @@
       getLocaleByLocaleId : getLocaleByLocaleId,
       getAllLocales : getAllLocales,
       containsLocale : containsLocale,
-      getDisplayName : getDisplayName,
+      getname : getname,
       DEFAULT_LOCALE: {
         'localeId' : 'en-US',
-        'displayName' : 'English'
+        'name' : 'English'
       }
     };
   }

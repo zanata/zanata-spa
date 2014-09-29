@@ -51,8 +51,8 @@
         }, $scope);
     };
 
-    translationCtrl.getLocaleDisplayName = function(localeId) {
-      return LocaleService.getDisplayName(localeId);
+    translationCtrl.getLocalename = function(localeId) {
+      return LocaleService.getname(localeId);
     };
 
     return translationCtrl;
