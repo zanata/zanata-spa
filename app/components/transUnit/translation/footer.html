@@ -27,7 +27,7 @@
           </button>
         </div>
         <div class="ButtonGroup-item"
-          ng-show="transUnitCtrl.saveOptionsAvailable">
+          ng-show="transUnitCtrl.saveOptions">
           <button dropdown-toggle
             class="Button Button--{{ transUnitCtrl.saveStatus.CSSCLASS }} Button--snug u-sizeHeight-1_1-2 Dropdown-toggle"
             title="{{'Save as…'|translate}}">
@@ -36,7 +36,7 @@
         </div>
       </div>
       <ul class="Dropdown-content">
-        <li ng-repeat="option in transUnitCtrl.saveOptionsAvailable">
+        <li ng-repeat="option in transUnitCtrl.saveOptions">
           <button class="Button Button--{{option.CSSCLASS}} u-sizeFull u-textLeft u-sizeHeight-1_1-2"
             ng-click="transUnitCtrl.saveAs($event, option.ID)" ng-bind="option.NAME">
           </button>

@@ -6,35 +6,24 @@
    * @ngInject
    */
   function TransUnitCtrl($scope, $element, $stateParams, $filter, _,
-      TransUnitService, EventService, LocaleService, TransStatusService) {
+      TransUnitService, EventService, LocaleService) {
 
     var transUnitCtrl = this;
 
     transUnitCtrl.selected = false;
-    transUnitCtrl.saveStatus =
-      TransStatusService.getStatusInfo($scope.phrase.status);
-    transUnitCtrl.saveOptionsAvailable =
-      filterSaveOptions(transUnitCtrl.saveStatus);
+    transUnitCtrl.saveStatus = TransUnitService.getSaveStatus($scope.phrase);
+    transUnitCtrl.saveOptions =
+      TransUnitService.getSaveOptions(transUnitCtrl.saveStatus);
+
 
     transUnitCtrl.isTranslationModified = function(phrase) {
       return TransUnitService.isTranslationModified(phrase);
     };
 
-    transUnitCtrl.updateSaveState = function() {
-      if ($scope.phrase.newTranslation === '') {
-        transUnitCtrl.saveStatus =
-          TransStatusService.getStatusInfo('untranslated');
-      }
-      else if ($scope.phrase.translation !== $scope.phrase.newTranslation) {
-        transUnitCtrl.saveStatus =
-          TransStatusService.getStatusInfo('translated');
-      } else {
-        transUnitCtrl.saveStatus =
-          TransStatusService.getStatusInfo($scope.phrase.status);
-      }
-      transUnitCtrl.saveOptionsAvailable =
-        filterSaveOptions(transUnitCtrl.saveStatus);
-      console.log(transUnitCtrl.saveStatus);
+    transUnitCtrl.updateSaveStatus = function(phrase) {
+      transUnitCtrl.saveStatus = TransUnitService.getSaveStatus(phrase);
+      transUnitCtrl.saveOptions =
+        TransUnitService.getSaveOptions(transUnitCtrl.saveStatus);
     };
 
     transUnitCtrl.getPhrase = function() {
@@ -43,7 +32,6 @@
 
     transUnitCtrl.init = function() {
       TransUnitService.addController($scope.phrase.id, transUnitCtrl);
-
       if($stateParams.id && parseInt($stateParams.id) === $scope.phrase.id) {
         EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
           {'id': $stateParams.id,
@@ -52,24 +40,24 @@
       }
     };
 
-    transUnitCtrl.copySource = function($event) {
+    transUnitCtrl.copySource = function($event, phrase) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-        $scope.phrase, $scope);
-      transUnitCtrl.updateSaveState($scope.phrase);
+        phrase, $scope);
+      transUnitCtrl.updateSaveStatus(phrase);
     };
 
-    transUnitCtrl.undoEdit = function($event) {
+    transUnitCtrl.undoEdit = function($event, phrase) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
-        $scope.phrase, $scope);
-      transUnitCtrl.updateSaveState($scope.phrase);
+        phrase, $scope);
+      transUnitCtrl.updateSaveStatus(phrase);
     };
 
-    transUnitCtrl.cancelEdit = function($event) {
+    transUnitCtrl.cancelEdit = function($event, phrase) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.CANCEL_EDIT,
-        $scope.phrase, $scope);
+        phrase, $scope);
     };
 
     transUnitCtrl.saveAs = function($event, saveId) {
@@ -101,17 +89,6 @@
             'updateURL': true,
             'focus': true}, $scope);
       });
-    }
-
-    function filterSaveOptions(saveStatus) {
-      var filteredOptions = [];
-      if (saveStatus.ID === 'untranslated') {
-        return '';
-      } else {
-        filteredOptions = $filter('filter')
-          (TransStatusService.getAllAsArray(), {ID: '!untranslated'});
-        return $filter('filter')(filteredOptions, {ID: '!'+saveStatus.ID});
-      }
     }
 
     return transUnitCtrl;

@@ -1,7 +1,7 @@
 <div class="TransUnit-panel TransUnit-translation">
   <ng-include src="'components/transUnit/translation/header.html'" ng-if="selected"></ng-include>
   <textarea msd-elastic
-    ng-change="transUnitCtrl.updateSaveState()"
+    ng-change="transUnitCtrl.updateSaveStatus(phrase)"
     ng-model="phrase.newTranslation" class="TransUnit-text" rows="1"
     placeholder="{{'Enter a translation…'|translate}}"></textarea>
   <ng-include src="'components/transUnit/translation/footer.html'" ng-if="selected"></ng-include>

@@ -7,7 +7,7 @@
    * @ngInject
    */
   function TransUnitService($location, $rootScope, $state, $stateParams,
-    MessageHandler, EventService, TransStatusService) {
+    $filter, MessageHandler, EventService, TransStatusService) {
     var transUnitService = this,
       controllerList = {},
       selectedTUId;
@@ -18,6 +18,21 @@
 
     transUnitService.isTranslationModified = function(phrase) {
       return phrase.newTranslation !== phrase.translation;
+    };
+
+    transUnitService.getSaveStatus = function(phrase) {
+      if (phrase.newTranslation === '') {
+        return TransStatusService.getStatusInfo('untranslated');
+      }
+      else if (phrase.translation !== phrase.newTranslation) {
+        return TransStatusService.getStatusInfo('translated');
+      } else {
+        return TransStatusService.getStatusInfo(phrase.status);
+      }
+    };
+
+    transUnitService.getSaveOptions = function(saveStatus) {
+      return filterSaveOptions(saveStatus);
     };
 
     /**
@@ -98,6 +113,17 @@
 
     function setSelected(controller, isSelected) {
       controller.selected = isSelected || false;
+    }
+
+    function filterSaveOptions(saveStatus) {
+      var filteredOptions = [];
+      if (saveStatus.ID === 'untranslated') {
+        return '';
+      } else {
+        filteredOptions = $filter('filter')
+          (TransStatusService.getAllAsArray(), {ID: '!untranslated'});
+        return $filter('filter')(filteredOptions, {ID: '!'+saveStatus.ID});
+      }
     }
 
     return transUnitService;

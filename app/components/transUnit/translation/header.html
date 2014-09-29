@@ -5,19 +5,19 @@
     <li>
       <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
         title="Copy {{context.srcLocale.name}} ({{context.srcLocale.localeId}})"
-        ng-click="transUnitCtrl.copySource($event)">
+        ng-click="transUnitCtrl.copySource($event, phrase)">
         <icon name="copy" title="Copy {{context.srcLocale.name}} ({{context.srcLocale.localeId}})"></icon>
       </button>
     </li>
     <li class="u-sm-hidden" ng-hide="transUnitCtrl.isTranslationModified(phrase)">
       <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-        title="{{'Cancel edit'|translate}}" ng-click="transUnitCtrl.cancelEdit($event)">
+        title="{{'Cancel edit'|translate}}" ng-click="transUnitCtrl.cancelEdit($event, phrase)">
         <icon name="cross" title="{{'Cancel edit'|translate}}"></icon>
       </button>
     </li>
     <li ng-show="transUnitCtrl.isTranslationModified(phrase)">
       <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-        title="{{'Undo edit'|translate}}" ng-click="transUnitCtrl.undoEdit($event)">
+        title="{{'Undo edit'|translate}}" ng-click="transUnitCtrl.undoEdit($event, phrase)">
         <icon name="undo" title="{{'Undo edit'|translate}}"></icon>
       </button>
     </li>
