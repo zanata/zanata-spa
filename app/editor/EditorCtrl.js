@@ -10,6 +10,7 @@
     StatisticUtil, $stateParams, $state, MessageHandler, $rootScope,
     EventService) {
     var editorCtrl = this;
+    editorCtrl.pageNumber = 1;
 
     //TODO: cross domain rest
     //TODO: Unit test
@@ -110,8 +111,20 @@
         editorCtrl.context.localeId = data.localeId;
       });
 
+    editorCtrl.pageNumber = function() {
+      return EditorService.currentPageIndex + 1;
+    };
+
     editorCtrl.getLocaleDisplayName = function(localeId) {
       return LocaleService.getDisplayName(localeId);
+    };
+
+    editorCtrl.nextPage = function() {
+      EventService.emitEvent(EventService.EVENT.GOTO_NEXT_PAGE);
+    };
+
+    editorCtrl.previousPage = function() {
+      EventService.emitEvent(EventService.EVENT.GOTO_PREV_PAGE);
     };
 
     function transitionToEditorSelectedView() {

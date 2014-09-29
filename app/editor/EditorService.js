@@ -11,6 +11,8 @@
 
     editorService.context = {};
 
+    editorService.currentPageIndex = 0;
+
     editorService.initContext =
       function (projectSlug, versionSlug, docId, srcLocale, localeId, mode) {
         editorService.context = {

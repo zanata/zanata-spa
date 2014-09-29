@@ -25,11 +25,18 @@
     // or locale, and it is neater than passing them all
     // around separately.
 
+    phraseService.getPhraseCount = function(context, filter) {
+      return PhraseCache.getStates(context.projectSlug, context.versionSlug,
+        context.docId, context.localeId).then(function(states) {
+          var ids = getIds(states, filter.states);
+          return ids.length;
+        });
+    };
 
     /**
      * Fetch each of the text flows appearing in the given states data.
      */
-    phraseService.fetchAllPhrase = function (context, filter, states,
+    phraseService.fetchAllPhrase = function (context, filter,
                                              offset, maxResult) {
 
       var localeId = context.localeId;
