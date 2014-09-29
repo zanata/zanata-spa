@@ -115,8 +115,8 @@
       return EditorService.currentPageIndex + 1;
     };
 
-    editorCtrl.getLocalename = function(localeId) {
-      return LocaleService.getname(localeId);
+    editorCtrl.getLocaleName = function(localeId) {
+      return LocaleService.getName(localeId);
     };
 
     editorCtrl.nextPage = function() {

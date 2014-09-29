@@ -83,8 +83,8 @@
         }, $scope);
     };
 
-    transUnitCtrl.getLocaleDisplayName = function(localeId) {
-      return LocaleService.getDisplayName(localeId);
+    transUnitCtrl.getLocaleName = function(localeId) {
+      return LocaleService.getName(localeId);
     };
 
     $element.bind('click', onTransUnitClick);

@@ -70,7 +70,7 @@
       });
     }
 
-    function getname(localeId) {
+    function getName(localeId) {
       var locale = getLocaleByLocaleId(locales, localeId);
       if(locale) {
         return locale.name;
@@ -84,7 +84,7 @@
       getLocaleByLocaleId : getLocaleByLocaleId,
       getAllLocales : getAllLocales,
       containsLocale : containsLocale,
-      getname : getname,
+      getName : getName,
       DEFAULT_LOCALE: {
         'localeId' : 'en-US',
         'name' : 'English'

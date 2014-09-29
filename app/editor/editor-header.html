@@ -43,7 +43,7 @@
           <dropdown class="Dropdown">
             <button dropdown-toggle
               class="Dropdown-toggle Link--invert"/>
-              <span ng-bind="editor.getLocalename(editor.context.localeId)"></span>
+              <span ng-bind="editor.getLocaleName(editor.context.localeId)"></span>
               <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
             </button>
             <ul class="Dropdown-content Dropdown-content--bordered">
@@ -63,12 +63,12 @@
         <dropdown class="Dropdown Dropdown--right u-sMV-1-2">
           <a dropdown-toggle
             class="Dropdown-toggle Link--invert u-inlineBlock u-textNoWrap u-sPH-1-4"
-            ng-bind="editor.getLocalename(app.myInfo.locale.localeId)"/>
+            ng-bind="editor.getLocaleName(app.myInfo.locale.localeId)"/>
           </a>
           <ul class="Dropdown-content Dropdown-content--bordered">
             <li ng-repeat="locale in app.uiLocaleList">
               <a ng-click="app.onChangeUILocale(locale)" class="Dropdown-item u-textNoWrap u-textRight">
-                <span ng-bind="editor.getLocalename(locale.localeId)"></span>
+                <span ng-bind="editor.getLocaleName(locale.localeId)"></span>
               </a>
             </li>
           </ul>

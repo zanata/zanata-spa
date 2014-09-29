@@ -83,10 +83,6 @@ msgstr ""
 msgid "Translation Memory"
 msgstr ""
 
-#: app/components/transUnit/translation/header.html
-msgid "Undo edit"
-msgstr ""
-
 #: app/editor/editor-header.html
 msgid "Untranslated"
 msgstr ""
