@@ -4,6 +4,8 @@
   /**
    * @name PhraseService
    * @description Provides a list of phrases for the current document(s)
+   *
+   * @ngInject
    */
   function PhraseService(TransUnitService, FilterUtil, PhraseCache, _) {
     var phraseService = {},

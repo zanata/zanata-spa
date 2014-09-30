@@ -4,9 +4,11 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     concat = require('gulp-concat'),
     csso = require('gulp-csso'),
     // debug = require('gulp-debug'),
+    env = process.env.NODE_ENV || 'development',
     fs = require('fs'),
     gettext = require('gulp-angular-gettext'),
     gulp = require('gulp'),
+    gulpif = require('gulp-if'),
     imagemin = require('gulp-imagemin'),
     inject = require('gulp-inject'),
     jshint = require('gulp-jshint'),
@@ -68,7 +70,8 @@ gulp.task('css', function () {
       reworkcolor,
       reworkcustommedia,
       reworkielimits,
-      suitconformance
+      suitconformance,
+      { sourcemap: true }
     ))
     .pipe(prefix(
       [
@@ -81,9 +84,7 @@ gulp.task('css', function () {
       ],
       { cascade: true }
     ))
-    .pipe(gulp.dest(paths.build + '/css'))
-    .pipe(csso())
-    .pipe(rename('app.min.css'))
+    .pipe(gulpif(env === 'production', csso()))
     .pipe(gulp.dest(paths.build + '/css'));
 });
 
@@ -91,6 +92,7 @@ gulp.task('cssBower', ['bowerMain'], function(){
   return gulp.src(paths.css.bower)
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(concat('libs.css'))
+    .pipe(gulpif(env === 'production', csso()))
     .pipe(gulp.dest(paths.build + '/css'));
 });
 
@@ -103,9 +105,9 @@ gulp.task('js',function(){
     .pipe(sourcemaps.init())
     .pipe(ngAnnotate())
     .pipe(concat('app.js'))
-    // .pipe(uglify())
+    .pipe(gulpif(env === 'production', uglify()))
     // Sourcemaps end
-    .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write('../maps'))
     .pipe(gulp.dest(paths.build + '/js'));
 });
 
@@ -133,13 +135,13 @@ gulp.task('jsBower', ['bowerMain', 'removeModernizr'], function(){
   //concatenate vendor JS files
   return gulp.src(paths.js.bower)
     .pipe(plumber({errorHandler: notifyError}))
-    .pipe(sourcemaps.init())
     // Sourcemaps start
+    .pipe(sourcemaps.init())
     .pipe(ngAnnotate())
     .pipe(concat('libs.js'))
-    .pipe(uglify())
+    .pipe(gulpif(env === 'production', uglify()))
     // Sourcemaps end
-    .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write('../maps'))
     .pipe(gulp.dest(paths.build + '/js'));
 });
 
@@ -287,7 +289,7 @@ gulp.task('watch', ['serve'], function(){
   gulp.watch(paths.js.app, ['js']);
   gulp.watch(paths.css.bower, ['cssBower']);
   gulp.watch(paths.css.all, ['css']);
-  gulp.watch(paths.templates, ['templates']);
+  gulp.watch(paths.templates, ['templates', 'translations']);
   gulp.watch(paths.images.app, ['images']);
   gulp.watch(paths.images.bower, ['imagesBower']);
   gulp.watch(paths.fonts.bower, ['fontsBower']);

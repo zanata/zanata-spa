@@ -8,6 +8,7 @@
    * @description
    * Logo that is activated on global loading state
    *
+   * @ngInject
    */
   function logoLoader() {
     return {
