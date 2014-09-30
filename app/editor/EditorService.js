@@ -8,7 +8,7 @@
    */
   function EditorService($rootScope, $resource, _, UrlService,
     EventService, PhraseService, DocumentService, MessageHandler,
-    TransStatusService) {
+    TransStatusService, TransUnitService) {
     var editorService = this,
         queue = {};
 
@@ -47,7 +47,7 @@
 
     /**
      * EventService.EVENT.SAVE_TRANSLATION listener
-     * Perform save translation with given state
+     * Perform save translation with given status
      *
      * - queue save translation request (1 global queue, 1 for each TU)
      * - if queue contains request id, replace old request with new request
@@ -55,19 +55,19 @@
     $rootScope.$on(EventService.EVENT.SAVE_TRANSLATION,
       function (event, data) {
         var phrase = data.phrase,
-          state = data.state;
+            status = data.status;
 
         //update pending queue if contains
         if(_.has(queue,  phrase.id)) {
           var pendingRequest = queue[phrase.id];
           pendingRequest.phrase = phrase;
-          pendingRequest.state = state;
+          pendingRequest.status = status;
           processSaveRequest(phrase.id);
-        } else if(isTranslationModified(phrase)) {
-          state = resolveTranslationState(phrase, state);
+        } else if(TransUnitService.isTranslationModified(phrase)) {
+          status = resolveTranslationState(phrase, status);
           queue[phrase.id] = {
             'phrase': phrase,
-            'state' : state,
+            'status' : status,
             'locale': data.locale,
             'docId' : data.docId
           };
@@ -92,19 +92,19 @@
         id: request.phrase.id,
         revision: request.phrase.revision,
         content: request.phrase.newTranslation,
-        state: request.state,
+        status: request.status,
         plurals: []
       };
 
       Translation.update(data).$promise.then(
         function(response) {
-          var oldState =  request.phrase.status;
+          var oldStatus =  request.phrase.status;
 
           PhraseService.onTransUnitUpdated(data.id, request.locale,
             response.revision, response.state, request.phrase.newTranslation);
 
           DocumentService.updateStatistic(request.docId, request.locale,
-            oldState, response.state, request.phrase.wordCount);
+            oldStatus, response.state, request.phrase.wordCount);
         },
         function(response) {
           MessageHandler.displayWarning('Update translation failed for ' +
@@ -116,13 +116,9 @@
 
     function resolveTranslationState(phrase, requestStatus) {
       if(phrase.newTranslation === '') {
-        return TransStatusService.getId('UNTRANSLATED');
+        return TransStatusService.getStatusInfo('UNTRANSLATED');
       }
       return requestStatus;
-    }
-
-    function isTranslationModified(phrase) {
-      return phrase.newTranslation !== phrase.translation;
     }
 
     return editorService;

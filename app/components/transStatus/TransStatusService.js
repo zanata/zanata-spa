@@ -64,7 +64,9 @@
      */
     function conformStatus(status) {
       status = angular.uppercase(status);
-      if (status === 'NEEDREVIEW') {
+      if (!status) {
+        status = 'UNTRANSLATED';
+      } else if (status === 'NEEDREVIEW') {
         status = 'NEEDSWORK';
       }
       return status;

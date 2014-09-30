@@ -2,7 +2,7 @@
   'use strict';
 
   /**
-   * TransUnitService.js
+   * TransUnitService
    *
    * @ngInject
    */
@@ -27,7 +27,7 @@
       else if (phrase.translation !== phrase.newTranslation) {
         return TransStatusService.getStatusInfo('translated');
       } else {
-        return TransStatusService.getStatusInfo(phrase.status);
+        return phrase.status;
       }
     };
 
@@ -55,7 +55,7 @@
               EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
                 {
                   'phrase' : selectedTUController.getPhrase(),
-                  'state'  : TransStatusService.getId('TRANSLATED'),
+                  'status' : TransStatusService.getStatusInfo('TRANSLATED'),
                   'locale' : $stateParams.localeId,
                   'docId'  : $stateParams.docId
                 });
@@ -115,6 +115,14 @@
       controller.selected = isSelected || false;
     }
 
+    /**
+     * Filters the dropdown options for saving a translation
+     * Unless the translation is empty, remove untranslated as an option
+     * Filter the current default save state out of the list and show remaining
+     *
+     * @param  {Object} saveStatus The current default translation save state
+     * @return {Array}             Is used to construct the dropdown list
+     */
     function filterSaveOptions(saveStatus) {
       var filteredOptions = [];
       if (saveStatus.ID === 'untranslated') {

@@ -86,6 +86,7 @@
      */
     phraseCache.onTransUnitUpdated = function(id, localeId, revision, state,
                                               content, contents) {
+      // TODO: Fix all this crazy state/status confusion
       //Update states cache
       states[id] = state;
 

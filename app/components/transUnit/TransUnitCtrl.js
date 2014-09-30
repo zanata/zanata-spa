@@ -15,12 +15,11 @@
     transUnitCtrl.saveOptions =
       TransUnitService.getSaveOptions(transUnitCtrl.saveStatus);
 
-
-    transUnitCtrl.isTranslationModified = function(phrase) {
-      return TransUnitService.isTranslationModified(phrase);
-    };
+    transUnitCtrl.isTranslationModified =
+      TransUnitService.isTranslationModified;
 
     transUnitCtrl.updateSaveStatus = function(phrase) {
+      // TODO: Move to an event… Maybe?
       transUnitCtrl.saveStatus = TransUnitService.getSaveStatus(phrase);
       transUnitCtrl.saveOptions =
         TransUnitService.getSaveOptions(transUnitCtrl.saveStatus);
@@ -44,6 +43,7 @@
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
         phrase, $scope);
+      // TODO: Move to an event
       transUnitCtrl.updateSaveStatus(phrase);
     };
 
@@ -51,6 +51,7 @@
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
         phrase, $scope);
+      // TODO: Move to an event
       transUnitCtrl.updateSaveStatus(phrase);
     };
 
@@ -60,12 +61,12 @@
         phrase, $scope);
     };
 
-    transUnitCtrl.saveAs = function($event, saveId) {
+    transUnitCtrl.saveAs = function($event, status) {
       $event.stopPropagation(); //prevent click event of TU
-      console.log(saveId);
+      console.log(status);
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         { 'phrase' : $scope.phrase,
-          'state'  : $scope.saveId,
+          'status' : status,
           'locale' : $stateParams.localeId,
           'docId'  : $stateParams.docId
         }, $scope);

@@ -55,34 +55,22 @@
        * editor.
        */
       function transformToPhrases(transUnits) {
-        var phrases = [];
-
-        for (var id in transUnits) {
-          var source = transUnits[id].source,
-              trans = transUnits[id][localeId],
-              status = getPhraseStatus(trans);
-
-          phrases.push({
+        return _.map(transUnits, function(transUnit, id) {
+          var source = transUnit.source,
+              trans = transUnit[localeId];
+          return {
             id: parseInt(id),
             // TODO handle plural content
             source: source.content,
-            translation: trans ? trans.content : '',//original translation
-            newTranslation: trans ? trans.content : '',//translation from editor
-            status: status.ID,
+            //original translation
+            translation: trans ? trans.content : '',
+            //translation from editor
+            newTranslation: trans ? trans.content : '',
+            status: getTransStatus(trans),
             revision: trans ? parseInt(trans.revision) : 0,
-            statusClass: status.CSSCLASS,
             wordCount: parseInt(source.wordCount)
-          });
-        }
-        return phrases;
-      }
-
-      function getPhraseStatus(trans) {
-        if(trans) {
-          return TransStatusService.getStatusInfo(trans.state);
-        } else {
-          return TransStatusService.getStatusInfo('UNTRANSLATED');
-        }
+          };
+        });
       }
 
       function sortPhrases(phrases) {
@@ -99,10 +87,11 @@
       }
     };
 
-    //update phrase,states and textFlows with given tu id
+    //update phrase,statuses and textFlows with given tu id
     phraseService.onTransUnitUpdated = function(id, localeId, revision,
-                                                state, content, contents) {
-      PhraseCache.onTransUnitUpdated(id, localeId, revision, state, content,
+      status, content, contents) {
+
+      PhraseCache.onTransUnitUpdated(id, localeId, revision, status, content,
         contents);
 
       var phrase = findPhrase(id, phraseService.phrases);
@@ -110,9 +99,7 @@
       if(phrase) {
         phrase.translation = content;
         phrase.revision = revision;
-        phrase.status = TransStatusService.getId(state);
-        phrase.statusClass = TransStatusService.getCSSClass(state) ||
-          TransStatusService.getCSSClass('UNTRANSLATED');
+        phrase.status = TransStatusService.getStatusInfo(status);
       }
     };
 
@@ -123,6 +110,13 @@
         phrase.newTranslation = phrase.translation;
       }
     };
+
+    // If there is no status, make it untranslated
+    // Status is still called state in the API
+    function getTransStatus(trans) {
+      return TransStatusService.getStatusInfo(
+        trans ? trans.state : 'UNTRANSLATED');
+    }
 
     function findPhrase(id, phrases) {
       return _.find(phrases, function(phrase) {
