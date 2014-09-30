@@ -3,6 +3,8 @@
 
   /**
    * UserService.js
+   *
+   * @ngInject
    */
   function UserService($resource, UrlService) {
 

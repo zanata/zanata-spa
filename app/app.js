@@ -7,12 +7,12 @@
    */
   angular.module(
     'app', [
+      'ngResource',
+      'ngAnimate',
       'ui.router',
       'templates',
       'cfp.hotkeys',
       'monospaced.elastic',
-      'ngResource',
-      'ngAnimate',
       'gettext'
     ]).constant('_', window._);
 

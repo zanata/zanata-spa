@@ -1,6 +1,11 @@
 (function() {
   'use strict';
 
+  /**
+   * FilterUtil.js
+   *
+   * @ngInject
+   */
   function FilterUtil(StringUtil, _) {
 
     /**

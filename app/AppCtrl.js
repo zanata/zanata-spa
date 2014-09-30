@@ -90,6 +90,11 @@
     }
   }
 
+  /**
+   * @name AppCtrl.config
+   * @description Main config for the entire app
+   * @ngInject
+   */
   AppCtrl.config = function($stateProvider, $urlRouterProvider, $httpProvider) {
 
     var interceptor = ['$q', function($q) {
