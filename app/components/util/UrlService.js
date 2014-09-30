@@ -17,10 +17,10 @@
     // See: https://github.com/jshint/jshint/blob/2.1.4/src/shared/messages.js
     /* jshint -W101 */
     var urls = _.mapValues({
-      project  : '/projects/p/:projectSlug',
-      docs     : '/projects/p/:projectSlug/iterations/i/:versionSlug/r',
-      locales  : '/projects/:projectSlug/versions/:versionSlug/locales',
-      status   : '/projects/:projectSlug/versions/:versionSlug/doc/:docId/status/:localeId',
+      project  : '/project/:projectSlug',
+      docs     : '/project/:projectSlug/version/:versionSlug/docs',
+      locales  : '/project/:projectSlug/version/:versionSlug/locales',
+      status   : '/project/:projectSlug/version/:versionSlug/doc/:docId/status/:localeId',
       textFlows: '/source+trans/:localeId',
       docStats : '/stats/project/:projectSlug/version/:versionSlug/doc/:docId/locale/:localeId',
       myInfo   : '/user',
