@@ -31,7 +31,7 @@
               isArray: true
             }
         },
-        States = $resource(UrlService.TRANSLATION_STATES_URL, {}, methods);
+        States = $resource(UrlService.TRANSLATION_STATUS_URL, {}, methods);
         return States.query().$promise.then(function(state) {
           state = FilterUtil.cleanResourceList(state);
           states[key] = state;

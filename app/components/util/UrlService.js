@@ -17,12 +17,12 @@
     // See: https://github.com/jshint/jshint/blob/2.1.4/src/shared/messages.js
     /* jshint -W101 */
     var urls = _.mapValues({
-      project  : '/projects/p/:projectSlug',
-      locales  : '/projects/p/:projectSlug/iterations/i/:versionSlug/locales',
-      docs     : '/projects/p/:projectSlug/iterations/i/:versionSlug/r',
-      states   : '/projects/p/:projectSlug/iterations/i/:versionSlug/r/:docId/states/:localeId',
+      project  : '/project/:projectSlug',
+      docs     : '/project/:projectSlug/version/:versionSlug/docs',
+      locales  : '/project/:projectSlug/version/:versionSlug/locales',
+      status   : '/project/:projectSlug/version/:versionSlug/doc/:docId/status/:localeId',
       textFlows: '/source+trans/:localeId',
-      docStats : '/stats/proj/:projectSlug/iter/:versionSlug/doc/:docId/locale/:localeId',
+      docStats : '/stats/project/:projectSlug/version/:versionSlug/doc/:docId/locale/:localeId',
       myInfo   : '/user',
       userInfo : '/user/:username',
       translation : '/trans/:localeId',
@@ -36,7 +36,7 @@
       PROJECT_URL            : urls.project,
       LOCALE_LIST_URL        : urls.locales,
       DOCUMENT_LIST_URL      : urls.docs,
-      TRANSLATION_STATES_URL : urls.states,
+      TRANSLATION_STATUS_URL : urls.status,
       TEXT_FLOWS_URL         : urls.textFlows,
       DOC_STATISTIC_URL      : urls.docStats,
       MY_INFO_URL            : urls.myInfo,
