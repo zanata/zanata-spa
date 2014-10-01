@@ -57,7 +57,7 @@
         var phrase = data.phrase,
             status = data.status;
 
-        EventService.emitEvent(EventService.EVENT.SAVE_INITIATED, phrase);
+        EventService.emitEvent(EventService.EVENT.SAVE_INITIATED, data);
 
         //update pending queue if contains
         if(_.has(queue,  phrase.id)) {

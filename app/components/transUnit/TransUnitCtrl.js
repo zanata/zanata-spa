@@ -97,19 +97,27 @@
 
 
     function updateSaveButton(event, phrase) {
-      console.log(phrase);
       if (phrase.id === $scope.phrase.id) {
         transUnitCtrl.saveButtonStatus =
           TransUnitService.getSaveButtonStatus($scope.phrase);
         transUnitCtrl.saveButtonOptions =
           TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
         transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;
+        transUnitCtrl.saveButtonCssClass =
+          transUnitCtrl.saveButtonStatus.CSSCLASS;
+        transUnitCtrl.saveButtonDisbaled =
+          !TransUnitService.isTranslationModified(phrase);
       }
     }
 
-    function phraseSaving(event, phrase) {
-      if (phrase.id === $scope.phrase.id) {
+    function phraseSaving(event, data) {
+      console.log(data.status);
+      if (data.phrase.id === $scope.phrase.id) {
+        transUnitCtrl.saveButtonStatus = data.status;
+        transUnitCtrl.saveButtonOptions =
+          TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
         transUnitCtrl.saveButtonText = 'Saving…';
+        transUnitCtrl.saveButtonDisbaled = true;
       }
     }
 

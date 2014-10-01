@@ -157,6 +157,7 @@
      */
     function filterSaveButtonOptions(saveStatus) {
       var filteredOptions = [];
+      console.log(saveStatus);
       if (saveStatus.ID === 'untranslated') {
         return '';
       } else {
