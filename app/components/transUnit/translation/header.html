@@ -1,12 +1,12 @@
 <div class="TransUnit-panelHeader">
-  <h3 class="TransUnit-Heading">{{transUnitCtrl.getLocaleName(context.localeId)}} <span
-    class="u-textMuted u-textUpper">{{context.localeId}}</span></h3>
+  <h3 class="TransUnit-Heading">{{transUnitCtrl.getLocaleName(editorContext.localeId)}} <span
+    class="u-textMuted u-textUpper">{{editorContext.localeId}}</span></h3>
   <ul class="TransUnit-panelHeaderActions u-listHorizontal">
     <li>
       <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-        title="Copy {{context.srcLocale.name}} ({{context.srcLocale.localeId}})"
+        title="Copy {{editorContext.srcLocale.name}} ({{editorContext.srcLocale.localeId}})"
         ng-click="transUnitCtrl.copySource($event, phrase)">
-        <icon name="copy" title="Copy {{context.srcLocale.name}} ({{context.srcLocale.localeId}})"></icon>
+        <icon name="copy" title="Copy {{editorContext.srcLocale.name}} ({{editorContext.srcLocale.localeId}})"></icon>
       </button>
     </li>
     <li class="u-sm-hidden" ng-hide="transUnitCtrl.isTranslationModified(phrase)">

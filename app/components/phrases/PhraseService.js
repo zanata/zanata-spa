@@ -64,10 +64,14 @@
             id: parseInt(id),
             // TODO: handle plural content
             source: source.content,
+            sources: source.contents,
             // Original translation
             translation: trans ? trans.content : '',
+            translations: trans ? trans.contents : '',
             // Translation from editor
             newTranslation: trans ? trans.content : '',
+            newTranslations: trans ? trans.contents : '',
+            plural: source.plural,
             // Conform the status from the server, return an object
             status: TransStatusService.getStatusInfo(
               trans ? trans.state : 'UNTRANSLATED'),

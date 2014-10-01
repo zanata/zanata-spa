@@ -5,14 +5,12 @@
    * TransUnitCtrl.js
    * @ngInject
    */
-  function TransUnitCtrl($scope, $element, $stateParams, $filter, $rootScope, _,
-      TransUnitService, EventService, LocaleService) {
+  function TransUnitCtrl($scope, $element, $stateParams, _, TransUnitService,
+    EventService, LocaleService) {
 
     var transUnitCtrl = this;
 
     transUnitCtrl.selected = false;
-
-    updateSaveButton({}, $scope.phrase);
 
     transUnitCtrl.isTranslationModified =
       TransUnitService.isTranslationModified;
@@ -55,7 +53,6 @@
     };
 
     transUnitCtrl.saveAs = function($event, phrase, status) {
-      // $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         { 'phrase' : phrase,
           'status' : status,
@@ -74,63 +71,37 @@
       $element.unbind('click', onTransUnitClick);
     });
 
-    /**
-     * EventService.EVENT.TRANSLATION_TEXT_MODIFIED listener
-     *
-     */
-    $rootScope.$on(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
-      updateSaveButton);
+    transUnitCtrl.updateSaveButton = function (phrase) {
+      transUnitCtrl.saveButtonStatus =
+        TransUnitService.getSaveButtonStatus($scope.phrase);
+      transUnitCtrl.saveButtonOptions =
+        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
+      transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;
+      transUnitCtrl.saveButtonDisabled =
+        !TransUnitService.isTranslationModified(phrase);
+      transUnitCtrl.loadingClass = '';
+      transUnitCtrl.savingStatus = '';
+    };
 
-    /**
-     * EventService.EVENT.SAVE_COMPLETED listener
-     *
-     */
-    $rootScope.$on(EventService.EVENT.SAVE_INITIATED,
-      phraseSaving);
+    transUnitCtrl.phraseSaving = function (data) {
+      transUnitCtrl.loadingClass = 'is-loading';
+      transUnitCtrl.saveButtonStatus =
+        transUnitCtrl.savingStatus = data.status;
+      transUnitCtrl.saveButtonOptions =
+        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
+      transUnitCtrl.saveButtonText = 'Saving…';
+      transUnitCtrl.saveButtonDisabled = true;
+    };
 
-    /**
-     * EventService.EVENT.SAVE_COMPLETED listener
-     *
-     */
-    $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
-      updateSaveButton);
-
-
-    function updateSaveButton(event, phrase) {
-      if (phrase.id === $scope.phrase.id) {
-        transUnitCtrl.saveButtonStatus =
-          TransUnitService.getSaveButtonStatus($scope.phrase);
-        transUnitCtrl.saveButtonOptions =
-          TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
-        transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;
-        transUnitCtrl.saveButtonDisabled =
-          !TransUnitService.isTranslationModified(phrase);
-        transUnitCtrl.loadingClass = '';
-        transUnitCtrl.savingStatus = '';
+    function onTransUnitClick() {
+      if(!transUnitCtrl.selected) {
+        $scope.$apply(function () {
+          EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+            {'id': $scope.phrase.id,
+              'updateURL': true,
+              'focus': true}, $scope);
+        });
       }
-    }
-
-    function phraseSaving(event, data) {
-      console.log(data.status);
-      if (data.phrase.id === $scope.phrase.id) {
-        transUnitCtrl.loadingClass = 'is-loading';
-        transUnitCtrl.saveButtonStatus =
-            transUnitCtrl.savingStatus = data.status;
-        transUnitCtrl.saveButtonOptions =
-          TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
-        transUnitCtrl.saveButtonText = 'Saving…';
-        transUnitCtrl.saveButtonDisabled = true;
-      }
-    }
-
-    function onTransUnitClick(event) {
-      event.preventDefault();
-      $scope.$apply(function () {
-        EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-          {'id': $scope.phrase.id,
-            'updateURL': true,
-            'focus': true}, $scope);
-      });
     }
 
     return transUnitCtrl;

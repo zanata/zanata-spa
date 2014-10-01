@@ -90,14 +90,14 @@
           }
         }
       });
-
       var data = {
         id: request.phrase.id,
         revision: request.phrase.revision,
         content: request.phrase.newTranslation,
+        contents: request.phrase.newTranslations,
         // Return status object to PascalCase Id for the server
         status: TransStatusService.getServerId(request.status.ID),
-        plurals: []
+        plural: request.phrase.plural
       };
 
       Translation.update(data).$promise.then(

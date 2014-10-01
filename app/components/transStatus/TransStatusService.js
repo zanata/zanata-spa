@@ -86,7 +86,6 @@
     function serverStatusId(statusId) {
       statusId =
         statusId.charAt(0).toUpperCase() + statusId.slice(1).toLowerCase();
-      console.log(statusId);
       if (!statusId) {
         return 'Untranslated';
       } else if (statusId === 'Needswork') {

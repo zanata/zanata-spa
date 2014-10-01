@@ -63,14 +63,16 @@
             setSelected(oldTUController, false);
           }
 
-          // updateSaveButton(event, newTuController.getPhrase());
+          updateSaveButton(event, newTuController.getPhrase());
           selectedTUId = data.id;
           setSelected(newTuController, true);
 
           //Update url without reload state
           if(updateURL) {
-            $location.search('id', data.id);
-            $location.search('selected', data.focus.toString());
+            $state.go('editor.selectedContext.tu', {
+              'id': data.id,
+              'selected': data.focus.toString()
+            });
           }
 
         } else {
@@ -121,27 +123,32 @@
      * EventService.EVENT.TRANSLATION_TEXT_MODIFIED listener
      *
      */
-    // $rootScope.$on(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
-    //   updateSaveButton);
+    $rootScope.$on(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+       updateSaveButton);
 
-    // /**
-    //  * EventService.EVENT.SAVE_COMPLETED listener
-    //  *
-    //  */
-    // // $rootScope.$on(EventService.EVENT.SAVE_INITIATED,
-    // //   phraseSaving);
+    /**
+      * EventService.EVENT.SAVE_COMPLETED listener
+      *
+      */
+    $rootScope.$on(EventService.EVENT.SAVE_INITIATED,
+       phraseSaving);
 
-    // /**
-    //  * EventService.EVENT.SAVE_COMPLETED listener
-    //  *
-    //  */
-    // $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
-    //   updateSaveButton);
+    /**
+      * EventService.EVENT.SAVE_COMPLETED listener
+      *
+      */
+    $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
+       updateSaveButton);
 
-    // function updateSaveButton(event, phrase) {
-    //   var transUnitCtrl = controllerList[phrase.id];
-    //   transUnitCtrl.updateSaveButton();
-    // }
+    function updateSaveButton(event, phrase) {
+       var transUnitCtrl = controllerList[phrase.id];
+       transUnitCtrl.updateSaveButton(phrase);
+    }
+
+    function phraseSaving(event, data) {
+      var transUnitCtrl = controllerList[data.phrase.id];
+      transUnitCtrl.phraseSaving(data);
+    }
 
     function setSelected(controller, isSelected) {
       controller.selected = isSelected || false;
@@ -157,7 +164,6 @@
      */
     function filterSaveButtonOptions(saveStatus) {
       var filteredOptions = [];
-      console.log(saveStatus);
       if (saveStatus.ID === 'untranslated') {
         return '';
       } else {
