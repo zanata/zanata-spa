@@ -37,6 +37,24 @@
       SAVE_TRANSLATION: 'saveTranslation',
 
       /**
+       * Translation save in this editor is being sent to the server and
+       * is waiting on a response.
+       */
+      SAVE_INITIATED: 'saveInitiated',
+
+      /**
+       * Translation save in this editor has been completed
+       * (Server has responded with a success or error).
+       */
+      SAVE_COMPLETED: 'saveCompleted',
+
+      /**
+       * The text in the translation editor textbox has been edited and
+       * not yet saved.
+       */
+      TRANSLATION_TEXT_MODIFIED: 'translationTextModified',
+
+      /**
        * refresh ui statistic - changes in doc or locale
        *
        * data: {}

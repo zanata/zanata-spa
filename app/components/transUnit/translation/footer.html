@@ -24,24 +24,24 @@
       <div class="ButtonGroup ButtonGroup--hz ButtonGroup--borderCollapse">
         <div class="ButtonGroup-item">
           <button ng-disabled="!transUnitCtrl.isTranslationModified(phrase)"
-            class="Button Button--{{ transUnitCtrl.saveStatus.CSSCLASS }} u-sizeHeight-1_1-2 u-textCapitalize"
-            ng-bind="transUnitCtrl.saveStatus.NAME"
-            ng-click="transUnitCtrl.saveAs($event, transUnitCtrl.saveStatus)">
+            class="Button Button--{{ transUnitCtrl.saveButtonStatus.CSSCLASS }} u-sizeHeight-1_1-2 u-textCapitalize"
+            ng-bind="transUnitCtrl.saveButtonText"
+            ng-click="transUnitCtrl.saveAs($event, phrase, transUnitCtrl.saveButtonStatus)">
           </button>
         </div>
         <div class="ButtonGroup-item"
-          ng-show="transUnitCtrl.saveOptions">
+          ng-show="transUnitCtrl.saveButtonOptions">
           <button dropdown-toggle
-            class="Button Button--{{ transUnitCtrl.saveStatus.CSSCLASS }} Button--snug u-sizeHeight-1_1-2 Dropdown-toggle"
+            class="Button Button--{{ transUnitCtrl.saveButtonStatus.CSSCLASS }} Button--snug u-sizeHeight-1_1-2 Dropdown-toggle"
             title="{{'Save as…'|translate}}">
             <icon name="chevron-down" title="{{'Save as…'|translate}}" class="Icon--sm Dropdown-toggleIcon"></icon>
           </button>
         </div>
       </div>
       <ul class="Dropdown-content">
-        <li ng-repeat="status in transUnitCtrl.saveOptions">
+        <li ng-repeat="status in transUnitCtrl.saveButtonOptions">
           <button class="Button Button--{{status.CSSCLASS}} u-sizeFull u-textLeft u-sizeHeight-1_1-2"
-            ng-click="transUnitCtrl.saveAs($event, status)" ng-bind="status.NAME">
+            ng-click="transUnitCtrl.saveAs($event, phrase, status)" ng-bind="status.NAME">
           </button>
         </li>
       </ul>

@@ -57,13 +57,16 @@
         var phrase = data.phrase,
             status = data.status;
 
+        EventService.emitEvent(EventService.EVENT.SAVE_INITIATED, phrase);
+
         //update pending queue if contains
         if(_.has(queue,  phrase.id)) {
           var pendingRequest = queue[phrase.id];
           pendingRequest.phrase = phrase;
           pendingRequest.status = status;
           processSaveRequest(phrase.id);
-        } else if(TransUnitService.isTranslationModified(phrase)) {
+        } else if(TransUnitService.isTranslationModified(phrase) ||
+          phrase.status !== status) {
           status = resolveTranslationState(phrase, status);
           queue[phrase.id] = {
             'phrase': phrase,
@@ -92,7 +95,8 @@
         id: request.phrase.id,
         revision: request.phrase.revision,
         content: request.phrase.newTranslation,
-        status: request.status,
+        // Return status object to PascalCase Id for the server
+        status: TransStatusService.getServerId(request.status.ID),
         plurals: []
       };
 
@@ -105,11 +109,16 @@
 
           DocumentService.updateStatistic(request.docId, request.locale,
             oldStatus, response.state, request.phrase.wordCount);
+
+          EventService.emitEvent(EventService.EVENT.SAVE_COMPLETED,
+            request.phrase);
         },
         function(response) {
           MessageHandler.displayWarning('Update translation failed for ' +
             data.id + ' -' + response);
           PhraseService.onTransUnitUpdateFailed(data.id);
+          EventService.emitEvent(EventService.EVENT.SAVE_COMPLETED,
+            request.phrase);
         });
       delete queue[id];
     }

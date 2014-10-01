@@ -60,13 +60,15 @@
               trans = transUnit[localeId];
           return {
             id: parseInt(id),
-            // TODO handle plural content
+            // TODO: handle plural content
             source: source.content,
-            //original translation
+            // Original translation
             translation: trans ? trans.content : '',
-            //translation from editor
+            // Translation from editor
             newTranslation: trans ? trans.content : '',
-            status: getTransStatus(trans),
+            // Conform the status from the server, return an object
+            status: TransStatusService.getStatusInfo(
+              trans ? trans.state : 'UNTRANSLATED'),
             revision: trans ? parseInt(trans.revision) : 0,
             wordCount: parseInt(source.wordCount)
           };
@@ -110,13 +112,6 @@
         phrase.newTranslation = phrase.translation;
       }
     };
-
-    // If there is no status, make it untranslated
-    // Status is still called state in the API
-    function getTransStatus(trans) {
-      return TransStatusService.getStatusInfo(
-        trans ? trans.state : 'UNTRANSLATED');
-    }
 
     function findPhrase(id, phrases) {
       return _.find(phrases, function(phrase) {

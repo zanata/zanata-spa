@@ -39,37 +39,60 @@
       return _.values(STATUSES);
     };
 
-    transStatusService.getStatusInfo = function(status) {
-      return STATUSES[conformStatus(status)];
+    transStatusService.getStatusInfo = function(statusKey) {
+      return STATUSES[conformStatus(statusKey)];
     };
 
-    transStatusService.getId = function(status) {
-      return STATUSES[conformStatus(status)].ID;
+    transStatusService.getId = function(statusKey) {
+      return STATUSES[conformStatus(statusKey)].ID;
     };
 
-    transStatusService.getName = function(status) {
-      return STATUSES[conformStatus(status)].NAME;
+    transStatusService.getServerId = function(statusId) {
+      return serverStatusId(statusId);
     };
 
-    transStatusService.getCSSClass = function(status) {
-      return STATUSES[conformStatus(status)].CSSCLASS;
+    transStatusService.getName = function(statusKey) {
+      return STATUSES[conformStatus(statusKey)].NAME;
+    };
+
+    transStatusService.getCSSClass = function(statusKey) {
+      return STATUSES[conformStatus(statusKey)].CSSCLASS;
     };
 
     /**
-     * Conform it to upperclass for lookups and
-     * temporary fix for server sending "NeedReview"
-     * instead of NeedsWork status
+     * Conform it to uppercase for lookups and
+     * temporary fix for server sending "needReview"
+     * instead of needswork status
      * @param  {string} status
      * @return {string}        new value to use
      */
-    function conformStatus(status) {
-      status = angular.uppercase(status);
-      if (!status) {
-        status = 'UNTRANSLATED';
-      } else if (status === 'NEEDREVIEW') {
-        status = 'NEEDSWORK';
+    function conformStatus(statusKey) {
+      statusKey = angular.uppercase(statusKey);
+      if (!statusKey) {
+        statusKey = 'UNTRANSLATED';
+      } else if (statusKey === 'NEEDREVIEW') {
+        statusKey = 'NEEDSWORK';
       }
-      return status;
+      return statusKey;
+    }
+
+    /**
+     * Conform it to PascalCase for lookups and
+     * temporary fix for server receiving "needReview"
+     * instead of needswork status
+     * @param  {string} status
+     * @return {string}        new value to use
+     */
+    function serverStatusId(statusId) {
+      statusId =
+        statusId.charAt(0).toUpperCase() + statusId.slice(1).toLowerCase();
+      console.log(statusId);
+      if (!statusId) {
+        return 'Untranslated';
+      } else if (statusId === 'Needswork') {
+        return 'NeedReview';
+      }
+      return statusId;
     }
 
     return transStatusService;

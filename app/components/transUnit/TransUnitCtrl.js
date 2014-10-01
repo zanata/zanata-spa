@@ -5,24 +5,21 @@
    * TransUnitCtrl.js
    * @ngInject
    */
-  function TransUnitCtrl($scope, $element, $stateParams, $filter, _,
+  function TransUnitCtrl($scope, $element, $stateParams, $filter, $rootScope, _,
       TransUnitService, EventService, LocaleService) {
 
     var transUnitCtrl = this;
 
     transUnitCtrl.selected = false;
-    transUnitCtrl.saveStatus = TransUnitService.getSaveStatus($scope.phrase);
-    transUnitCtrl.saveOptions =
-      TransUnitService.getSaveOptions(transUnitCtrl.saveStatus);
+
+    updateSaveButton({}, $scope.phrase);
 
     transUnitCtrl.isTranslationModified =
       TransUnitService.isTranslationModified;
 
-    transUnitCtrl.updateSaveStatus = function(phrase) {
-      // TODO: Move to an event… Maybe?
-      transUnitCtrl.saveStatus = TransUnitService.getSaveStatus(phrase);
-      transUnitCtrl.saveOptions =
-        TransUnitService.getSaveOptions(transUnitCtrl.saveStatus);
+    transUnitCtrl.translationTextModified = function(phrase) {
+      EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+          phrase);
     };
 
     transUnitCtrl.getPhrase = function() {
@@ -43,16 +40,12 @@
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
         phrase, $scope);
-      // TODO: Move to an event
-      transUnitCtrl.updateSaveStatus(phrase);
     };
 
     transUnitCtrl.undoEdit = function($event, phrase) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
         phrase, $scope);
-      // TODO: Move to an event
-      transUnitCtrl.updateSaveStatus(phrase);
     };
 
     transUnitCtrl.cancelEdit = function($event, phrase) {
@@ -61,11 +54,10 @@
         phrase, $scope);
     };
 
-    transUnitCtrl.saveAs = function($event, status) {
-      $event.stopPropagation(); //prevent click event of TU
-      console.log(status);
+    transUnitCtrl.saveAs = function($event, phrase, status) {
+      // $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        { 'phrase' : $scope.phrase,
+        { 'phrase' : phrase,
           'status' : status,
           'locale' : $stateParams.localeId,
           'docId'  : $stateParams.docId
@@ -81,6 +73,45 @@
     $scope.$on('$destroy', function () {
       $element.unbind('click', onTransUnitClick);
     });
+
+    /**
+     * EventService.EVENT.TRANSLATION_TEXT_MODIFIED listener
+     *
+     */
+    $rootScope.$on(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+      updateSaveButton);
+
+    /**
+     * EventService.EVENT.SAVE_COMPLETED listener
+     *
+     */
+    $rootScope.$on(EventService.EVENT.SAVE_INITIATED,
+      phraseSaving);
+
+    /**
+     * EventService.EVENT.SAVE_COMPLETED listener
+     *
+     */
+    $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
+      updateSaveButton);
+
+
+    function updateSaveButton(event, phrase) {
+      console.log(phrase);
+      if (phrase.id === $scope.phrase.id) {
+        transUnitCtrl.saveButtonStatus =
+          TransUnitService.getSaveButtonStatus($scope.phrase);
+        transUnitCtrl.saveButtonOptions =
+          TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
+        transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;
+      }
+    }
+
+    function phraseSaving(event, phrase) {
+      if (phrase.id === $scope.phrase.id) {
+        transUnitCtrl.saveButtonText = 'Saving…';
+      }
+    }
 
     function onTransUnitClick(event) {
       event.preventDefault();

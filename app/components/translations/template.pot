@@ -59,6 +59,10 @@ msgid "Notifications"
 msgstr ""
 
 #: app/components/transUnit/translation/footer.html
+msgid "Save as"
+msgstr ""
+
+#: app/components/transUnit/translation/footer.html
 msgid "Save as…"
 msgstr ""
 

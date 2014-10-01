@@ -9,8 +9,8 @@
   function TransUnitService($location, $rootScope, $state, $stateParams,
     $filter, MessageHandler, EventService, TransStatusService) {
     var transUnitService = this,
-      controllerList = {},
-      selectedTUId;
+        controllerList = {},
+        selectedTUId;
 
     transUnitService.addController = function(id, controller) {
       controllerList[id] = controller;
@@ -20,7 +20,7 @@
       return phrase.newTranslation !== phrase.translation;
     };
 
-    transUnitService.getSaveStatus = function(phrase) {
+    transUnitService.getSaveButtonStatus = function(phrase) {
       if (phrase.newTranslation === '') {
         return TransStatusService.getStatusInfo('untranslated');
       }
@@ -31,8 +31,8 @@
       }
     };
 
-    transUnitService.getSaveOptions = function(saveStatus) {
-      return filterSaveOptions(saveStatus);
+    transUnitService.getSaveButtonOptions = function(saveButtonStatus) {
+      return filterSaveButtonOptions(saveButtonStatus);
     };
 
     /**
@@ -43,34 +43,36 @@
      */
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
-        var tuController = controllerList[data.id],
-          selectedTUController = controllerList[selectedTUId],
-          updateURL = data.updateURL;
+        var newTuController = controllerList[data.id],
+            oldTUController = controllerList[selectedTUId],
+            updateURL = data.updateURL;
 
-        if(tuController) {
+        if(newTuController) {
           if (selectedTUId && selectedTUId !== data.id) {
             //perform implicit save if changed
             if(transUnitService.isTranslationModified(
-              selectedTUController.getPhrase())) {
+              oldTUController.getPhrase())) {
               EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
                 {
-                  'phrase' : selectedTUController.getPhrase(),
+                  'phrase' : oldTUController.getPhrase(),
                   'status' : TransStatusService.getStatusInfo('TRANSLATED'),
                   'locale' : $stateParams.localeId,
                   'docId'  : $stateParams.docId
                 });
             }
-            setSelected(selectedTUController, false);
+            setSelected(oldTUController, false);
           }
 
+          // updateSaveButton(event, newTuController.getPhrase());
           selectedTUId = data.id;
-          setSelected(tuController, true);
+          setSelected(newTuController, true);
 
           //Update url without reload state
           if(updateURL) {
             $location.search('id', data.id);
             $location.search('selected', data.focus.toString());
           }
+
         } else {
           MessageHandler.displayWarning('Trans-unit not found:' + data.id);
         }
@@ -83,6 +85,8 @@
     $rootScope.$on(EventService.EVENT.COPY_FROM_SOURCE,
       function (event, phrase) {
         phrase.newTranslation = phrase.source;
+        EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+          phrase);
       });
 
     /**
@@ -93,6 +97,8 @@
       function (event, phrase) {
         if (transUnitService.isTranslationModified(phrase)) {
           phrase.newTranslation = phrase.translation;
+          EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+            phrase);
         }
       });
 
@@ -111,6 +117,32 @@
         $location.search('selected', null);
       });
 
+    /**
+     * EventService.EVENT.TRANSLATION_TEXT_MODIFIED listener
+     *
+     */
+    // $rootScope.$on(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+    //   updateSaveButton);
+
+    // /**
+    //  * EventService.EVENT.SAVE_COMPLETED listener
+    //  *
+    //  */
+    // // $rootScope.$on(EventService.EVENT.SAVE_INITIATED,
+    // //   phraseSaving);
+
+    // /**
+    //  * EventService.EVENT.SAVE_COMPLETED listener
+    //  *
+    //  */
+    // $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
+    //   updateSaveButton);
+
+    // function updateSaveButton(event, phrase) {
+    //   var transUnitCtrl = controllerList[phrase.id];
+    //   transUnitCtrl.updateSaveButton();
+    // }
+
     function setSelected(controller, isSelected) {
       controller.selected = isSelected || false;
     }
@@ -123,7 +155,7 @@
      * @param  {Object} saveStatus The current default translation save state
      * @return {Array}             Is used to construct the dropdown list
      */
-    function filterSaveOptions(saveStatus) {
+    function filterSaveButtonOptions(saveStatus) {
       var filteredOptions = [];
       if (saveStatus.ID === 'untranslated') {
         return '';
