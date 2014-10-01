@@ -1,6 +1,12 @@
 (function() {
   'use strict';
 
+  /**
+   * StringUtil
+   *
+   * @ngInject
+   */
+
   function StringUtil() {
     function startsWith(str, prefix, ignoreCase) {
       if (ignoreCase && str && prefix) {
