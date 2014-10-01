@@ -189,6 +189,20 @@
   border-top: 1px solid var(--TransUnit-border-color);
   border-bottom: 1px solid var(--TransUnit-border-color);
   background-color: var(--TransUnit-color-neutral);
+  transition: all .4s linear;
+}
+
+.TransUnit-status.is-loading {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent calc(var(--TransUnit-rhythm) * .25),
+    rgba(255,255,255,.5) calc(var(--TransUnit-rhythm) * .25),
+    rgba(255,255,255,.5) calc(var(--TransUnit-rhythm) * .5)
+  );
+  background-size: 100% 1000px;
+  animation: loading 7s linear;
+  animation-iteration-count: infinite;
 }
 
 
@@ -367,5 +381,14 @@
   .TransUnit-status:after {
     left: 50%;
     margin-left: calc(var(--TransUnit-rhythm) * -.5);
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 1000px;
   }
 }

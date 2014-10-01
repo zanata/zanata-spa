@@ -1,4 +1,4 @@
-<div class="TransUnit TransUnit--{{ phrase.status.CSSCLASS }}"
+<div class="TransUnit TransUnit--{{ transUnitCtrl.savingStatus.CSSCLASS || phrase.status.CSSCLASS }}"
   ng-class="{'is-focused': transUnitCtrl.selected, 'is-first': firstPhrase}">
   <trans-unit-source phrase="phrase" context="editorContext"
     selected="transUnitCtrl.selected"></trans-unit-source>

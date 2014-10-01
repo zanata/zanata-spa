@@ -16,14 +16,14 @@
     </ul>
   </div>
   <div class="u-floatRight">
-    <span ng-show="!transUnitCtrl.saveButtonDisbaled"
+    <span ng-show="!transUnitCtrl.saveButtonDisabled"
           class="u-textMeta u-sMR-1-4 u-floatLeft u-sizeLineHeight-1_1-2" translate>
       Save as
     </span>
     <dropdown class="Dropdown">
       <div class="ButtonGroup ButtonGroup--hz ButtonGroup--borderCollapse">
         <div class="ButtonGroup-item">
-          <button ng-disabled="transUnitCtrl.saveButtonDisbaled"
+          <button ng-disabled="transUnitCtrl.saveButtonDisabled"
             class="Button Button--{{ transUnitCtrl.saveButtonStatus.CSSCLASS }} u-sizeHeight-1_1-2 u-textCapitalize"
             ng-bind="transUnitCtrl.saveButtonText"
             ng-click="transUnitCtrl.saveAs($event, phrase, transUnitCtrl.saveButtonStatus)">

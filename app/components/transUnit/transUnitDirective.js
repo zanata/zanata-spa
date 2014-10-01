@@ -59,6 +59,7 @@
       scope: {
         phrase: '='
       },
+      controller: 'TransUnitCtrl as transUnitCtrl',
       templateUrl: 'components/transUnit/tu-status.html'
     };
   }

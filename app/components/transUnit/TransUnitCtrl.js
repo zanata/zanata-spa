@@ -103,21 +103,23 @@
         transUnitCtrl.saveButtonOptions =
           TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
         transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;
-        transUnitCtrl.saveButtonCssClass =
-          transUnitCtrl.saveButtonStatus.CSSCLASS;
-        transUnitCtrl.saveButtonDisbaled =
+        transUnitCtrl.saveButtonDisabled =
           !TransUnitService.isTranslationModified(phrase);
+        transUnitCtrl.loadingClass = '';
+        transUnitCtrl.savingStatus = '';
       }
     }
 
     function phraseSaving(event, data) {
       console.log(data.status);
       if (data.phrase.id === $scope.phrase.id) {
-        transUnitCtrl.saveButtonStatus = data.status;
+        transUnitCtrl.loadingClass = 'is-loading';
+        transUnitCtrl.saveButtonStatus =
+            transUnitCtrl.savingStatus = data.status;
         transUnitCtrl.saveButtonOptions =
           TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
         transUnitCtrl.saveButtonText = 'Saving…';
-        transUnitCtrl.saveButtonDisbaled = true;
+        transUnitCtrl.saveButtonDisabled = true;
       }
     }
 
