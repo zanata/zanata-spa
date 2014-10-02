@@ -3,7 +3,7 @@
     class="u-textMuted u-textUpper">{{editorContext.srcLocale.localeId}}</span>
   </h3>
   <ul class="TransUnit-panelHeaderActions u-listHorizontal">
-    <li>
+    <li ng-show="appCtrl.PRODUCTION">
       <button class="Link Link--neutral u-sizeHeight-1_1-2"
         title="{{'Do not translate'|translate}}">
         <icon name="block" title="{{'Do not translate'|translate}}" class="u-sizeWidth-1_1-2"></icon>

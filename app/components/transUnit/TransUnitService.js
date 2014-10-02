@@ -7,7 +7,7 @@
    * @ngInject
    */
   function TransUnitService($location, $rootScope, $state, $stateParams,
-    $filter, MessageHandler, EventService, TransStatusService) {
+    $filter, MessageHandler, EventService, TransStatusService, PRODUCTION) {
     var transUnitService = this,
         controllerList = {},
         selectedTUId;
@@ -171,8 +171,10 @@
       } else {
         filteredOptions = $filter('filter')
           (TransStatusService.getAllAsArray(), {ID: '!untranslated'});
-        filteredOptions = $filter('filter')
-          (filteredOptions, {ID: '!approved'});
+        if (PRODUCTION) {
+          filteredOptions = $filter('filter')
+            (filteredOptions, {ID: '!approved'});
+        }
         return $filter('filter')(filteredOptions, {ID: '!'+saveStatus.ID});
       }
     }

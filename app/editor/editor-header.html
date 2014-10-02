@@ -1,12 +1,11 @@
-<a href="/" class="Editor-loader"
+<a href="dashboard" class="Editor-loader"
   ng-class="{'is-minimised': editor.settings.hideMainNav}">
   <logo-loader loading="app.loading"
-               inverted="editor.settings.hideMainNav"
-               ng-click="app.loading = !app.loading"/>
+               inverted="editor.settings.hideMainNav"/>
 </a>
 <header role="banner" class="Header Editor-header"
   ng-class="{'is-minimised': editor.settings.hideMainNav}">
-  <nav role="navigation"                   1
+  <nav role="navigation"
     class="Editor-mainNav u-posRelative u-textCenter">
     <div class="u-posAbsoluteLeft">
       <a
@@ -74,12 +73,12 @@
           </ul>
         </dropdown>
       </li>
-      <li>
+      <li ng-show="appCtrl.PRODUCTION">
         <button class="Link--invert Header-item u-sizeWidth-1_1-2"
           title="{{'More'|translate}}"><icon name="ellipsis"/><span
           class="u-hiddenVisually" translate>More</span></button>
       </li>
-      <li>
+      <li ng-show="appCtrl.PRODUCTION">
         <button class="Link--invert Header-item u-sizeWidth-1_1-2"
           title="{{'Notifications'|translate}}">
           <icon name="notification" title="{{'Notifications'|translate}}"/>
@@ -133,7 +132,7 @@
             <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-needs-work">
             <label class="Toggle-label" for="filter-phrases-needs-work" title="{{'Needs Work'|translate}}">
               <icon name="dot" class="Icon--xsm"/></icon>
-              <span ng-bind="editor.messageStatistic.needReview">0</span>
+              <span ng-bind="editor.messageStatistic.needswork">0</span>
               <span class="u-hiddenVisually" translate>Needs Work</span>
             </label>
           </div>
@@ -147,13 +146,13 @@
               <span class="u-hiddenVisually" translate>Untranslated</span>
             </label>
           </div>
-        <li class="u-sML-1-4">
+        <li ng-show="appCtrl.PRODUCTION" class="u-sML-1-4">
           <button class="Link--neutral u-sizeHeight-1_1-2"
             title="{{'Filters'|translate}}">
             <icon name="filter" title="{{'Filters'|translate}}" class="u-sizeWidth-1_1-2"></icon>
           </button>
         </li>
-        <li>
+        <li ng-show="appCtrl.PRODUCTION">
           <button class="Link--neutral u-sizeHeight-1_1-2"
             title="{{'Search'|translate}}">
             <icon name="search" title="{{'Search'|translate}}" class="u-sizeWidth-1_1-2"></icon>
@@ -178,25 +177,25 @@
             <icon name="chevron-right" title="Next page" class="u-sizeWidth-1_1-2"></icon>
           </a>
         </li>
-        <li>
+        <li ng-show="appCtrl.PRODUCTION">
           <button class="Link--neutral u-sizeHeight-1_1-2"
             title="{{'Translation Memory'|translate}}">
             <icon name="suggestions" title="{{'Translation Memory'|translate}}" class="u-sizeWidth-1_1-2"></icon>
           </button>
         </li>
-        <li>
+        <li ng-show="appCtrl.PRODUCTION">
           <button class="Link--neutral u-sizeHeight-1_1-2"
             title="{{'Details'|translate}}">
             <icon name="info" title="{{'Details'|translate}}" class="u-sizeWidth-1_1-2"></icon>
           </button>
         </li>
-        <li>
+        <li ng-show="appCtrl.PRODUCTION">
           <button class="Link--neutral u-sizeHeight-1_1-2"
             title="{{'Glossary'|translate}}">
             <icon name="glossary" title="{{'Glossary'|translate}}" class="u-sizeWidth-1_1-2"></icon>
           </button>
         </li>
-        <li>
+        <li ng-show="appCtrl.PRODUCTION">
           <button class="Link--neutral u-sizeHeight-1_1-2"
           title="{{'Editor Settings'|translate}}">
             <icon name="settings" title="{{'Editor Settings'|translate}}" class="u-sizeWidth-1_1-2"></icon>
