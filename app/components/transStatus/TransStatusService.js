@@ -84,14 +84,12 @@
      * @return {string}        new value to use
      */
     function serverStatusId(statusId) {
-      statusId =
-        statusId.charAt(0).toUpperCase() + statusId.slice(1).toLowerCase();
       if (!statusId) {
         return 'Untranslated';
-      } else if (statusId === 'Needswork') {
+      } else if (statusId.toLowerCase() === 'needswork') {
         return 'NeedReview';
       }
-      return statusId;
+      return statusId.charAt(0).toUpperCase() + statusId.slice(1).toLowerCase();
     }
 
     return transStatusService;
