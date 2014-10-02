@@ -93,6 +93,10 @@
       transUnitCtrl.saveButtonDisabled = true;
     };
 
+    transUnitCtrl.saveButtonOptionsAvailable = function() {
+      return !_.isEmpty(transUnitCtrl.saveButtonOptions);
+    };
+
     function onTransUnitClick() {
       if(!transUnitCtrl.selected) {
         $scope.$apply(function () {

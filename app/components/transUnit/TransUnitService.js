@@ -167,10 +167,12 @@
     function filterSaveButtonOptions(saveStatus) {
       var filteredOptions = [];
       if (saveStatus.ID === 'untranslated') {
-        return '';
+        return [];
       } else {
         filteredOptions = $filter('filter')
           (TransStatusService.getAllAsArray(), {ID: '!untranslated'});
+        filteredOptions = $filter('filter')
+          (filteredOptions, {ID: '!approved'});
         return $filter('filter')(filteredOptions, {ID: '!'+saveStatus.ID});
       }
     }

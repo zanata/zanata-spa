@@ -30,7 +30,7 @@
           </button>
         </div>
         <div class="ButtonGroup-item"
-          ng-show="transUnitCtrl.saveButtonOptions">
+          ng-show="transUnitCtrl.saveButtonOptionsAvailable()">
           <button dropdown-toggle
             class="Button Button--{{ transUnitCtrl.saveButtonStatus.CSSCLASS }} Button--snug u-sizeHeight-1_1-2 Dropdown-toggle"
             title="{{'Save as…'|translate}}">
