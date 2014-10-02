@@ -86,9 +86,7 @@
      */
     $rootScope.$on(EventService.EVENT.COPY_FROM_SOURCE,
       function (event, phrase) {
-        phrase.newTranslation = phrase.source;
-        EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
-          phrase);
+        modifyTranslationText(phrase, phrase.source);
       });
 
     /**
@@ -98,9 +96,7 @@
     $rootScope.$on(EventService.EVENT.UNDO_EDIT,
       function (event, phrase) {
         if (transUnitService.isTranslationModified(phrase)) {
-          phrase.newTranslation = phrase.translation;
-          EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
-            phrase);
+          modifyTranslationText(phrase, phrase.translation);
         }
       });
 
@@ -139,6 +135,12 @@
       */
     $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
        updateSaveButton);
+
+    function modifyTranslationText(phrase, newText) {
+      phrase.newTranslation = newText;
+      EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+        phrase);
+    }
 
     function updateSaveButton(event, phrase) {
        var transUnitCtrl = controllerList[phrase.id];

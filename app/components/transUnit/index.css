@@ -91,7 +91,9 @@
   right: 0;
   left: 0;
   visibility: hidden;
-  /* TODO: Work out why random height needed for button */
+  /* a “Magic number” which I don't like, but it seems to be needed because
+     of borders extending the height of the buttons and this is the most
+     consistent work around. */
   height: 2.38rem;
   padding-right: calc(var(--TransUnit-rhythm) * .5);
   padding-left: calc(var(--TransUnit-rhythm) * .5);
