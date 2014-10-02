@@ -6,7 +6,7 @@
    * @ngInject
    */
   function EditorCtrl(UserService, DocumentService, LocaleService,
-    ProjectService, TransUnitService, EditorService,
+    ProjectService, TransUnitService, EditorService, TransStatusService,
     StatisticUtil, $stateParams, $state, MessageHandler, $rootScope,
     EventService) {
     var editorCtrl = this;
@@ -155,6 +155,9 @@
               .getWordStatistic(statistics);
             editorCtrl.messageStatistic = StatisticUtil
               .getMsgStatistic(statistics);
+            // Make needReview(server) available to needswork
+            editorCtrl.messageStatistic[TransStatusService.getId('needswork')] =
+              editorCtrl.messageStatistic.needReview || 0;
           },
           function(error) {
             MessageHandler.displayError('Error loading statistic: ' + error);
