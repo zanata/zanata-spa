@@ -59,8 +59,8 @@
 .Editor-translations {
   min-height: 100%;
   padding: calc(var(--Editor-rhythm) * 1.5) 0 calc(var(--Editor-rhythm) * 1.5);
+  background: linear-gradient(left, var(--Editor-color-status-bg), var(--Editor-color-status-bg));
   background-position: left center;
-  background-image: linear-gradient(left, var(--Editor-color-status-bg), var(--Editor-color-status-bg));
   background-size: var(--rhythm) 100%;
   background-repeat: no-repeat;
 }
@@ -85,15 +85,15 @@
 
 @media (--gtemd-viewport) {
   .Editor-translations {
+    background:
+      linear-gradient(to right, var(--Editor-color-status-bg), var(--Editor-color-status-bg)),
+      linear-gradient(to right, var(--Editor-color-translation-bg), var(--Editor-color-translation-bg));
     background-position:
-      center center;
-    background-image:
-      linear-gradient(left, var(--Editor-color-status-bg), var(--Editor-color-status-bg)),
-      linear-gradient(left, transparent 0%, transparent 50%,
-        var(--Editor-color-translation-bg) 50%, var(--Editor-color-translation-bg) 100%);
+      center,
+      right;
     background-size:
       var(--rhythm) 100%,
-      100% 100%;
+      50% 100%;
     background-repeat:
       no-repeat;
   }

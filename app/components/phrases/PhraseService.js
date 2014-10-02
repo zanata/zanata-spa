@@ -7,20 +7,11 @@
    *
    * @ngInject
    */
-  function PhraseService(TransUnitService, FilterUtil, PhraseCache, _) {
-    var phraseService = {},
-      stateCssClass =  {};
+  function PhraseService(TransUnitService, FilterUtil, PhraseCache,
+    TransStatusService, _) {
+    var phraseService = {};
 
     phraseService.phrases = []; //current displayed phrases
-
-    stateCssClass[TransUnitService.TU_STATE.UNTRANSLATED.toLowerCase()] =
-      'untranslated';
-    stateCssClass[TransUnitService.TU_STATE.NEED_REVIEW.toLowerCase()] =
-      'needsWork';
-    stateCssClass[TransUnitService.TU_STATE.APPROVED.toLowerCase()] =
-      'approved';
-    stateCssClass[TransUnitService.TU_STATE.TRANSLATED.toLowerCase()] =
-      'translated';
 
     // FIXME use an object for all the ID arguments - in general we will only
     // need to modify such an object sporadically when switching document
@@ -48,8 +39,8 @@
 
       function getTransUnits(states) {
         var ids = getIds(states, filter.states);
-        if (offset) {
-          if(maxResult) {
+        if (!isNaN(offset)) {
+          if(!isNaN(maxResult)) {
             ids = ids.slice(offset, offset + maxResult);
           } else {
             ids = ids.slice(offset);
@@ -66,25 +57,28 @@
        * editor.
        */
       function transformToPhrases(transUnits) {
-        var phrases = [];
-
-        for (var id in transUnits) {
-          var source = transUnits[id].source,
-            trans = transUnits[id][localeId];
-          phrases.push({
+        return _.map(transUnits, function(transUnit, id) {
+          var source = transUnit.source,
+              trans = transUnit[localeId];
+          return {
             id: parseInt(id),
-            // TODO handle plural content
+            // TODO: handle plural content
             source: source.content,
-            translation: trans ? trans.content : '',//original translation
-            newTranslation: trans ? trans.content : '',//translation from editor
-            status: trans ? trans.state :
-              TransUnitService.TU_STATE.UNTRANSLATED,
+            sources: source.contents,
+            // Original translation
+            translation: trans ? trans.content : '',
+            translations: trans ? trans.contents : '',
+            // Translation from editor
+            newTranslation: trans ? trans.content : '',
+            newTranslations: trans ? trans.contents : '',
+            plural: source.plural,
+            // Conform the status from the server, return an object
+            status: TransStatusService.getStatusInfo(
+              trans ? trans.state : 'UNTRANSLATED'),
             revision: trans ? parseInt(trans.revision) : 0,
-            statusClass: getStatusClass(trans),
             wordCount: parseInt(source.wordCount)
-          });
-        }
-        return phrases;
+          };
+        });
       }
 
       function sortPhrases(phrases) {
@@ -101,10 +95,11 @@
       }
     };
 
-    //update phrase,states and textFlows with given tu id
+    //update phrase,statuses and textFlows with given tu id
     phraseService.onTransUnitUpdated = function(id, localeId, revision,
-                                                state, content, contents) {
-      PhraseCache.onTransUnitUpdated(id, localeId, revision, state, content,
+      status, content, contents) {
+
+      PhraseCache.onTransUnitUpdated(id, localeId, revision, status, content,
         contents);
 
       var phrase = findPhrase(id, phraseService.phrases);
@@ -112,9 +107,7 @@
       if(phrase) {
         phrase.translation = content;
         phrase.revision = revision;
-        phrase.status = state;
-        phrase.statusClass = stateCssClass[state.toLowerCase()] ||
-          'untranslated';
+        phrase.status = TransStatusService.getStatusInfo(status);
       }
     };
 
@@ -140,15 +133,6 @@
         return item.id;
       });
     }
-
-    function getStatusClass(trans) {
-      if(!trans) {
-        return 'untranslated';
-      }
-      var cssClass = stateCssClass[trans.state.toLowerCase()];
-      return cssClass || 'untranslated';
-    }
-
 
     // Does not appear to be used anywhere. Removing until phrase-caching code
     // is added.

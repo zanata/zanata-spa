@@ -100,7 +100,7 @@
     }
 
     /**
-     * Adjust statistic based on translatio change of state
+     * Adjust statistic based on translation change of state
      * word - -wordCount of oldState, +wordCount of newState
      * msg - -1 of oldState, +1 of newState
      */

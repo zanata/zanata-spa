@@ -6,7 +6,7 @@
    * @ngInject
    */
   function EditorCtrl(UserService, DocumentService, LocaleService,
-    ProjectService, TransUnitService, SaveTranslationService, EditorService,
+    ProjectService, TransUnitService, EditorService,
     StatisticUtil, $stateParams, $state, MessageHandler, $rootScope,
     EventService) {
     var editorCtrl = this;

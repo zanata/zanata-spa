@@ -16,15 +16,16 @@
      * @returns {$promise|*|N.$promise}
      */
     function getProjectInfo(projectSlug) {
-      var Locales = $resource(UrlService.PROJECT_URL, {}, {
-        query: {
-          method: 'GET',
-          params: {
-            projectSlug: projectSlug
+      var methods = {
+          query: {
+            method: 'GET',
+            params: {
+              projectSlug: projectSlug
+            }
           }
-        }
-      });
+        };
 
+      var Locales = $resource(UrlService.PROJECT_URL, {}, methods);
       return Locales.query().$promise;
     }
 

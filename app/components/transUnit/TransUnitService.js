@@ -2,25 +2,37 @@
   'use strict';
 
   /**
-   * TransUnitService.js
+   * TransUnitService
    *
    * @ngInject
    */
   function TransUnitService($location, $rootScope, $state, $stateParams,
-    MessageHandler, EventService) {
+    $filter, MessageHandler, EventService, TransStatusService) {
     var transUnitService = this,
-      controllerList = {},
-      selectedTUId;
+        controllerList = {},
+        selectedTUId;
 
     transUnitService.addController = function(id, controller) {
       controllerList[id] = controller;
     };
 
-    transUnitService.TU_STATE = {
-      'TRANSLATED' : 'translated',
-      'NEED_REVIEW': 'needReview',
-      'APPROVED': 'approved',
-      'UNTRANSLATED': 'untranslated'
+    transUnitService.isTranslationModified = function(phrase) {
+      return phrase.newTranslation !== phrase.translation;
+    };
+
+    transUnitService.getSaveButtonStatus = function(phrase) {
+      if (phrase.newTranslation === '') {
+        return TransStatusService.getStatusInfo('untranslated');
+      }
+      else if (phrase.translation !== phrase.newTranslation) {
+        return TransStatusService.getStatusInfo('translated');
+      } else {
+        return phrase.status;
+      }
+    };
+
+    transUnitService.getSaveButtonOptions = function(saveButtonStatus) {
+      return filterSaveButtonOptions(saveButtonStatus);
     };
 
     /**
@@ -31,33 +43,38 @@
      */
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
-        var tuController = controllerList[data.id],
-          selectedTUController = controllerList[selectedTUId],
-          updateURL = data.updateURL;
+        var newTuController = controllerList[data.id],
+            oldTUController = controllerList[selectedTUId],
+            updateURL = data.updateURL;
 
-        if(tuController) {
+        if(newTuController) {
           if (selectedTUId && selectedTUId !== data.id) {
             //perform implicit save if changed
-            if(isTranslationModified(selectedTUController.getPhrase())) {
+            if(transUnitService.isTranslationModified(
+              oldTUController.getPhrase())) {
               EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
                 {
-                  'phrase' : selectedTUController.getPhrase(),
-                  'state'  : transUnitService.TU_STATE.TRANSLATED,
+                  'phrase' : oldTUController.getPhrase(),
+                  'status' : TransStatusService.getStatusInfo('TRANSLATED'),
                   'locale' : $stateParams.localeId,
                   'docId'  : $stateParams.docId
                 });
             }
-            setSelected(selectedTUController, false);
+            setSelected(oldTUController, false);
           }
 
+          updateSaveButton(event, newTuController.getPhrase());
           selectedTUId = data.id;
-          setSelected(tuController, true);
+          setSelected(newTuController, true);
 
           //Update url without reload state
           if(updateURL) {
-            $location.search('id', data.id);
-            $location.search('selected', data.focus.toString());
+            $state.go('editor.selectedContext.tu', {
+              'id': data.id,
+              'selected': data.focus.toString()
+            });
           }
+
         } else {
           MessageHandler.displayWarning('Trans-unit not found:' + data.id);
         }
@@ -69,7 +86,18 @@
      */
     $rootScope.$on(EventService.EVENT.COPY_FROM_SOURCE,
       function (event, phrase) {
-        phrase.newTranslation = phrase.source;
+        modifyTranslationText(phrase, phrase.source);
+      });
+
+    /**
+     * EventService.EVENT.UNDO_EDIT listener
+     * Cancel edit and restore translation
+     */
+    $rootScope.$on(EventService.EVENT.UNDO_EDIT,
+      function (event, phrase) {
+        if (transUnitService.isTranslationModified(phrase)) {
+          modifyTranslationText(phrase, phrase.translation);
+        }
       });
 
     /**
@@ -78,7 +106,7 @@
      */
     $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
       function (event, phrase) {
-        if (isTranslationModified(phrase)) {
+        if (transUnitService.isTranslationModified(phrase)) {
           phrase.newTranslation = phrase.translation;
         }
         setSelected(controllerList[selectedTUId], false);
@@ -87,12 +115,66 @@
         $location.search('selected', null);
       });
 
+    /**
+     * EventService.EVENT.TRANSLATION_TEXT_MODIFIED listener
+     *
+     */
+    $rootScope.$on(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+       updateSaveButton);
+
+    /**
+      * EventService.EVENT.SAVE_COMPLETED listener
+      *
+      */
+    $rootScope.$on(EventService.EVENT.SAVE_INITIATED,
+       phraseSaving);
+
+    /**
+      * EventService.EVENT.SAVE_COMPLETED listener
+      *
+      */
+    $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
+       updateSaveButton);
+
+    function modifyTranslationText(phrase, newText) {
+      phrase.newTranslation = newText;
+      EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+        phrase);
+    }
+
+    function updateSaveButton(event, phrase) {
+       var transUnitCtrl = controllerList[phrase.id];
+       transUnitCtrl.updateSaveButton(phrase);
+    }
+
+    function phraseSaving(event, data) {
+      var transUnitCtrl = controllerList[data.phrase.id];
+      transUnitCtrl.phraseSaving(data);
+    }
+
     function setSelected(controller, isSelected) {
       controller.selected = isSelected || false;
     }
 
-    function isTranslationModified(phrase) {
-      return phrase.newTranslation !== phrase.translation;
+    /**
+     * Filters the dropdown options for saving a translation
+     * Unless the translation is empty, remove untranslated as an option
+     * Filter the current default save state out of the list and show remaining
+     *
+     * @param  {Object} saveStatus The current default translation save state
+     * @return {Array}             Is used to construct the dropdown list
+     */
+    function filterSaveButtonOptions(saveStatus) {
+      var filteredOptions = [];
+      if (saveStatus.ID === 'untranslated') {
+        return [];
+      } else {
+        filteredOptions = $filter('filter')
+          (TransStatusService.getAllAsArray(), {ID: '!untranslated'});
+        filteredOptions = $filter('filter')
+          (filteredOptions, {ID: '!approved'});
+        return $filter('filter')(filteredOptions, {ID: '!'+saveStatus.ID});
+      }
     }
 
     return transUnitService;

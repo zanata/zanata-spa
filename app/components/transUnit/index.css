@@ -91,8 +91,10 @@
   right: 0;
   left: 0;
   visibility: hidden;
-/*  box-sizing: content-box;*/
-  height: calc(var(--TransUnit-rhythm) * 1.6);
+  /* a “Magic number” which I don't like, but it seems to be needed because
+     of borders extending the height of the buttons and this is the most
+     consistent work around. */
+  height: 2.38rem;
   padding-right: calc(var(--TransUnit-rhythm) * .5);
   padding-left: calc(var(--TransUnit-rhythm) * .5);
   cursor: default;
@@ -189,6 +191,20 @@
   border-top: 1px solid var(--TransUnit-border-color);
   border-bottom: 1px solid var(--TransUnit-border-color);
   background-color: var(--TransUnit-color-neutral);
+  transition: all .4s linear;
+}
+
+.TransUnit-status.is-loading {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent calc(var(--TransUnit-rhythm) * .25),
+    rgba(255,255,255,.5) calc(var(--TransUnit-rhythm) * .25),
+    rgba(255,255,255,.5) calc(var(--TransUnit-rhythm) * .5)
+  );
+  background-size: 100% 1000px;
+  animation: loading 7s linear;
+  animation-iteration-count: infinite;
 }
 
 
@@ -202,9 +218,9 @@
   background-color: var(--TransUnit-color-highlight);
 }
 
-.TransUnit--translated .TransUnit-status,
-.TransUnit--translated .TransUnit-status:before,
-.TransUnit--translated .TransUnit-status:after {
+.TransUnit--success .TransUnit-status,
+.TransUnit--success .TransUnit-status:before,
+.TransUnit--success .TransUnit-status:after {
   background-color: var(--TransUnit-color-success);
 }
 
@@ -367,5 +383,14 @@
   .TransUnit-status:after {
     left: 50%;
     margin-left: calc(var(--TransUnit-rhythm) * -.5);
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 1000px;
   }
 }

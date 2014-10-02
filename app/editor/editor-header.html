@@ -62,12 +62,12 @@
       <li>
         <dropdown class="Dropdown Dropdown--right u-sMV-1-2">
           <a dropdown-toggle
-            class="Dropdown-toggle Link--invert u-inlineBlock u-sizeWidth-1_1-2"
+            class="Dropdown-toggle Link--invert u-inlineBlock u-textNoWrap u-sPH-1-4"
             ng-bind="editor.getLocaleName(app.myInfo.locale.localeId)"/>
           </a>
           <ul class="Dropdown-content Dropdown-content--bordered">
             <li ng-repeat="locale in app.uiLocaleList">
-              <a ng-click="app.onChangeUILocale(locale)" class="Dropdown-item">
+              <a ng-click="app.onChangeUILocale(locale)" class="Dropdown-item u-textNoWrap u-textRight">
                 <span ng-bind="editor.getLocaleName(locale.localeId)"></span>
               </a>
             </li>
@@ -103,7 +103,7 @@
           <div class="Toggle u-round u-textSecondary">
             <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-total" checked>
             <label class="Toggle-label" for="filter-phrases-total" title="{{'Total Phrases'|translate}}">
-              <span ng-bind="editor.wordStatistic.total">0</span>
+              <span ng-bind="editor.messageStatistic.total">0</span>
               <span class="u-hiddenVisually" translate>Total Phrases</span>
             </label>
           </div>
@@ -113,7 +113,7 @@
             <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-approved">
             <label class="Toggle-label" for="filter-phrases-approved" title="{{'Approved'|translate}}">
               <icon name="dot" class="Icon--xsm"/></icon>
-              <span ng-bind="editor.wordStatistic.approved">0</span>
+              <span ng-bind="editor.messageStatistic.approved">0</span>
               <span class="u-hiddenVisually" translate>Approved</span>
             </label>
           </div>
@@ -123,7 +123,7 @@
             <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-translated">
             <label class="Toggle-label" for="filter-phrases-translated" title="{{'Translated'|translate}}">
               <icon name="dot" class="Icon--xsm"/></icon>
-              <span ng-bind="editor.wordStatistic.translated">0</span>
+              <span ng-bind="editor.messageStatistic.translated">0</span>
               <span class="u-hiddenVisually" translate>Translated</span>
             </label>
           </div>
@@ -133,7 +133,7 @@
             <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-needs-work">
             <label class="Toggle-label" for="filter-phrases-needs-work" title="{{'Needs Work'|translate}}">
               <icon name="dot" class="Icon--xsm"/></icon>
-              <span ng-bind="editor.wordStatistic.needsWork">0</span>
+              <span ng-bind="editor.messageStatistic.needReview">0</span>
               <span class="u-hiddenVisually" translate>Needs Work</span>
             </label>
           </div>
@@ -143,7 +143,7 @@
             <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-untranslated">
             <label class="Toggle-label" for="filter-phrases-untranslated" title="{{'Untranslated'|translate}}">
               <icon name="dot" class="Icon--xsm"/></icon>
-              <span ng-bind="editor.wordStatistic.untranslated">0</span>
+              <span ng-bind="editor.messageStatistic.untranslated">0</span>
               <span class="u-hiddenVisually" translate>Untranslated</span>
             </label>
           </div>
@@ -214,6 +214,6 @@
       </ul>
     </div>
   </nav>
-  <progressbar progressbar-statistic="editor.wordStatistic"></progressbar>
+  <progressbar progressbar-statistic="editor.messageStatistic"></progressbar>
 
 </header>

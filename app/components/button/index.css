@@ -144,6 +144,7 @@
 /* Neutral */
 
 .Button--neutral {
+  color: var(--Button-color-text-invert);
   background-color: var(--Button-color-neutral);
 }
 

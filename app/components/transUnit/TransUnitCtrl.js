@@ -5,19 +5,27 @@
    * TransUnitCtrl.js
    * @ngInject
    */
-  function TransUnitCtrl($scope, $element, $stateParams,
-                         TransUnitService, EventService) {
+  function TransUnitCtrl($scope, $element, $stateParams, _, TransUnitService,
+    EventService, LocaleService) {
+
     var transUnitCtrl = this;
+
     transUnitCtrl.selected = false;
+
+    transUnitCtrl.isTranslationModified =
+      TransUnitService.isTranslationModified;
+
+    transUnitCtrl.translationTextModified = function(phrase) {
+      EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+          phrase);
+    };
 
     transUnitCtrl.getPhrase = function() {
       return $scope.phrase;
     };
 
-
     transUnitCtrl.init = function() {
       TransUnitService.addController($scope.phrase.id, transUnitCtrl);
-
       if($stateParams.id && parseInt($stateParams.id) === $scope.phrase.id) {
         EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
           {'id': $stateParams.id,
@@ -26,21 +34,80 @@
       }
     };
 
+    transUnitCtrl.copySource = function($event, phrase) {
+      $event.stopPropagation(); //prevent click event of TU
+      EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
+        phrase, $scope);
+    };
+
+    transUnitCtrl.undoEdit = function($event, phrase) {
+      $event.stopPropagation(); //prevent click event of TU
+      EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
+        phrase, $scope);
+    };
+
+    transUnitCtrl.cancelEdit = function($event, phrase) {
+      $event.stopPropagation(); //prevent click event of TU
+      EventService.emitEvent(EventService.EVENT.CANCEL_EDIT,
+        phrase, $scope);
+    };
+
+    transUnitCtrl.saveAs = function($event, phrase, status) {
+      EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+        { 'phrase' : phrase,
+          'status' : status,
+          'locale' : $stateParams.localeId,
+          'docId'  : $stateParams.docId
+        }, $scope);
+    };
+
+    transUnitCtrl.getLocaleName = function(localeId) {
+      return LocaleService.getName(localeId);
+    };
+
     $element.bind('click', onTransUnitClick);
 
     $scope.$on('$destroy', function () {
       $element.unbind('click', onTransUnitClick);
     });
 
-    function onTransUnitClick(event) {
-      event.preventDefault();
-      $scope.$apply(function () {
-        EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-          {'id': $scope.phrase.id,
-            'updateURL': true,
-            'focus': true}, $scope);
-      });
+    transUnitCtrl.updateSaveButton = function (phrase) {
+      transUnitCtrl.saveButtonStatus =
+        TransUnitService.getSaveButtonStatus($scope.phrase);
+      transUnitCtrl.saveButtonOptions =
+        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
+      transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;
+      transUnitCtrl.saveButtonDisabled =
+        !TransUnitService.isTranslationModified(phrase);
+      transUnitCtrl.loadingClass = '';
+      transUnitCtrl.savingStatus = '';
+    };
+
+    transUnitCtrl.phraseSaving = function (data) {
+      transUnitCtrl.loadingClass = 'is-loading';
+      transUnitCtrl.saveButtonStatus =
+        transUnitCtrl.savingStatus = data.status;
+      transUnitCtrl.saveButtonOptions =
+        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
+      transUnitCtrl.saveButtonText = 'Saving…';
+      transUnitCtrl.saveButtonDisabled = true;
+    };
+
+    transUnitCtrl.saveButtonOptionsAvailable = function() {
+      return !_.isEmpty(transUnitCtrl.saveButtonOptions);
+    };
+
+    function onTransUnitClick() {
+      if(!transUnitCtrl.selected) {
+        $scope.$apply(function () {
+          EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+            {'id': $scope.phrase.id,
+              'updateURL': true,
+              'focus': true}, $scope);
+        });
+      }
     }
+
     return transUnitCtrl;
   }
 

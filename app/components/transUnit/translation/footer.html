@@ -16,27 +16,33 @@
     </ul>
   </div>
   <div class="u-floatRight">
-    <span class="u-textMeta u-sMR-1-4">Save as</span>
+    <span ng-show="!transUnitCtrl.saveButtonDisabled"
+          class="u-textMeta u-sMR-1-4 u-floatLeft u-sizeLineHeight-1_1-2" translate>
+      Save as
+    </span>
     <dropdown class="Dropdown">
       <div class="ButtonGroup ButtonGroup--hz ButtonGroup--borderCollapse">
         <div class="ButtonGroup-item">
-          <button class="Button Button--default Button--success u-sizeHeight-1_1-2"
-            title="Ctrl + Enter" ng-click="translationCtrl.saveAsTranslated($event)" translate>Translated
+          <button ng-disabled="transUnitCtrl.saveButtonDisabled"
+            class="Button Button--{{ transUnitCtrl.saveButtonStatus.CSSCLASS }} u-sizeHeight-1_1-2 u-textCapitalize"
+            ng-bind="transUnitCtrl.saveButtonText"
+            ng-click="transUnitCtrl.saveAs($event, phrase, transUnitCtrl.saveButtonStatus)">
           </button>
         </div>
-        <div class="ButtonGroup-item">
+        <div class="ButtonGroup-item"
+          ng-show="transUnitCtrl.saveButtonOptionsAvailable()">
           <button dropdown-toggle
-            class="Button Button--success Button--snug u-sizeHeight-1_1-2 Dropdown-toggle"
+            class="Button Button--{{ transUnitCtrl.saveButtonStatus.CSSCLASS }} Button--snug u-sizeHeight-1_1-2 Dropdown-toggle"
             title="{{'Save as…'|translate}}">
             <icon name="chevron-down" title="{{'Save as…'|translate}}" class="Icon--sm Dropdown-toggleIcon"></icon>
           </button>
         </div>
       </div>
       <ul class="Dropdown-content">
-        <li>
-          <button class="Button Button--unsure u-sizeFull u-textLeft u-sizeHeight-1_1-2"
-            ng-click="translationCtrl.saveAsNeedsWork($event)" translate>Needs work
-        </button>
+        <li ng-repeat="status in transUnitCtrl.saveButtonOptions">
+          <button class="Button Button--{{status.CSSCLASS}} u-sizeFull u-textLeft u-sizeHeight-1_1-2"
+            ng-click="transUnitCtrl.saveAs($event, phrase, status)" ng-bind="status.NAME">
+          </button>
         </li>
       </ul>
     </dropdown>

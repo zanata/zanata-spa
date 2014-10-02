@@ -1,5 +1,3 @@
-<div class="TransUnit-panel TransUnit-source">
-  <ng-include src="'components/transUnit/source/header.html'" ng-if="selected"></ng-include>
-  <div class="TransUnit-text" ng-bind="phrase.source"></div>
-  <ng-include src="'components/transUnit/source/footer.html'" ng-if="selected"></ng-include>
-</div>
+<ng-include src="'components/transUnit/source/header.html'" ng-if="transUnitCtrl.selected"></ng-include>
+<div class="TransUnit-text" ng-bind="phrase.source"></div>
+<ng-include src="'components/transUnit/source/footer.html'" ng-if="transUnitCtrl.selected"></ng-include>

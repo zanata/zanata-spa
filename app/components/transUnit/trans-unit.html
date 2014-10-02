@@ -1,10 +1,10 @@
-<div class="TransUnit TransUnit--{{ phrase.statusClass }}"
+<div class="TransUnit TransUnit--{{ transUnitCtrl.savingStatus.CSSCLASS || phrase.status.CSSCLASS }}"
   ng-class="{'is-focused': transUnitCtrl.selected, 'is-first': firstPhrase}">
-  <trans-unit-source phrase="phrase" context="editorContext"
-    selected="transUnitCtrl.selected"></trans-unit-source>
 
-  <trans-unit-status phrase="phrase"></trans-unit-status>
+  <div class="TransUnit-panel TransUnit-source" ng-include="'components/transUnit/source/source.html'"></div>
 
-  <trans-unit-translation phrase="phrase" context="editorContext"
-    selected="transUnitCtrl.selected"></trans-unit-translation>
+  <div class="TransUnit-status {{transUnitCtrl.loadingClass}}" ng-include="'components/transUnit/tu-status.html'"></div>
+
+  <div class="TransUnit-panel TransUnit-translation" ng-include="'components/transUnit/translation/translation.html'"></div>
+
 </div>

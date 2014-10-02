@@ -1,18 +1,24 @@
 <div class="TransUnit-panelHeader">
-  <h3 class="TransUnit-Heading">{{translationCtrl.getLocaleName(context.localeId)}} <span
-    class="u-textMuted u-textUpper">{{context.localeId}}</span></h3>
+  <h3 class="TransUnit-Heading">{{transUnitCtrl.getLocaleName(editorContext.localeId)}} <span
+    class="u-textMuted u-textUpper">{{editorContext.localeId}}</span></h3>
   <ul class="TransUnit-panelHeaderActions u-listHorizontal">
     <li>
       <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-        title="Copy {{context.srcLocale.name}} ({{context.srcLocale.localeId}})"
-        ng-click="translationCtrl.copySource($event)">
-        <icon name="copy" title="Copy {{context.srcLocale.name}} ({{context.srcLocale.localeId}})"></icon>
+        title="Copy {{editorContext.srcLocale.name}} ({{editorContext.srcLocale.localeId}})"
+        ng-click="transUnitCtrl.copySource($event, phrase)">
+        <icon name="copy" title="Copy {{editorContext.srcLocale.name}} ({{editorContext.srcLocale.localeId}})"></icon>
       </button>
     </li>
-    <li>
+    <li class="u-sm-hidden" ng-hide="transUnitCtrl.isTranslationModified(phrase)">
       <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
-        title="{{'Cancel edit'|translate}}" ng-click="translationCtrl.cancelEdit($event)">
+        title="{{'Cancel edit'|translate}}" ng-click="transUnitCtrl.cancelEdit($event, phrase)">
         <icon name="cross" title="{{'Cancel edit'|translate}}"></icon>
+      </button>
+    </li>
+    <li ng-show="transUnitCtrl.isTranslationModified(phrase)">
+      <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
+        title="{{'Undo edit'|translate}}" ng-click="transUnitCtrl.undoEdit($event, phrase)">
+        <icon name="undo" title="{{'Undo edit'|translate}}"></icon>
       </button>
     </li>
   </ul>
