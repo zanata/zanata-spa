@@ -2,7 +2,7 @@
   'use strict';
 
   /**
-   * @name AppCtrl.config
+   * @name AppConfig
    * @description Main config for the entire app
    * @ngInject
    */

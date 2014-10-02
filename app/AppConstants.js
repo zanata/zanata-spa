@@ -2,8 +2,8 @@
   'use strict';
 
   /**
-   * Root application
-   * app.js
+   * AddConstants
+   * "Global" app variables. Don't worry David, they're not really global.
    */
   angular
     .module('app')
