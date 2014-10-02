@@ -39,8 +39,8 @@
 
       function getTransUnits(states) {
         var ids = getIds(states, filter.states);
-        if (offset) {
-          if(maxResult) {
+        if (!isNaN(offset)) {
+          if(!isNaN(maxResult)) {
             ids = ids.slice(offset, offset + maxResult);
           } else {
             ids = ids.slice(offset);

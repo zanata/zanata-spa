@@ -11,6 +11,7 @@
     var gravatarBaseUrl = 'http://www.gravatar.com/avatar';
     //TODO: get from document, configuration or URL
     var baseUrl = 'http://localhost:7878/zanata/rest';
+//    var baseUrl = 'http://localhost:8080/zanata/rest';
 
     // URLs over multiple lines are hard to read, allowing long lines here.
     // Warnings for jshint are turned off/on with -/+ before the warning code.
@@ -30,7 +31,8 @@
     }, unary(restUrl));
     /* jshint +W101 */
 
-    var uiTranslationsURL = '/translations';
+    var uiTranslationsURL = location.origin + location.pathname +
+      'translations';
 
     return {
       PROJECT_URL            : urls.project,
