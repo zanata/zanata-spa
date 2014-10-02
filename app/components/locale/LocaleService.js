@@ -47,7 +47,7 @@
     }
 
     function getUILocaleList() {
-      var list = $resource('/translations/locales', {}, {
+      var list = $resource(UrlService.uiTranslationListURL, {}, {
         query: {
           method: 'GET'
         }
