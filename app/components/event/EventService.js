@@ -11,6 +11,14 @@
     var eventService = this;
     eventService.EVENT = {
       /**
+       * Loading Events
+       *
+       * Broadcast from AppConfig
+       */
+      LOADING_INITIATED: 'loadingInitiated',
+      LOADING_COMPLETE: 'loadingStarted',
+
+      /**
        * scroll to trans unit
        * data: {}
        * id: (transunit id),
