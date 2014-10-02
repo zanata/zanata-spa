@@ -8,9 +8,11 @@
    */
   function AppConfig($stateProvider, $urlRouterProvider, $httpProvider) {
 
-    var interceptor = ['$q', function($q) {
+    var interceptor = function($q, $rootScope) {
       return {
         request: function(config) {
+          // See EventService.LOADING_INITIATED
+          $rootScope.$broadcast('loadingInitiated');
           return config;
         },
         requestError: function(rejection) {
@@ -18,6 +20,8 @@
           return $q.reject(rejection);
         },
         response: function(response) {
+          // See EventService.LOADING_COMPLETE
+          $rootScope.$broadcast('loadingComplete');
           return response || $q.when(response);
         },
         responseError: function(rejection) {
@@ -32,7 +36,7 @@
           return $q.reject(rejection);
         }
       };
-    }];
+    };
 
     $httpProvider.interceptors.push(interceptor);
 

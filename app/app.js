@@ -14,6 +14,6 @@
       'cfp.hotkeys',
       'monospaced.elastic',
       'gettext'
-    ]).constant('_', window._);
+    ]);
 
 })();
