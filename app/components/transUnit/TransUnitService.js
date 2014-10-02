@@ -69,10 +69,15 @@
 
           //Update url without reload state
           if(updateURL) {
-            $state.go('editor.selectedContext.tu', {
-              'id': data.id,
-              'selected': data.focus.toString()
-            });
+            if($state.current.name !== 'editor.selectedContext.tu') {
+              $state.go('editor.selectedContext.tu', {
+                'id': data.id,
+                'selected': data.focus.toString()
+              });
+            } else {
+              $location.search('id', data.id);
+              $location.search('selected', data.focus.toString());
+            }
           }
 
         } else {

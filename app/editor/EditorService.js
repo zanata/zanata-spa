@@ -80,6 +80,8 @@
 
     // Process save translation request
     function processSaveRequest(id) {
+      var context = _.cloneDeep(editorService.context);
+
       var request = queue[id];
 
       var Translation = $resource(UrlService.TRANSLATION_URL, {}, {
@@ -104,11 +106,11 @@
         function(response) {
           var oldStatus =  request.phrase.status;
 
-          PhraseService.onTransUnitUpdated(data.id, request.locale,
-            response.revision, response.state, request.phrase.newTranslation);
+          PhraseService.onTransUnitUpdated(context, data.id, request.locale,
+            response.revision, response.status, request.phrase.newTranslation);
 
           DocumentService.updateStatistic(request.docId, request.locale,
-            oldStatus, response.state, request.phrase.wordCount);
+            oldStatus, response.status, request.phrase.wordCount);
 
           EventService.emitEvent(EventService.EVENT.SAVE_COMPLETED,
             request.phrase);

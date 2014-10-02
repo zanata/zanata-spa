@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   /**
@@ -12,46 +12,46 @@
       states = {}, //ids and states of all tu in order
       transUnits = {};
 
-    phraseCache.getStates = function (projectId, versionId,
-                                        documentId, localeId) {
-      var key = generateKey(projectId, versionId, documentId, localeId);
-      if( _.has(states, key)) {
-        return $q.when(states[key]);
-      } else {
-        var methods = {
-            query: {
-              method: 'GET',
-              params: {
-                projectSlug: projectId,
-                versionSlug: versionId,
-                // This must be encoded for URL, is it passed encoded?
-                docId: documentId,
-                localeId: localeId
-              },
-              isArray: true
-            }
-        },
-        States = $resource(UrlService.TRANSLATION_STATUS_URL, {}, methods);
-        return States.query().$promise.then(function(state) {
-          state = FilterUtil.cleanResourceList(state);
-          states[key] = state;
-          return states[key];
-        });
-      }
-    };
+    phraseCache.getStates =
+      function (projectSlug, versionSlug, documentId, localeId) {
+        var key = generateKey(projectSlug, versionSlug, documentId, localeId);
+        if (_.has(states, key)) {
+          return $q.when(states[key]);
+        } else {
+          var methods = {
+              query: {
+                method: 'GET',
+                params: {
+                  projectSlug: projectSlug,
+                  versionSlug: versionSlug,
+                  // This must be encoded for URL, is it passed encoded?
+                  docId: documentId,
+                  localeId: localeId
+                },
+                isArray: true
+              }
+            },
+            States = $resource(UrlService.TRANSLATION_STATUS_URL, {}, methods);
+          return States.query().$promise.then(function (state) {
+            state = FilterUtil.cleanResourceList(state);
+            states[key] = state;
+            return states[key];
+          });
+        }
+      };
 
     phraseCache.getTransUnits = function (ids, localeId) {
       var results = {},
         missingTUId = [];
 
-      ids.forEach(function(id) {
-        if(_.has(transUnits, id)) {
+      ids.forEach(function (id) {
+        if (_.has(transUnits, id)) {
           results[id] = transUnits[id];
         } else {
           missingTUId.push(id);
         }
       });
-      if(missingTUId.length <= 0) {
+      if (missingTUId.length <= 0) {
         return $q.when(results);
       }
       else {
@@ -64,10 +64,10 @@
             }
           }
         });
-        return TextFlows.query().$promise.then(function(newTransUnits) {
+        return TextFlows.query().$promise.then(function (newTransUnits) {
           newTransUnits = FilterUtil.cleanResourceMap(newTransUnits);
           for (var key in newTransUnits) {
-            transUnits[key]  = newTransUnits[key]; //push to cache
+            transUnits[key] = newTransUnits[key]; //push to cache
             results[key] = newTransUnits[key]; //merge with results
           }
           return results;
@@ -84,22 +84,30 @@
      * @param content
      * @param contents
      */
-    phraseCache.onTransUnitUpdated = function(id, localeId, revision, state,
-                                              content, contents) {
-      // TODO: Fix all this crazy state/status confusion
-      //Update states cache
-      states[id] = state;
+    phraseCache.onTransUnitUpdated =
+      function (context, id, localeId, revision, status, content, contents) {
 
-      //Update transUnits cache
-      var translation = transUnits[id][localeId];
-      if(!translation) {
-        translation = {};
-      }
-      translation.revision = parseInt(revision);
-      translation.state = state;
-      translation.content = content;
-      translation.contents = contents;
-    };
+        var key = generateKey(context.projectSlug, context.versionSlug,
+          context.docId, localeId);
+
+        var stateEntry = _.find(states[key], function(stateEntry) {
+          return stateEntry.id === id;
+        });
+        //Update states cache
+        if(stateEntry) {
+          stateEntry.state = status;
+        }
+
+        //Update transUnits cache
+        var translation = transUnits[id][localeId];
+        if (!translation) {
+          translation = {};
+        }
+        translation.revision = parseInt(revision);
+        translation.state = status;
+        translation.content = content;
+        translation.contents = contents;
+      };
 
     function generateKey(projectId, versionId, documentId, localeId) {
       return projectId + '-' + versionId + '-' +

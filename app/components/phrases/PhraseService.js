@@ -96,11 +96,11 @@
     };
 
     //update phrase,statuses and textFlows with given tu id
-    phraseService.onTransUnitUpdated = function(id, localeId, revision,
+    phraseService.onTransUnitUpdated = function(context, id, localeId, revision,
       status, content, contents) {
 
-      PhraseCache.onTransUnitUpdated(id, localeId, revision, status, content,
-        contents);
+      PhraseCache.onTransUnitUpdated(context, id, localeId, revision, status,
+        content, contents);
 
       var phrase = findPhrase(id, phraseService.phrases);
       //update phrase if found
