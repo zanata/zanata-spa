@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   /**
@@ -18,7 +18,7 @@
     var urlService = this,
       gravatarBaseUrl = 'http://www.gravatar.com/avatar',
       configFile = 'config.json',
-      baseUrl = false,
+      baseUrl = '',
       urls = {},
       uiTranslationsURL = location.origin + location.pathname +
         'translations';
@@ -118,7 +118,7 @@
      * Decorate a function to ignore all but the first argument.
      */
     function unary(fun) {
-      return function (arg) {
+      return function(arg) {
         return fun(arg);
       };
     }

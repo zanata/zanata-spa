@@ -71,7 +71,7 @@
           appCtrl.myInfo.gravatarUrl = UrlService.gravatarUrl(
             appCtrl.myInfo.gravatarHash, 72);
         }, function(error) {
-          MessageHandler.displayInfo('Error loading my info: ' + error);
+          MessageHandler.displayError('Error loading my info: ' + error);
         });
     }
 
