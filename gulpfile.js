@@ -197,6 +197,9 @@ gulp.task('templates', function(){
     .pipe(gulp.dest(paths.build + '/js'));
 });
 
+gulp.src(paths.config)
+  .pipe(gulp.dest(paths.build));
+
 gulp.task('generatePot', function () {
   return gulp.src(paths.translations.src)
     .pipe(plumber({errorHandler: notifyError}))

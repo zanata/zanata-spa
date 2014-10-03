@@ -49,8 +49,8 @@
         templateUrl: 'editor/editor.html',
         controller: 'EditorCtrl as editor',
         resolve: {
-          locales : function(LocaleService) {
-            return LocaleService.getAllLocales();
+          url : function(UrlService) {
+            return UrlService.init();
           }
         }
       }).state('editor.selectedContext', {
