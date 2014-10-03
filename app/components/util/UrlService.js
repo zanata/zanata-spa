@@ -39,10 +39,11 @@
          * baseUrl = full.url - deploy.path onwards
          */
         return $http.get(configFile).then(function (response) {
-          if (response.data['use.mock']) {
-            baseUrl = response.data['mock.rest.url'];
+          var config = response.data;
+          if (config.baseUrl) {
+            baseUrl = config.baseUrl;
           } else {
-            var deployPath = response.data['deploy.path'].replace(/\//g, ''),
+            var deployPath = config.editorPath.replace(/^\//g, ''),
                 index = location.href.indexOf(deployPath),
                 contextPath = location.origin + location.pathname;
             if(index >= 0) {

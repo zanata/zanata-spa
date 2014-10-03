@@ -1,5 +1,4 @@
 {
-  "use.mock" : true,
-  "deploy.path": "/editor",
-  "mock.rest.url": "http://localhost:7878/zanata/rest"
+  "baseUrl": "http://localhost:7878/zanata/rest",
+  "editorPath": "/editor"
 }
