@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   /**
@@ -7,63 +7,101 @@
    * UrlService.js
    * @ngInject
    */
-  function UrlService($location, _) {
-    var gravatarBaseUrl = 'http://www.gravatar.com/avatar';
-    //TODO: get from document, configuration or URL
-    var baseUrl = 'http://localhost:7878/zanata/rest';
-//    var baseUrl = 'http://localhost:8080/zanata/rest';
+  function UrlService($location, $http, $q, _) {
+    //IE doesn't support location.origin
+    if (!location.origin) {
+      location.origin =
+        window.location.protocol + '//' + window.location.hostname +
+        (window.location.port ? (':' + window.location.port) : '');
+    }
 
-    // URLs over multiple lines are hard to read, allowing long lines here.
-    // Warnings for jshint are turned off/on with -/+ before the warning code.
-    // See: https://github.com/jshint/jshint/blob/2.1.4/src/shared/messages.js
-    /* jshint -W101 */
-    var urls = _.mapValues({
-      project  : '/project/:projectSlug',
-      docs     : '/project/:projectSlug/version/:versionSlug/docs',
-      locales  : '/project/:projectSlug/version/:versionSlug/locales',
-      status   : '/project/:projectSlug/version/:versionSlug/doc/:docId/status/:localeId',
-      textFlows: '/source+trans/:localeId',
-      docStats : '/stats/project/:projectSlug/version/:versionSlug/doc/:docId/locale/:localeId',
-      myInfo   : '/user',
-      userInfo : '/user/:username',
-      translation : '/trans/:localeId',
-      allLocales: '/locales'
-    }, unary(restUrl));
-    /* jshint +W101 */
+    var urlService = this,
+      gravatarBaseUrl = 'http://www.gravatar.com/avatar',
+      configFile = 'config.json',
+      baseUrl = false,
+      urls = {},
+      uiTranslationsURL = location.origin + location.pathname +
+        'translations';
 
-    var uiTranslationsURL = location.origin + location.pathname +
-      'translations';
+    urlService.init = function () {
+      if (baseUrl) {
+        return $q.when(baseUrl);
+      }
+      else {
+        /**
+         * Temporary solution to handle dynamic context path deployed for
+         * Zanata server in JBOSS (/ or /zanata).
+         *
+         * If useMock = true,
+         * baseUrl = mock.rest.url
+         *
+         * ELSE
+         * baseUrl = full.url - deploy.path onwards
+         */
+        return $http.get(configFile).then(function (response) {
+          if (response.data['use.mock']) {
+            baseUrl = response.data['mock.rest.url'];
+          } else {
+            var deployPath = response.data['deploy.path'].replace(/\//g, ''),
+                index = location.href.indexOf(deployPath),
+                contextPath = location.origin + location.pathname;
+            if(index >= 0) {
+              contextPath = location.href.substring(0, index);
+            }
+            baseUrl = contextPath.replace(/\/?$/, '/') + 'rest';
+          }
 
-    return {
-      PROJECT_URL            : urls.project,
-      LOCALE_LIST_URL        : urls.locales,
-      DOCUMENT_LIST_URL      : urls.docs,
-      TRANSLATION_STATUS_URL : urls.status,
-      TEXT_FLOWS_URL         : urls.textFlows,
-      DOC_STATISTIC_URL      : urls.docStats,
-      MY_INFO_URL            : urls.myInfo,
-      USER_INFO_URL          : urls.userInfo,
-      TRANSLATION_URL        : urls.translation,
-      ALL_LOCALE_URL         : urls.allLocales,
+          /* jshint -W101 */
+          // URLs over multiple lines are hard to read, allowing long lines here.
+          // Warnings for jshint are turned off/on with -/+ before the warning code.
+          // See: https://github.com/jshint/jshint/blob/2.1.4/src/shared/messages.js
+          urls = _.mapValues({
+            project: '/project/:projectSlug',
+            docs: '/project/:projectSlug/version/:versionSlug/docs',
+            locales: '/project/:projectSlug/version/:versionSlug/locales',
+            status: '/project/:projectSlug/version/:versionSlug/doc/:docId/status/:localeId',
+            textFlows: '/source+trans/:localeId',
+            docStats: '/stats/project/:projectSlug/version/:versionSlug/doc/:docId/locale/:localeId',
+            myInfo: '/user',
+            userInfo: '/user/:username',
+            translation: '/trans/:localeId',
+            allLocales: '/locales'
+          }, unary(restUrl));
+          /* jshint +W101 */
 
-      /**
-       * Get the value of a query string parameter.
-       */
-      readValue: function(key) {
-        return $location.search()[key];
-      },
-
-      gravatarUrl: function(gravatarHash, size) {
-        return gravatarBaseUrl + '/' + gravatarHash +
-          '?d=mm&amp;r=g&amp;s=' + size;
-      },
-
-      uiTranslationURL: function(locale) {
-        return uiTranslationsURL + '/' + locale + '.json';
-      },
-
-      uiTranslationListURL: uiTranslationsURL + '/locales'
+          urlService.PROJECT_URL = urls.project;
+          urlService.LOCALE_LIST_URL = urls.locales;
+          urlService.DOCUMENT_LIST_URL = urls.docs;
+          urlService.TRANSLATION_STATUS_URL = urls.status;
+          urlService.TEXT_FLOWS_URL = urls.textFlows;
+          urlService.DOC_STATISTIC_URL = urls.docStats;
+          urlService.MY_INFO_URL = urls.myInfo;
+          urlService.USER_INFO_URL = urls.userInfo;
+          urlService.TRANSLATION_URL = urls.translation;
+          urlService.ALL_LOCALE_URL = urls.allLocales;
+        });
+      }
     };
+
+    /**
+     * Get the value of a query string parameter.
+     */
+    urlService.readValue = function (key) {
+      return $location.search()[key];
+    };
+
+    urlService.gravatarUrl = function (gravatarHash, size) {
+      return gravatarBaseUrl + '/' + gravatarHash +
+        '?d=mm&amp;r=g&amp;s=' + size;
+    };
+
+    urlService.uiTranslationURL = function (locale) {
+      return uiTranslationsURL + '/' + locale + '.json';
+    };
+
+    urlService.uiTranslationListURL = uiTranslationsURL + '/locales';
+
+    return urlService;
 
     /**
      * Create a REST URL by appending all the given URL part arguments to the
@@ -80,21 +118,10 @@
      * Decorate a function to ignore all but the first argument.
      */
     function unary(fun) {
-      return function(arg) {
+      return function (arg) {
         return fun(arg);
       };
     }
-
-    /**
-     * not used at the moment
-     */
-//    function getLocalHost() {
-//      if (!window.location.origin) {
-//        return window.location.protocol + '//' + window.location.hostname +
-//          (window.location.port ? ':' + window.location.port : '');
-//      }
-//      return window.location.origin;
-//    }
   }
 
   angular

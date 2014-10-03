@@ -7,6 +7,7 @@ paths = {};
 paths.app = './app',
 paths.build =  './build';
 paths.bower = './bower_main';
+paths.config = paths.app + '/config.json'
 paths.css = {
   all: paths.app + '/**/*.css',
   app: paths.app + '/app.css',

@@ -30,17 +30,9 @@
       }
     });
 
-    UserService.getMyInfo().then(
-      function(myInfo) {
-        appCtrl.myInfo = myInfo;
-        appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE;
-        appCtrl.myInfo.gravatarUrl = UrlService.gravatarUrl(
-          appCtrl.myInfo.gravatarHash, 72);
-
-        loadUILocale();
-      }, function(error) {
-        MessageHandler.displayInfo('Error loading my info: ' + error);
-      });
+    UrlService.init().then(loadLocales).
+      then(loadUserInformation).
+      then(loadUILocale);
 
     // On UI locale changes listener
     appCtrl.onChangeUILocale = function(locale) {
@@ -66,6 +58,22 @@
           LocaleService.DEFAULT_LOCALE.localeId);
       }
     };
+
+    function loadLocales() {
+      return LocaleService.getAllLocales();
+    }
+
+    function loadUserInformation() {
+      return UserService.getMyInfo().then(
+        function(myInfo) {
+          appCtrl.myInfo = myInfo;
+          appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE;
+          appCtrl.myInfo.gravatarUrl = UrlService.gravatarUrl(
+            appCtrl.myInfo.gravatarHash, 72);
+        }, function(error) {
+          MessageHandler.displayInfo('Error loading my info: ' + error);
+        });
+    }
 
     function loadUILocale() {
       LocaleService.getUILocaleList().then(
