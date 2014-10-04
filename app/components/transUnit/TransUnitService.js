@@ -111,13 +111,18 @@
      */
     $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
       function (event, phrase) {
-        if (transUnitService.isTranslationModified(phrase)) {
+        if (phrase && transUnitService.isTranslationModified(phrase)) {
           phrase.newTranslation = phrase.translation;
         }
-        setSelected(controllerList[selectedTUId], false);
-        selectedTUId = false;
+        if(selectedTUId) {
+          setSelected(controllerList[selectedTUId], false);
+          selectedTUId = false;
+        }
 
         $location.search('selected', null);
+        if(!phrase) {
+          $location.search('id', null);
+        }
       });
 
     /**

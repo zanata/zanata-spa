@@ -112,12 +112,26 @@
       });
 
     editorCtrl.pageNumber = function() {
-      return EditorService.currentPageIndex + 1;
+      if(EditorService.maxPageIndex === 0) {
+        return EditorService.currentPageIndex + 1;
+      } else {
+        return (EditorService.currentPageIndex + 1) + ' of ' +
+          (EditorService.maxPageIndex + 1);
+      }
     };
 
     editorCtrl.getLocaleName = function(localeId) {
       return LocaleService.getName(localeId);
     };
+
+    editorCtrl.firstPage = function() {
+      EventService.emitEvent(EventService.EVENT.GOTO_FIRST_PAGE);
+    };
+
+    editorCtrl.lastPage = function() {
+      EventService.emitEvent(EventService.EVENT.GOTO_LAST_PAGE);
+    };
+
 
     editorCtrl.nextPage = function() {
       EventService.emitEvent(EventService.EVENT.GOTO_NEXT_PAGE);

@@ -163,17 +163,29 @@
       <ul class="u-listHorizontal u-textCenter">
         <li class="u-smv-1-4">
           <a class="Link--neutral u-sizeHeight-1_1-2"
-                  title="Previous page" ng-click="editor.previousPage()">
-            <icon name="chevron-left" title="Previous page" class="u-sizeWidth-1_1-2"></icon>
+            title="First page" ng-click="editor.firstPage()">
+            <icon name="previous" title="First page" class="u-sizeWidth-1"></icon>
           </a>
         </li>
         <li class="u-smv-1-4">
-          <span ng-bind="editor.pageNumber()" class="u-textNeutral  u-sizeHeight-1_1-2"></span>
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+                  title="Previous page" ng-click="editor.previousPage()">
+            <icon name="chevron-left" title="Previous page" class="u-sizeWidth-1"></icon>
+          </a>
+        </li>
+        <li class="u-smv-1-4 u-sizeHeight-1_1-2 u-sPH-1-4">
+          <span ng-bind="editor.pageNumber()" class="u-textNeutral"></span>
         </li>
         <li class="u-smv-1-4">
           <a class="Link--neutral u-sizeHeight-1_1-2"
                   title="Next page" ng-click="editor.nextPage()">
-            <icon name="chevron-right" title="Next page" class="u-sizeWidth-1_1-2"></icon>
+            <icon name="chevron-right" title="Next page" class="u-sizeWidth-1"></icon>
+          </a>
+        </li>
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+            title="Last page" ng-click="editor.lastPage()">
+            <icon name="next" title="Last page" class="u-sizeWidth-1"></icon>
           </a>
         </li>
         <li ng-show="appCtrl.PRODUCTION">

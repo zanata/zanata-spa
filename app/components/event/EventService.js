@@ -75,7 +75,11 @@
 
       GOTO_PREV_PAGE: 'gotoPreviousPage',
 
-      GOTO_NEXT_PAGE: 'gotoNextPage'
+      GOTO_NEXT_PAGE: 'gotoNextPage',
+
+      GOTO_FIRST_PAGE: 'gotoFirstPage',
+
+      GOTO_LAST_PAGE: 'gotoLastPage'
 
     };
 

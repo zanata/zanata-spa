@@ -13,7 +13,6 @@
         editorContentCtrl = this,
         states = UrlService.readValue('states'),
         totalRecords = 0,
-        maxPageIndex = 0,
         filter = {
           'states': states ? states.split(' ') : states
         };
@@ -25,21 +24,42 @@
 
     init();
 
+    $rootScope.$on(EventService.EVENT.GOTO_FIRST_PAGE,
+      function () {
+        if(EditorService.currentPageIndex > 0) {
+          EditorService.currentPageIndex = 0;
+          changePage(EditorService.currentPageIndex);
+        }
+      });
+
     $rootScope.$on(EventService.EVENT.GOTO_PREV_PAGE,
       function () {
         if(EditorService.currentPageIndex > 0) {
           EditorService.currentPageIndex -= 1;
-          loadPhrase(EditorService.currentPageIndex);
+          changePage(EditorService.currentPageIndex);
         }
       });
 
     $rootScope.$on(EventService.EVENT.GOTO_NEXT_PAGE,
       function () {
-        if(EditorService.currentPageIndex < maxPageIndex) {
+        if(EditorService.currentPageIndex < EditorService.maxPageIndex) {
           EditorService.currentPageIndex +=1;
-          loadPhrase(EditorService.currentPageIndex);
+          changePage(EditorService.currentPageIndex);
         }
       });
+
+    $rootScope.$on(EventService.EVENT.GOTO_LAST_PAGE,
+      function () {
+        if(EditorService.currentPageIndex === EditorService.maxPageIndex) {
+          EditorService.currentPageIndex = EditorService.maxPageIndex;
+          changePage(EditorService.currentPageIndex);
+        }
+      });
+
+    function changePage(pageIndex) {
+      loadPhrase(pageIndex);
+      EventService.emitEvent(EventService.EVENT.CANCEL_EDIT);
+    }
 
     /**
      * Load transUnit
@@ -62,10 +82,10 @@
       PhraseService.getPhraseCount(EditorService.context, filter).
         then(function(count) {
           totalRecords = count;
-          maxPageIndex = parseInt(totalRecords / COUNT_PER_PAGE);
+          EditorService.maxPageIndex = parseInt(totalRecords / COUNT_PER_PAGE);
           if(totalRecords > COUNT_PER_PAGE) {
-            maxPageIndex = totalRecords % COUNT_PER_PAGE !== 0 ?
-              maxPageIndex +=1 : maxPageIndex;
+            EditorService.maxPageIndex = totalRecords % COUNT_PER_PAGE !== 0 ?
+              EditorService.maxPageIndex +=1 : EditorService.maxPageIndex;
           }
 
           loadPhrase(EditorService.currentPageIndex);
