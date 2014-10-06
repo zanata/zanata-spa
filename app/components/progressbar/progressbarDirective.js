@@ -34,7 +34,7 @@
         widthApproved = getWidthPercent(statistic.approved, total),
         widthTranslated = getWidthPercent(statistic.translated, total),
         marginLeftTranslated = widthApproved,
-        widthNeedsWork = getWidthPercent(statistic.needsWork, total),
+        widthNeedsWork = getWidthPercent(statistic.needswork, total),
         marginLeftNeedsWork = widthApproved + widthTranslated,
         widthUntranslated = getWidthPercent(statistic.untranslated, total),
         marginLeftUntranslated = widthApproved +

@@ -12,7 +12,6 @@
     var COUNT_PER_PAGE = 50,
         editorContentCtrl = this,
         states = UrlService.readValue('states'),
-        totalRecords = 0,
         filter = {
           'states': states ? states.split(' ') : states
         };
@@ -50,7 +49,7 @@
 
     $rootScope.$on(EventService.EVENT.GOTO_LAST_PAGE,
       function () {
-        if(EditorService.currentPageIndex === EditorService.maxPageIndex) {
+        if(EditorService.currentPageIndex < EditorService.maxPageIndex) {
           EditorService.currentPageIndex = EditorService.maxPageIndex;
           changePage(EditorService.currentPageIndex);
         }
@@ -81,12 +80,14 @@
 
       PhraseService.getPhraseCount(EditorService.context, filter).
         then(function(count) {
-          totalRecords = count;
-          EditorService.maxPageIndex = parseInt(totalRecords / COUNT_PER_PAGE);
-          if(totalRecords > COUNT_PER_PAGE) {
-            EditorService.maxPageIndex = totalRecords % COUNT_PER_PAGE !== 0 ?
+          EditorService.maxPageIndex = parseInt(count / COUNT_PER_PAGE);
+          if(count > COUNT_PER_PAGE) {
+            EditorService.maxPageIndex = count % COUNT_PER_PAGE !== 0 ?
               EditorService.maxPageIndex +=1 : EditorService.maxPageIndex;
           }
+
+          EditorService.maxPageIndex =  EditorService.maxPageIndex -1 < 0 ? 0 :
+            EditorService.maxPageIndex -1;
 
           loadPhrase(EditorService.currentPageIndex);
       });

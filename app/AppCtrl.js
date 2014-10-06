@@ -59,6 +59,10 @@
       }
     };
 
+    appCtrl.dashboardPage = function() {
+      return UrlService.DASHBOARD_PAGE;
+    };
+
     function loadLocales() {
       return LocaleService.getAllLocales();
     }

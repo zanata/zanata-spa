@@ -1,4 +1,4 @@
-<a href="dashboard" class="Editor-loader"
+<a ng-href="{{app.dashboardPage()}}" class="Editor-loader"
   ng-class="{'is-minimised': editor.settings.hideMainNav}">
   <logo-loader inverted="editor.settings.hideMainNav"/>
 </a>
@@ -84,7 +84,7 @@
         </button>
       </li>
       <li>
-        <a href="/dashboard" class="u-sizeHeight-2 u-sizeWidth-1_1-2 u-inlineBlock" title={{app.myInfo.name}}>
+        <a ng-href="{{app.dashboardPage()}}" class="u-sizeHeight-2 u-sizeWidth-1_1-2 u-inlineBlock" title={{app.myInfo.name}}>
           <img class="u-round Header-avatar" ng-src="{{app.myInfo.gravatarUrl}}"/>
         </a>
       </li>

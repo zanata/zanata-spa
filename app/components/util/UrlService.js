@@ -23,6 +23,8 @@
       uiTranslationsURL = location.origin + location.pathname +
         'translations';
 
+    urlService.serverContextPath = '';
+
     urlService.init = function () {
       if (baseUrl) {
         return $q.when(baseUrl);
@@ -32,24 +34,27 @@
          * Temporary solution to handle dynamic context path deployed for
          * Zanata server in JBOSS (/ or /zanata).
          *
-         * If useMock = true,
-         * baseUrl = mock.rest.url
+         * If config.baseUrl exist and not empty,
+         * baseUrl = config.baseUrl
          *
          * ELSE
-         * baseUrl = full.url - deploy.path onwards
+         * baseUrl = full.url - appPath onwards
          */
         return $http.get(configFile).then(function (response) {
           var config = response.data;
           if (config.baseUrl) {
             baseUrl = config.baseUrl;
           } else {
-            var deployPath = config.editorPath.replace(/^\//g, ''),
-                index = location.href.indexOf(deployPath),
-                contextPath = location.origin + location.pathname;
+            var deployPath = config.appPath.replace(/^\//g, ''),
+                index = location.href.indexOf(deployPath);
+
+            urlService.serverContextPath = location.origin + location.pathname;
             if(index >= 0) {
-              contextPath = location.href.substring(0, index);
+              urlService.serverContextPath = location.href.substring(0, index);
             }
-            baseUrl = contextPath.replace(/\/?$/, '/') + 'rest';
+            urlService.serverContextPath = urlService.serverContextPath.
+              replace(/\/?$/, '/');
+            baseUrl = urlService.serverContextPath + 'rest';
           }
 
           /* jshint -W101 */
@@ -80,6 +85,9 @@
           urlService.USER_INFO_URL = urls.userInfo;
           urlService.TRANSLATION_URL = urls.translation;
           urlService.ALL_LOCALE_URL = urls.allLocales;
+
+          urlService.DASHBOARD_PAGE = urlService.serverContextPath +
+            'dashboard';
         });
       }
     };
