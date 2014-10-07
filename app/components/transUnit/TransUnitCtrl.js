@@ -6,7 +6,7 @@
    * @ngInject
    */
   function TransUnitCtrl($scope, $element, $stateParams, _, TransUnitService,
-    EventService, LocaleService) {
+    EventService, LocaleService, focus) {
 
     var transUnitCtrl = this;
 
@@ -14,6 +14,10 @@
 
     transUnitCtrl.isTranslationModified =
       TransUnitService.isTranslationModified;
+
+    transUnitCtrl.focusTranslation = function() {
+      focus('phrase-' + $scope.phrase.id);
+    };
 
     transUnitCtrl.translationTextModified = function(phrase) {
       EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,

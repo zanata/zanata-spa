@@ -12,6 +12,7 @@
       'ui.router',
       'templates',
       'cfp.hotkeys',
+      'focusOn',
       'monospaced.elastic',
       'gettext'
     ]);

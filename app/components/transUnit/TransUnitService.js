@@ -66,6 +66,7 @@
           updateSaveButton(event, newTuController.getPhrase());
           selectedTUId = data.id;
           setSelected(newTuController, true);
+          EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION, data);
 
           //Update url without reload state
           if(updateURL) {
@@ -133,6 +134,13 @@
        updateSaveButton);
 
     /**
+     * EventService.EVENT.FOCUS_TRANSLATION listener
+     *
+     */
+    $rootScope.$on(EventService.EVENT.FOCUS_TRANSLATION,
+       setFocus);
+
+    /**
       * EventService.EVENT.SAVE_COMPLETED listener
       *
       */
@@ -150,6 +158,8 @@
       phrase.newTranslation = newText;
       EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
         phrase);
+      EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION,
+        phrase);
     }
 
     function updateSaveButton(event, phrase) {
@@ -160,10 +170,17 @@
     function phraseSaving(event, data) {
       var transUnitCtrl = controllerList[data.phrase.id];
       transUnitCtrl.phraseSaving(data);
+      EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION,
+        data.phrase);
     }
 
-    function setSelected(controller, isSelected) {
-      controller.selected = isSelected || false;
+    function setSelected(transUnitCtrl, isSelected) {
+      transUnitCtrl.selected = isSelected || false;
+    }
+
+    function setFocus(event, phrase) {
+      var transUnitCtrl = controllerList[phrase.id];
+      transUnitCtrl.focusTranslation();
     }
 
     /**

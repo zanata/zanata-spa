@@ -1,10 +1,14 @@
 <div class="TransUnit TransUnit--{{ transUnitCtrl.savingStatus.CSSCLASS || phrase.status.CSSCLASS }}"
   ng-class="{'is-focused': transUnitCtrl.selected, 'is-first': firstPhrase}">
 
-  <div class="TransUnit-panel TransUnit-source" ng-include="'components/transUnit/source/source.html'"></div>
+  <div class="TransUnit-panel TransUnit-source"
+       ng-include="'components/transUnit/source/source.html'"></div>
 
-  <div class="TransUnit-status {{transUnitCtrl.loadingClass}}" ng-include="'components/transUnit/tu-status.html'"></div>
+  <div class="TransUnit-status {{transUnitCtrl.loadingClass}}"
+       ng-include="'components/transUnit/tu-status.html'"></div>
 
-  <div class="TransUnit-panel TransUnit-translation" ng-include="'components/transUnit/translation/translation.html'"></div>
+  <div class="TransUnit-panel TransUnit-translation"
+       ng-include="'components/transUnit/translation/translation.html'"
+       ng-click="transUnitCtrl.focusTranslation('phrase-' + phrase.id)"></div>
 
 </div>

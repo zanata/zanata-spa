@@ -36,6 +36,9 @@
       //data:phrase
       CANCEL_EDIT: 'cancelEdit',
 
+      //data:phrase
+      FOCUS_TRANSLATION: 'focusTranslation',
+
       /**
        * data: {}
        * phrase:
