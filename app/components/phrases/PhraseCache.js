@@ -7,7 +7,8 @@
    * TODO: use angular-data for storage
    * @ngInject
    */
-  function PhraseCache($q, $resource, FilterUtil, UrlService, _) {
+  function PhraseCache($q, $resource, FilterUtil, UrlService, DocumentService,
+                       _) {
     var phraseCache = this,
       states = {}, //ids and states of all tu in order
       transUnits = {};
@@ -18,14 +19,14 @@
         if (_.has(states, key)) {
           return $q.when(states[key]);
         } else {
+          var encodedDocId = DocumentService.encodeDocId(documentId);
           var methods = {
               query: {
                 method: 'GET',
                 params: {
                   projectSlug: projectSlug,
                   versionSlug: versionSlug,
-                  // This must be encoded for URL, is it passed encoded?
-                  docId: documentId,
+                  docId: encodedDocId,
                   localeId: localeId
                 },
                 isArray: true

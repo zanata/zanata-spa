@@ -50,13 +50,14 @@
         if (_.has(statisticMap, key)) {
           return $q.when(statisticMap[key]);
         } else {
+          var encodedDocId = documentService.encodeDocId(_docId);
           var Statistics = $resource(UrlService.DOC_STATISTIC_URL, {}, {
             query: {
               method: 'GET',
               params: {
                 projectSlug: _projectSlug,
                 versionSlug: _versionSlug,
-                docId: _docId,
+                docId: encodedDocId,
                 localeId: _localeId
               },
               isArray: true
@@ -69,6 +70,15 @@
         }
       }
     };
+
+    /**
+     * Encode docId, replace '/' with ',' when REST call
+     * @param docId
+     * @returns {*}
+     */
+    documentService.encodeDocId = function(docId) {
+      return docId.replace(/\//g, ',');
+    }
 
     documentService.containsDoc = function (documents, docId) {
       return _.any(documents, function(document) {
