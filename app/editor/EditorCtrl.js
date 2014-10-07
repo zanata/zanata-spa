@@ -7,7 +7,7 @@
    */
   function EditorCtrl(UserService, DocumentService, LocaleService,
     ProjectService, TransUnitService, EditorService, TransStatusService,
-    StatisticUtil, $stateParams, $state, MessageHandler, $rootScope,
+    StatisticUtil, UrlService, $stateParams, $state, MessageHandler, $rootScope,
     EventService) {
     var editorCtrl = this;
     editorCtrl.pageNumber = 1;
@@ -21,6 +21,11 @@
       $stateParams.versionSlug, $stateParams.docId,
       LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE.localeId,
       'READ_WRITE');
+
+    editorCtrl.versionPage = function() {
+      return UrlService.PROJECT_PAGE(editorCtrl.context.projectSlug,
+        editorCtrl.context.versionSlug);
+    };
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
       function(projectInfo) {

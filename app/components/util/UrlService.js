@@ -7,7 +7,7 @@
    * UrlService.js
    * @ngInject
    */
-  function UrlService($location, $http, $q, _) {
+  function UrlService($location, $http, $q, $stateParams, _) {
     //IE doesn't support location.origin
     if (!location.origin) {
       location.origin =
@@ -85,6 +85,11 @@
           urlService.USER_INFO_URL = urls.userInfo;
           urlService.TRANSLATION_URL = urls.translation;
           urlService.ALL_LOCALE_URL = urls.allLocales;
+
+          urlService.PROJECT_PAGE = function(projectSlug, versionSlug) {
+            return urlService.serverContextPath + 'iteration/view/' +
+              projectSlug + '/' +  versionSlug;
+          };
 
           urlService.DASHBOARD_PAGE = urlService.serverContextPath +
             'dashboard';
