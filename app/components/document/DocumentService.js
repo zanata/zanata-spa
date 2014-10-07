@@ -78,7 +78,7 @@
      */
     documentService.encodeDocId = function(docId) {
       return docId.replace(/\//g, ',');
-    }
+    };
 
     documentService.containsDoc = function (documents, docId) {
       return _.any(documents, function(document) {

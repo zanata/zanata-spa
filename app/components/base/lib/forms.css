@@ -5,22 +5,18 @@
 ::-webkit-input-placeholder {
   /* WebKit browsers */
   color: var(--base-form-color-placeholder);
-  font-weight: 300;
 }
 :-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
   color: var(--base-form-color-placeholder);
-  font-weight: 300;
 }
 ::-moz-placeholder {
   /* Mozilla Firefox 19+ */
   color: var(--base-form-color-placeholder);
-  font-weight: 300;
 }
 :-ms-input-placeholder {
   /* Internet Explorer 10+ */
   color: var(--base-form-color-placeholder);
-  font-weight: 300;
 }
 
 button,

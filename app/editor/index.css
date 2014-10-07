@@ -58,7 +58,7 @@
 
 .Editor-translations {
   min-height: 100%;
-  padding: calc(var(--Editor-rhythm) * 1.5) 0 calc(var(--Editor-rhythm) * 1.5);
+  padding: calc(var(--Editor-rhythm) * 2) 0;
   background: linear-gradient(left, var(--Editor-color-status-bg), var(--Editor-color-status-bg));
   background-position: left center;
   background-size: var(--rhythm) 100%;
