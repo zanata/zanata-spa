@@ -70,7 +70,7 @@
             translations: trans ? trans.contents : '',
             // Translation from editor
             newTranslation: trans ? trans.content : '',
-            newTranslations: trans ? trans.contents : '',
+            newTranslations: trans ? trans.contents : [],
             plural: source.plural,
             // Conform the status from the server, return an object
             status: TransStatusService.getStatusInfo(

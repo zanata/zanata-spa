@@ -68,7 +68,7 @@
      */
     function conformStatus(statusKey) {
       statusKey = angular.uppercase(statusKey);
-      if (!statusKey) {
+      if (!statusKey || statusKey === 'NEW') {
         statusKey = 'UNTRANSLATED';
       } else if (statusKey === 'NEEDREVIEW') {
         statusKey = 'NEEDSWORK';
@@ -84,9 +84,10 @@
      * @return {string}        new value to use
      */
     function serverStatusId(statusId) {
-      if (!statusId) {
-        return 'Untranslated';
-      } else if (statusId.toLowerCase() === 'needswork') {
+      statusId = angular.lowercase(statusId);
+      if (!statusId || statusId === 'untranslated') {
+        return 'New';
+      } else if (statusId === 'needswork') {
         return 'NeedReview';
       }
       return statusId.charAt(0).toUpperCase() + statusId.slice(1).toLowerCase();
