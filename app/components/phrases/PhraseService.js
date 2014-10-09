@@ -60,22 +60,22 @@
         return _.map(transUnits, function(transUnit, id) {
           var source = transUnit.source,
               trans = transUnit[localeId];
+
           return {
             id: parseInt(id),
             // TODO: handle plural content
             source: source.content,
             sources: source.contents,
             // Original translation
-            translation: trans ? trans.content : '',
-            translations: trans ? trans.contents : '',
+            translation: trans.content ? trans.content : '',
+            translations: trans.contents ? trans.contents : [],
             // Translation from editor
-            newTranslation: trans ? trans.content : '',
-            newTranslations: trans ? trans.contents : [],
+            newTranslation: trans.content ? trans.content : '',
+            newTranslations: trans.contents ? trans.contents : [],
             plural: source.plural,
             // Conform the status from the server, return an object
-            status: TransStatusService.getStatusInfo(
-              trans ? trans.state : 'UNTRANSLATED'),
-            revision: trans ? parseInt(trans.revision) : 0,
+            status: TransStatusService.getStatusInfo(trans.state),
+            revision: trans.revision ? parseInt(trans.revision) : 0,
             wordCount: parseInt(source.wordCount)
           };
         });

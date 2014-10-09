@@ -43,36 +43,76 @@
 
     phraseCache.getTransUnits = function (ids, localeId) {
       var results = {},
-        missingTUId = [];
-
+        missingTUId = [],
+        missingLocaleTUId = [];
       ids.forEach(function (id) {
         if (_.has(transUnits, id)) {
-          results[id] = transUnits[id];
+          if(transUnits[id][localeId]) {
+            results[id] = transUnits[id];
+          } else {
+            missingLocaleTUId.push(id);
+          }
         } else {
           missingTUId.push(id);
         }
       });
-      if (missingTUId.length <= 0) {
+      if (_.isEmpty(missingTUId) && _.isEmpty(missingLocaleTUId)) {
         return $q.when(results);
       }
       else {
-        var TextFlows = $resource(UrlService.TEXT_FLOWS_URL, {}, {
-          query: {
-            method: 'GET',
-            params: {
-              localeId: localeId,
-              ids: missingTUId.join(',')
+        var TextFlows, Translations;
+        if(!_.isEmpty(missingTUId)) {
+          TextFlows = $resource(UrlService.TEXT_FLOWS_URL, {}, {
+            query: {
+              method: 'GET',
+              params: {
+                localeId: localeId,
+                ids: missingTUId.join(',')
+              }
             }
-          }
-        });
-        return TextFlows.query().$promise.then(function (newTransUnits) {
-          newTransUnits = FilterUtil.cleanResourceMap(newTransUnits);
-          for (var key in newTransUnits) {
-            transUnits[key] = newTransUnits[key]; //push to cache
-            results[key] = newTransUnits[key]; //merge with results
-          }
-          return results;
-        });
+          });
+        }
+        if(!_.isEmpty(missingLocaleTUId)) {
+          Translations = $resource(UrlService.TRANSLATION_URL, {}, {
+            query: {
+              method: 'GET',
+              params: {
+                localeId: localeId,
+                ids: missingLocaleTUId.join(',')
+              }
+            }
+          });
+        }
+
+        //need to create chain of promises
+        if(TextFlows && Translations) {
+          return TextFlows.query().$promise.then(updateCacheWithNewTU).
+            then(Translations.query().$promise.then(updateCacheWithExistingTU));
+        } else if(TextFlows) {
+          return TextFlows.query().$promise.then(updateCacheWithNewTU);
+        } else if(Translations) {
+          return Translations.query().$promise.then(updateCacheWithExistingTU);
+        }
+      }
+
+      function updateCacheWithExistingTU(newTransUnits) {
+        newTransUnits = FilterUtil.cleanResourceMap(newTransUnits);
+        for (var key in newTransUnits) {
+          //push to cache
+          transUnits[key][localeId] = newTransUnits[key][localeId];
+          //merge with results
+          results[key] = transUnits[key];
+        }
+        return results;
+      }
+
+      function updateCacheWithNewTU(newTransUnits) {
+        newTransUnits = FilterUtil.cleanResourceMap(newTransUnits);
+        for (var key in newTransUnits) {
+          transUnits[key] = newTransUnits[key]; //push to cache
+          results[key] = transUnits[key]; //merge with results
+        }
+        return results;
       }
     };
 
