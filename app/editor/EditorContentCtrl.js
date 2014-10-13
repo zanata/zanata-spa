@@ -6,7 +6,8 @@
    * @ngInject
    */
   function EditorContentCtrl($rootScope, EditorService, PhraseService,
-                             UrlService, EventService, $stateParams) {
+                             DocumentService, UrlService, EventService,
+                             $stateParams) {
 
     //TODO: move pager to directives/convert to infinite scroll
     var COUNT_PER_PAGE = 50,
@@ -19,7 +20,8 @@
     editorContentCtrl.phrases = [];
 
     EditorService.updateContext($stateParams.projectSlug,
-      $stateParams.versionSlug, $stateParams.docId, $stateParams.localeId);
+      $stateParams.versionSlug, DocumentService.decodeDocId($stateParams.docId),
+      $stateParams.localeId);
 
     init();
 

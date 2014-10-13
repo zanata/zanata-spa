@@ -30,7 +30,7 @@
             </button>
             <ul class="Dropdown-content Dropdown-content--bordered">
               <li ng-repeat="doc in editor.documents">
-                <a ui-sref="editor.selectedContext({docId: doc.name, localeId: editor.context.localeId})"
+                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.encodeDocId(doc.name)}}/{{editor.context.localeId}}"
                   class="Dropdown-item">
                   <span ng-bind="doc.name"></span>
                 </a>
@@ -47,7 +47,7 @@
             </button>
             <ul class="Dropdown-content Dropdown-content--bordered">
               <li ng-repeat="locale in editor.locales">
-                <a ui-sref="editor.selectedContext({docId: editor.context.docId, localeId: locale.localeId})"
+                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.encodeDocId(editor.context.docId)}}/{{locale.localeId}}"
                   class="Dropdown-item">
                   <span ng-bind="locale.name"></span>
                 </a>

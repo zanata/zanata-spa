@@ -18,13 +18,17 @@
     //Working URL: http://localhost:8000/#/tiny-project/1/translate or
     // http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr
     editorCtrl.context = EditorService.initContext($stateParams.projectSlug,
-      $stateParams.versionSlug, $stateParams.docId,
+      $stateParams.versionSlug, DocumentService.decodeDocId($stateParams.docId),
       LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE.localeId,
       'READ_WRITE');
 
     editorCtrl.versionPage = function() {
       return UrlService.PROJECT_PAGE(editorCtrl.context.projectSlug,
         editorCtrl.context.versionSlug);
+    };
+
+    editorCtrl.encodeDocId = function(docId) {
+      return DocumentService.encodeDocId(docId);
     };
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
@@ -79,14 +83,13 @@
           //if docId is not defined in url, set to first from list
           var selectedDocId = $state.params.docId,
               context = editorCtrl.context;
-
           if (!selectedDocId) {
             context.docId = editorCtrl.documents[0].name;
             transitionToEditorSelectedView();
           } else {
-            context.docId = selectedDocId;
+            context.docId = DocumentService.decodeDocId(selectedDocId);
             if (!DocumentService.containsDoc(editorCtrl.documents,
-              selectedDocId)) {
+              context.docId)) {
               context.docId = editorCtrl.documents[0].name;
             }
           }

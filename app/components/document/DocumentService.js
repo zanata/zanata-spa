@@ -77,7 +77,16 @@
      * @returns {*}
      */
     documentService.encodeDocId = function(docId) {
-      return docId.replace(/\//g, ',');
+      return docId ? docId.replace(/\//g, ',') : docId;
+    };
+
+    /**
+     * Encode docId, replace ',' with '/' when REST call
+     * @param docId
+     * @returns {*}
+     */
+    documentService.decodeDocId = function(docId) {
+      return docId ? docId.replace(/\,/g, '/') : docId;
     };
 
     documentService.containsDoc = function (documents, docId) {
