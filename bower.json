@@ -1,7 +1,7 @@
 {
   "name": "Zanata SPA",
   "main": "app.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "authors": [
     "Luke Brooker <mail@lukebrooker.com>"
   ],
