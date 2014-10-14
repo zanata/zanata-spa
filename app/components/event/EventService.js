@@ -82,7 +82,19 @@
 
       GOTO_FIRST_PAGE: 'gotoFirstPage',
 
-      GOTO_LAST_PAGE: 'gotoLastPage'
+      GOTO_LAST_PAGE: 'gotoLastPage',
+
+      /**
+       * data: {}
+       * currentId:
+       * projectSlug:
+       * versionSlug:
+       * locale:
+       * docId:
+       */
+      GOTO_NEXT_ROW: 'gotoNextRow',
+      GOTO_PREVIOUS_ROW: 'gotoPreviousRow',
+      GOTO_NEXT_UNTRANSLATED: 'gotoNextUntranslated'
 
     };
 
@@ -117,3 +129,5 @@
     .module('app')
     .factory('EventService', EventService);
 })();
+
+

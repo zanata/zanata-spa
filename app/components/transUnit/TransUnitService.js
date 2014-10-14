@@ -7,10 +7,13 @@
    * @ngInject
    */
   function TransUnitService($location, $rootScope, $state, $stateParams,
-    $filter, MessageHandler, EventService, TransStatusService, PRODUCTION) {
+    $filter, MessageHandler, EventService, TransStatusService, PRODUCTION,
+    PhraseService) {
     var transUnitService = this,
         controllerList = {},
-        selectedTUId;
+        selectedTUId,
+        selectedTUCtrl = false
+      ;
 
     transUnitService.addController = function(id, controller) {
       controllerList[id] = controller;
@@ -35,6 +38,10 @@
       return filterSaveButtonOptions(saveButtonStatus);
     };
 
+    transUnitService.selectedPhrase = function() {
+      return selectedTUCtrl ? selectedTUCtrl.getPhrase() : false;
+    };
+
     /**
      * EventService.EVENT.SELECT_TRANS_UNIT listener
      * - Select and focus a trans-unit.
@@ -48,6 +55,8 @@
             updateURL = data.updateURL;
 
         if(newTuController) {
+          selectedTUCtrl = newTuController;
+
           if (selectedTUId && selectedTUId !== data.id) {
             //perform implicit save if changed
             if(transUnitService.isTranslationModified(
@@ -80,7 +89,6 @@
               $location.search('selected', data.focus.toString());
             }
           }
-
         } else {
           MessageHandler.displayWarning('Trans-unit not found:' + data.id);
         }
@@ -147,6 +155,16 @@
     $rootScope.$on(EventService.EVENT.SAVE_INITIATED,
        phraseSaving);
 
+    // EventService.EVENT.GOTO_NEXT_ROW listener
+    $rootScope.$on(EventService.EVENT.GOTO_NEXT_ROW, goToNextRow);
+
+    // EventService.EVENT.GOTO_PREVIOUS_ROW listener
+    $rootScope.$on(EventService.EVENT.GOTO_PREVIOUS_ROW, goToPreviousRow);
+
+    // EventService.EVENT.GOTO_NEXT_UNTRANSLATED listener
+    $rootScope.$on(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
+      goToNextUntranslated);
+
     /**
       * EventService.EVENT.SAVE_COMPLETED listener
       *
@@ -206,6 +224,50 @@
       }
     }
 
+    function goToNextRow(event, data) {
+      PhraseService.findNextId(data.projectSlug, data.versionSlug,
+        data.docId, data.localeId, data.currentId).then(function(next) {
+          if (next !== data.currentId) {
+            EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+              {
+                'id': next,
+                'updateURL': true,
+                'focus' : true
+              }, null);
+          }
+        });
+
+    }
+
+    function goToPreviousRow(event, data) {
+      PhraseService.findPreviousId(data.projectSlug, data.versionSlug,
+        data.docId, data.localeId, data.currentId).then(function(previous) {
+          if (previous !== data.currentId) {
+            EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+              {
+                'id': previous,
+                'updateURL': true,
+                'focus' : true
+              }, null);
+          }
+        });
+    }
+
+    function goToNextUntranslated(event, data) {
+      PhraseService.findNextStatus(data.projectSlug, data.versionSlug,
+        data.docId, data.localeId, data.currentId, 'untranslated')
+        .then(function(next) {
+          if (next !== data.currentId) {
+            EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+              {
+                'id': next,
+                'updateURL': true,
+                'focus' : true
+              }, null);
+          }
+        });
+    }
+
     return transUnitService;
   }
 
@@ -213,3 +275,5 @@
     .module('app')
     .factory('TransUnitService', TransUnitService);
 })();
+
+

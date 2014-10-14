@@ -7,8 +7,7 @@
    *
    * @ngInject
    */
-  function PhraseService(TransUnitService, FilterUtil, PhraseCache,
-    TransStatusService, _) {
+  function PhraseService(FilterUtil, PhraseCache, TransStatusService, _) {
     var phraseService = {};
 
     phraseService.phrases = []; //current displayed phrases
@@ -67,15 +66,16 @@
             source: source.content,
             sources: source.contents,
             // Original translation
-            translation: trans.content ? trans.content : '',
-            translations: trans.contents ? trans.contents : [],
+            translation: trans ? trans.content : '',
+            translations: trans ? trans.contents : [],
             // Translation from editor
-            newTranslation: trans.content ? trans.content : '',
-            newTranslations: trans.contents ? trans.contents : [],
+            newTranslation: trans ? trans.content : '',
+            newTranslations: trans ? trans.contents : [],
             plural: source.plural,
             // Conform the status from the server, return an object
-            status: TransStatusService.getStatusInfo(trans.state),
-            revision: trans.revision ? parseInt(trans.revision) : 0,
+            status: trans ? TransStatusService.getStatusInfo(trans.state) :
+              TransStatusService.getStatusInfo('untranslated'),
+            revision: trans ? parseInt(trans.revision) : 0,
             wordCount: parseInt(source.wordCount)
           };
         });
@@ -119,6 +119,64 @@
       }
     };
 
+    // find next Id from phrases states
+    phraseService.findNextId = function(projectSlug, versionSlug, docId,
+                                        localeId, currentId) {
+      var curId = currentId;
+      return PhraseCache.getStates(projectSlug, versionSlug, docId, localeId)
+        .then(function (states) {
+          var currentIndex,
+            nextIndex;
+          currentIndex = _.findIndex(states, function (state) {
+            return state.id === curId;
+          });
+          nextIndex = currentIndex + 1 < states.length ?
+            currentIndex + 1 : states.length - 1;
+          return states[nextIndex].id;
+        });
+    };
+
+    // find previous id from phrases states
+    phraseService.findPreviousId = function(projectSlug, versionSlug, docId,
+                                        localeId, currentId) {
+      var curId = currentId;
+      return PhraseCache.getStates(projectSlug, versionSlug, docId, localeId)
+        .then(function (states) {
+          var currentIndex,
+            previousIndex;
+          currentIndex = _.findIndex(states, function (state) {
+            return state.id === curId;
+          });
+          previousIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : 0;
+          return states[previousIndex].id;
+        });
+    };
+
+    // find next phrase with requested status
+    phraseService.findNextStatus = function(projectSlug, versionSlug, docId,
+                                            localeId, currentId, status) {
+      var curId = currentId;
+      return PhraseCache.getStates(projectSlug, versionSlug, docId, localeId)
+        .then(function (statusList) {
+          var currentIndex,
+            nextIndex;
+          currentIndex = _.findIndex(statusList, function (state) {
+            return state.id === curId;
+          });
+
+          nextIndex = _.findIndex(statusList.slice(currentIndex), function(state) {
+            console.log('====' + status);
+            return TransStatusService.getStatusInfo(state.state)
+              === TransStatusService.getStatusInfo(status);
+          });
+          if (nextIndex >= 0 && nextIndex < statusList.length) {
+            return statusList[nextIndex].id;
+          } else {
+            return curId;
+          }
+        });
+    };
+
     function findPhrase(id, phrases) {
       return _.find(phrases, function(phrase) {
         return phrase.id === id;
@@ -151,3 +209,5 @@
     .factory('PhraseService', PhraseService);
 
 })();
+
+
