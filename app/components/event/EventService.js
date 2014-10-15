@@ -42,8 +42,9 @@
       /**
        * data: {}
        * phrase:
-       * state: request save state
+       * status: Object. Request save state
        * locale: target locale
+       * docId: docId
        */
       SAVE_TRANSLATION: 'saveTranslation',
 
@@ -129,5 +130,6 @@
     .module('app')
     .factory('EventService', EventService);
 })();
+
 
 

@@ -7,8 +7,7 @@
    * @ngInject
    */
   function AppCtrl($scope, UserService, UrlService, LocaleService,
-                   MessageHandler, gettextCatalog, StringUtil, PRODUCTION,
-                   EditorShortcuts) {
+                   MessageHandler, gettextCatalog, StringUtil, PRODUCTION) {
     var appCtrl = this;
 
     // See AppConstants.js
@@ -26,7 +25,6 @@
 
     $scope.$on('$stateChangeSuccess', function(event, toState) {
       appCtrl.loading = false;
-      EditorShortcuts.enableKeysForState(toState);
       if (toState.resolve) {
         // TODO: Move to here
       }
@@ -111,4 +109,6 @@
     .controller('AppCtrl', AppCtrl);
 
 })();
+
+
 

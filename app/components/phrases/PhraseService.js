@@ -165,9 +165,9 @@
           });
 
           nextIndex = _.findIndex(statusList.slice(currentIndex), function(state) {
-            console.log('====' + status);
-            return TransStatusService.getStatusInfo(state.state)
-              === TransStatusService.getStatusInfo(status);
+            var requestState = TransStatusService.getStatusInfo(status);
+            return TransStatusService
+              .getStatusInfo(state.state).ID === requestState.ID;
           });
           if (nextIndex >= 0 && nextIndex < statusList.length) {
             return statusList[nextIndex].id;
@@ -209,5 +209,8 @@
     .factory('PhraseService', PhraseService);
 
 })();
+
+
+
 
 

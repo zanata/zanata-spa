@@ -56,6 +56,10 @@
       }).state('editor.selectedContext', {
         url: '/:docId/:localeId',
         views: {
+          'editor-shortcuts': {
+            templateUrl: 'editor/editor-shortcuts.html',
+            controller: 'EditorShortcutsCtrl as editorShortcuts'
+          },
           'editor-content': {
             templateUrl: 'editor/editor-content.html',
             controller: 'EditorContentCtrl as editorContent'
@@ -83,3 +87,4 @@
     .config(AppConfig);
 
 })();
+
