@@ -108,7 +108,10 @@
           var phrase = TransUnitService.selectedPhrase();
           if (phrase) {
             event.preventDefault();
-            enableSaveAsMode(phrase, 'n', 'needsWork');
+            addSaveAsModeExtensionKey(phrase, 'n', 'needsWork');
+            addSaveAsModeExtensionKey(phrase, 't', 'translated');
+            addSaveAsModeExtensionKey(phrase, 'a', 'approved');
+            TransUnitService.toggleSaveAsOptions(true);
             $timeout(cancelSaveAsMode, 1000, true);
           }
         }
@@ -178,7 +181,7 @@
       };
     }
 
-    function enableSaveAsMode(phrase, combo, status) {
+    function addSaveAsModeExtensionKey(phrase, combo, status) {
       var statusInfo = TransStatusService.getStatusInfo(status);
 
       hotkeys.bindTo($scope).add({
@@ -208,6 +211,7 @@
         // cancel by timeout
         hotkeys.del('n');
       }
+      TransUnitService.toggleSaveAsOptions(false);
     }
 
     return editorShortcutsCtrl;

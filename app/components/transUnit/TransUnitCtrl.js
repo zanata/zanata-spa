@@ -69,6 +69,14 @@
       return LocaleService.getName(localeId);
     };
 
+    transUnitCtrl.toggleSaveAsOptions = function(open) {
+      if (open) {
+        EventService.broadcastEvent('openDropdown', {}, $scope);
+      } else {
+        EventService.broadcastEvent('closeDropdown', {}, $scope);
+      }
+    };
+
     $element.bind('click', onTransUnitClick);
 
     $scope.$on('$destroy', function () {

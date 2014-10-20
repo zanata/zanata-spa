@@ -42,6 +42,10 @@
       return selectedTUCtrl ? selectedTUCtrl.getPhrase() : false;
     };
 
+    transUnitService.toggleSaveAsOptions = function(open) {
+      selectedTUCtrl.toggleSaveAsOptions(open);
+    };
+
     /**
      * EventService.EVENT.SELECT_TRANS_UNIT listener
      * - Select and focus a trans-unit.
