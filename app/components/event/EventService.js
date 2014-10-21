@@ -95,7 +95,15 @@
        */
       GOTO_NEXT_ROW: 'gotoNextRow',
       GOTO_PREVIOUS_ROW: 'gotoPreviousRow',
-      GOTO_NEXT_UNTRANSLATED: 'gotoNextUntranslated'
+      GOTO_NEXT_UNTRANSLATED: 'gotoNextUntranslated',
+
+      /**
+       * Toggle save as options dropdown.
+       * data: {}
+       * id: TU id
+       * open: true to open or false to close
+       */
+      TOGGLE_SAVE_OPTIONS: 'openSaveOptions'
 
     };
 
@@ -130,6 +138,7 @@
     .module('app')
     .factory('EventService', EventService);
 })();
+
 
 
 

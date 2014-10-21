@@ -8,7 +8,7 @@
    */
   function TransUnitService($location, $rootScope, $state, $stateParams,
     $filter, MessageHandler, EventService, TransStatusService, PRODUCTION,
-    PhraseService, EditorShortcuts, focus, $timeout) {
+    PhraseService, EditorShortcuts, $timeout) {
     var transUnitService = this,
         controllerList = {},
         selectedTUId,
@@ -42,9 +42,13 @@
       return selectedTUCtrl ? selectedTUCtrl.getPhrase() : false;
     };
 
-    transUnitService.toggleSaveAsOptions = function(open) {
-      selectedTUCtrl.toggleSaveAsOptions(open);
-    };
+    $rootScope.$on(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
+      function(event, data) {
+        var transUnitCtrl = controllerList[data.id];
+        if (transUnitCtrl) {
+          transUnitCtrl.toggleSaveAsOptions(data.open);
+        }
+    });
 
     /**
      * EventService.EVENT.SELECT_TRANS_UNIT listener
@@ -139,11 +143,7 @@
           $location.search('id', null);
         }
 
-        EventService.emitEvent('focus-header', {});
-        console.log('focus header');
-        focus('editor-header');
         $timeout(function() {
-          console.log('bluring:' + 'phrase-' + phrase.id);
           return $rootScope.$broadcast('blurOn', 'phrase-' + phrase.id);
         });
       });
@@ -289,5 +289,3 @@
     .module('app')
     .factory('TransUnitService', TransUnitService);
 })();
-
-
