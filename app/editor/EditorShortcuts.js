@@ -6,69 +6,58 @@
    * @description controller for editor shortcuts
    * @ngInject
    */
-  function EditorShortcuts($rootScope, EventService, $stateParams,
-                               _, hotkeys,
-                               $timeout, TransStatusService) {
+  function EditorShortcuts(EventService, $stateParams, _, hotkeys,
+                           $timeout, TransStatusService) {
     var editorShortcuts = this,
-      tabKeyDownPromise = false,
-      copySourceCallback,
-      gotoNextRowCallback,
-      gotoPreviousRowCallback,
-      cancelEditCallback,
-      saveAsCurrentStatusCallback,
-      saveAsModeCallback,
-      gotoToNextUntranslatedCallback;
+      tabCombinationPressed = false;
 
     editorShortcuts.currentPhrase = false;
 
-    copySourceCallback = function(event) {
+    function copySourceCallback(event) {
       if (editorShortcuts.currentPhrase) {
         event.preventDefault();
         EventService.emitEvent(
           EventService.EVENT.COPY_FROM_SOURCE, editorShortcuts.currentPhrase);
       }
-    };
+    }
 
     /**
-     * due to browser by default intercepts keydown on tab, we can't listen on
-     * keyup event. This makes other key shortcut using tab as combination
-     * trickier.
+     * browser by default intercepts keydown on tab and move focus out of
+     * textarea. We can't use hotkeys to do this as it won't allow us register
+     * same key twice. Mousetrap is used as it's the underlying library hotkeys
+     * uses.
      */
-    gotoNextRowCallback = function (event) {
+    Mousetrap.bind('tab', function() {
       event.preventDefault();
-      event.stopPropagation();
-      if (editorShortcuts.currentPhrase) {
-        // we have to delay the callback because user may be in the middle of
-        // pressing key combination like 'tab+n'
-        tabKeyDownPromise = $timeout(function() {
-          EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
-            currentContext(editorShortcuts.currentPhrase));
-        }, 300);
-        // we need to blur from textarea otherwise 'tab+n' will insert a 'n'
-        $timeout(function() {
-          return $rootScope.$broadcast('blurOn', 'phrase-' + editorShortcuts.currentPhrase.id);
-        });
-      }
-    };
+    }, 'keydown');
 
-    gotoPreviousRowCallback = function (event) {
+    function gotoNextRowCallback(event) {
+      if (!tabCombinationPressed && editorShortcuts.currentPhrase) {
+        event.preventDefault();
+        event.stopPropagation();
+        EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
+          currentContext(editorShortcuts.currentPhrase));
+      }
+    }
+
+    function gotoPreviousRowCallback(event) {
       if (editorShortcuts.currentPhrase) {
         event.preventDefault();
         EventService.emitEvent(EventService.EVENT.GOTO_PREVIOUS_ROW,
           currentContext());
       }
-    };
+    }
 
-    cancelEditCallback = function (event) {
+    function cancelEditCallback(event) {
       if (editorShortcuts.currentPhrase) {
         event.preventDefault();
         event.stopPropagation();
         EventService.emitEvent(EventService.EVENT.CANCEL_EDIT,
           editorShortcuts.currentPhrase);
       }
-    };
+    }
 
-    saveAsCurrentStatusCallback = function (event) {
+    function saveAsCurrentStatusCallback(event) {
       if (editorShortcuts.currentPhrase) {
         event.preventDefault();
         EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
@@ -79,9 +68,9 @@
             'docId': $stateParams.docId
           });
       }
-    };
+    }
 
-    saveAsModeCallback = function (event) {
+    function saveAsModeCallback(event) {
       var phrase = editorShortcuts.currentPhrase;
       if (phrase) {
         event.preventDefault();
@@ -95,20 +84,27 @@
         addSaveAsModeExtensionKey(phrase, 'a', 'approved');
         $timeout(cancelSaveAsMode, 1000, true);
       }
-    };
+    }
 
-    gotoToNextUntranslatedCallback = function (event) {
-      if (tabKeyDownPromise) {
-        $timeout.cancel(tabKeyDownPromise);
-        tabKeyDownPromise = false;
-      }
+    function gotoToNextUntranslatedCallback(event) {
+      event.preventDefault();
+      event.stopPropagation();
       if (editorShortcuts.currentPhrase) {
-        event.preventDefault();
-        event.stopPropagation();
         EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
           currentContext());
+        recordTabCombinationPressed();
       }
-    };
+    }
+
+    /**
+     * This is a workaround to avoid an immediate tab keyup event callback.
+     */
+    function recordTabCombinationPressed() {
+      tabCombinationPressed = true;
+      $timeout(function () {
+        tabCombinationPressed = false;
+      }, 500);
+    }
 
     /**
      * mod will be replaced by ctrl if on windows/linux or cmd if on mac.
@@ -124,7 +120,8 @@
         'mod+s', saveAsCurrentStatusCallback, 'Save as current status'),
 
       GOTO_NEXT_ROW: new ShortcutInfo(
-        'tab', gotoNextRowCallback, 'Move to next row', ['alt+k', 'alt+down']),
+        'tab', gotoNextRowCallback, 'Move to next row', ['alt+k', 'alt+down'],
+        'keyup'),
 
       GOTO_PREVIOUS_ROW: new ShortcutInfo(
         'shift+tab', gotoPreviousRowCallback, 'Move to previous row',
@@ -287,6 +284,8 @@
     .module('app')
     .factory('EditorShortcuts', EditorShortcuts);
 })();
+
+
 
 
 
