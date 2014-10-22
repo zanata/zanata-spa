@@ -6,7 +6,8 @@
    * @description Main config for the entire app
    * @ngInject
    */
-  function AppConfig($stateProvider, $urlRouterProvider, $httpProvider) {
+  function AppConfig($stateProvider, $urlRouterProvider, $httpProvider,
+    hotkeysProvider) {
 
     var interceptor = function($q, $rootScope) {
       return {
@@ -77,6 +78,30 @@
         url: '/?id&selected?states',
         reloadOnSearch: false
       });
+
+      hotkeysProvider.template = '' +
+        '<div class="Modal" ng-class="{\'is-active\': helpVisible}">' +
+          '<div class="Modal-dialog">' +
+            '<div class="Modal-header">' +
+              '<h2 class="Modal-title">Keyboard Shortcuts</h2>' +
+              '<button class="Modal-close Link Link--neutral"' +
+              ' ng-click="toggleCheatSheet()">' +
+              '<icon name="cross" title="Close"></icon></button>' +
+            '</div>' +
+            '<div class="Modal-content u-sP-1">' +
+              '<table><tbody>' +
+                '<tr ng-repeat="hotkey in hotkeys | ' +
+                'filter:{ description: \'!$$undefined$$\' }">' +
+                  '<td class="cfp-hotkeys-keys">' +
+                    '<span ng-repeat="key in hotkey.format() track by $index"' +
+                    ' class="cfp-hotkeys-key">{{ key }}</span>' +
+                  '</td>' +
+                  '<td class="cfp-hotkeys-text">{{ hotkey.description }}</td>' +
+                '</tr>' +
+              '</tbody></table>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
 
   //   $locationProvider.html5Mode(true);
   //     .hashPrefix('!');

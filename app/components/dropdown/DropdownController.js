@@ -59,7 +59,8 @@
 
       if (isOpen) {
         // need to wrap it in a timeout
-        // see http://stackoverflow.com/questions/12729122/prevent-error-digest-already-in-progress-when-calling-scope-apply
+        // see http://stackoverflow.com/questions/12729122/
+        // prevent-error-digest-already-in-progress-when-calling-scope-apply
         $timeout(function() {
           scope.focusToggleElement();
         });

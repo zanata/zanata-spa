@@ -215,6 +215,15 @@
         </li>
         <li>
           <button class="Link--neutral u-sizeHeight-1_1-2"
+            title="{{'Keyboard Shortcuts'|translate}}"
+            ng-click="editor.toggleKeyboardShortcutsModal()">
+            <icon name="keyboard" title="{{'Keyboard Shortcuts'|translate}}" class="u-sizeWidth-1_1-2"
+              ng-class="{'is-active': false}">
+            </icon>
+          </button>
+        </li>
+        <li>
+          <button class="Link--neutral u-sizeHeight-1_1-2"
             title="{{'Hide Menubar'|translate}}"
             ng-click="editor.settings.hideMainNav = !editor.settings.hideMainNav">
             <icon name="chevron-up-double" title="{{'Hide Menubar'|translate}}" class="u-sizeWidth-1_1-2"

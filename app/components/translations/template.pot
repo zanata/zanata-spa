@@ -43,6 +43,10 @@ msgid "Hide Menubar"
 msgstr ""
 
 #: app/editor/editor-header.html
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: app/editor/editor-header.html
 msgid "More"
 msgstr ""
 

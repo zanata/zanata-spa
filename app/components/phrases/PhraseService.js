@@ -164,7 +164,8 @@
             return state.id === curId;
           });
 
-          nextIndex = _.findIndex(statusList.slice(currentIndex), function(state) {
+          nextIndex = _.findIndex(statusList.slice(currentIndex),
+            function(state) {
             var requestState = TransStatusService.getStatusInfo(status);
             return TransStatusService
               .getStatusInfo(state.state).ID === requestState.ID;

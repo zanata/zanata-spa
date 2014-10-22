@@ -8,7 +8,7 @@
   function EditorCtrl(UserService, DocumentService, LocaleService,
     ProjectService, TransUnitService, EditorService, TransStatusService,
     StatisticUtil, UrlService, $stateParams, $state, MessageHandler, $rootScope,
-    EventService) {
+    EventService, hotkeys) {
     var editorCtrl = this;
     editorCtrl.pageNumber = 1;
 
@@ -21,6 +21,10 @@
       $stateParams.versionSlug, DocumentService.decodeDocId($stateParams.docId),
       LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE.localeId,
       'READ_WRITE');
+
+    editorCtrl.toggleKeyboardShortcutsModal = function() {
+      hotkeys.toggleCheatSheet();
+    };
 
     editorCtrl.versionPage = function() {
       return UrlService.PROJECT_PAGE(editorCtrl.context.projectSlug,
