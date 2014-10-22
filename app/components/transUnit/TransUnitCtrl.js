@@ -16,7 +16,6 @@
       TransUnitService.isTranslationModified;
 
     transUnitCtrl.focusTranslation = function() {
-      console.log('focus textarea');
       focus('phrase-' + $scope.phrase.id);
     };
 
@@ -128,3 +127,4 @@
     .module('app')
     .controller('TransUnitCtrl', TransUnitCtrl);
 })();
+

@@ -248,6 +248,19 @@
                 'updateURL': true,
                 'focus' : true
               }, null);
+          } else {
+            // we have reach the end
+            var phrase = controllerList[data.currentId].getPhrase();
+            if (transUnitService.isTranslationModified(phrase)) {
+              EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+                {
+                  'phrase' : phrase,
+                  'status' : TransStatusService.getStatusInfo('TRANSLATED'),
+                  'locale' : data.localeId,
+                  'docId'  : data.docId
+                });
+            }
+            EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase);
           }
         });
 
@@ -263,6 +276,19 @@
                 'updateURL': true,
                 'focus' : true
               }, null);
+          } else {
+            // have have reach the start
+            var phrase = controllerList[data.currentId].getPhrase();
+            if (transUnitService.isTranslationModified(phrase)) {
+              EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+                {
+                  'phrase' : phrase,
+                  'status' : TransStatusService.getStatusInfo('TRANSLATED'),
+                  'locale' : data.localeId,
+                  'docId'  : data.docId
+                });
+            }
+            EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase);
           }
         });
     }
@@ -289,3 +315,4 @@
     .module('app')
     .factory('TransUnitService', TransUnitService);
 })();
+

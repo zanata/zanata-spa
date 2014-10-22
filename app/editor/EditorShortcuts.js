@@ -10,6 +10,7 @@
                                _, hotkeys,
                                $timeout, TransStatusService) {
     var editorShortcuts = this,
+      tabKeyDownPromise = false,
       copySourceCallback,
       gotoNextRowCallback,
       gotoPreviousRowCallback,
@@ -28,12 +29,25 @@
       }
     };
 
+    /**
+     * due to browser by default intercepts keydown on tab, we can't listen on
+     * keyup event. This makes other key shortcut using tab as combination
+     * trickier.
+     */
     gotoNextRowCallback = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
       if (editorShortcuts.currentPhrase) {
-        event.preventDefault();
-        event.stopPropagation();
-        EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
-          currentContext(editorShortcuts.currentPhrase));
+        // we have to delay the callback because user may be in the middle of
+        // pressing key combination like 'tab+n'
+        tabKeyDownPromise = $timeout(function() {
+          EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
+            currentContext(editorShortcuts.currentPhrase));
+        }, 300);
+        // we need to blur from textarea otherwise 'tab+n' will insert a 'n'
+        $timeout(function() {
+          return $rootScope.$broadcast('blurOn', 'phrase-' + editorShortcuts.currentPhrase.id);
+        });
       }
     };
 
@@ -84,6 +98,10 @@
     };
 
     gotoToNextUntranslatedCallback = function (event) {
+      if (tabKeyDownPromise) {
+        $timeout.cancel(tabKeyDownPromise);
+        tabKeyDownPromise = false;
+      }
       if (editorShortcuts.currentPhrase) {
         event.preventDefault();
         event.stopPropagation();
@@ -92,7 +110,10 @@
       }
     };
 
-    // mod will be replaced by ctrl if on windows/linux or cmd if on mac
+    /**
+     * mod will be replaced by ctrl if on windows/linux or cmd if on mac.
+     * By default it listens on keydown event.
+     */
     editorShortcuts.SHORTCUTS = {
       COPY_SOURCE: new ShortcutInfo(
         'alt+c', copySourceCallback, 'Copy source as translation', 'alt+g'),
@@ -103,8 +124,7 @@
         'mod+s', saveAsCurrentStatusCallback, 'Save as current status'),
 
       GOTO_NEXT_ROW: new ShortcutInfo(
-        'tab', gotoNextRowCallback, 'Move to next row', ['alt+k', 'alt+down'],
-        'keyup'),
+        'tab', gotoNextRowCallback, 'Move to next row', ['alt+k', 'alt+down']),
 
       GOTO_PREVIOUS_ROW: new ShortcutInfo(
         'shift+tab', gotoPreviousRowCallback, 'Move to previous row',
@@ -121,8 +141,10 @@
      *
      * @param defaultKey default key combo for a shortcut
      * @param callback callback to execute
-     * @param description optional. If not empty will apply to default key (shows in cheatsheet)
-     * @param otherKeys optional other keys that will do the same (won't show in cheatsheet)
+     * @param description
+     *  optional. If not empty will apply to default key (shows in cheatsheet)
+     * @param otherKeys
+     *  optional other keys that will do the same (won't show in cheatsheet)
      * @param action optional event to listen to. i.e. 'keyup' or 'keydown'
      * @returns {EditorShortcuts.ShortcutInfo}
      * @constructor
@@ -265,6 +287,7 @@
     .module('app')
     .factory('EditorShortcuts', EditorShortcuts);
 })();
+
 
 
 
