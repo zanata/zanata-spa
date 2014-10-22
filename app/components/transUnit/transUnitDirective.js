@@ -23,6 +23,19 @@
     };
   }
 
+  function blurOn() {
+    return {
+      restrict: 'A',
+      link: function(scope, elem, attr) {
+        return scope.$on('blurOn', function (e, name) {
+            if (name === attr.blurOn) {
+              return elem[0].blur();
+            }
+          });
+        }
+    };
+  }
+
   angular
     .module('app')
     .directive('transUnit', transUnit);

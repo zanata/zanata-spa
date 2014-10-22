@@ -8,7 +8,7 @@
    */
   function TransUnitService($location, $rootScope, $state, $stateParams,
     $filter, MessageHandler, EventService, TransStatusService, PRODUCTION,
-    PhraseService) {
+    PhraseService, EditorShortcuts, focus, $timeout) {
     var transUnitService = this,
         controllerList = {},
         selectedTUId,
@@ -60,6 +60,7 @@
 
         if(newTuController) {
           selectedTUCtrl = newTuController;
+          EditorShortcuts.currentPhrase = selectedTUCtrl.getPhrase();
 
           if (selectedTUId && selectedTUId !== data.id) {
             //perform implicit save if changed
@@ -130,12 +131,21 @@
         if(selectedTUId) {
           setSelected(controllerList[selectedTUId], false);
           selectedTUId = false;
+          EditorShortcuts.currentPhrase = false;
         }
 
         $location.search('selected', null);
         if(!phrase) {
           $location.search('id', null);
         }
+
+        EventService.emitEvent('focus-header', {});
+        console.log('focus header');
+        focus('editor-header');
+        $timeout(function() {
+          console.log('bluring:' + 'phrase-' + phrase.id);
+          return $rootScope.$broadcast('blurOn', 'phrase-' + phrase.id);
+        });
       });
 
     /**

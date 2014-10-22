@@ -6,9 +6,9 @@
    * @ngInject
    */
   function EditorCtrl(UserService, DocumentService, LocaleService,
-    ProjectService, TransUnitService, EditorService, TransStatusService,
+    ProjectService, EditorService, TransStatusService,
     StatisticUtil, UrlService, $stateParams, $state, MessageHandler, $rootScope,
-    EventService, hotkeys) {
+    EventService, EditorShortcuts, focus, hotkeys) {
     var editorCtrl = this;
     editorCtrl.pageNumber = 1;
 
@@ -191,6 +191,13 @@
     }
 
     this.settings = UserService.settings.editor;
+
+    EditorShortcuts.enableEditorKeys();
+
+    $rootScope.$on('focus-header', function() {
+      console.log('focus header in EditorCtrl');
+      focus('editor-header');
+    });
   }
 
   angular
