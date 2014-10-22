@@ -16,6 +16,7 @@
  * Components
  */
 
+@import 'suitcss-components-grid';
 @import './components/base/index.css';
 @import './components/button-group/index.css';
 @import './components/button/index.css';
