@@ -238,6 +238,20 @@
       }
     }
 
+    function saveCurrentRowIfModifiedAndUnfocus(data) {
+      var phrase = controllerList[data.currentId].getPhrase();
+      if (transUnitService.isTranslationModified(phrase)) {
+        EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+          {
+            'phrase': phrase,
+            'status': TransStatusService.getStatusInfo('TRANSLATED'),
+            'locale': data.localeId,
+            'docId': data.docId
+          });
+      }
+      EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase);
+    }
+
     function goToNextRow(event, data) {
       PhraseService.findNextId(data.projectSlug, data.versionSlug,
         data.docId, data.localeId, data.currentId).then(function(next) {
@@ -250,17 +264,7 @@
               }, null);
           } else {
             // we have reach the end
-            var phrase = controllerList[data.currentId].getPhrase();
-            if (transUnitService.isTranslationModified(phrase)) {
-              EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-                {
-                  'phrase' : phrase,
-                  'status' : TransStatusService.getStatusInfo('TRANSLATED'),
-                  'locale' : data.localeId,
-                  'docId'  : data.docId
-                });
-            }
-            EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase);
+            saveCurrentRowIfModifiedAndUnfocus(data);
           }
         });
 
@@ -278,17 +282,7 @@
               }, null);
           } else {
             // have have reach the start
-            var phrase = controllerList[data.currentId].getPhrase();
-            if (transUnitService.isTranslationModified(phrase)) {
-              EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-                {
-                  'phrase' : phrase,
-                  'status' : TransStatusService.getStatusInfo('TRANSLATED'),
-                  'locale' : data.localeId,
-                  'docId'  : data.docId
-                });
-            }
-            EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase);
+            saveCurrentRowIfModifiedAndUnfocus(data);
           }
         });
     }
@@ -304,6 +298,9 @@
                 'updateURL': true,
                 'focus' : true
               }, null);
+          } else {
+            // can not find next untranslated
+            saveCurrentRowIfModifiedAndUnfocus(data);
           }
         });
     }
@@ -315,4 +312,5 @@
     .module('app')
     .factory('TransUnitService', TransUnitService);
 })();
+
 

@@ -159,22 +159,21 @@
       return PhraseCache.getStates(projectSlug, versionSlug, docId, localeId)
         .then(function (statusList) {
           var currentIndex,
-            nextIndex;
+            nextStatusInfo,
+            requestStatus = TransStatusService.getStatusInfo(status);
+
           currentIndex = _.findIndex(statusList, function (state) {
             return state.id === curId;
           });
 
-          nextIndex = _.findIndex(statusList.slice(currentIndex),
-            function(state) {
-            var requestState = TransStatusService.getStatusInfo(status);
-            return TransStatusService
-              .getStatusInfo(state.state).ID === requestState.ID;
-          });
-          if (nextIndex >= 0 && nextIndex < statusList.length) {
-            return statusList[nextIndex].id;
-          } else {
-            return curId;
+          for (var i = currentIndex + 1; i < statusList.length; i++) {
+            nextStatusInfo = TransStatusService.getStatusInfo(
+              statusList[i].state);
+            if (nextStatusInfo.ID === requestStatus.ID) {
+              return statusList[i].id;
+            }
           }
+          return curId;
         });
     };
 
@@ -210,6 +209,7 @@
     .factory('PhraseService', PhraseService);
 
 })();
+
 
 
 
