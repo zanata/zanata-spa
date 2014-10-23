@@ -70,6 +70,11 @@
       }
     }
 
+    /**
+     * This is to mimic sequence shortcut.
+     * i.e. press ctlr-shift-s then within 1 second, press 'n' to save as
+     * 'needs work'.
+     */
     function saveAsModeCallback(event) {
       var phrase = editorShortcuts.currentPhrase;
       if (phrase) {
@@ -106,6 +111,22 @@
       }, 500);
     }
 
+    function saveAndGoToNextCallback(event) {
+      event.preventDefault();
+      if (editorShortcuts.currentPhrase) {
+        var statusInfo = TransStatusService.getStatusInfo('translated');
+        EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+          {
+            'phrase': editorShortcuts.currentPhrase,
+            'status': statusInfo,
+            'locale': $stateParams.localeId,
+            'docId': $stateParams.docId
+          });
+        EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
+          currentContext(editorShortcuts.currentPhrase));
+      }
+    }
+
     /**
      * mod will be replaced by ctrl if on windows/linux or cmd if on mac.
      * By default it listens on keydown event.
@@ -131,7 +152,12 @@
         'tab+u', gotoToNextUntranslatedCallback),
 
       SAVE_AS_MODE: new ShortcutInfo(
-        'mod+shift+s', saveAsModeCallback, '')
+        'mod+shift+s', saveAsModeCallback, ''),
+
+      SAVE_AND_GOTO_NEXT: new ShortcutInfo(
+        'mod+enter', saveAndGoToNextCallback,
+        'Save as translated and move to next'
+      )
     };
 
     /**
@@ -177,13 +203,9 @@
 
     editorShortcuts.enableEditorKeys = function () {
       if (!hotkeys.get(editorShortcuts.SHORTCUTS.COPY_SOURCE.defaultKey)) {
-        editorShortcuts.enableCancelEditKey();
-        editorShortcuts.enableCopySourceKey();
-        editorShortcuts.enableGoToNextRowKey();
-        editorShortcuts.enableGoToNextUntranslatedKey();
-        editorShortcuts.enableGoToPreviousRowKey();
-        editorShortcuts.enableSaveAsCurrentKey();
-        editorShortcuts.enableSaveAsModeKey();
+        _.forOwn(editorShortcuts.SHORTCUTS, function(value) {
+          enableShortcut(value)
+        });
       }
     };
 
@@ -191,10 +213,6 @@
       _.forOwn(editorShortcuts.SHORTCUTS, function(value) {
         hotkeys.del(value.keyCombos);
       });
-    };
-
-    editorShortcuts.enableCopySourceKey = function() {
-      enableShortcut(editorShortcuts.SHORTCUTS.COPY_SOURCE);
     };
 
     function enableShortcut(shortcutInfo) {
@@ -205,35 +223,6 @@
           });
       }
     }
-
-    editorShortcuts.enableCancelEditKey = function() {
-      enableShortcut(editorShortcuts.SHORTCUTS.CANCEL_EDIT);
-    };
-
-    editorShortcuts.enableSaveAsCurrentKey = function() {
-      enableShortcut(editorShortcuts.SHORTCUTS.SAVE_AS_CURRENT_STATUS);
-    };
-
-    /**
-     * This is to mimic sequence shortcut.
-     * i.e. press ctlr-shift-s then within 1 second, press 'n' to save as
-     * 'needs work'.
-     */
-    editorShortcuts.enableSaveAsModeKey = function() {
-      enableShortcut(editorShortcuts.SHORTCUTS.SAVE_AS_MODE);
-    };
-
-    editorShortcuts.enableGoToNextRowKey = function() {
-      enableShortcut(editorShortcuts.SHORTCUTS.GOTO_NEXT_ROW);
-    };
-
-    editorShortcuts.enableGoToPreviousRowKey = function() {
-      enableShortcut(editorShortcuts.SHORTCUTS.GOTO_PREVIOUS_ROW);
-    };
-
-    editorShortcuts.enableGoToNextUntranslatedKey = function() {
-      enableShortcut(editorShortcuts.SHORTCUTS.GOTO_NEXT_UNTRANSLATED);
-    };
 
     function currentContext() {
       return {
@@ -284,9 +273,4 @@
     .module('app')
     .factory('EditorShortcuts', EditorShortcuts);
 })();
-
-
-
-
-
 
