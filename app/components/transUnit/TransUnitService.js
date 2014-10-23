@@ -4,6 +4,8 @@
   /**
    * TransUnitService
    *
+   * See PhraseService.transformToPhrases function for phrase definition.
+   *
    * @ngInject
    */
   function TransUnitService($location, $rootScope, $state, $stateParams,
@@ -11,8 +13,7 @@
     PhraseService, EditorShortcuts, $timeout) {
     var transUnitService = this,
         controllerList = {},
-        selectedTUId,
-        selectedTUCtrl = false
+        selectedTUId
       ;
 
     transUnitService.addController = function(id, controller) {
@@ -38,10 +39,6 @@
       return filterSaveButtonOptions(saveButtonStatus);
     };
 
-    transUnitService.selectedPhrase = function() {
-      return selectedTUCtrl ? selectedTUCtrl.getPhrase() : false;
-    };
-
     $rootScope.$on(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
       function(event, data) {
         var transUnitCtrl = controllerList[data.id];
@@ -63,8 +60,7 @@
             updateURL = data.updateURL;
 
         if(newTuController) {
-          selectedTUCtrl = newTuController;
-          EditorShortcuts.currentPhrase = selectedTUCtrl.getPhrase();
+          EditorShortcuts.selectedTUCtrl = newTuController;
 
           if (selectedTUId && selectedTUId !== data.id) {
             //perform implicit save if changed
@@ -80,6 +76,8 @@
             }
             setSelected(oldTUController, false);
           }
+
+          EditorShortcuts.cancelSaveAsModeIfOn();
 
           updateSaveButton(event, newTuController.getPhrase());
           selectedTUId = data.id;
@@ -312,5 +310,7 @@
     .module('app')
     .factory('TransUnitService', TransUnitService);
 })();
+
+
 
 

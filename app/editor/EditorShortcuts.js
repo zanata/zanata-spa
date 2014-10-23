@@ -11,13 +11,14 @@
     var editorShortcuts = this,
       tabCombinationPressed = false;
 
-    editorShortcuts.currentPhrase = false;
+    // this will be set by TransUnitService on EVENT.SELECT_TRANS_UNIT
+    editorShortcuts.selectedTUCtrl = false;
 
     function copySourceCallback(event) {
-      if (editorShortcuts.currentPhrase) {
+      if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
-        EventService.emitEvent(
-          EventService.EVENT.COPY_FROM_SOURCE, editorShortcuts.currentPhrase);
+        EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
+          editorShortcuts.selectedTUCtrl.getPhrase());
       }
     }
 
@@ -32,16 +33,16 @@
     }, 'keydown');
 
     function gotoNextRowCallback(event) {
-      if (!tabCombinationPressed && editorShortcuts.currentPhrase) {
+      if (!tabCombinationPressed && editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
         event.stopPropagation();
         EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
-          currentContext(editorShortcuts.currentPhrase));
+          currentContext());
       }
     }
 
     function gotoPreviousRowCallback(event) {
-      if (editorShortcuts.currentPhrase) {
+      if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
         EventService.emitEvent(EventService.EVENT.GOTO_PREVIOUS_ROW,
           currentContext());
@@ -49,21 +50,29 @@
     }
 
     function cancelEditCallback(event) {
-      if (editorShortcuts.currentPhrase) {
-        event.preventDefault();
-        event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
+      if (editorShortcuts.inSaveAsMode) {
+        // cancel save as mode
+        editorShortcuts.cancelSaveAsModeIfOn();
+        if (editorShortcuts.selectedTUCtrl) {
+          editorShortcuts.selectedTUCtrl.focusTranslation();
+        }
+      } else if (editorShortcuts.selectedTUCtrl) {
+        // cancel edit
         EventService.emitEvent(EventService.EVENT.CANCEL_EDIT,
-          editorShortcuts.currentPhrase);
+          editorShortcuts.selectedTUCtrl.getPhrase());
       }
     }
 
     function saveAsCurrentStatusCallback(event) {
-      if (editorShortcuts.currentPhrase) {
+      if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
+        var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
         EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
           {
-            'phrase': editorShortcuts.currentPhrase,
-            'status': editorShortcuts.currentPhrase.status,
+            'phrase': phrase,
+            'status': phrase.status,
             'locale': $stateParams.localeId,
             'docId': $stateParams.docId
           });
@@ -76,7 +85,7 @@
      * 'needs work'.
      */
     function saveAsModeCallback(event) {
-      var phrase = editorShortcuts.currentPhrase;
+      var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
       if (phrase) {
         event.preventDefault();
         EventService.emitEvent(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
@@ -87,14 +96,14 @@
         addSaveAsModeExtensionKey(phrase, 'n', 'needsWork');
         addSaveAsModeExtensionKey(phrase, 't', 'translated');
         addSaveAsModeExtensionKey(phrase, 'a', 'approved');
-        $timeout(cancelSaveAsMode, 1000, true);
+        editorShortcuts.inSaveAsMode = true;
       }
     }
 
     function gotoToNextUntranslatedCallback(event) {
       event.preventDefault();
       event.stopPropagation();
-      if (editorShortcuts.currentPhrase) {
+      if (editorShortcuts.selectedTUCtrl) {
         EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
           currentContext());
         recordTabCombinationPressed();
@@ -113,17 +122,17 @@
 
     function saveAndGoToNextCallback(event) {
       event.preventDefault();
-      if (editorShortcuts.currentPhrase) {
+      if (editorShortcuts.selectedTUCtrl) {
         var statusInfo = TransStatusService.getStatusInfo('translated');
         EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
           {
-            'phrase': editorShortcuts.currentPhrase,
+            'phrase': editorShortcuts.selectedTUCtrl.getPhrase(),
             'status': statusInfo,
             'locale': $stateParams.localeId,
             'docId': $stateParams.docId
           });
         EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
-          currentContext(editorShortcuts.currentPhrase));
+          currentContext());
       }
     }
 
@@ -204,7 +213,7 @@
     editorShortcuts.enableEditorKeys = function () {
       if (!hotkeys.get(editorShortcuts.SHORTCUTS.COPY_SOURCE.defaultKey)) {
         _.forOwn(editorShortcuts.SHORTCUTS, function(value) {
-          enableShortcut(value)
+          enableShortcut(value);
         });
       }
     };
@@ -226,7 +235,7 @@
 
     function currentContext() {
       return {
-        'currentId': editorShortcuts.currentPhrase.id,
+        'currentId': editorShortcuts.selectedTUCtrl.getPhrase().id,
         'projectSlug': $stateParams.projectSlug,
         'versionSlug': $stateParams.versionSlug,
         'localeId': $stateParams.localeId,
@@ -250,21 +259,24 @@
               'locale': $stateParams.localeId,
               'docId': $stateParams.docId
             });
-          cancelSaveAsMode();
+          editorShortcuts.cancelSaveAsModeIfOn();
         }
       });
     }
 
-    function cancelSaveAsMode() {
-      hotkeys.del('n');
-      hotkeys.del('t');
-      hotkeys.del('a');
-      EventService.emitEvent(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
-        {
-          'id': editorShortcuts.currentPhrase.id,
-          'open': false
-        });
-    }
+    editorShortcuts.cancelSaveAsModeIfOn = function() {
+      if (editorShortcuts.inSaveAsMode && editorShortcuts.selectedTUCtrl) {
+        editorShortcuts.inSaveAsMode = false;
+        hotkeys.del('n');
+        hotkeys.del('t');
+        hotkeys.del('a');
+        EventService.emitEvent(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
+          {
+            'id': editorShortcuts.selectedTUCtrl.getPhrase().id,
+            'open': false
+          });
+      }
+    };
 
     return editorShortcuts;
   }
@@ -273,4 +285,6 @@
     .module('app')
     .factory('EditorShortcuts', EditorShortcuts);
 })();
+
+
 
