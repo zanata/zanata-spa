@@ -59,9 +59,16 @@
           editorShortcuts.selectedTUCtrl.focusTranslation();
         }
       } else if (editorShortcuts.selectedTUCtrl) {
-        // cancel edit
-        EventService.emitEvent(EventService.EVENT.CANCEL_EDIT,
-          editorShortcuts.selectedTUCtrl.getPhrase());
+        var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
+        if (phrase.newTranslation !== phrase.translation) {
+          // if it has changed translation, undo edit
+          EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
+            phrase);
+        } else {
+          // otherwise cancel edit
+          EventService.emitEvent(EventService.EVENT.CANCEL_EDIT,
+            phrase);
+        }
       }
     }
 
@@ -285,6 +292,7 @@
     .module('app')
     .factory('EditorShortcuts', EditorShortcuts);
 })();
+
 
 
 
