@@ -297,7 +297,7 @@
      */
     editorShortcuts.deleteKeys = function(keys, action) {
       var keysToDelete = keys instanceof Array ? keys : [keys];
-      action = action ? action : 'keydown';
+      action = action || 'keydown';
       _.forEach(keysToDelete, function(key) {
         hotkeys.del(key);
         Mousetrap.unbind(key, action);
@@ -311,6 +311,7 @@
     .module('app')
     .factory('EditorShortcuts', EditorShortcuts);
 })();
+
 
 
 
