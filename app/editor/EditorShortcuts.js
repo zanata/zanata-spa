@@ -3,15 +3,17 @@
 
   /**
    * @name EditorShortcuts
-   * @description controller for editor shortcuts
+   * @description service for editor shortcuts
    * @ngInject
    */
   function EditorShortcuts(EventService, $stateParams, _, hotkeys,
-                           $timeout, TransStatusService) {
+                           $timeout, TransStatusService, Mousetrap) {
     var editorShortcuts = this,
-      tabCombinationPressed = false;
+      tabCombinationPressed = false,
+      inSaveAsMode = false;
 
-    // this will be set by TransUnitService on EVENT.SELECT_TRANS_UNIT
+    // this will be set by TransUnitService
+    // on EVENT.SELECT_TRANS_UNIT and unset on EVENT.CANCEL_EDIT
     editorShortcuts.selectedTUCtrl = false;
 
     function copySourceCallback(event) {
@@ -52,7 +54,7 @@
     function cancelEditCallback(event) {
       event.preventDefault();
       event.stopPropagation();
-      if (editorShortcuts.inSaveAsMode) {
+      if (inSaveAsMode) {
         // cancel save as mode
         editorShortcuts.cancelSaveAsModeIfOn();
         if (editorShortcuts.selectedTUCtrl) {
@@ -103,7 +105,7 @@
         addSaveAsModeExtensionKey(phrase, 'n', 'needsWork');
         addSaveAsModeExtensionKey(phrase, 't', 'translated');
         addSaveAsModeExtensionKey(phrase, 'a', 'approved');
-        editorShortcuts.inSaveAsMode = true;
+        inSaveAsMode = true;
       }
     }
 
@@ -178,13 +180,13 @@
 
     /**
      *
-     * @param defaultKey default key combo for a shortcut
-     * @param callback callback to execute
-     * @param description
+     * @param {string} defaultKey default key combo for a shortcut
+     * @param {function} callback callback to execute
+     * @param {string} [description]
      *  optional. If not empty will apply to default key (shows in cheatsheet)
-     * @param otherKeys
+     * @param {(string|string[])} [otherKeys]
      *  optional other keys that will do the same (won't show in cheatsheet)
-     * @param action optional event to listen to. i.e. 'keyup' or 'keydown'
+     * @param {string} [action] optional event to listen to. i.e. 'keyup'
      * @returns {EditorShortcuts.ShortcutInfo}
      * @constructor
      */
@@ -227,7 +229,9 @@
 
     editorShortcuts.disableEditorKey = function () {
       _.forOwn(editorShortcuts.SHORTCUTS, function(value) {
-        hotkeys.del(value.keyCombos);
+        _.forEach(value.keyCombos, function(hotkey) {
+          editorShortcuts.deleteKeys(hotkey.combo, hotkey.action);
+        });
       });
     };
 
@@ -252,8 +256,9 @@
 
     function addSaveAsModeExtensionKey(phrase, combo, status) {
       var statusInfo = TransStatusService.getStatusInfo(status);
-      hotkeys.add({
+      return hotkeys.add({
         combo: combo,
+        description: 'Save as ' + status,
         allowIn: ['INPUT', 'TEXTAREA'],
         action: 'keydown',
         callback: function (event) {
@@ -272,17 +277,31 @@
     }
 
     editorShortcuts.cancelSaveAsModeIfOn = function() {
-      if (editorShortcuts.inSaveAsMode && editorShortcuts.selectedTUCtrl) {
-        editorShortcuts.inSaveAsMode = false;
-        hotkeys.del('n');
-        hotkeys.del('t');
-        hotkeys.del('a');
+      if (inSaveAsMode && editorShortcuts.selectedTUCtrl) {
+        inSaveAsMode = false;
+        editorShortcuts.deleteKeys(['n', 't', 'a']);
         EventService.emitEvent(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
           {
             'id': editorShortcuts.selectedTUCtrl.getPhrase().id,
             'open': false
           });
       }
+    };
+
+    /**
+     * This is a workaround for augular-hotkeys not being able to delete hotkey.
+     * @see https://github.com/chieffancypants/angular-hotkeys/issues/100
+     *
+     * @param {(string|string[])} keys single key or array of keys to be deleted
+     * @param {string} [action='keydown'] 'keyup' or 'keydown' etc.
+     */
+    editorShortcuts.deleteKeys = function(keys, action) {
+      var keysToDelete = keys instanceof Array ? keys : [keys];
+      action = action ? action : 'keydown';
+      _.forEach(keysToDelete, function(key) {
+        hotkeys.del(key);
+        Mousetrap.unbind(key, action);
+      });
     };
 
     return editorShortcuts;
@@ -292,6 +311,7 @@
     .module('app')
     .factory('EditorShortcuts', EditorShortcuts);
 })();
+
 
 
 

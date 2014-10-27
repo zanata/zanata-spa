@@ -88,11 +88,13 @@
               '<ul>' +
                 '<li class="Grid" ng-repeat="hotkey in hotkeys | ' +
                 'filter:{ description: \'!$$undefined$$\' }">' +
-                  '<div class="Grid-cell u-sm-size1of2 u-size1of3 u-sPR-1-4 u-sPV-1-4 u-textRight">' +
+                  '<div class="Grid-cell u-sm-size1of2 u-size1of3 u-sPR-1-4 ' +
+                    'u-sPV-1-4 u-textRight">' +
                     '<kbd ng-repeat="key in hotkey.format() track by $index"' +
                     '>{{ key }}</kbd>' +
                   '</div>' +
-                  '<div class="Grid-cell u-sm-size1of2 u-size2of3 u-sPL-1-4 u-sPV-1-4">' +
+                  '<div class="Grid-cell u-sm-size1of2 u-size2of3 u-sPL-1-4' +
+                    ' u-sPV-1-4">' +
                   '{{ hotkey.description }}</div>' +
                 '</li>' +
               '</ul>' +
@@ -109,5 +111,6 @@
     .config(AppConfig);
 
 })();
+
 
 
