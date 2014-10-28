@@ -97,6 +97,15 @@
                     ' u-sPV-1-4">' +
                   '{{ hotkey.description }}</div>' +
                 '</li>' +
+                '<li class="Grid">' +
+                  '<div class="Grid-cell u-sm-size1of2 u-size1of3 u-sPR-1-4 ' +
+                    'u-sPV-1-4 u-textRight">' +
+                    '<kbd>Tab + U</kbd>' +
+                  '</div>' +
+                  '<div class="Grid-cell u-sm-size1of2 u-size2of3 u-sPL-1-4' +
+                    ' u-sPV-1-4">Save and go to next untranslated string' +
+                  '</div>' +
+                '</li>' +
               '</ul>' +
             '</div>' +
           '</div>' +

@@ -4,6 +4,7 @@
   ng-change="transUnitCtrl.translationTextModified(phrase)"
   ng-model="phrase.newTranslation" class="TransUnit-text" rows="1"
   ng-trim="false"
+  ng-focus="transUnitCtrl.selectTransUnit(phrase)"
   focus-on="phrase-{{phrase.id}}"
   blur-on="phrase-{{phrase.id}}"
   placeholder="{{'Enter a translation…'|translate}}"></textarea>

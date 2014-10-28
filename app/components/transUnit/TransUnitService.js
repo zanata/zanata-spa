@@ -127,13 +127,10 @@
      */
     $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
       function (event, phrase) {
-        if (phrase && transUnitService.isTranslationModified(phrase)) {
-          phrase.newTranslation = phrase.translation;
-        }
         if(selectedTUId) {
           setSelected(controllerList[selectedTUId], false);
           selectedTUId = false;
-          EditorShortcuts.currentPhrase = false;
+          EditorShortcuts.selectedTUCtrl = false;
         }
 
         $location.search('selected', null);

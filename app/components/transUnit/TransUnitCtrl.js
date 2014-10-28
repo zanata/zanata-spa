@@ -109,6 +109,14 @@
       return !_.isEmpty(transUnitCtrl.saveButtonOptions);
     };
 
+    transUnitCtrl.selectTransUnit = function(phrase) {
+      EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+        {'id': phrase.id,
+          'updateURL': true,
+          'focus': true
+        }, $scope);
+    };
+
     function onTransUnitClick() {
       if(!transUnitCtrl.selected) {
         $scope.$apply(function () {

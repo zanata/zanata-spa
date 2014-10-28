@@ -30,12 +30,19 @@
      * same key twice. Mousetrap is used as it's the underlying library hotkeys
      * uses.
      */
+
+    // TODO: Unbind tab when transunit is deselected
     Mousetrap.bind('tab', function() {
       event.preventDefault();
+      tabCombinationPressed = false;
     }, 'keydown');
 
     function gotoNextRowCallback(event) {
-      if (!tabCombinationPressed && editorShortcuts.selectedTUCtrl) {
+      // If they didn't use the tab key
+      // Or if the tab key wasn't used in a combination
+      // Go to the next row
+      if ((event.which !== 9 || !tabCombinationPressed) &&
+        editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
         event.stopPropagation();
         EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
@@ -46,6 +53,7 @@
     function gotoPreviousRowCallback(event) {
       if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
+        event.stopPropagation();
         EventService.emitEvent(EventService.EVENT.GOTO_PREVIOUS_ROW,
           currentContext());
       }
@@ -115,34 +123,8 @@
       if (editorShortcuts.selectedTUCtrl) {
         EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
           currentContext());
-        recordTabCombinationPressed();
       }
-    }
-
-    /**
-     * This is a workaround to avoid an immediate tab keyup event callback.
-     */
-    function recordTabCombinationPressed() {
       tabCombinationPressed = true;
-      $timeout(function () {
-        tabCombinationPressed = false;
-      }, 500);
-    }
-
-    function saveAndGoToNextCallback(event) {
-      event.preventDefault();
-      if (editorShortcuts.selectedTUCtrl) {
-        var statusInfo = TransStatusService.getStatusInfo('translated');
-        EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-          {
-            'phrase': editorShortcuts.selectedTUCtrl.getPhrase(),
-            'status': statusInfo,
-            'locale': $stateParams.localeId,
-            'docId': $stateParams.docId
-          });
-        EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
-          currentContext());
-      }
     }
 
     /**
@@ -156,26 +138,27 @@
       CANCEL_EDIT: new ShortcutInfo('esc', cancelEditCallback, 'Cancel edit'),
 
       SAVE_AS_CURRENT_STATUS: new ShortcutInfo(
-        'mod+s', saveAsCurrentStatusCallback, 'Save as current status'),
-
-      GOTO_NEXT_ROW: new ShortcutInfo(
-        'tab', gotoNextRowCallback, 'Move to next row', ['alt+k', 'alt+down'],
-        'keyup'),
-
-      GOTO_PREVIOUS_ROW: new ShortcutInfo(
-        'shift+tab', gotoPreviousRowCallback, 'Move to previous row',
-        ['alt+j', 'alt+up']),
-
-      GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(
-        'tab+u', gotoToNextUntranslatedCallback),
+        'mod+s', saveAsCurrentStatusCallback, 'Save'),
 
       SAVE_AS_MODE: new ShortcutInfo(
-        'mod+shift+s', saveAsModeCallback, ''),
+        'mod+shift+s', saveAsModeCallback, 'Save as…'),
 
-      SAVE_AND_GOTO_NEXT: new ShortcutInfo(
-        'mod+enter', saveAndGoToNextCallback,
-        'Save as translated and move to next'
-      )
+      GOTO_NEXT_ROW: new ShortcutInfo(
+        'tab', gotoNextRowCallback, 'Save and go to next string',
+        [], 'keyup'),
+
+      // Keep other shortcuts using keydown to be quicker
+      GOTO_NEXT_ROW_FAST: new ShortcutInfo(
+        'mod+enter', gotoNextRowCallback, '', ['alt+k', 'alt+down']),
+
+      GOTO_PREVIOUS_ROW: new ShortcutInfo(
+        'shift+tab', gotoPreviousRowCallback,
+        'Save and go to previous string', ['mod+shift+enter', 'alt+j',
+        'alt+up']),
+
+      GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(
+        'tab+u', gotoToNextUntranslatedCallback)
+
     };
 
     /**
