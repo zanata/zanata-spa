@@ -20,27 +20,29 @@
 
       /**
        * scroll to trans unit
-       * data: {}
+       * data: {id: number, updateURL: boolean, focus: boolean}
        * id: (transunit id),
        * updateURL: (flag on whether to update url with trans unit id)
        * focus: flag on whether to have row in view and focused
        */
       SELECT_TRANS_UNIT: 'selectTransUnit',
 
-      //data:phrase
+      //data: {phrase: Phrase}
       COPY_FROM_SOURCE: 'copyFromSource',
 
-      //data:phrase
+      //data: {phrase: Phrase}
       UNDO_EDIT: 'undoEdit',
 
-      //data:phrase
+      //data: {phrase: Phrase}
       CANCEL_EDIT: 'cancelEdit',
 
       //data:phrase
       FOCUS_TRANSLATION: 'focusTranslation',
 
       /**
-       * data: {}
+       * data: {
+       *  phrase: Phrase, status: StatusInfo, locale: string, docId: string
+       * }
        * phrase:
        * status: Object. Request save state
        * locale: target locale
@@ -69,11 +71,8 @@
       /**
        * refresh ui statistic - changes in doc or locale
        *
-       * data: {}
-       * projectSlug:
-       * versionSlug:
-       * docId:
-       * localeId:
+       * data: {projectSlug: string, versionSlug: string,
+       *  docId: string, localeId: string}
        */
       REFRESH_STATISTIC: 'refreshStatistic',
 
@@ -86,12 +85,8 @@
       GOTO_LAST_PAGE: 'gotoLastPage',
 
       /**
-       * data: {}
-       * currentId:
-       * projectSlug:
-       * versionSlug:
-       * locale:
-       * docId:
+       * data: { currentId: number, projectSlug: string, versionSlug: string,
+       *  localeId: string, docId: string }
        */
       GOTO_NEXT_ROW: 'gotoNextRow',
       GOTO_PREVIOUS_ROW: 'gotoPreviousRow',
@@ -99,9 +94,7 @@
 
       /**
        * Toggle save as options dropdown.
-       * data: {}
-       * id: TU id
-       * open: true to open or false to close
+       * data: {id: number, open: boolean}
        */
       TOGGLE_SAVE_OPTIONS: 'openSaveOptions'
 
@@ -138,6 +131,7 @@
     .module('app')
     .factory('EventService', EventService);
 })();
+
 
 
 

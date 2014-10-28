@@ -57,6 +57,11 @@
       function (event, data) {
         var phrase = data.phrase,
             status = data.status;
+        if (phrase.translation === phrase.newTranslation &&
+          status === phrase.status) {
+          // nothing has changed
+          return;
+        }
 
         EventService.emitEvent(EventService.EVENT.SAVE_INITIATED, data);
 
@@ -141,3 +146,4 @@
     .factory('EditorService', EditorService);
 
 })();
+

@@ -2,6 +2,13 @@
   'use strict';
 
   /**
+   * @typedef {Object} StatusInfo
+   * @property {string} ID lower case translation status (content state)
+   * @property {string} NAME capitalized representation
+   * @property {string} CSSCLASS css class to use for this status
+   *
+   */
+  /**
    * TransStatusService.js
    *
    * @ngInject
@@ -39,6 +46,11 @@
       return _.values(STATUSES);
     };
 
+    /**
+     *
+     * @param {string} statusKey string representation of the status.
+     * @returns {StatusInfo}
+     */
     transStatusService.getStatusInfo = function(statusKey) {
       return STATUSES[conformStatus(statusKey)];
     };
@@ -100,3 +112,4 @@
     .module('app')
     .factory('TransStatusService', TransStatusService);
 })();
+

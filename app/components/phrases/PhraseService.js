@@ -2,6 +2,20 @@
   'use strict';
 
   /**
+   * @typedef {Object} Phrase
+   * @property {number} id text flow id
+   * @property {string} source source content
+   * @property {string[]} sources source contents if it's plural
+   * @property {string} translation original translation content
+   * @property {string[]} translations original translation plural contents
+   * @property {string} newTranslation translation in the editor
+   * @property {string[]} newTranslations translations in the editor
+   * @property {boolean} plural whether it's in plural form
+   * @property {StatusInfo} status information about this phrase
+   * @property {number} revision translation revision number
+   * @property {number} wordCount source word count
+   */
+  /**
    * @name PhraseService
    * @description Provides a list of phrases for the current document(s)
    *
@@ -54,6 +68,8 @@
       /**
        * Converts text flow data from the API into the form expected in the
        * editor.
+       *
+       * @returns {Phrase[]}
        */
       function transformToPhrases(transUnits) {
         return _.map(transUnits, function(transUnit, id) {
@@ -209,6 +225,7 @@
     .factory('PhraseService', PhraseService);
 
 })();
+
 
 
 
