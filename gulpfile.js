@@ -197,8 +197,17 @@ gulp.task('templates', function(){
     .pipe(gulp.dest(paths.build + '/js'));
 });
 
-gulp.src(paths.config)
-  .pipe(gulp.dest(paths.build));
+gulp.task('config', function() {
+  var regex = new RegExp('\"baseUrl\".*,');
+  gulp.src(paths.config)
+    .pipe(gulpif(env === 'production', replace({
+      patterns: [{
+        match: regex,
+        replacement: ''
+      }]
+    })))
+    .pipe(gulp.dest(paths.build));
+});
 
 gulp.task('generatePot', function () {
   return gulp.src(paths.translations.src)
@@ -270,6 +279,7 @@ gulp.task('build',
     'images',
     'imagesBower',
     'templates',
+    'config',
     // 'copyIndex',
     'generatePot',
     'filterPotAbsolutePath',
