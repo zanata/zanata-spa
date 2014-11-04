@@ -77,10 +77,9 @@
       }
     };
 
-    $element.bind('click', onTransUnitClick);
-
     $scope.$on('$destroy', function () {
       $element.unbind('click', onTransUnitClick);
+      $element.unbind('focus', onTransUnitClick);
     });
 
     transUnitCtrl.updateSaveButton = function (phrase) {

@@ -1,4 +1,7 @@
 <div class="TransUnit TransUnit--{{ transUnitCtrl.savingStatus.CSSCLASS || phrase.status.CSSCLASS }}"
+  tabindex="0"
+  ng-click="transUnitCtrl.selectTransUnit(phrase)"
+  ng-focus="transUnitCtrl.selectTransUnit(phrase)"
   ng-class="{'is-focused': transUnitCtrl.selected, 'is-first': firstPhrase}">
 
   <div class="TransUnit-panel TransUnit-source"
@@ -10,5 +13,4 @@
   <div class="TransUnit-panel TransUnit-translation"
        ng-include="'components/transUnit/translation/translation.html'"
        ng-click="transUnitCtrl.focusTranslation('phrase-' + phrase.id)"></div>
-
 </div>
