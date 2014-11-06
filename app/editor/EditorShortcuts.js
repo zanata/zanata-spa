@@ -3,18 +3,18 @@
 
   /**
    * @name EditorShortcuts
-   * @description service for editor shortcuts
+   * @description service for editor keyboard shortcuts
    * @ngInject
    */
   function EditorShortcuts(EventService, $stateParams, _, hotkeys,
-                           $timeout, TransStatusService, Mousetrap) {
+                           TransStatusService, Mousetrap) {
     var editorShortcuts = this,
       tabCombinationPressed = false,
       inSaveAsMode = false;
 
     // this will be set by TransUnitService
     // on EVENT.SELECT_TRANS_UNIT and unset on EVENT.CANCEL_EDIT
-    editorShortcuts.selectedTUCtrl = false;
+    editorShortcuts.selectedTUCtrl = null;
 
     function copySourceCallback(event) {
       if (editorShortcuts.selectedTUCtrl) {
@@ -41,7 +41,8 @@
       // If they didn't use the tab key
       // Or if the tab key wasn't used in a combination
       // Go to the next row
-      if ((event.which !== 9 || !tabCombinationPressed) &&
+      var tabKeyCode = 9;
+      if ((event.which !== tabKeyCode || !tabCombinationPressed) &&
         editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
         event.stopPropagation();
@@ -63,7 +64,6 @@
       event.preventDefault();
       event.stopPropagation();
       if (inSaveAsMode) {
-        // cancel save as mode
         editorShortcuts.cancelSaveAsModeIfOn();
         if (editorShortcuts.selectedTUCtrl) {
           editorShortcuts.selectedTUCtrl.focusTranslation();
@@ -98,7 +98,7 @@
 
     /**
      * This is to mimic sequence shortcut.
-     * i.e. press ctlr-shift-s then within 1 second, press 'n' to save as
+     * e.g. press ctlr-shift-s then press 'n' to save as
      * 'needs work'.
      */
     function saveAsModeCallback(event) {
@@ -124,6 +124,8 @@
         EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
           currentContext());
       }
+      // the shortcut is a tab + u combination
+      // we don't want other tab event to trigger
       tabCombinationPressed = true;
     }
 
@@ -169,7 +171,7 @@
      *  optional. If not empty will apply to default key (shows in cheatsheet)
      * @param {(string|string[])} [otherKeys]
      *  optional other keys that will do the same (won't show in cheatsheet)
-     * @param {string} [action] optional event to listen to. i.e. 'keyup'
+     * @param {string} [action] optional event to listen to. e.g. 'keyup'
      * @returns {EditorShortcuts.ShortcutInfo}
      * @constructor
      */
@@ -210,7 +212,7 @@
       }
     };
 
-    editorShortcuts.disableEditorKey = function () {
+    editorShortcuts.disableEditorKeys = function () {
       _.forOwn(editorShortcuts.SHORTCUTS, function(value) {
         _.forEach(value.keyCombos, function(hotkey) {
           editorShortcuts.deleteKeys(hotkey.combo, hotkey.action);
@@ -229,11 +231,7 @@
 
     function currentContext() {
       return {
-        'currentId': editorShortcuts.selectedTUCtrl.getPhrase().id,
-        'projectSlug': $stateParams.projectSlug,
-        'versionSlug': $stateParams.versionSlug,
-        'localeId': $stateParams.localeId,
-        'docId': $stateParams.docId
+        'currentId': editorShortcuts.selectedTUCtrl.getPhrase().id
       };
     }
 
@@ -294,9 +292,3 @@
     .module('app')
     .factory('EditorShortcuts', EditorShortcuts);
 })();
-
-
-
-
-
-

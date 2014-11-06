@@ -85,8 +85,7 @@
       GOTO_LAST_PAGE: 'gotoLastPage',
 
       /**
-       * data: { currentId: number, projectSlug: string, versionSlug: string,
-       *  localeId: string, docId: string }
+       * data: { currentId: number }
        */
       GOTO_NEXT_ROW: 'gotoNextRow',
       GOTO_PREVIOUS_ROW: 'gotoPreviousRow',
@@ -131,8 +130,3 @@
     .module('app')
     .factory('EventService', EventService);
 })();
-
-
-
-
-

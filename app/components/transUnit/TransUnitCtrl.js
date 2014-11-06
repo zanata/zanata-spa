@@ -70,11 +70,8 @@
     };
 
     transUnitCtrl.toggleSaveAsOptions = function(open) {
-      if (open) {
-        EventService.broadcastEvent('openDropdown', {}, $scope);
-      } else {
-        EventService.broadcastEvent('closeDropdown', {}, $scope);
-      }
+      EventService.broadcastEvent( open ? 'openDropdown': 'closeDropdown',
+        {}, $scope);
     };
 
     $scope.$on('$destroy', function () {
@@ -134,4 +131,3 @@
     .module('app')
     .controller('TransUnitCtrl', TransUnitCtrl);
 })();
-

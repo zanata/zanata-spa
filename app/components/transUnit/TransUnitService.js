@@ -248,8 +248,8 @@
     }
 
     function goToNextRow(event, data) {
-      PhraseService.findNextId(data.projectSlug, data.versionSlug,
-        data.docId, data.localeId, data.currentId).then(function(next) {
+      PhraseService.findNextId(data.currentId)
+        .then(function(next) {
           if (next !== data.currentId) {
             EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
               {
@@ -266,8 +266,8 @@
     }
 
     function goToPreviousRow(event, data) {
-      PhraseService.findPreviousId(data.projectSlug, data.versionSlug,
-        data.docId, data.localeId, data.currentId).then(function(previous) {
+      PhraseService.findPreviousId(data.currentId)
+        .then(function(previous) {
           if (previous !== data.currentId) {
             EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
               {
@@ -283,8 +283,7 @@
     }
 
     function goToNextUntranslated(event, data) {
-      PhraseService.findNextStatus(data.projectSlug, data.versionSlug,
-        data.docId, data.localeId, data.currentId, 'untranslated')
+      PhraseService.findNextStatus(data.currentId, 'untranslated')
         .then(function(next) {
           if (next !== data.currentId) {
             EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
@@ -307,7 +306,4 @@
     .module('app')
     .factory('TransUnitService', TransUnitService);
 })();
-
-
-
 
