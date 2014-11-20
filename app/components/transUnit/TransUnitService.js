@@ -77,8 +77,6 @@
             setSelected(oldTUController, false);
           }
 
-          EditorShortcuts.cancelSaveAsModeIfOn();
-
           updateSaveButton(event, newTuController.getPhrase());
           selectedTUId = data.id;
           setSelected(newTuController, true);
@@ -130,7 +128,7 @@
         if(selectedTUId) {
           setSelected(controllerList[selectedTUId], false);
           selectedTUId = false;
-          EditorShortcuts.selectedTUCtrl = false;
+          EditorShortcuts.selectedTUCtrl = null;
         }
 
         $location.search('selected', null);
@@ -306,4 +304,5 @@
     .module('app')
     .factory('TransUnitService', TransUnitService);
 })();
+
 

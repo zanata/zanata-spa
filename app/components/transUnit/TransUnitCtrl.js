@@ -6,7 +6,7 @@
    * @ngInject
    */
   function TransUnitCtrl($scope, $element, $stateParams, _, TransUnitService,
-    EventService, LocaleService, focus) {
+    EventService, LocaleService, focus, EditorShortcuts) {
 
     var transUnitCtrl = this;
 
@@ -74,6 +74,10 @@
         {}, $scope);
     };
 
+    transUnitCtrl.cancelSaveAsMode = function() {
+      EditorShortcuts.cancelSaveAsModeIfOn();
+    };
+
     $scope.$on('$destroy', function () {
       $element.unbind('click', onTransUnitClick);
       $element.unbind('focus', onTransUnitClick);
@@ -131,3 +135,4 @@
     .module('app')
     .controller('TransUnitCtrl', TransUnitCtrl);
 })();
+

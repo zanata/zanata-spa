@@ -19,6 +19,19 @@
     };
   }
 
+  function onCloseDropdown() {
+    return {
+      restrict: 'A',
+      require: '?^dropdown',
+      scope: {
+        callback: '&onCloseDropdown'
+      },
+      link: function(scope, elem, attrs, dropdownCtrl) {
+        dropdownCtrl.onCloseDropdown = scope.callback;
+      }
+    };
+  }
+
   /**
    * @name dropdown-toggle
    *
@@ -57,6 +70,9 @@
         });
         scope.$watch(dropdownCtrl.isOpen, function(isOpen) {
           element.attr('aria-expanded', !!isOpen);
+          if (dropdownCtrl.onCloseDropdown && !isOpen) {
+            scope.$applyAsync(dropdownCtrl.onCloseDropdown);
+          }
         });
 
         scope.$on('$destroy', function() {
@@ -69,6 +85,8 @@
   angular
     .module('app')
     .directive('dropdown', dropdown)
+    .directive('onCloseDropdown', onCloseDropdown)
     .directive('dropdownToggle', dropdownToggle);
 
 })();
+

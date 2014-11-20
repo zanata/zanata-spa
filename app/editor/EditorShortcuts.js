@@ -7,7 +7,7 @@
    * @ngInject
    */
   function EditorShortcuts(EventService, $stateParams, _, hotkeys,
-                           TransStatusService, Mousetrap) {
+                           TransStatusService, Mousetrap, str) {
     var editorShortcuts = this,
       tabCombinationPressed = false,
       inSaveAsMode = false;
@@ -102,6 +102,7 @@
      * 'needs work'.
      */
     function saveAsModeCallback(event) {
+      editorShortcuts.cancelSaveAsModeIfOn();
       var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
       if (phrase) {
         event.preventDefault();
@@ -205,6 +206,8 @@
     }
 
     editorShortcuts.enableEditorKeys = function () {
+      // here we only check copy source shortcut since we always enable keys in
+      // bundle.
       if (!hotkeys.get(editorShortcuts.SHORTCUTS.COPY_SOURCE.defaultKey)) {
         _.forOwn(editorShortcuts.SHORTCUTS, function(value) {
           enableShortcut(value);
@@ -239,7 +242,7 @@
       var statusInfo = TransStatusService.getStatusInfo(status);
       return hotkeys.add({
         combo: combo,
-        description: 'Save as ' + status,
+        description: str.sprintf('Save as %s', status),
         allowIn: ['INPUT', 'TEXTAREA'],
         action: 'keydown',
         callback: function (event) {
@@ -292,3 +295,4 @@
     .module('app')
     .factory('EditorShortcuts', EditorShortcuts);
 })();
+
