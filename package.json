@@ -1,6 +1,6 @@
 {
   "name": "zanata-spa",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "description": "Zanata Single Page Application",
   "homepage": "https://github.com/zanata/zanata-spa",
   "main": "index.js",
@@ -75,4 +75,3 @@
     "suitcss-components-grid": "~2.0.1"
   }
 }
-
