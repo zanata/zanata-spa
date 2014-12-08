@@ -3,7 +3,7 @@
   scrollbar-width-element="margin-left">
   <logo-loader inverted="editor.settings.hideMainNav"/>
 </a>
-<header role="banner" class="Header Editor-header"
+<header role="banner" class="Header Editor-header" focus-on="editor-header"
   ng-class="{'is-minimised': editor.settings.hideMainNav}">
   <nav role="navigation"
     class="Editor-mainNav u-posRelative u-textCenter">
@@ -211,6 +211,15 @@
           <button class="Link--neutral u-sizeHeight-1_1-2"
           title="{{'Editor Settings'|translate}}">
             <icon name="settings" title="{{'Editor Settings'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+          </button>
+        </li>
+        <li class="u-sm-hidden">
+          <button class="Link--neutral u-sizeHeight-1_1-2"
+            title="{{'Keyboard Shortcuts'|translate}}"
+            ng-click="editor.toggleKeyboardShortcutsModal()">
+            <icon name="keyboard" title="{{'Keyboard Shortcuts'|translate}}" class="u-sizeWidth-1_1-2"
+              ng-class="{'is-active': false}">
+            </icon>
           </button>
         </li>
         <li>

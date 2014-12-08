@@ -20,7 +20,7 @@
           class="u-textMeta u-sMR-1-4 u-floatLeft u-sizeLineHeight-1_1-2" translate>
       Save as
     </span>
-    <dropdown class="Dropdown">
+    <dropdown class="Dropdown" on-close-dropdown="transUnitCtrl.cancelSaveAsMode()">
       <div class="ButtonGroup ButtonGroup--hz ButtonGroup--borderCollapse">
         <div class="ButtonGroup-item">
           <button ng-disabled="transUnitCtrl.saveButtonDisabled"
@@ -48,3 +48,4 @@
     </dropdown>
   </div>
 </div>
+

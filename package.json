@@ -71,6 +71,8 @@
     "suitcss-utils-layout": "^0.4.1",
     "suitcss-utils-position": "^0.2.1",
     "suitcss-utils-size": "^0.7.1",
-    "suitcss-utils-text": "^0.4.1"
+    "suitcss-utils-text": "^0.4.1",
+    "suitcss-components-grid": "~2.0.1"
   }
 }
+

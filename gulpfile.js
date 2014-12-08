@@ -37,7 +37,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
 
 function notifyError(err) {
 
-  notify.notifyError({
+  notify.onError({
     title:    'Gulp',
     subtitle: 'Failure!',
     message:  '<%= error.name %>: [<%= error.plugin %>] <%= error.message %>',
@@ -310,3 +310,4 @@ gulp.task('watch', ['serve'], function(){
 });
 
 gulp.task('default', ['build']);
+

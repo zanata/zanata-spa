@@ -20,30 +20,33 @@
 
       /**
        * scroll to trans unit
-       * data: {}
+       * data: {id: number, updateURL: boolean, focus: boolean}
        * id: (transunit id),
        * updateURL: (flag on whether to update url with trans unit id)
        * focus: flag on whether to have row in view and focused
        */
       SELECT_TRANS_UNIT: 'selectTransUnit',
 
-      //data:phrase
+      //data: {phrase: Phrase}
       COPY_FROM_SOURCE: 'copyFromSource',
 
-      //data:phrase
+      //data: {phrase: Phrase}
       UNDO_EDIT: 'undoEdit',
 
-      //data:phrase
+      //data: {phrase: Phrase}
       CANCEL_EDIT: 'cancelEdit',
 
       //data:phrase
       FOCUS_TRANSLATION: 'focusTranslation',
 
       /**
-       * data: {}
+       * data: {
+       *  phrase: Phrase, status: StatusInfo, locale: string, docId: string
+       * }
        * phrase:
-       * state: request save state
+       * status: Object. Request save state
        * locale: target locale
+       * docId: docId
        */
       SAVE_TRANSLATION: 'saveTranslation',
 
@@ -68,11 +71,8 @@
       /**
        * refresh ui statistic - changes in doc or locale
        *
-       * data: {}
-       * projectSlug:
-       * versionSlug:
-       * docId:
-       * localeId:
+       * data: {projectSlug: string, versionSlug: string,
+       *  docId: string, localeId: string}
        */
       REFRESH_STATISTIC: 'refreshStatistic',
 
@@ -82,7 +82,20 @@
 
       GOTO_FIRST_PAGE: 'gotoFirstPage',
 
-      GOTO_LAST_PAGE: 'gotoLastPage'
+      GOTO_LAST_PAGE: 'gotoLastPage',
+
+      /**
+       * data: { currentId: number }
+       */
+      GOTO_NEXT_ROW: 'gotoNextRow',
+      GOTO_PREVIOUS_ROW: 'gotoPreviousRow',
+      GOTO_NEXT_UNTRANSLATED: 'gotoNextUntranslated',
+
+      /**
+       * Toggle save as options dropdown.
+       * data: {id: number, open: boolean}
+       */
+      TOGGLE_SAVE_OPTIONS: 'openSaveOptions'
 
     };
 

@@ -16,6 +16,7 @@
  * Components
  */
 
+@import 'suitcss-components-grid';
 @import './components/base/index.css';
 @import './components/button-group/index.css';
 @import './components/button/index.css';
@@ -26,6 +27,7 @@
 @import './components/links/index.css';
 @import './components/logo-loader/index.css';
 @import './components/progressbar/index.css';
+@import './components/modal/index.css';
 @import './components/toggle/index.css';
 @import './components/transUnit/index.css';
 

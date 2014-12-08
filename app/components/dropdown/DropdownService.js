@@ -36,6 +36,9 @@
     };
 
     var closeDropdown = function(evt) {
+      if (!openScope) {
+        return;
+      }
       var toggleElement = openScope.getToggleElement();
       if (evt && toggleElement && toggleElement[0].contains(evt.target)) {
         return;
@@ -59,3 +62,4 @@
     .service('DropdownService', DropdownService);
 
 })();
+

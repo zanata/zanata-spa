@@ -10,7 +10,7 @@
    * @ngInject
    */
   function DropdownCtrl($scope, $attrs, $parse, dropdownConfig,
-    DropdownService, $animate) {
+    DropdownService, $animate, $timeout) {
     var dropdownCtrl = this,
         // create a child scope so we are not polluting original one
         scope = $scope.$new(),
@@ -58,7 +58,12 @@
         (dropdownCtrl.$element, openClass);
 
       if (isOpen) {
-        scope.focusToggleElement();
+        // need to wrap it in a timeout
+        // see http://stackoverflow.com/questions/12729122/
+        // prevent-error-digest-already-in-progress-when-calling-scope-apply
+        $timeout(function() {
+          scope.focusToggleElement();
+        });
         DropdownService.open(scope);
       } else {
         DropdownService.close(scope);
@@ -78,6 +83,14 @@
 
     $scope.$on('$destroy', function() {
       scope.$destroy();
+    });
+
+    $scope.$on('openDropdown', function() {
+      scope.isOpen = true;
+    });
+
+    $scope.$on('closeDropdown', function() {
+      scope.isOpen = false;
     });
   }
 

@@ -8,7 +8,11 @@
   angular
     .module('app')
     .constant('_', window._)
+    .constant('str', window._.string)
+    .constant('Mousetrap', window.Mousetrap)
     // Toggle to hide/show features that are ready for production
     .constant('PRODUCTION', true);
 
 })();
+
+

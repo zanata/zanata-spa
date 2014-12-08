@@ -115,10 +115,13 @@
 
   /* Text */
   --base-text-code-font-family  : var(--font-family-monospace);
-  --base-text-code-font-size    : 14px;
-  --base-text-code-font-color   : var(--color-light-grey);
+  --base-text-code-font-size    : calc(13/16 * 1rem);
+  --base-text-code-font-color   : var(--color-darkish-grey);
   --base-text-code-font-weight  : 400;
   --base-text-rhythm            : var(--rhythm);
+  --base-text-kbd-border        : 1px solid color(#416988 alpha(7%));
+  --base-text-kbd-border-bottom : 3px solid color(#416988 alpha(20%));
+  --base-text-kbd-color-bg      : var(--color-white);
 
 }
 
@@ -245,6 +248,25 @@
   --LogoLoader-color-bg-invert: var(--LogoLoader-color-logo);
   --LogoLoader-rhythm: var(--rhythm);
   --LogoLoader-transition-ease: var(--transition-ease-out-back);
+}
+
+/**
+ * Modal
+ */
+
+:root {
+  --Modal-rhythm: 1.5rem;
+  --Modal-color-bg: color(var(--color-bg) alpha(.95));
+  --Modal-transition: all .15s linear;
+  --Modal-border: 1px solid color(var(--color-secondary) alpha(12%));
+  --Modal-dialog-transition: all .25s cubic-bezier(.175, .885, .320, 1.1);
+  --Modal-dialog-border-bottom-width: 2px;
+  --Modal-dialog-color-bg: color(var(--color-bg) tint(60%));
+  --Modal-header-color-bg: var(--color-white);
+  --Modal-title-font-size: calc(22/16 * 1rem);
+  --Modal-close-transition: all .25s ease-out;
+  --Modal-close-color-bg-hover: color(var(--color-secondary) alpha(5%));
+  --Modal-close-color-bg-active: color(var(--color-secondary) alpha(10%));
 }
 
 /**

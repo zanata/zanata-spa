@@ -2,13 +2,27 @@
   'use strict';
 
   /**
+   * @typedef {Object} Phrase
+   * @property {number} id text flow id
+   * @property {string} source source content
+   * @property {string[]} sources source contents if it's plural
+   * @property {string} translation original translation content
+   * @property {string[]} translations original translation plural contents
+   * @property {string} newTranslation translation in the editor
+   * @property {string[]} newTranslations translations in the editor
+   * @property {boolean} plural whether it's in plural form
+   * @property {StatusInfo} status information about this phrase
+   * @property {number} revision translation revision number
+   * @property {number} wordCount source word count
+   */
+  /**
    * @name PhraseService
    * @description Provides a list of phrases for the current document(s)
    *
    * @ngInject
    */
-  function PhraseService(TransUnitService, FilterUtil, PhraseCache,
-    TransStatusService, _) {
+  function PhraseService(FilterUtil, PhraseCache, TransStatusService, _,
+                         $stateParams) {
     var phraseService = {};
 
     phraseService.phrases = []; //current displayed phrases
@@ -55,6 +69,8 @@
       /**
        * Converts text flow data from the API into the form expected in the
        * editor.
+       *
+       * @returns {Phrase[]}
        */
       function transformToPhrases(transUnits) {
         return _.map(transUnits, function(transUnit, id) {
@@ -67,15 +83,16 @@
             source: source.content,
             sources: source.contents,
             // Original translation
-            translation: trans.content ? trans.content : '',
-            translations: trans.contents ? trans.contents : [],
+            translation: trans ? trans.content : '',
+            translations: trans ? trans.contents : [],
             // Translation from editor
-            newTranslation: trans.content ? trans.content : '',
-            newTranslations: trans.contents ? trans.contents : [],
+            newTranslation: trans ? trans.content : '',
+            newTranslations: trans ? trans.contents : [],
             plural: source.plural,
             // Conform the status from the server, return an object
-            status: TransStatusService.getStatusInfo(trans.state),
-            revision: trans.revision ? parseInt(trans.revision) : 0,
+            status: trans ? TransStatusService.getStatusInfo(trans.state) :
+              TransStatusService.getStatusInfo('untranslated'),
+            revision: trans ? parseInt(trans.revision) : 0,
             wordCount: parseInt(source.wordCount)
           };
         });
@@ -119,6 +136,64 @@
       }
     };
 
+    // find next Id from phrases states
+    phraseService.findNextId = function(currentId) {
+      return PhraseCache.getStates($stateParams.projectSlug,
+                                   $stateParams.versionSlug, $stateParams.docId,
+                                   $stateParams.localeId)
+        .then(function (states) {
+          var currentIndex,
+            nextIndex;
+          currentIndex = _.findIndex(states, function (state) {
+            return state.id === currentId;
+          });
+          nextIndex = currentIndex + 1 < states.length ?
+            currentIndex + 1 : states.length - 1;
+          return states[nextIndex].id;
+        });
+    };
+
+    // find previous id from phrases states
+    phraseService.findPreviousId = function(currentId) {
+      return PhraseCache.getStates($stateParams.projectSlug,
+                                   $stateParams.versionSlug, $stateParams.docId,
+                                   $stateParams.localeId)
+        .then(function (states) {
+          var currentIndex,
+            previousIndex;
+          currentIndex = _.findIndex(states, function (state) {
+            return state.id === currentId;
+          });
+          previousIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : 0;
+          return states[previousIndex].id;
+        });
+    };
+
+    // find next phrase with requested status
+    phraseService.findNextStatus = function(currentId, status) {
+      return PhraseCache.getStates($stateParams.projectSlug,
+                                   $stateParams.versionSlug, $stateParams.docId,
+                                   $stateParams.localeId)
+        .then(function (statusList) {
+          var currentIndex,
+            nextStatusInfo,
+            requestStatus = TransStatusService.getStatusInfo(status);
+
+          currentIndex = _.findIndex(statusList, function (state) {
+            return state.id === currentId;
+          });
+
+          for (var i = currentIndex + 1; i < statusList.length; i++) {
+            nextStatusInfo = TransStatusService.getStatusInfo(
+              statusList[i].state);
+            if (nextStatusInfo.ID === requestStatus.ID) {
+              return statusList[i].id;
+            }
+          }
+          return currentId;
+        });
+    };
+
     function findPhrase(id, phrases) {
       return _.find(phrases, function(phrase) {
         return phrase.id === id;
@@ -151,3 +226,4 @@
     .factory('PhraseService', PhraseService);
 
 })();
+
