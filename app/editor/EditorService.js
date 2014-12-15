@@ -100,7 +100,7 @@
       });
       var data = {
         id: request.phrase.id,
-        revision: request.phrase.revision,
+        revision: request.phrase.revision || 0,
         content: request.phrase.newTranslation,
         contents: request.phrase.newTranslations,
         // Return status object to PascalCase Id for the server
