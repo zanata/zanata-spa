@@ -51,6 +51,7 @@
     "gulp-rimraf": "^0.1.0",
     "gulp-sourcemaps": "^1.2.2",
     "gulp-svg-sprites": "^1.0.3",
+    "fibers": "1.0.1",
     "gulp-uglify": "^0.2.1",
     "gulp-webserver": "^0.4.0",
     "jshint-stylish": "^0.4.0",
