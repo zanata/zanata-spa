@@ -32,7 +32,7 @@
      */
 
     // TODO: Unbind tab when transunit is deselected
-    Mousetrap.bind('tab', function() {
+    Mousetrap.bind('tab', function(event) {
       event.preventDefault();
       tabCombinationPressed = false;
     }, 'keydown');
