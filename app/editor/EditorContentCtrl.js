@@ -7,7 +7,8 @@
    */
   function EditorContentCtrl($rootScope, EditorService, PhraseService,
                              DocumentService, UrlService, EventService,
-                             $stateParams) {
+                             $stateParams, TransUnitService, _,
+                             TransStatusService) {
 
     //TODO: move pager to directives/convert to infinite scroll
     var COUNT_PER_PAGE = 50,
@@ -56,6 +57,96 @@
           changePage(EditorService.currentPageIndex);
         }
       });
+
+    /*
+      TODO: after moving to infinite scroll, all these go to event handler
+      should move back to TransUnitService and use PhraseService.findNextId etc
+     */
+    // EventService.EVENT.GOTO_NEXT_ROW listener
+    $rootScope.$on(EventService.EVENT.GOTO_NEXT_ROW, goToNextRow);
+
+    // EventService.EVENT.GOTO_PREVIOUS_ROW listener
+    $rootScope.$on(EventService.EVENT.GOTO_PREVIOUS_ROW, goToPreviousRow);
+
+    // EventService.EVENT.GOTO_NEXT_UNTRANSLATED listener
+    $rootScope.$on(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
+                   goToNextUntranslated);
+
+    function goToNextRow(event, data) {
+      var phrases = editorContentCtrl.phrases,
+        currentIndex,
+        nextIndex,
+        nextId;
+
+      currentIndex = _.findIndex(phrases, function (phrase) {
+        return phrase.id === data.currentId;
+      });
+      nextIndex = Math.min(currentIndex + 1, phrases.length - 1);
+      nextId = phrases[nextIndex].id;
+
+      if (nextId !== data.currentId) {
+        EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+                               {
+                                 'id': nextId,
+                                 'updateURL': true,
+                                 'focus': true
+                               }, null);
+      } else {
+        // we have reach the end
+        TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
+      }
+    }
+
+    function goToPreviousRow(event, data) {
+      var phrases = editorContentCtrl.phrases,
+        currentIndex,
+        previousIndex,
+        prevId;
+
+      currentIndex = _.findIndex(phrases, function (phrase) {
+        return phrase.id === data.currentId;
+      });
+      previousIndex = Math.max(currentIndex - 1, 0);
+      prevId = phrases[previousIndex].id;
+
+      if (prevId !== data.currentId) {
+        EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+                               {
+                                 'id': prevId,
+                                 'updateURL': true,
+                                 'focus': true
+                               }, null);
+      } else {
+        // have have reach the start
+        TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
+      }
+    }
+
+    function goToNextUntranslated(event, data) {
+      var phrases = editorContentCtrl.phrases,
+        requestStatus = TransStatusService.getStatusInfo(status),
+        currentIndex,
+        nextStatusInfo;
+
+      currentIndex = _.findIndex(phrases, function (phrase) {
+        return phrase.id === data.currentId;
+      });
+
+      for (var i = currentIndex + 1; i < phrases.length; i++) {
+        nextStatusInfo = TransStatusService.getStatusInfo(
+          phrases[i].state);
+        if (nextStatusInfo.ID === requestStatus.ID) {
+          EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+                                 {
+                                   'id': phrases[i].id,
+                                   'updateURL': true,
+                                   'focus': true
+                                 }, null);
+        }
+      }
+      // can not find next untranslated
+      TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
+    }
 
     function changePage(pageIndex) {
       loadPhrase(pageIndex);

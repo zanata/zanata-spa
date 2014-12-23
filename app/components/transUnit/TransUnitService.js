@@ -10,7 +10,7 @@
    */
   function TransUnitService($location, $rootScope, $state, $stateParams,
     $filter, MessageHandler, EventService, TransStatusService, PRODUCTION,
-    PhraseService, EditorShortcuts, $timeout) {
+    EditorShortcuts, $timeout) {
     var transUnitService = this,
         controllerList = {},
         selectedTUId
@@ -143,9 +143,12 @@
           $location.search('id', null);
         }
 
-        $timeout(function() {
-          return $rootScope.$broadcast('blurOn', 'phrase-' + phrase.id);
-        });
+        // EditorContentCtrl#changePage doesn't provide a phrase object
+        if (phrase) {
+          $timeout(function() {
+            return $rootScope.$broadcast('blurOn', 'phrase-' + phrase.id);
+          });
+        }
       });
 
     /**
@@ -168,16 +171,6 @@
       */
     $rootScope.$on(EventService.EVENT.SAVE_INITIATED,
        phraseSaving);
-
-    // EventService.EVENT.GOTO_NEXT_ROW listener
-    $rootScope.$on(EventService.EVENT.GOTO_NEXT_ROW, goToNextRow);
-
-    // EventService.EVENT.GOTO_PREVIOUS_ROW listener
-    $rootScope.$on(EventService.EVENT.GOTO_PREVIOUS_ROW, goToPreviousRow);
-
-    // EventService.EVENT.GOTO_NEXT_UNTRANSLATED listener
-    $rootScope.$on(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
-      goToNextUntranslated);
 
     /**
       * EventService.EVENT.SAVE_COMPLETED listener
@@ -238,71 +231,22 @@
       }
     }
 
-    function saveCurrentRowIfModifiedAndUnfocus(data) {
-      var phrase = controllerList[data.currentId].getPhrase();
-      if (transUnitService.isTranslationModified(phrase)) {
-        EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-          {
-            'phrase': phrase,
-            'status': TransStatusService.getStatusInfo('TRANSLATED'),
-            'locale': data.localeId,
-            'docId': data.docId
-          });
-      }
-      EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase);
-    }
+    transUnitService.saveCurrentRowIfModifiedAndUnfocus =
+      function saveCurrentRowIfModifiedAndUnfocus(data) {
+        var phrase = controllerList[data.currentId].getPhrase(),
+          statusInfo = TransStatusService.getStatusInfo('TRANSLATED');
 
-    function goToNextRow(event, data) {
-      PhraseService.findNextId(data.currentId)
-        .then(function(next) {
-          if (next !== data.currentId) {
-            EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-              {
-                'id': next,
-                'updateURL': true,
-                'focus' : true
-              }, null);
-          } else {
-            // we have reach the end
-            saveCurrentRowIfModifiedAndUnfocus(data);
-          }
-        });
-
-    }
-
-    function goToPreviousRow(event, data) {
-      PhraseService.findPreviousId(data.currentId)
-        .then(function(previous) {
-          if (previous !== data.currentId) {
-            EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-              {
-                'id': previous,
-                'updateURL': true,
-                'focus' : true
-              }, null);
-          } else {
-            // have have reach the start
-            saveCurrentRowIfModifiedAndUnfocus(data);
-          }
-        });
-    }
-
-    function goToNextUntranslated(event, data) {
-      PhraseService.findNextStatus(data.currentId, 'untranslated')
-        .then(function(next) {
-          if (next !== data.currentId) {
-            EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-              {
-                'id': next,
-                'updateURL': true,
-                'focus' : true
-              }, null);
-          } else {
-            // can not find next untranslated
-            saveCurrentRowIfModifiedAndUnfocus(data);
-          }
-        });
-    }
+        if (transUnitService.isTranslationModified(phrase)) {
+          EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+                                 {
+                                   'phrase': phrase,
+                                   'status': statusInfo,
+                                   'locale': data.localeId,
+                                   'docId': data.docId
+                                 });
+        }
+        EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase);
+      };
 
     return transUnitService;
   }
