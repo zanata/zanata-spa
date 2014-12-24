@@ -1,5 +1,5 @@
 <div class="TransUnit TransUnit--{{ transUnitCtrl.savingStatus.CSSCLASS || phrase.status.CSSCLASS }}"
-  tabindex="0"
+  tabindex="-1"
   ng-click="transUnitCtrl.selectTransUnit(phrase)"
   ng-focus="transUnitCtrl.selectTransUnit(phrase)"
   ng-class="{'is-focused': transUnitCtrl.selected, 'is-first': firstPhrase}">
