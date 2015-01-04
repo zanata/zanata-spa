@@ -21,8 +21,15 @@
     };
 
     transUnitService.isTranslationModified = function(phrase) {
-      return phrase.newTranslation !== phrase.translation;
+      // on Firefox with input method turned on,
+      // when hitting tab it seems to turn undefined value into ''
+      return nullToEmpty(phrase.newTranslation)
+        !== nullToEmpty(phrase.translation);
     };
+
+    function nullToEmpty(value) {
+      return value || '';
+    }
 
     transUnitService.getSaveButtonStatus = function(phrase) {
       if (phrase.newTranslation === '') {

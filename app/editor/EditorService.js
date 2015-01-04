@@ -57,32 +57,33 @@
       function (event, data) {
         var phrase = data.phrase,
             status = data.status;
-        if (phrase.translation === phrase.newTranslation &&
-          status === phrase.status) {
+        if (!needToSavePhrase(phrase)) {
           // nothing has changed
           return;
         }
 
-        EventService.emitEvent(EventService.EVENT.SAVE_INITIATED, data);
-
         //update pending queue if contains
-        if(_.has(queue,  phrase.id)) {
+        if (_.has(queue, phrase.id)) {
           var pendingRequest = queue[phrase.id];
           pendingRequest.phrase = phrase;
           pendingRequest.status = status;
-          processSaveRequest(phrase.id);
-        } else if(TransUnitService.isTranslationModified(phrase) ||
-          phrase.status !== status) {
+        } else {
           status = resolveTranslationState(phrase, status);
           queue[phrase.id] = {
             'phrase': phrase,
-            'status' : status,
+            'status': status,
             'locale': data.locale,
-            'docId' : data.docId
+            'docId': data.docId
           };
-          processSaveRequest(phrase.id);
         }
+        EventService.emitEvent(EventService.EVENT.SAVE_INITIATED, data);
+        processSaveRequest(phrase.id);
       });
+
+    function needToSavePhrase(phrase) {
+      return TransUnitService.isTranslationModified(phrase) ||
+        phrase.status !== status;
+    }
 
     // Process save translation request
     function processSaveRequest(id) {
