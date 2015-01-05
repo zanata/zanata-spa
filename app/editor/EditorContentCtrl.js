@@ -142,6 +142,7 @@
                                    'updateURL': true,
                                    'focus': true
                                  }, null);
+          return;
         }
       }
       // can not find next untranslated

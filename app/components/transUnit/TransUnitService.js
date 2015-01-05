@@ -23,8 +23,8 @@
     transUnitService.isTranslationModified = function(phrase) {
       // on Firefox with input method turned on,
       // when hitting tab it seems to turn undefined value into ''
-      return nullToEmpty(phrase.newTranslation)
-        !== nullToEmpty(phrase.translation);
+      return nullToEmpty(phrase.newTranslation) !== nullToEmpty(
+          phrase.translation);
     };
 
     function nullToEmpty(value) {
