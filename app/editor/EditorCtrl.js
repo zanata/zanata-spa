@@ -5,23 +5,49 @@
    * EditorCtrl.js
    * @ngInject
    */
-  function EditorCtrl(UserService, DocumentService, LocaleService,
+  function EditorCtrl($scope, UserService, DocumentService, LocaleService,
     ProjectService, EditorService, TransStatusService,
     StatisticUtil, UrlService, $stateParams, $state, MessageHandler, $rootScope,
-    EventService, EditorShortcuts, _) {
+    EventService, EditorShortcuts, _, Mousetrap) {
     var editorCtrl = this;
     editorCtrl.pageNumber = 1;
     editorCtrl.showCheatsheet = false;
     editorCtrl.shortcuts = _.mapValues(
       _.values(EditorShortcuts.SHORTCUTS), function(shortcutInfo) {
-      return {
         // second combo (secondary keys) is an array. We have to flatten it
-        combos: _.map(_.flatten(shortcutInfo.keyCombos, 'combo'), function(key) {
-          return EditorShortcuts.symbolizeKey(key)
+        var keyCombos = _.flatten(shortcutInfo.keyCombos, 'combo');
+        return {
+        combos: _.map(keyCombos, function(key) {
+          return EditorShortcuts.symbolizeKey(key);
         }),
         description: shortcutInfo.keyCombos[0].description
-      }
+      };
     });
+
+    Mousetrap.bind('?', function(event) {
+      var srcElement = event.srcElement;
+      if (!editorCtrl.showCheatsheet && !stopCheatsheetCallback(srcElement)) {
+        $scope.$apply(function () {
+          editorCtrl.toggleKeyboardShortcutsModal();
+        });
+      }
+    }, 'keyup');
+
+    /**
+     * Mousetrap by default stops callback on input elements BUT
+     * hotkeys monkey patched it!!!
+     * TODO change this hack once we remove angular hotkeys
+     */
+    function stopCheatsheetCallback(element) {
+      // if the element has the class "mousetrap" then no need to stop
+      if ((' ' + element.className + ' ').indexOf(' mousetrap ') > -1) {
+        return false;
+      }
+
+      // stop for input, select, and textarea
+      return element.tagName === 'INPUT' || element.tagName === 'SELECT' ||
+        element.tagName === 'TEXTAREA' || element.isContentEditable;
+    }
 
     //TODO: cross domain rest
     //TODO: Unit test
