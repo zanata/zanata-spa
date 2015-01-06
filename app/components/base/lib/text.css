@@ -31,12 +31,14 @@ pre {
 
 kbd {
   margin: 0 calc(var(--base-text-rhythm) * .125);
-  padding: calc(var(--base-text-rhythm) * .2) calc(var(--base-text-rhythm) * .375);
+  padding: calc(var(--base-text-rhythm) * .125) calc(var(--base-text-rhythm) * .375);
   border: var(--base-text-kbd-border);
   border-bottom: var(--base-text-kbd-border-bottom);
   border-radius: calc(var(--base-text-rhythm) * .25);
   background-color: var(--base-text-kbd-color-bg);
   background-clip: padding;
+  white-space: nowrap;
+  display: inline-block;
   text-transform: uppercase;
   font-family: 'Source Sans Pro', "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
 }

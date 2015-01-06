@@ -75,41 +75,7 @@
         reloadOnSearch: false
       });
 
-      hotkeysProvider.template = '' +
-        '<div class="Modal" ng-class="{\'is-active\': helpVisible}">' +
-          '<div class="Modal-dialog">' +
-            '<div class="Modal-header">' +
-              '<h2 class="Modal-title">Keyboard Shortcuts</h2>' +
-              '<button class="Modal-close Link Link--neutral"' +
-              ' ng-click="toggleCheatSheet()">' +
-              '<icon name="cross" title="Close"></icon></button>' +
-            '</div>' +
-            '<div class="Modal-content u-sP-1">' +
-              '<ul>' +
-                '<li class="Grid" ng-repeat="hotkey in hotkeys | ' +
-                'filter:{ description: \'!$$undefined$$\' }">' +
-                  '<div class="Grid-cell u-sm-size1of2 u-size1of3 u-sPR-1-4 ' +
-                    'u-sPV-1-4 u-textRight">' +
-                    '<kbd ng-repeat="key in hotkey.format() track by $index"' +
-                    '>{{ key }}</kbd>' +
-                  '</div>' +
-                  '<div class="Grid-cell u-sm-size1of2 u-size2of3 u-sPL-1-4' +
-                    ' u-sPV-1-4">' +
-                  '{{ hotkey.description }}</div>' +
-                '</li>' +
-                '<li class="Grid">' +
-                  '<div class="Grid-cell u-sm-size1of2 u-size1of3 u-sPR-1-4 ' +
-                    'u-sPV-1-4 u-textRight">' +
-                    '<kbd>Tab + U</kbd>' +
-                  '</div>' +
-                  '<div class="Grid-cell u-sm-size1of2 u-size2of3 u-sPL-1-4' +
-                    ' u-sPV-1-4">Save and go to next untranslated string' +
-                  '</div>' +
-                '</li>' +
-              '</ul>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
+      hotkeysProvider.includeCheatSheet = false;
 
   //   $locationProvider.html5Mode(true);
   //     .hashPrefix('!');
