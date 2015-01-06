@@ -91,10 +91,11 @@
                                  'updateURL': true,
                                  'focus': true
                                }, null);
-      } else {
-        // we have reach the end
+      } /*
+      else {
+        // we have reach the end and want to unfocus
         TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
-      }
+      }*/
     }
 
     function goToPreviousRow(event, data) {
@@ -116,10 +117,11 @@
                                  'updateURL': true,
                                  'focus': true
                                }, null);
-      } else {
-        // have have reach the start
+      } /*
+      else {
+        // have have reach the start and want to unfocus
         TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
-      }
+      }*/
     }
 
     function goToNextUntranslated(event, data) {
@@ -146,7 +148,7 @@
         }
       }
       // can not find next untranslated
-      TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
+      //TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
     }
 
     function changePage(pageIndex) {
