@@ -6,7 +6,7 @@
    * @ngInject
    */
   function TransUnitCtrl($scope, $element, $stateParams, _, TransUnitService,
-    EventService, LocaleService, focus, EditorShortcuts) {
+    EventService, LocaleService, focus, EditorShortcuts, PhraseUtil) {
 
     var transUnitCtrl = this;
 
@@ -85,7 +85,7 @@
 
     transUnitCtrl.updateSaveButton = function (phrase) {
       transUnitCtrl.saveButtonStatus =
-        TransUnitService.getSaveButtonStatus($scope.phrase);
+        PhraseUtil.getSaveButtonStatus($scope.phrase);
       transUnitCtrl.saveButtonOptions =
         TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
       transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;

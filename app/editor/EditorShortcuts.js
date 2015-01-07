@@ -6,7 +6,7 @@
    * @description service for editor keyboard shortcuts
    * @ngInject
    */
-  function EditorShortcuts(EventService, $stateParams, _, hotkeys,
+  function EditorShortcuts(EventService, $stateParams, _, hotkeys, PhraseUtil,
                            TransStatusService, Mousetrap, str, $window) {
     var editorShortcuts = this,
       tabCombinationPressed = false,
@@ -82,14 +82,14 @@
       }
     }
 
-    function saveAsCurrentStatusCallback(event) {
+    function saveAsCurrentButtonOptionCallback(event) {
       if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
         var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
         EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
           {
             'phrase': phrase,
-            'status': phrase.status,
+            'status': PhraseUtil.getSaveButtonStatus(phrase),
             'locale': $stateParams.localeId,
             'docId': $stateParams.docId
           });
@@ -140,8 +140,8 @@
 
       CANCEL_EDIT: new ShortcutInfo('esc', cancelEditCallback, 'Cancel edit'),
 
-      SAVE_AS_CURRENT_STATUS: new ShortcutInfo(
-        'mod+s', saveAsCurrentStatusCallback, 'Save'),
+      SAVE_AS_CURRENT_BUTTON_OPTION: new ShortcutInfo(
+        'mod+s', saveAsCurrentButtonOptionCallback, 'Save'),
 
       SAVE_AS_MODE: new ShortcutInfo(
         'mod+shift+s', saveAsModeCallback, 'Save as…'),
@@ -166,12 +166,13 @@
 
       // tab as shortcut has to be on keyup
       GOTO_NEXT_ROW_FAST: new ShortcutInfo(
-        'mod+enter', gotoNextRowCallback, 'Save and go to next string',
+        'mod+enter', gotoNextRowCallback,
+        'Save (if changed) and go to next string',
         ['alt+k', 'alt+down', 'tab'], 'keyup'),
 
       GOTO_PREVIOUS_ROW: new ShortcutInfo(
         'mod+shift+enter', gotoPreviousRowCallback,
-        'Save and go to previous string',
+        'Save (if changed) and go to previous string',
         ['alt+j', 'alt+up', 'shift+tab'])/*,
         disable for now
       GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(

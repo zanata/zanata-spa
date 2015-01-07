@@ -20,6 +20,7 @@
       controllerList[id] = controller;
     };
 
+    // TODO can move or delegate to PhraseUtil
     transUnitService.isTranslationModified = function(phrase) {
       // on Firefox with input method turned on,
       // when hitting tab it seems to turn undefined value into ''
@@ -30,17 +31,6 @@
     function nullToEmpty(value) {
       return value || '';
     }
-
-    transUnitService.getSaveButtonStatus = function(phrase) {
-      if (phrase.newTranslation === '') {
-        return TransStatusService.getStatusInfo('untranslated');
-      }
-      else if (phrase.translation !== phrase.newTranslation) {
-        return TransStatusService.getStatusInfo('translated');
-      } else {
-        return phrase.status;
-      }
-    };
 
     transUnitService.getSaveButtonOptions = function(saveButtonStatus) {
       return filterSaveButtonOptions(saveButtonStatus);
