@@ -76,7 +76,6 @@
         return _.map(transUnits, function(transUnit, id) {
           var source = transUnit.source,
               trans = transUnit[localeId];
-
           return {
             id: parseInt(id),
             // TODO: handle plural content
@@ -84,10 +83,12 @@
             sources: source.contents,
             // Original translation
             translation: trans ? trans.content : '',
-            translations: trans ? trans.contents : [],
+            translations: trans && trans.contents ?
+              trans.contents.slice(0) : [],
             // Translation from editor
             newTranslation: trans ? trans.content : '',
-            newTranslations: trans ? trans.contents : [],
+            newTranslations: trans && trans.contents ?
+              trans.contents.slice(0) : [],
             plural: source.plural,
             // Conform the status from the server, return an object
             status: trans ? TransStatusService.getStatusInfo(trans.state) :

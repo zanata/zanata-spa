@@ -1,17 +1,24 @@
-<div class="TransUnit-panelHeader">
-  <h3 class="TransUnit-Heading">{{editorContext.srcLocale.name}} <span
+<div class="TransUnit-panelHeader TransUnit-panelHeader--source">
+  <h3 class="TransUnit-heading">{{editorContext.srcLocale.name}} <span
     class="u-textMuted u-textUpper">{{editorContext.srcLocale.localeId}}</span>
   </h3>
-  <ul class="TransUnit-panelHeaderActions u-listHorizontal">
+  <ul class="u-floatRight u-listHorizontal">
     <li ng-show="appCtrl.PRODUCTION">
-      <button class="Link Link--neutral u-sizeHeight-1_1-2"
+      <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1 u-textCenter"
         title="{{'Do not translate'|translate}}">
-        <icon name="block" title="{{'Do not translate'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+        <icon name="block" class="Icon--sm" title="{{'Do not translate'|translate}}"></icon>
+    </li>
+    <li ng-if="!phrase.plural">
+      <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1 u-textCenter"
+        title="Copy {{editorContext.srcLocale.name}} ({{editorContext.srcLocale.localeId}})"
+        ng-click="transUnitCtrl.copySource($event, phrase)">
+        <icon name="copy" class="Icon--sm" title="Copy {{editorContext.srcLocale.name}} ({{editorContext.srcLocale.localeId}})"></icon>
+      </button>
     </li>
     <li class="u-gtemd-hidden" ng-hide="transUnitCtrl.isTranslationModified(phrase)">
-      <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2"
+      <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1 u-textCenter"
         title="{{'Cancel edit'|translate}}" ng-click="transUnitCtrl.cancelEdit($event, phrase)">
-        <icon name="cross" title="{{'Cancel edit'|translate}}"></icon>
+        <icon name="cross" class="Icon--sm" title="{{'Cancel edit'|translate}}"></icon>
       </button>
     </li>
   </ul>

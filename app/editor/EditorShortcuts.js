@@ -118,17 +118,17 @@
       }
     }
 
-    function gotoToNextUntranslatedCallback(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      if (editorShortcuts.selectedTUCtrl) {
-        EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
-          currentContext());
-      }
-      // the shortcut is a tab + u combination
-      // we don't want other tab event to trigger
-      tabCombinationPressed = true;
-    }
+    // function gotoToNextUntranslatedCallback(event) {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   if (editorShortcuts.selectedTUCtrl) {
+    //     EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
+    //       currentContext());
+    //   }
+    //   // the shortcut is a tab + u combination
+    //   // we don't want other tab event to trigger
+    //   tabCombinationPressed = true;
+    // }
 
     /**
      * mod will be replaced by ctrl if on windows/linux or cmd if on mac.

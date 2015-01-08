@@ -1,31 +1,31 @@
 /** @define Dropdown; use strict */
 
 :root {
-  --Dropdown-content-color-bg: #fff;
-  --Dropdown-content-border: 1px solid rgba(0,0,0,.15);
-  --Dropdown-content-z: 700;
-  --Dropdown-title-size: calc(14/16 * 1rem);
-  --Dropdown-title-color: color(#416988 tint(20%));
-  --Dropdown-title-color-bg: color(#416988 tint(90%));
-  --Dropdown-item-color: #4e9fdd;
-  --Dropdown-item-hover-color: var(--Dropdown-content-color-bg);
-  --Dropdown-item-hover-color-bg: var(--Dropdown-item-color);
-  --Dropdown-item-transition: all .2s ease-out;
-  --Dropdown-rhythm: 1.5rem;
-  --Dropdown-transition: all .2s cubic-bezier(.175, .885, .320, 1.275);
-  --Dropdown-z-active: 800;
-  --Dropdown-z: 100;
+  --Dropdown-rhythm              : 1.5rem;
+  --Dropdown-transition          : all .2s cubic-bezier(.175, .885, .320, 1.275);
+  --Dropdown-z-index             : 100;
+  --Dropdown-is-active-z-index   : 900;
+  --Dropdown-content-color-bg    : #fff;
+  --Dropdown-content-border      : 1px solid rgba(0,0,0,.15);
+  --Dropdown-content-z-index     : 800;
+  --Dropdown-title-size          : calc(14/16 * 1rem);
+  --Dropdown-title-color         : color(#416988 tint(20%));
+  --Dropdown-title-color-bg      : color(#416988 tint(90%));
+  --Dropdown-item-color          : #4e9fdd;
+  --Dropdown-item-hover-color    : var(--Dropdown-content-color-bg);
+  --Dropdown-item-hover-color-bg : var(--Dropdown-item-color);
+  --Dropdown-item-transition     : all .2s ease-out;
 }
 
 .Dropdown {
   position: relative;
-  z-index: var(--Dropdown-z);
+  z-index: var(--Dropdown-z-index);
   display: inline-block;
   user-select: none;
 }
 
 .Dropdown.is-active {
-  z-index: var(--Dropdown-z-active);
+  z-index: var(--Dropdown-is-active-z-index);
 }
 
 .Dropdown-toggleIcon {
@@ -40,7 +40,7 @@
 
 .Dropdown-content {
   position: absolute;
-  z-index: var(--Dropdown-content-z);
+  z-index: var(--Dropdown-content-z-index);
   top: 100%;
   left: 0;
   visibility: hidden;

@@ -4,13 +4,62 @@
   ng-focus="transUnitCtrl.selectTransUnit(phrase)"
   ng-class="{'is-focused': transUnitCtrl.selected, 'is-first': firstPhrase}">
 
-  <div class="TransUnit-panel TransUnit-source"
-       ng-include="'components/transUnit/source/source.html'"></div>
+  <ng-include src="'components/transUnit/trans-unit-status.html'"></ng-include>
 
-  <div class="TransUnit-status {{transUnitCtrl.loadingClass}}"
-       ng-include="'components/transUnit/tu-status.html'"></div>
+  <div class="TransUnit-panel TransUnit-source">
+    <ng-include src="'components/transUnit/source/header.html'" ng-if="transUnitCtrl.selected"></ng-include>
+    <div class="TransUnit-item" ng-if="!phrase.plural">
+      <div class="TransUnit-text" ng-bind="phrase.source"></div>
+    </div>
+    <div class="TransUnit-item" ng-if="phrase.plural" ng-repeat="(key, source) in phrase.sources">
+      <div class="TransUnit-itemHeader" ng-if="transUnitCtrl.selected">
+        <span class="u-textMeta" ng-if="$first">Singular Form</span>
+        <span class="u-textMeta" ng-if="!$first">Plural Form</span>
+        <ul class="u-floatRight u-listHorizontal">
+          <li>
+            <button class="u-floatRight Link Link--neutral u-sizeHeight-1 u-sizeWidth-1 u-textCenter"
+              title="Copy {{editorContext.srcLocale.name}} ({{editorContext.srcLocale.localeId}})"
+              ng-click="transUnitCtrl.copySource($event, phrase)">
+              <icon name="copy" class="Icon--sm" title="Copy {{editorContext.srcLocale.name}} ({{editorContext.srcLocale.localeId}})"></icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="TransUnit-text" ng-bind="source"></div>
+    </div>
+    <ng-include src="'components/transUnit/source/footer.html'" ng-if="transUnitCtrl.selected"></ng-include>
+  </div>
 
   <div class="TransUnit-panel TransUnit-translation"
-       ng-include="'components/transUnit/translation/translation.html'"
-       ng-click="transUnitCtrl.focusTranslation('phrase-' + phrase.id)"></div>
+       ng-click="transUnitCtrl.focusTranslation('phrase-' + phrase.id)">
+    <ng-include src="'components/transUnit/translation/header.html'" ng-if="transUnitCtrl.selected"></ng-include>
+    <div class="TransUnit-item" ng-if="!phrase.plural">
+      <textarea msd-elastic
+        tabindex="-1"
+        ng-change="transUnitCtrl.translationTextModified(phrase)"
+        ng-model="phrase.newTranslation" class="TransUnit-text" rows="1"
+        ng-trim="false"
+        focus-on="phrase-{{phrase.id}}"
+        blur-on="phrase-{{phrase.id}}"
+        placeholder="{{'Enter a translation…'|translate}}">
+      </textarea>
+    </div>
+    <div class="TransUnit-item" ng-if="phrase.plural" ng-repeat="newTranslation in phrase.newTranslations track by $index">
+      <div class="TransUnit-itemHeader" ng-if="transUnitCtrl.selected">
+        <span class="u-textMeta" ng-if="$first">Singular Form</span>
+        <span class="u-textMeta" ng-if="!$first">Plural Form</span>
+      </div>
+      <textarea msd-elastic
+        tabindex="-1"
+        ng-change="transUnitCtrl.translationTextModified(phrase)"
+        ng-model="phrase.newTranslations[$index]" class="TransUnit-text" rows="1"
+        ng-trim="false"
+
+        blur-on="phrase-{{phrase.id}}"
+        placeholder="{{'Enter a translation…'|translate}}">
+      </textarea>
+    </div>
+    <ng-include src="'components/transUnit/translation/footer.html'" ng-if="transUnitCtrl.selected"></ng-include>
+  </div>
+
 </div>

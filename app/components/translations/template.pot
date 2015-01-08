@@ -27,7 +27,7 @@ msgstr ""
 msgid "Editor Settings"
 msgstr ""
 
-#: app/components/transUnit/translation/translation.html
+#: app/components/transUnit/trans-unit.html
 msgid "Enter a translation…"
 msgstr ""
 

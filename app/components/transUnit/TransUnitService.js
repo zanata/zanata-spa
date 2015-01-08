@@ -13,8 +13,7 @@
     EditorShortcuts, $timeout) {
     var transUnitService = this,
         controllerList = {},
-        selectedTUId
-      ;
+        selectedTUId;
 
     transUnitService.addController = function(id, controller) {
       controllerList[id] = controller;
@@ -22,10 +21,16 @@
 
     // TODO can move or delegate to PhraseUtil
     transUnitService.isTranslationModified = function(phrase) {
-      // on Firefox with input method turned on,
-      // when hitting tab it seems to turn undefined value into ''
-      return nullToEmpty(phrase.newTranslation) !== nullToEmpty(
-          phrase.translation);
+      if (phrase.plural) {
+        // on Firefox with input method turned on,
+        // when hitting tab it seems to turn undefined value into ''
+        return nullToEmpty(phrase.translations.toString()) !==
+          nullToEmpty(phrase.newTranslations.toString());
+      }
+      else {
+        return nullToEmpty(phrase.newTranslation) !==
+          nullToEmpty(phrase.translation);
+      }
     };
 
     function nullToEmpty(value) {
@@ -102,7 +107,8 @@
      */
     $rootScope.$on(EventService.EVENT.COPY_FROM_SOURCE,
       function (event, phrase) {
-        modifyTranslationText(phrase, phrase.source);
+        modifyTranslationText(phrase,
+          phrase.plural ? phrase.sources : phrase.source);
       });
 
     /**
@@ -112,7 +118,8 @@
     $rootScope.$on(EventService.EVENT.UNDO_EDIT,
       function (event, phrase) {
         if (transUnitService.isTranslationModified(phrase)) {
-          modifyTranslationText(phrase, phrase.translation);
+          modifyTranslationText(phrase,
+            phrase.plural ? phrase.translations : phrase.translation);
         }
       });
 
@@ -170,7 +177,11 @@
        updateSaveButton);
 
     function modifyTranslationText(phrase, newText) {
+      if (phrase.plural) {
+        phrase.newTranslations = newText.slice(0);
+      } else {
       phrase.newTranslation = newText;
+      }
       EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
         phrase);
       EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION,
@@ -208,7 +219,7 @@
      */
     function filterSaveButtonOptions(saveStatus) {
       var filteredOptions = [];
-      if (saveStatus.ID === 'untranslated') {
+      if (saveStatus.ID === 'untranslated' || saveStatus.ID === 'needswork') {
         return [];
       } else {
         filteredOptions = $filter('filter')
