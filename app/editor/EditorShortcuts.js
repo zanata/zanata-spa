@@ -6,8 +6,8 @@
    * @description service for editor keyboard shortcuts
    * @ngInject
    */
-  function EditorShortcuts(EventService, $stateParams, _, hotkeys,
-                           TransStatusService, Mousetrap, str) {
+  function EditorShortcuts(EventService, $stateParams, _, hotkeys, PhraseUtil,
+                           TransStatusService, Mousetrap, str, $window) {
     var editorShortcuts = this,
       tabCombinationPressed = false,
       inSaveAsMode = false;
@@ -82,14 +82,14 @@
       }
     }
 
-    function saveAsCurrentStatusCallback(event) {
+    function saveAsCurrentButtonOptionCallback(event) {
       if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
         var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
         EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
           {
             'phrase': phrase,
-            'status': phrase.status,
+            'status': PhraseUtil.getSaveButtonStatus(phrase),
             'locale': $stateParams.localeId,
             'docId': $stateParams.docId
           });
@@ -140,27 +140,43 @@
 
       CANCEL_EDIT: new ShortcutInfo('esc', cancelEditCallback, 'Cancel edit'),
 
-      SAVE_AS_CURRENT_STATUS: new ShortcutInfo(
-        'mod+s', saveAsCurrentStatusCallback, 'Save'),
+      SAVE_AS_CURRENT_BUTTON_OPTION: new ShortcutInfo(
+        'mod+s', saveAsCurrentButtonOptionCallback, 'Save'),
 
       SAVE_AS_MODE: new ShortcutInfo(
         'mod+shift+s', saveAsModeCallback, 'Save as…'),
 
-      GOTO_NEXT_ROW: new ShortcutInfo(
-        'tab', gotoNextRowCallback, 'Save and go to next string',
-        [], 'keyup'),
+      // this is just so we can show it in cheatsheet.
+      // see app/editor/EditorCtrl.shortcuts
+      SAVE_AS_NEEDSWORK: {
+        keyCombos: [{combo: 'mod+shift+s n', description: 'Save as needs work'}]
+      },
 
-      // Keep other shortcuts using keydown to be quicker
+      SAVE_AS_TRANSLATED: {
+        keyCombos: [{combo: 'mod+shift+s t', description: 'Save as translated'}]
+      },
+
+      SAVE_AS_APPROVED: {
+        keyCombos: [{combo: 'mod+shift+s a', description: 'Save as approved'}]
+      },
+
+      /*GOTO_NEXT_ROW: new ShortcutInfo(
+        'tab', gotoNextRowCallback, 'Save and go to next string',
+        [], 'keyup'),*/
+
+      // tab as shortcut has to be on keyup
       GOTO_NEXT_ROW_FAST: new ShortcutInfo(
-        'mod+enter', gotoNextRowCallback, '', ['alt+k', 'alt+down']),
+        'mod+enter', gotoNextRowCallback,
+        'Save (if changed) and go to next string',
+        ['alt+k', 'alt+down', 'tab'], 'keyup'),
 
       GOTO_PREVIOUS_ROW: new ShortcutInfo(
-        'shift+tab', gotoPreviousRowCallback,
-        'Save and go to previous string', ['mod+shift+enter', 'alt+j',
-        'alt+up']),
-
+        'mod+shift+enter', gotoPreviousRowCallback,
+        'Save (if changed) and go to previous string',
+        ['alt+j', 'alt+up', 'shift+tab'])/*,
+        disable for now
       GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(
-        'tab+u', gotoToNextUntranslatedCallback)
+        'tab+u', gotoToNextUntranslatedCallback)*/
 
     };
 
@@ -210,7 +226,9 @@
       // bundle.
       if (!hotkeys.get(editorShortcuts.SHORTCUTS.COPY_SOURCE.defaultKey)) {
         _.forOwn(editorShortcuts.SHORTCUTS, function(value) {
-          enableShortcut(value);
+          if (value instanceof ShortcutInfo) { // a hack to handle sequence keys
+            enableShortcut(value);
+          }
         });
       }
     };
@@ -286,6 +304,42 @@
         hotkeys.del(key);
         Mousetrap.unbind(key, action);
       });
+    };
+
+    /**
+     * Copied from angular-hotkeys.
+     * Convert strings like cmd into symbols like ⌘
+     * @param  {String} combo Key combination, e.g. 'mod+f'
+     * @return {String} The key combination with symbols
+     */
+    editorShortcuts.symbolizeKey = function (combo) {
+      var map = {
+        command: '⌘',
+        shift: '⇧',
+        left: '←',
+        right: '→',
+        up: '↑',
+        down: '↓',
+        'return': '↩',
+        backspace: '⌫'
+      };
+      combo = combo.split('+');
+
+      for (var i = 0; i < combo.length; i++) {
+        // try to resolve command / ctrl based on OS:
+        if (combo[i] === 'mod') {
+          if ($window.navigator &&
+            $window.navigator.platform.indexOf('Mac') >= 0) {
+            combo[i] = 'command';
+          } else {
+            combo[i] = 'ctrl';
+          }
+        }
+
+        combo[i] = map[combo[i]] || combo[i];
+      }
+
+      return combo.join(' + ');
     };
 
     return editorShortcuts;

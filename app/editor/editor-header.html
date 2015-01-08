@@ -236,4 +236,30 @@
   </nav>
   <progressbar progressbar-statistic="editor.messageStatistic"></progressbar>
 
+  <div class="Modal" ng-class="{'is-active': editor.showCheatsheet}" >
+    <div class="Modal-dialog">
+      <div class="Modal-header">
+        <h2 class="Modal-title">Keyboard Shortcuts</h2>
+        <button class="Modal-close Link Link--neutral"
+                ng-click="editor.showCheatsheet = false">
+          <icon name="cross" title="Close"></icon>
+        </button>
+      </div>
+      <div class="Modal-content u-sP-1">
+        <ul>
+          <li class="Grid" ng-repeat="shortcut in editor.shortcuts">
+            <div class="Grid-cell u-size1of2 u-sPR-1-4
+                    u-sPV-1-4 u-textRight">
+              <kbd ng-repeat="key in shortcut.combos track by $index"
+                      >{{ key }}</kbd>
+            </div>
+            <div class="Grid-cell u-size1of2 u-sPL-1-4
+                     u-sPV-1-4">
+              {{ shortcut.description }}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </header>

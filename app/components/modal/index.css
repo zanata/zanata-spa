@@ -50,7 +50,7 @@
   left: 50%;
   max-height: 100%;
   min-width: 300px;
-  max-width: calc(var(--Modal-rhythm) * 26);
+  max-width: calc(var(--Modal-rhythm) * 30);
   transition: var(--Modal-dialog-transition);
   transform: translateX(-50%) translateY(100%);
   transform-origin: 0;

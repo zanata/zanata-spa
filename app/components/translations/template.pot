@@ -2,19 +2,20 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
 
 #: app/editor/editor-header.html
 msgid "Approved"
 msgstr ""
 
-#: app/components/transUnit/source/header.html
 #: app/components/transUnit/translation/header.html
+#: app/components/transUnit/source/header.html
 msgid "Cancel edit"
 msgstr ""
 
 #: app/editor/editor-header.html
-#: app/components/transUnit/source/footer.html
 #: app/components/transUnit/translation/footer.html
+#: app/components/transUnit/source/footer.html
 msgid "Details"
 msgstr ""
 
