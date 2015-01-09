@@ -54,6 +54,7 @@
         ng-change="transUnitCtrl.translationTextModified(phrase)"
         ng-model="phrase.newTranslations[$index]" class="TransUnit-text" rows="1"
         ng-trim="false"
+        focus-on="phrase-{{phrase.id}}-{{$index}}"
         ng-focus="transUnitCtrl.onTextAreaFocus($index)"
         blur-on="phrase-{{phrase.id}}"
         placeholder="{{'Enter a translation…'|translate}}">

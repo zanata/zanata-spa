@@ -17,7 +17,13 @@
       TransUnitService.isTranslationModified;
 
     transUnitCtrl.focusTranslation = function() {
-      focus('phrase-' + $scope.phrase.id);
+      if($scope.phrase.plural && (_.isNull(transUnitCtrl.selectedIndex) ||
+        _.isUndefined(transUnitCtrl.selectedIndex) ||
+        transUnitCtrl.selectedIndex === 0)) {
+        focus('phrase-' + $scope.phrase.id + '-0');
+      } else {
+        focus('phrase-' + $scope.phrase.id);
+      }
     };
 
     transUnitCtrl.onTextAreaFocus = function(index) {

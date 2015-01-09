@@ -183,7 +183,6 @@
     function modifyTranslationText(phrase, newText, index) {
       if (!_.isUndefined(index)) {
         var transUnitCtrl = controllerList[phrase.id];
-        console.info(transUnitCtrl.selectedIndex);
         if(!_.isUndefined(transUnitCtrl.selectedIndex)) {
           phrase.newTranslations[transUnitCtrl.selectedIndex] = newText;
         }
@@ -211,7 +210,8 @@
     function setSelected(transUnitCtrl, isSelected) {
       if(transUnitCtrl.selected !== isSelected) {
         transUnitCtrl.selected = isSelected || false;
-        transUnitCtrl.selectedIndex = isSelected ? 0 : null;
+        transUnitCtrl.selectedIndex = !isSelected ? null :
+          transUnitCtrl.selectedIndex;
       }
     }
 
