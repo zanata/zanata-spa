@@ -20,7 +20,7 @@
       if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
         EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-          editorShortcuts.selectedTUCtrl.getPhrase());
+          {'phrase': editorShortcuts.selectedTUCtrl.getPhrase()});
       }
     }
 

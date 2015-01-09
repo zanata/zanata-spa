@@ -8,7 +8,7 @@
    *
    * @ngInject
    */
-  function TransUnitService($location, $rootScope, $state, $stateParams,
+  function TransUnitService(_, $location, $rootScope, $state, $stateParams,
     $filter, MessageHandler, EventService, TransStatusService, PRODUCTION,
     EditorShortcuts, $timeout) {
     var transUnitService = this,
@@ -106,9 +106,13 @@
      * Copy translation from source
      */
     $rootScope.$on(EventService.EVENT.COPY_FROM_SOURCE,
-      function (event, phrase) {
-        modifyTranslationText(phrase,
-          phrase.plural ? phrase.sources : phrase.source);
+      function (event, data) {
+        if(!_.isUndefined(data.index)) {
+          modifyTranslationText(data.phrase, data.phrase.sources[data.index],
+            data.index);
+        } else {
+          modifyTranslationText(data.phrase, data.phrase.source);
+        }
       });
 
     /**
@@ -176,11 +180,15 @@
     $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
        updateSaveButton);
 
-    function modifyTranslationText(phrase, newText) {
-      if (phrase.plural) {
-        phrase.newTranslations = newText.slice(0);
+    function modifyTranslationText(phrase, newText, index) {
+      if (!_.isUndefined(index)) {
+        var transUnitCtrl = controllerList[phrase.id];
+        console.info(transUnitCtrl.selectedIndex);
+        if(!_.isUndefined(transUnitCtrl.selectedIndex)) {
+          phrase.newTranslations[transUnitCtrl.selectedIndex] = newText;
+        }
       } else {
-      phrase.newTranslation = newText;
+        phrase.newTranslation = newText;
       }
       EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
         phrase);
@@ -201,7 +209,10 @@
     }
 
     function setSelected(transUnitCtrl, isSelected) {
-      transUnitCtrl.selected = isSelected || false;
+      if(transUnitCtrl.selected !== isSelected) {
+        transUnitCtrl.selected = isSelected || false;
+        transUnitCtrl.selectedIndex = isSelected ? 0 : null;
+      }
     }
 
     function setFocus(event, phrase) {

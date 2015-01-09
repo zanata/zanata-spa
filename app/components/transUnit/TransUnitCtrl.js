@@ -11,12 +11,17 @@
     var transUnitCtrl = this;
 
     transUnitCtrl.selected = false;
+    transUnitCtrl.selectedIndex = null;
 
     transUnitCtrl.isTranslationModified =
       TransUnitService.isTranslationModified;
 
     transUnitCtrl.focusTranslation = function() {
       focus('phrase-' + $scope.phrase.id);
+    };
+
+    transUnitCtrl.onTextAreaFocus = function(index) {
+      transUnitCtrl.selectedIndex = index;
     };
 
     transUnitCtrl.translationTextModified = function(phrase) {
@@ -38,10 +43,10 @@
       }
     };
 
-    transUnitCtrl.copySource = function($event, phrase) {
+    transUnitCtrl.copySource = function($event, phrase, index) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-        phrase, $scope);
+        {'phrase': phrase, 'index': index}, $scope);
     };
 
     transUnitCtrl.undoEdit = function($event, phrase) {
