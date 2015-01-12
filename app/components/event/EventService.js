@@ -27,7 +27,7 @@
        */
       SELECT_TRANS_UNIT: 'selectTransUnit',
 
-      //data: {phrase: Phrase, index:index}
+      //data: {phrase: Phrase, sourceIndex:sourceIndex}
       COPY_FROM_SOURCE: 'copyFromSource',
 
       //data: {phrase: Phrase}

@@ -102,19 +102,19 @@
      * 'needs work'.
      */
     function saveAsModeCallback(event) {
+      event.preventDefault();
       editorShortcuts.cancelSaveAsModeIfOn();
       var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
       if (phrase) {
-        event.preventDefault();
         EventService.emitEvent(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
           {
             'id': phrase.id,
             'open': true
           });
+
         addSaveAsModeExtensionKey(phrase, 'n', 'needsWork');
         addSaveAsModeExtensionKey(phrase, 't', 'translated');
         addSaveAsModeExtensionKey(phrase, 'a', 'approved');
-        inSaveAsMode = true;
       }
     }
 
@@ -264,19 +264,27 @@
         allowIn: ['INPUT', 'TEXTAREA'],
         action: 'keydown',
         callback: function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-            {
-              'phrase': phrase,
-              'status': statusInfo,
-              'locale': $stateParams.localeId,
-              'docId': $stateParams.docId
-            });
-          editorShortcuts.cancelSaveAsModeIfOn();
+          editorShortcuts.saveTranslationCallBack(event, phrase, statusInfo);
         }
       });
     }
+
+    editorShortcuts.saveTranslationCallBack = function(event, phrase,
+                                                       statusInfo) {
+      inSaveAsMode = true;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+        {
+          'phrase': phrase,
+          'status': statusInfo,
+          'locale': $stateParams.localeId,
+          'docId': $stateParams.docId
+        });
+      editorShortcuts.cancelSaveAsModeIfOn();
+    };
 
     editorShortcuts.cancelSaveAsModeIfOn = function() {
       if (inSaveAsMode && editorShortcuts.selectedTUCtrl) {

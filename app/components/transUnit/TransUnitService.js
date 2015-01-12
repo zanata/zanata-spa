@@ -107,9 +107,21 @@
      */
     $rootScope.$on(EventService.EVENT.COPY_FROM_SOURCE,
       function (event, data) {
-        if(!_.isUndefined(data.index)) {
-          modifyTranslationText(data.phrase, data.phrase.sources[data.index],
-            data.index);
+        if(data.phrase.plural) {
+          if(!_.isUndefined(data.sourceIndex)) {
+            modifyTranslationText(data.phrase,
+              data.phrase.sources[data.sourceIndex]);
+          } else {
+            //from key shortcut, copy corresponding source to target
+            var transUnitCtrl = controllerList[data.phrase.id];
+            var sourceIndex = transUnitCtrl.focusedTranslationIndex;
+            if(data.phrase.sources.length <
+              transUnitCtrl.focusedTranslationIndex + 1) {
+              sourceIndex = data.phrase.sources.length - 1;
+            }
+            modifyTranslationText(data.phrase,
+              data.phrase.sources[sourceIndex]);
+          }
         } else {
           modifyTranslationText(data.phrase, data.phrase.source);
         }
@@ -122,8 +134,11 @@
     $rootScope.$on(EventService.EVENT.UNDO_EDIT,
       function (event, phrase) {
         if (transUnitService.isTranslationModified(phrase)) {
-          modifyTranslationText(phrase,
-            phrase.plural ? phrase.translations : phrase.translation);
+          if(phrase.plural) {
+            modifyTranslationsText(phrase, phrase.translations);
+          } else {
+            modifyTranslationText(phrase, phrase.translation);
+          }
         }
       });
 
@@ -180,15 +195,27 @@
     $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
        updateSaveButton);
 
-    function modifyTranslationText(phrase, newText, index) {
-      if (!_.isUndefined(index)) {
+    function modifyTranslationText(phrase, newText) {
+      if (phrase.plural) {
         var transUnitCtrl = controllerList[phrase.id];
-        if(!_.isUndefined(transUnitCtrl.selectedIndex)) {
-          phrase.newTranslations[transUnitCtrl.selectedIndex] = newText;
-        }
+        phrase.newTranslations[transUnitCtrl.focusedTranslationIndex] = newText;
       } else {
         phrase.newTranslation = newText;
       }
+      EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
+        phrase);
+      EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION,
+        phrase);
+    }
+
+    function modifyTranslationsText(phrase, newTexts) {
+      if(!phrase.plural) {
+        return; //only accept plural
+      }
+
+      //need slice(0) for new instance of array
+      phrase.newTranslations = newTexts.slice();
+
       EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
         phrase);
       EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION,
@@ -210,8 +237,6 @@
     function setSelected(transUnitCtrl, isSelected) {
       if(transUnitCtrl.selected !== isSelected) {
         transUnitCtrl.selected = isSelected || false;
-        transUnitCtrl.selectedIndex = !isSelected ? null :
-          transUnitCtrl.selectedIndex;
       }
     }
 
@@ -250,12 +275,12 @@
 
         if (transUnitService.isTranslationModified(phrase)) {
           EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-                                 {
-                                   'phrase': phrase,
-                                   'status': statusInfo,
-                                   'locale': data.localeId,
-                                   'docId': data.docId
-                                 });
+           {
+             'phrase': phrase,
+             'status': statusInfo,
+             'locale': data.localeId,
+             'docId': data.docId
+           });
         }
         EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase);
       };

@@ -100,8 +100,7 @@
         for (var key in newTransUnits) {
           //push to cache
           transUnits[key][localeId] = newTransUnits[key][localeId];
-          //merge with results
-          results[key] = transUnits[key];
+          results[key] = transUnits[key]; //merge with results
         }
         return results;
       }
@@ -126,7 +125,7 @@
      * @param contents
      */
     phraseCache.onTransUnitUpdated =
-      function (context, id, localeId, revision, status, content, contents) {
+      function (context, id, localeId, revision, status, phrase) {
 
         var key = generateKey(context.projectSlug, context.versionSlug,
           context.docId, localeId);
@@ -146,8 +145,8 @@
         }
         translation.revision = parseInt(revision);
         translation.state = status;
-        translation.content = content;
-        translation.contents = contents;
+        translation.content = phrase.newTranslation;
+        translation.contents = phrase.newTranslations.slice();
       };
 
     function generateKey(projectId, versionId, documentId, localeId) {

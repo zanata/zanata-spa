@@ -84,11 +84,11 @@
             // Original translation
             translation: trans ? trans.content : '',
             translations: trans && trans.contents ?
-              trans.contents.slice(0) : [],
+              trans.contents.slice() : [],
             // Translation from editor
             newTranslation: trans ? trans.content : '',
             newTranslations: trans && trans.contents ?
-              trans.contents.slice(0) : [],
+              trans.contents.slice() : [],
             plural: source.plural,
             // Conform the status from the server, return an object
             status: trans ? TransStatusService.getStatusInfo(trans.state) :
@@ -115,17 +115,18 @@
 
     //update phrase,statuses and textFlows with given tu id
     phraseService.onTransUnitUpdated = function(context, id, localeId, revision,
-      status, content, contents) {
+      status, phrase) {
 
       PhraseCache.onTransUnitUpdated(context, id, localeId, revision, status,
-        content, contents);
+        phrase);
 
-      var phrase = findPhrase(id, phraseService.phrases);
+      var cachedPhrase = findPhrase(id, phraseService.phrases);
       //update phrase if found
-      if(phrase) {
-        phrase.translation = content;
-        phrase.revision = revision;
-        phrase.status = TransStatusService.getStatusInfo(status);
+      if(cachedPhrase) {
+        cachedPhrase.translation = phrase.newTranslation;
+        cachedPhrase.translations = phrase.newTranslations.slice();
+        cachedPhrase.revision = revision;
+        cachedPhrase.status = TransStatusService.getStatusInfo(status);
       }
     };
 

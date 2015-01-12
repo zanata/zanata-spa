@@ -114,7 +114,7 @@
           var oldStatus =  request.phrase.status;
 
           PhraseService.onTransUnitUpdated(context, data.id, request.locale,
-            response.revision, response.status, request.phrase.newTranslation);
+            response.revision, response.status, request.phrase);
 
           DocumentService.updateStatistic(request.docId, request.locale,
             oldStatus, response.status, request.phrase.wordCount);
