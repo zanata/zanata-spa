@@ -190,6 +190,37 @@
       EventService.emitEvent(EventService.EVENT.GOTO_PREV_PAGE);
     };
 
+    editorCtrl.filter = {
+      'all': true,
+      'approved' : false,
+      'translated' : false,
+      'needsWork': false,
+      'untranslated': false
+    };
+
+    editorCtrl.resetFilter = function() {
+      editorCtrl.filter.all = true;
+
+      editorCtrl.filter.approved = false;
+      editorCtrl.filter.translated = false;
+      editorCtrl.filter.needsWork = false;
+      editorCtrl.filter.untranslated = false;
+
+      //TODO: fire filter event
+    };
+
+    editorCtrl.updateFilter = function() {
+      if(editorCtrl.filter.approved === editorCtrl.filter.translated &&
+        editorCtrl.filter.translated === editorCtrl.filter.needsWork &&
+        editorCtrl.filter.needsWork === editorCtrl.filter.untranslated) {
+        editorCtrl.filter.all = true;
+      } else {
+        editorCtrl.filter.all = false;
+      }
+
+      //TODO: fire filter event
+    };
+
     function transitionToEditorSelectedView() {
       if (isDocumentAndLocaleSelected()) {
         $state.go('editor.selectedContext', {

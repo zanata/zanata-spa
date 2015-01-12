@@ -4,7 +4,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Approved"
 msgstr ""
 
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Enter a translation…"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Filters"
 msgstr ""
 
@@ -51,7 +51,7 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Needs Work"
 msgstr ""
 
@@ -71,15 +71,15 @@ msgstr ""
 msgid "Save as…"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Search"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Total Phrases"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Translated"
 msgstr ""
 
@@ -96,7 +96,7 @@ msgstr ""
 msgid "Undo edit"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Untranslated"
 msgstr ""
 
