@@ -33,15 +33,15 @@
           ng-if="transUnitCtrl.saveButtonOptionsAvailable()">
           <button dropdown-toggle
             class="Button Button--{{ transUnitCtrl.saveButtonStatus.CSSCLASS }} Button--snug u-sizeHeight-1_1-4 Dropdown-toggle"
-            title="{{'Save as…'|translate}}">
+            title="{{'Save as…'|translate}}" >
             <icon name="chevron-down" title="{{'Save as…'|translate}}" class="Icon--sm Dropdown-toggleIcon"></icon>
           </button>
         </div>
       </div>
       <ul class="Dropdown-content u-round">
-        <li ng-repeat="status in transUnitCtrl.saveButtonOptions">
+        <li ng-repeat="status in transUnitCtrl.saveButtonOptions track by $index">
           <button class="Button Button--{{status.CSSCLASS}} u-sizeFull u-textLeft u-sizeHeight-1_1-4"
-            ng-click="transUnitCtrl.saveAs($event, phrase, status)" ng-bind="status.NAME">
+            ng-click="transUnitCtrl.saveAs($event, phrase, status)" ng-bind="status.NAME" focus-on="{{phrase.id}}-saveAsOption-{{$index}}">
           </button>
         </li>
       </ul>

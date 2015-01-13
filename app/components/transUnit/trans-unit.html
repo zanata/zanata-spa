@@ -1,7 +1,5 @@
 <div class="TransUnit TransUnit--{{ transUnitCtrl.savingStatus.CSSCLASS || phrase.status.CSSCLASS }}"
-  tabindex="-1"
   ng-click="transUnitCtrl.selectTransUnit(phrase)"
-  ng-focus="transUnitCtrl.selectTransUnit(phrase)"
   ng-class="{'is-focused': transUnitCtrl.selected, 'is-first': firstPhrase}">
 
   <ng-include src="'components/transUnit/trans-unit-status.html'"></ng-include>
@@ -35,10 +33,11 @@
     <ng-include src="'components/transUnit/translation/header.html'" ng-if="transUnitCtrl.selected"></ng-include>
     <div class="TransUnit-item" ng-if="!phrase.plural">
       <textarea msd-elastic
-        tabindex="-1"
         ng-change="transUnitCtrl.translationTextModified(phrase)"
         ng-model="phrase.newTranslation" class="TransUnit-text" rows="1"
         ng-trim="false"
+        ng-focus="transUnitCtrl.onTextAreaFocus(phrase)"
+        ng-blur="transUnitCtrl.focused = false"
         focus-on="phrase-{{phrase.id}}-0"
         blur-on="phrase-{{phrase.id}}"
         placeholder="{{'Enter a translation…'|translate}}">
@@ -50,12 +49,12 @@
         <span class="u-textMeta" ng-if="!$first">Plural Form</span>
       </div>
       <textarea msd-elastic
-        tabindex="-1"
         ng-change="transUnitCtrl.translationTextModified(phrase)"
         ng-model="phrase.newTranslations[$index]" class="TransUnit-text" rows="1"
         ng-trim="false"
         focus-on="phrase-{{phrase.id}}-{{$index}}"
-        ng-focus="transUnitCtrl.onTextAreaFocus($index)"
+        ng-focus="transUnitCtrl.onTextAreaFocus(phrase, $index)"
+        ng-blur="transUnitCtrl.focused = false"
         blur-on="phrase-{{phrase.id}}"
         placeholder="{{'Enter a translation…'|translate}}">
       </textarea>

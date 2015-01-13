@@ -82,7 +82,9 @@
           updateSaveButton(event, newTuController.getPhrase());
           selectedTUId = data.id;
           setSelected(newTuController, true);
-          EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION, data);
+          if (!newTuController.focused) {
+            EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION, data);
+          }
 
           //Update url without reload state
           if(updateURL) {

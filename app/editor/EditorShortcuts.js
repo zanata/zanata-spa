@@ -9,7 +9,6 @@
   function EditorShortcuts(EventService, $stateParams, _, hotkeys, PhraseUtil,
                            TransStatusService, Mousetrap, str, $window) {
     var editorShortcuts = this,
-      tabCombinationPressed = false,
       inSaveAsMode = false;
 
     // this will be set by TransUnitService
@@ -32,18 +31,13 @@
      */
 
     // TODO: Unbind tab when transunit is deselected
-    Mousetrap.bind('tab', function(event) {
-      event.preventDefault();
-      tabCombinationPressed = false;
-    }, 'keydown');
+    //Mousetrap.bind('tab', function(event) {
+    //  event.preventDefault();
+    //  tabCombinationPressed = false;
+    //}, 'keydown');
 
     function gotoNextRowCallback(event) {
-      // If they didn't use the tab key
-      // Or if the tab key wasn't used in a combination
-      // Go to the next row
-      var tabKeyCode = 9;
-      if ((event.which !== tabKeyCode || !tabCombinationPressed) &&
-        editorShortcuts.selectedTUCtrl) {
+      if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
         event.stopPropagation();
         EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
@@ -168,12 +162,12 @@
       GOTO_NEXT_ROW_FAST: new ShortcutInfo(
         'mod+enter', gotoNextRowCallback,
         'Save (if changed) and go to next string',
-        ['alt+k', 'alt+down', 'tab'], 'keyup'),
+        ['alt+k', 'alt+down'], 'keyup'),
 
       GOTO_PREVIOUS_ROW: new ShortcutInfo(
         'mod+shift+enter', gotoPreviousRowCallback,
         'Save (if changed) and go to previous string',
-        ['alt+j', 'alt+up', 'shift+tab'])/*,
+        ['alt+j', 'alt+up'])/*,
         disable for now
       GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(
         'tab+u', gotoToNextUntranslatedCallback)*/
