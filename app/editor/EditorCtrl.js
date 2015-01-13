@@ -27,9 +27,8 @@
     Mousetrap.bind('?', function(event) {
       var srcElement = event.srcElement;
       if (!editorCtrl.showCheatsheet && !stopCheatsheetCallback(srcElement)) {
-        $scope.$apply(function () {
-          editorCtrl.toggleKeyboardShortcutsModal();
-        });
+        editorCtrl.toggleKeyboardShortcutsModal();
+        $scope.$digest();
       }
     }, 'keyup');
 
