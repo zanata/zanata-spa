@@ -7,16 +7,13 @@
    */
   function EditorContentCtrl($rootScope, EditorService, PhraseService,
                              DocumentService, UrlService, EventService,
-                             $stateParams, TransUnitService, _,
+                             $stateParams, $location,  _,
                              TransStatusService) {
 
     //TODO: move pager to directives/convert to infinite scroll
     var COUNT_PER_PAGE = 50,
-        editorContentCtrl = this,
-        states = UrlService.readValue('states'),
-        filter = {
-          'states': states ? states.split(' ') : states
-        };
+        editorContentCtrl = this, states, filter;
+      refreshFilterQueryFromUrl();
 
     editorContentCtrl.phrases = [];
 
@@ -25,6 +22,42 @@
       $stateParams.localeId);
 
     init();
+
+    $rootScope.$on(EventService.EVENT.FILTER_TRANS_UNIT,
+      function (event, filter) {
+        if(filter.all === true) {
+          $location.search('states', null);
+        } else {
+          var queryString = '';
+
+          _.forEach(filter, function(val, key) {
+            if(val) {
+              queryString += key + ',';
+            }
+          });
+          queryString = queryString.substring(0, queryString.length - 1);
+          $location.search('states', queryString);
+        }
+
+        refreshFilterQueryFromUrl();
+        init();
+      });
+
+    function refreshFilterQueryFromUrl() {
+      states = UrlService.readValue('states');
+
+      if(!_.isUndefined(states)) {
+        states = states.split(',');
+        states = _.transform(states, function(result, state) {
+          state = TransStatusService.getServerId(state);
+          return result.push(state);
+        });
+      }
+      filter = {
+        'states': states
+      };
+    }
+
 
     $rootScope.$on(EventService.EVENT.GOTO_FIRST_PAGE,
       function () {

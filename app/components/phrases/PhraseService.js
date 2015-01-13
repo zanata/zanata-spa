@@ -204,7 +204,7 @@
 
     function getIds(resources, states) {
       if(states) {
-        resources = FilterUtil.filterResources(resources, ['state'], states);
+        resources = FilterUtil.filterResources(resources, ['status'], states);
       }
       return _.map(resources, function (item) {
         return item.id;

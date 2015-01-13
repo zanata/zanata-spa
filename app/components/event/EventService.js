@@ -95,8 +95,13 @@
        * Toggle save as options dropdown.
        * data: {id: number, open: boolean}
        */
-      TOGGLE_SAVE_OPTIONS: 'openSaveOptions'
+      TOGGLE_SAVE_OPTIONS: 'openSaveOptions',
 
+
+      /**
+       * data: {filter: refer to editorCtrl.filter}
+       */
+      FILTER_TRANS_UNIT: 'filterTransUnit'
     };
 
     /**

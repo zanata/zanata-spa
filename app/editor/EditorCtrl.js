@@ -6,8 +6,8 @@
    * @ngInject
    */
   function EditorCtrl($scope, UserService, DocumentService, LocaleService,
-    ProjectService, EditorService, TransStatusService,
-    StatisticUtil, UrlService, $stateParams, $state, MessageHandler, $rootScope,
+    ProjectService, EditorService, TransStatusService, StatisticUtil,
+    UrlService, $stateParams, $state, MessageHandler, $rootScope,
     EventService, EditorShortcuts, _, Mousetrap) {
     var editorCtrl = this;
     editorCtrl.pageNumber = 1;
@@ -190,6 +190,7 @@
       EventService.emitEvent(EventService.EVENT.GOTO_PREV_PAGE);
     };
 
+    //tu states to include for display
     editorCtrl.filter = {
       'all': true,
       'approved' : false,
@@ -200,25 +201,25 @@
 
     editorCtrl.resetFilter = function() {
       editorCtrl.filter.all = true;
-
       editorCtrl.filter.approved = false;
       editorCtrl.filter.translated = false;
       editorCtrl.filter.needsWork = false;
       editorCtrl.filter.untranslated = false;
 
-      //TODO: fire filter event
+      EventService.emitEvent(EventService.EVENT.FILTER_TRANS_UNIT,
+        editorCtrl.filter);
     };
 
     editorCtrl.updateFilter = function() {
       if(editorCtrl.filter.approved === editorCtrl.filter.translated &&
         editorCtrl.filter.translated === editorCtrl.filter.needsWork &&
         editorCtrl.filter.needsWork === editorCtrl.filter.untranslated) {
-        editorCtrl.filter.all = true;
+        editorCtrl.resetFilter();
       } else {
         editorCtrl.filter.all = false;
+        EventService.emitEvent(EventService.EVENT.FILTER_TRANS_UNIT,
+          editorCtrl.filter);
       }
-
-      //TODO: fire filter event
     };
 
     function transitionToEditorSelectedView() {
