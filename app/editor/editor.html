@@ -18,15 +18,15 @@
       </div>
       <div class="Modal-content u-sP-1">
         <ul>
-          <li class="Grid" ng-repeat="shortcut in editor.shortcuts">
+          <li class="Grid" ng-repeat="shortcut in ::editor.shortcuts">
             <div class="Grid-cell u-size1of2 u-sPR-1-4
                     u-sPV-1-4 u-textRight">
-              <kbd ng-repeat="key in shortcut.combos track by $index"
-                      >{{ key }}</kbd>
+              <kbd ng-repeat="key in ::shortcut.combos track by $index"
+                      >{{ ::key }}</kbd>
             </div>
             <div class="Grid-cell u-size1of2 u-sPL-1-4
                      u-sPV-1-4">
-              {{ shortcut.description }}
+              {{ ::shortcut.description }}
             </div>
           </li>
         </ul>

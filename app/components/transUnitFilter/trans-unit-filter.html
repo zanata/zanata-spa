@@ -3,7 +3,7 @@
     <div class="Toggle u-round u-textSecondary">
       <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-total" checked
         ng-model="editor.filter.all" ng-change="editor.resetFilter()">
-      <label class="Toggle-label" for="filter-phrases-total" title="{{'Total Phrases'|translate}}">
+      <label class="Toggle-label" for="filter-phrases-total" title="{{::'Total Phrases'|translate}}">
         <span ng-bind="editor.messageStatistic.total">0</span>
         <span class="u-hiddenVisually" translate>Total Phrases</span>
       </label>
@@ -13,7 +13,7 @@
     <div class="Toggle u-round u-textHighlight">
       <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-approved"
         ng-model="editor.filter.approved" ng-change="editor.updateFilter()">
-      <label class="Toggle-label" for="filter-phrases-approved" title="{{'Approved'|translate}}">
+      <label class="Toggle-label" for="filter-phrases-approved" title="{{::'Approved'|translate}}">
         <icon name="dot" class="Icon--xsm"/></icon>
         <span ng-bind="editor.messageStatistic.approved">0</span>
         <span class="u-hiddenVisually" translate>Approved</span>
@@ -24,7 +24,7 @@
     <div class="Toggle u-round u-textSuccess">
       <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-translated"
         ng-model="editor.filter.translated" ng-change="editor.updateFilter()">
-      <label class="Toggle-label" for="filter-phrases-translated" title="{{'Translated'|translate}}">
+      <label class="Toggle-label" for="filter-phrases-translated" title="{{::'Translated'|translate}}">
         <icon name="dot" class="Icon--xsm"/></icon>
         <span ng-bind="editor.messageStatistic.translated">0</span>
         <span class="u-hiddenVisually" translate>Translated</span>
@@ -35,7 +35,7 @@
     <div class="Toggle u-round u-textUnsure">
       <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-needs-work"
         ng-model="editor.filter.needsWork" ng-change="editor.updateFilter()">
-      <label class="Toggle-label" for="filter-phrases-needs-work" title="{{'Needs Work'|translate}}">
+      <label class="Toggle-label" for="filter-phrases-needs-work" title="{{::'Needs Work'|translate}}">
         <icon name="dot" class="Icon--xsm"/></icon>
         <span ng-bind="editor.messageStatistic.needswork">0</span>
         <span class="u-hiddenVisually" translate>Needs Work</span>
@@ -46,7 +46,7 @@
     <div class="Toggle u-round u-textNeutral">
       <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-untranslated"
         ng-model="editor.filter.untranslated" ng-change="editor.updateFilter()">
-      <label class="Toggle-label" for="filter-phrases-untranslated" title="{{'Untranslated'|translate}}">
+      <label class="Toggle-label" for="filter-phrases-untranslated" title="{{::'Untranslated'|translate}}">
         <icon name="dot" class="Icon--xsm"/></icon>
         <span ng-bind="editor.messageStatistic.untranslated">0</span>
         <span class="u-hiddenVisually" translate>Untranslated</span>
@@ -54,14 +54,14 @@
     </div>
   <li ng-show="appCtrl.PRODUCTION" class="u-sML-1-4">
     <button class="Link--neutral u-sizeHeight-1_1-2"
-      title="{{'Filters'|translate}}">
-      <icon name="filter" title="{{'Filters'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+      title="{{::'Filters'|translate}}">
+      <icon name="filter" title="{{::'Filters'|translate}}" class="u-sizeWidth-1_1-2"></icon>
     </button>
   </li>
   <li ng-show="appCtrl.PRODUCTION">
     <button class="Link--neutral u-sizeHeight-1_1-2"
-      title="{{'Search'|translate}}">
-      <icon name="search" title="{{'Search'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+      title="{{::'Search'|translate}}">
+      <icon name="search" title="{{::'Search'|translate}}" class="u-sizeWidth-1_1-2"></icon>
     </button>
   </li>
 </ul>

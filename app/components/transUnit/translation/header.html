@@ -4,14 +4,14 @@
   <ul class="u-floatRight u-listHorizontal">
     <li class="u-sm-hidden" ng-hide="transUnitCtrl.isTranslationModified(phrase)">
       <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1 u-textCenter"
-        title="{{'Cancel edit'|translate}}" ng-click="transUnitCtrl.cancelEdit($event, phrase)">
-        <icon name="cross" class="Icon--sm" title="{{'Cancel edit'|translate}}"></icon>
+        title="{{::'Cancel edit'|translate}}" ng-click="transUnitCtrl.cancelEdit($event, phrase)">
+        <icon name="cross" class="Icon--sm" title="{{::'Cancel edit'|translate}}"></icon>
       </button>
     </li>
     <li ng-show="transUnitCtrl.isTranslationModified(phrase)">
       <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1 u-textCenter"
-        title="{{'Undo edit'|translate}}" ng-click="transUnitCtrl.undoEdit($event, phrase)">
-        <icon name="undo" class="Icon--sm" title="{{'Undo edit'|translate}}"></icon>
+        title="{{::'Undo edit'|translate}}" ng-click="transUnitCtrl.undoEdit($event, phrase)">
+        <icon name="undo" class="Icon--sm" title="{{::'Undo edit'|translate}}"></icon>
       </button>
     </li>
   </ul>

@@ -29,10 +29,10 @@
               <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
             </button>
             <ul class="Dropdown-content Dropdown-content--bordered">
-              <li ng-repeat="doc in editor.documents">
-                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.encodeDocId(doc.name)}}/{{editor.context.localeId}}"
+              <li ng-repeat="doc in ::editor.documents">
+                <a ng-href="#/{{::editor.context.projectSlug}}/{{::editor.context.versionSlug}}/translate/{{::editor.encodeDocId(doc.name)}}/{{::editor.context.localeId}}"
                   class="Dropdown-item">
-                  <span ng-bind="doc.name"></span>
+                  <span ng-bind="::doc.name"></span>
                 </a>
               </li>
             </ul>
@@ -47,7 +47,7 @@
             </button>
             <ul class="Dropdown-content Dropdown-content--bordered">
               <li ng-repeat="locale in editor.locales">
-                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.encodeDocId(editor.context.docId)}}/{{locale.localeId}}"
+                <a ng-href="#/{{::editor.context.projectSlug}}/{{::editor.context.versionSlug}}/translate/{{::editor.encodeDocId(editor.context.docId)}}/{{::locale.localeId}}"
                   class="Dropdown-item">
                   <span ng-bind="locale.name"></span>
                 </a>
@@ -65,9 +65,9 @@
             ng-bind="editor.getLocaleName(app.myInfo.locale.localeId)"/>
           </a>
           <ul class="Dropdown-content Dropdown-content--bordered">
-            <li ng-repeat="locale in app.uiLocaleList">
+            <li ng-repeat="locale in ::app.uiLocaleList">
               <a ng-click="app.onChangeUILocale(locale)" class="Dropdown-item u-textNoWrap u-textRight">
-                <span ng-bind="editor.getLocaleName(locale.localeId)"></span>
+                <span ng-bind="::editor.getLocaleName(locale.localeId)"></span>
               </a>
             </li>
           </ul>
