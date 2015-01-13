@@ -57,7 +57,7 @@
       function (event, data) {
         var phrase = data.phrase,
             status = data.status;
-        if (!needToSavePhrase(phrase)) {
+        if (!needToSavePhrase(phrase, status)) {
           // nothing has changed
           return;
         }
@@ -80,7 +80,7 @@
         processSaveRequest(phrase.id);
       });
 
-    function needToSavePhrase(phrase) {
+    function needToSavePhrase(phrase, status) {
       return TransUnitService.isTranslationModified(phrase) ||
         phrase.status !== status;
     }

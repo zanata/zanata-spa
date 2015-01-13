@@ -9,30 +9,15 @@ msgid "Approved"
 msgstr ""
 
 #: app/components/transUnit/source/header.html
-#: app/components/transUnit/translation/header.html
 msgid "Cancel edit"
 msgstr ""
 
 #: app/editor/editor-header.html
-#: app/components/transUnit/source/footer.html
-#: app/components/transUnit/translation/footer.html
 msgid "Details"
-msgstr ""
-
-#: app/components/transUnit/source/header.html
-msgid "Do not translate"
 msgstr ""
 
 #: app/editor/editor-header.html
 msgid "Editor Settings"
-msgstr ""
-
-#: app/components/transUnit/trans-unit.html
-msgid "Enter a translation…"
-msgstr ""
-
-#: app/components/transUnitFilter/trans-unit-filter.html
-msgid "Filters"
 msgstr ""
 
 #: app/editor/editor-header.html
@@ -67,14 +52,6 @@ msgstr ""
 msgid "Save as"
 msgstr ""
 
-#: app/components/transUnit/translation/footer.html
-msgid "Save as…"
-msgstr ""
-
-#: app/components/transUnitFilter/trans-unit-filter.html
-msgid "Search"
-msgstr ""
-
 #: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Total Phrases"
 msgstr ""
@@ -88,12 +65,7 @@ msgid "Translating"
 msgstr ""
 
 #: app/editor/editor-header.html
-#: app/components/transUnit/translation/footer.html
 msgid "Translation Memory"
-msgstr ""
-
-#: app/components/transUnit/translation/header.html
-msgid "Undo edit"
 msgstr ""
 
 #: app/components/transUnitFilter/trans-unit-filter.html

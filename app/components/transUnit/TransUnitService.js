@@ -270,23 +270,6 @@
       }
     }
 
-    transUnitService.saveCurrentRowIfModifiedAndUnfocus =
-      function saveCurrentRowIfModifiedAndUnfocus(data) {
-        var phrase = controllerList[data.currentId].getPhrase(),
-          statusInfo = TransStatusService.getStatusInfo('TRANSLATED');
-
-        if (transUnitService.isTranslationModified(phrase)) {
-          EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-           {
-             'phrase': phrase,
-             'status': statusInfo,
-             'locale': data.localeId,
-             'docId': data.docId
-           });
-        }
-        EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase);
-      };
-
     return transUnitService;
   }
 

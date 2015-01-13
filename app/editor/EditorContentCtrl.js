@@ -7,7 +7,7 @@
    */
   function EditorContentCtrl($rootScope, EditorService, PhraseService,
                              DocumentService, UrlService, EventService,
-                             $stateParams, $location,  _,
+                             $stateParams, PhraseUtil, $location, _,
                              TransStatusService) {
 
     //TODO: move pager to directives/convert to infinite scroll
@@ -107,6 +107,7 @@
 
     function goToNextRow(event, data) {
       var phrases = editorContentCtrl.phrases,
+        phrase,
         currentIndex,
         nextIndex,
         nextId;
@@ -124,15 +125,22 @@
                                  'updateURL': true,
                                  'focus': true
                                }, null);
-      } /*
-      else {
-        // we have reach the end and want to unfocus
-        TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
-      }*/
+      } else {
+        // we have reach the end
+        phrase = phrases[currentIndex];
+        EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+           {
+             'phrase': phrase,
+             'status': PhraseUtil.getSaveButtonStatus(phrase),
+             'locale': $stateParams.localeId,
+             'docId': $stateParams.docId
+           });
+      }
     }
 
     function goToPreviousRow(event, data) {
       var phrases = editorContentCtrl.phrases,
+        phrase,
         currentIndex,
         previousIndex,
         prevId;
@@ -150,11 +158,17 @@
                                  'updateURL': true,
                                  'focus': true
                                }, null);
-      } /*
-      else {
-        // have have reach the start and want to unfocus
-        TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
-      }*/
+      } else {
+        phrase = phrases[currentIndex];
+        // have reach the start
+        EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+           {
+             'phrase': phrase,
+             'status': PhraseUtil.getSaveButtonStatus(phrase),
+             'locale': $stateParams.localeId,
+             'docId': $stateParams.docId
+           });
+      }
     }
 
     function goToNextUntranslated(event, data) {

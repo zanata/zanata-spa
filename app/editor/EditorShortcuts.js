@@ -23,19 +23,6 @@
       }
     }
 
-    /**
-     * browser by default intercepts keydown on tab and move focus out of
-     * textarea. We can't use hotkeys to do this as it won't allow us register
-     * same key twice. Mousetrap is used as it's the underlying library hotkeys
-     * uses.
-     */
-
-    // TODO: Unbind tab when transunit is deselected
-    //Mousetrap.bind('tab', function(event) {
-    //  event.preventDefault();
-    //  tabCombinationPressed = false;
-    //}, 'keydown');
-
     function gotoNextRowCallback(event) {
       if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
@@ -154,15 +141,10 @@
         keyCombos: [{combo: 'mod+shift+s a', description: 'Save as approved'}]
       },
 
-      /*GOTO_NEXT_ROW: new ShortcutInfo(
-        'tab', gotoNextRowCallback, 'Save and go to next string',
-        [], 'keyup'),*/
-
-      // tab as shortcut has to be on keyup
       GOTO_NEXT_ROW_FAST: new ShortcutInfo(
         'mod+enter', gotoNextRowCallback,
         'Save (if changed) and go to next string',
-        ['alt+k', 'alt+down'], 'keyup'),
+        ['alt+k', 'alt+down']),
 
       GOTO_PREVIOUS_ROW: new ShortcutInfo(
         'mod+shift+enter', gotoPreviousRowCallback,
