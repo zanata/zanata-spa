@@ -153,6 +153,7 @@
 
     $rootScope.$on(EventService.EVENT.REFRESH_STATISTIC,
       function (event, data) {
+
         loadStatistic(data.projectSlug, data.versionSlug, data.docId,
           data.localeId);
 

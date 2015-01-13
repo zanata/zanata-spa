@@ -95,7 +95,8 @@
       });
     };
 
-    documentService.updateStatistic = function(docId, localeId, oldState,
+    documentService.updateStatistic = function(projectSlug, versionSlug, docId,
+                                               localeId, oldState,
                                                newState, wordCount) {
       var key = generateStatisticKey(docId, localeId);
       if(_.has(statisticMap, key)) {
@@ -104,8 +105,8 @@
 
         EventService.emitEvent(EventService.EVENT.REFRESH_STATISTIC,
           {
-            projectSlug: 'tiny-project',
-            versionSlug: '1',
+            projectSlug: projectSlug,
+            versionSlug: versionSlug,
             docId: docId,
             localeId: localeId
           }
@@ -124,6 +125,7 @@
      * msg - -1 of oldState, +1 of newState
      */
     function adjustStatistic(statistics, oldState, newState, wordCount) {
+
       var wordStatistic = StatisticUtil.getWordStatistic(statistics),
         msgStatistic = StatisticUtil.getMsgStatistic(statistics);
 

@@ -111,13 +111,15 @@
 
       Translation.update(data).$promise.then(
         function(response) {
-          var oldStatus =  request.phrase.status;
+          var oldStatus =  request.phrase.status.ID;
 
           PhraseService.onTransUnitUpdated(context, data.id, request.locale,
             response.revision, response.status, request.phrase);
 
-          DocumentService.updateStatistic(request.docId, request.locale,
-            oldStatus, response.status, request.phrase.wordCount);
+          DocumentService.updateStatistic(context.projectSlug,
+            context.versionSlug, request.docId, request.locale,
+            oldStatus, TransStatusService.getId(response.status),
+            request.phrase.wordCount);
 
           EventService.emitEvent(EventService.EVENT.SAVE_COMPLETED,
             request.phrase);
