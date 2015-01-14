@@ -9,7 +9,7 @@
    * @ngInject
    */
   function DocumentService($q, $resource, UrlService, StringUtil,
-                           StatisticUtil, EventService, _) {
+                           StatisticUtil, EventService, _, TransStatusService) {
     var documentService = this,
         statisticMap = {};
 
@@ -64,7 +64,15 @@
             }
           });
           return Statistics.query().$promise.then(function(statistics) {
+
+            // Make needReview(server) available to needswork
+            _.forEach(statistics, function(statistic) {
+              statistic[TransStatusService.getId('needswork')] =
+                statistic.needReview || 0;
+            });
+
             statisticMap[key] = statistics;
+            console.log(statistics);
             return statisticMap[key];
           });
         }
@@ -129,8 +137,8 @@
       var wordStatistic = StatisticUtil.getWordStatistic(statistics),
         msgStatistic = StatisticUtil.getMsgStatistic(statistics);
 
-      wordCount = parseInt(wordCount);
       if(wordStatistic) {
+        wordCount = parseInt(wordCount);
         var wordOldState = parseInt(wordStatistic[oldState]) - wordCount;
         wordStatistic[oldState] = wordOldState < 0 ? 0 : wordOldState;
         wordStatistic[newState] = parseInt(wordStatistic[newState]) + wordCount;

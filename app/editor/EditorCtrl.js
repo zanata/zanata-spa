@@ -250,9 +250,6 @@
               .getWordStatistic(statistics);
             editorCtrl.messageStatistic = StatisticUtil
               .getMsgStatistic(statistics);
-            // Make needReview(server) available to needswork
-            editorCtrl.messageStatistic[TransStatusService.getId('needswork')] =
-              editorCtrl.messageStatistic.needReview || 0;
           },
           function(error) {
             MessageHandler.displayError('Error loading statistic: ' + error);
