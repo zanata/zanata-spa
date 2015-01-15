@@ -6,7 +6,7 @@
    * @ngInject
    */
   function EditorCtrl($scope, UserService, DocumentService, LocaleService,
-    ProjectService, EditorService, TransStatusService, StatisticUtil,
+    ProjectService, EditorService, StatisticUtil,
     UrlService, $stateParams, $state, MessageHandler, $rootScope,
     EventService, EditorShortcuts, _, Mousetrap) {
     var editorCtrl = this;
@@ -23,6 +23,36 @@
         description: shortcutInfo.keyCombos[0].description
       };
     });
+
+    //tu status to include for display
+    editorCtrl.filter = {
+      'status' : {
+        'all': true,
+        'approved' : false,
+        'translated' : false,
+        'needsWork': false,
+        'untranslated': false
+      }
+    };
+
+    processFilterQuery();
+
+    //This is just processing UI during startup,
+    //phrase filtering are done in EditorContentCtrl during init
+    function processFilterQuery() {
+      //process filter query
+      var status = UrlService.readValue('status');
+
+      if(!_.isUndefined(status)) {
+        status = status.split(',');
+        _.forEach(status, function(val) {
+          if(!_.isUndefined(editorCtrl.filter.status[val])) {
+            editorCtrl.filter.status[val] = true;
+          }
+        });
+        updateFilter();
+      }
+    }
 
     Mousetrap.bind('?', function(event) {
       var srcElement = event.srcElement;
@@ -190,37 +220,44 @@
       EventService.emitEvent(EventService.EVENT.GOTO_PREV_PAGE);
     };
 
-    //tu states to include for display
-    editorCtrl.filter = {
-      'all': true,
-      'approved' : false,
-      'translated' : false,
-      'needsWork': false,
-      'untranslated': false
-    };
-
     editorCtrl.resetFilter = function() {
-      editorCtrl.filter.all = true;
-      editorCtrl.filter.approved = false;
-      editorCtrl.filter.translated = false;
-      editorCtrl.filter.needsWork = false;
-      editorCtrl.filter.untranslated = false;
-
-      EventService.emitEvent(EventService.EVENT.FILTER_TRANS_UNIT,
-        editorCtrl.filter);
+      resetFilter(true);
     };
 
     editorCtrl.updateFilter = function() {
-      if(editorCtrl.filter.approved === editorCtrl.filter.translated &&
-        editorCtrl.filter.translated === editorCtrl.filter.needsWork &&
-        editorCtrl.filter.needsWork === editorCtrl.filter.untranslated) {
-        editorCtrl.resetFilter();
+      updateFilter(true);
+    };
+
+    function updateFilter(fireEvent) {
+      if(isStatusSame(editorCtrl.filter.status)) {
+        resetFilter(fireEvent);
       } else {
-        editorCtrl.filter.all = false;
+        editorCtrl.filter.status.all = false;
+        if(fireEvent) {
+          EventService.emitEvent(EventService.EVENT.FILTER_TRANS_UNIT,
+            editorCtrl.filter);
+        }
+      }
+    }
+
+    function resetFilter(fireEvent) {
+      editorCtrl.filter.status.all = true;
+      editorCtrl.filter.status.approved = false;
+      editorCtrl.filter.status.translated = false;
+      editorCtrl.filter.status.needsWork = false;
+      editorCtrl.filter.status.untranslated = false;
+
+      if(fireEvent) {
         EventService.emitEvent(EventService.EVENT.FILTER_TRANS_UNIT,
           editorCtrl.filter);
       }
-    };
+    }
+
+    function isStatusSame(statuses) {
+      return statuses.approved === statuses.translated &&
+        statuses.translated === statuses.needsWork &&
+        statuses.needsWork === statuses.untranslated;
+    }
 
     function transitionToEditorSelectedView() {
       if (isDocumentAndLocaleSelected()) {

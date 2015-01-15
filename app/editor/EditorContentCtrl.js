@@ -12,8 +12,8 @@
 
     //TODO: move pager to directives/convert to infinite scroll
     var COUNT_PER_PAGE = 50,
-        editorContentCtrl = this, states, filter;
-      refreshFilterQueryFromUrl();
+        editorContentCtrl = this, status, filter;
+    refreshFilterQueryFromUrl();
 
     editorContentCtrl.phrases = [];
 
@@ -25,18 +25,18 @@
 
     $rootScope.$on(EventService.EVENT.FILTER_TRANS_UNIT,
       function (event, filter) {
-        if(filter.all === true) {
-          $location.search('states', null);
+        if(filter.status.all === true) {
+          $location.search('status', null);
         } else {
           var queryString = '';
 
-          _.forEach(filter, function(val, key) {
+          _.forEach(filter.status, function(val, key) {
             if(val) {
               queryString += key + ',';
             }
           });
           queryString = queryString.substring(0, queryString.length - 1);
-          $location.search('states', queryString);
+          $location.search('status', queryString);
         }
 
         refreshFilterQueryFromUrl();
@@ -44,17 +44,17 @@
       });
 
     function refreshFilterQueryFromUrl() {
-      states = UrlService.readValue('states');
+      status = UrlService.readValue('status');
 
-      if(!_.isUndefined(states)) {
-        states = states.split(',');
-        states = _.transform(states, function(result, state) {
+      if(!_.isUndefined(status)) {
+        status = status.split(',');
+        status = _.transform(status, function(result, state) {
           state = TransStatusService.getServerId(state);
           return result.push(state);
         });
       }
       filter = {
-        'states': states
+        'status': status
       };
     }
 

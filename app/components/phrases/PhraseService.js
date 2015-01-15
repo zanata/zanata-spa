@@ -35,7 +35,7 @@
     phraseService.getPhraseCount = function(context, filter) {
       return PhraseCache.getStates(context.projectSlug, context.versionSlug,
         context.docId, context.localeId).then(function(states) {
-          var ids = getIds(states, filter.states);
+          var ids = getIds(states, filter.status);
           return ids.length;
         });
     };
@@ -52,7 +52,7 @@
         context.docId, localeId).then(getTransUnits);
 
       function getTransUnits(states) {
-        var ids = getIds(states, filter.states);
+        var ids = getIds(states, filter.status);
         if (!isNaN(offset)) {
           if(!isNaN(maxResult)) {
             ids = ids.slice(offset, offset + maxResult);

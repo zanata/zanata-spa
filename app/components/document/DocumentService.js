@@ -72,7 +72,6 @@
             });
 
             statisticMap[key] = statistics;
-            console.log(statistics);
             return statisticMap[key];
           });
         }
