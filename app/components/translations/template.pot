@@ -72,6 +72,10 @@ msgstr ""
 msgid "Untranslated"
 msgstr ""
 
+#: app/editor/editor-header.html
+msgid "Viewing"
+msgstr ""
+
 #: app/index.html
 msgid ""
 "We're sorry, this application needs Javascript to\n"

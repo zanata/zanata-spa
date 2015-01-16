@@ -65,6 +65,7 @@
             project: '/project/:projectSlug',
             docs: '/project/:projectSlug/version/:versionSlug/docs',
             locales: '/project/:projectSlug/version/:versionSlug/locales',
+            permission: '/project/:projectSlug/permission/:localeId',
             status: '/project/:projectSlug/version/:versionSlug/doc/:docId/status/:localeId',
             textFlows: '/source+trans/:localeId',
             docStats: '/stats/project/:projectSlug/version/:versionSlug/doc/:docId/locale/:localeId',
@@ -78,6 +79,7 @@
           urlService.PROJECT_URL = urls.project;
           urlService.LOCALE_LIST_URL = urls.locales;
           urlService.DOCUMENT_LIST_URL = urls.docs;
+          urlService.PERMISSION_URL = urls.permission;
           urlService.TRANSLATION_STATUS_URL = urls.status;
           urlService.TEXT_FLOWS_URL = urls.textFlows;
           urlService.DOC_STATISTIC_URL = urls.docStats;

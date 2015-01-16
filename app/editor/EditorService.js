@@ -18,15 +18,19 @@
     editorService.maxPageIndex = 0;
 
     editorService.initContext =
-      function (projectSlug, versionSlug, docId, srcLocale, localeId, mode) {
+      function (projectSlug, versionSlug, docId, srcLocale, localeId) {
         editorService.context = {
           projectSlug: projectSlug,
           versionSlug: versionSlug,
           docId: docId,
           srcLocale: srcLocale,
           localeId: localeId,
-          mode: mode // READ_WRITE, READ_ONLY, REVIEW
+          permission: {
+            'write_translation' : false,
+            'review_translation': false
+          }
         };
+        updateUserPermission(projectSlug, localeId).then(updatePermission);
         return editorService.context;
       };
 
@@ -44,7 +48,12 @@
       if(editorService.context.localeId !== localeId) {
         editorService.context.localeId = localeId;
       }
+      updateUserPermission(projectSlug, localeId).then(updatePermission);
     };
+
+    function updatePermission(permission) {
+      editorService.context.permission = permission;
+    }
 
     /**
      * EventService.EVENT.SAVE_TRANSLATION listener
@@ -83,6 +92,19 @@
     function needToSavePhrase(phrase, status) {
       return TransUnitService.isTranslationModified(phrase) ||
         phrase.status !== status;
+    }
+
+    function updateUserPermission(_projectSlug, _localeId) {
+      var permission = $resource(UrlService.PERMISSION_URL, {}, {
+        query: {
+          method: 'GET',
+          params: {
+            projectSlug: _projectSlug,
+            localeId: _localeId
+          }
+        }
+      });
+      return permission.query().$promise;
     }
 
     // Process save translation request

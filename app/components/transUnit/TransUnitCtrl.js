@@ -6,7 +6,8 @@
    * @ngInject
    */
   function TransUnitCtrl($scope, $element, $stateParams, _, TransUnitService,
-    EventService, LocaleService, focus, EditorShortcuts, PhraseUtil) {
+    EventService, LocaleService, focus, EditorShortcuts, EditorService,
+    PhraseUtil) {
 
     var transUnitCtrl = this;
 
@@ -51,14 +52,26 @@
 
     transUnitCtrl.copySource = function($event, phrase, sourceIndex) {
       $event.stopPropagation(); //prevent click event of TU
-      EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-        {'phrase': phrase, 'sourceIndex': sourceIndex}, $scope);
+      if(!transUnitCtrl.isReadOnly) {
+        EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
+          {'phrase': phrase, 'sourceIndex': sourceIndex}, $scope);
+      }
     };
 
     transUnitCtrl.undoEdit = function($event, phrase) {
-      $event.stopPropagation(); //prevent click event of TU
-      EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
-        phrase, $scope);
+      if(!transUnitCtrl.isReadOnly) {
+        $event.stopPropagation(); //prevent click event of TU
+        EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
+          phrase, $scope);
+      }
+    };
+
+    transUnitCtrl.isReadOnly = function() {
+      return !EditorService.context.permission.write_translation;
+    };
+
+    transUnitCtrl.isReviewAllowed = function() {
+      return EditorService.context.permission.review_translation;
     };
 
     transUnitCtrl.cancelEdit = function($event, phrase) {
@@ -68,7 +81,9 @@
     };
 
     transUnitCtrl.saveAs = function($event, phrase, status) {
-      EditorShortcuts.saveTranslationCallBack($event, phrase, status);
+      if(!transUnitCtrl.isReadOnly) {
+        EditorShortcuts.saveTranslationCallBack($event, phrase, status);
+      }
     };
 
     transUnitCtrl.getLocaleName = function(localeId) {

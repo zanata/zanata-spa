@@ -13,7 +13,7 @@
       <div class="TransUnit-itemHeader" ng-if="transUnitCtrl.selected">
         <span class="u-textMeta" ng-if="$first">Singular Form</span>
         <span class="u-textMeta" ng-if="!$first">Plural Form</span>
-        <ul class="u-floatRight u-listHorizontal">
+        <ul class="u-floatRight u-listHorizontal" ng-if="!transUnitCtrl.isReadOnly">
           <li>
             <button class="u-floatRight Link Link--neutral u-sizeHeight-1 u-sizeWidth-1 u-textCenter"
               title="Copy {{::editorContext.srcLocale.name}} ({{::editorContext.srcLocale.localeId}})"
@@ -40,6 +40,7 @@
         ng-blur="transUnitCtrl.focused = false"
         focus-on="phrase-{{phrase.id}}-0"
         blur-on="phrase-{{phrase.id}}"
+        ng-disabled="transUnitCtrl.isReadOnly"
         placeholder="{{::'Enter a translation…'|translate}}">
       </textarea>
     </div>
@@ -56,6 +57,7 @@
         ng-focus="transUnitCtrl.onTextAreaFocus(phrase, $index)"
         ng-blur="transUnitCtrl.focused = false"
         blur-on="phrase-{{phrase.id}}"
+        ng-disabled="transUnitCtrl.isReadOnly"
         placeholder="{{::'Enter a translation…'|translate}}">
       </textarea>
     </div>

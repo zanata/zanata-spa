@@ -11,7 +11,7 @@
     <li ng-if="!phrase.plural">
       <button class="Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1 u-textCenter"
         title="Copy {{::editorContext.srcLocale.name}} ({{::editorContext.srcLocale.localeId}})"
-        ng-click="transUnitCtrl.copySource($event, phrase)">
+        ng-click="transUnitCtrl.copySource($event, phrase)" ng-if="!transUnitCtrl.isReadOnly">
         <icon name="copy" class="Icon--sm" title="Copy {{::editorContext.srcLocale.name}} ({{::editorContext.srcLocale.localeId}})"></icon>
       </button>
     </li>

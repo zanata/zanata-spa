@@ -85,8 +85,7 @@
     // http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr
     editorCtrl.context = EditorService.initContext($stateParams.projectSlug,
       $stateParams.versionSlug, DocumentService.decodeDocId($stateParams.docId),
-      LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE.localeId,
-      'READ_WRITE');
+      LocaleService.DEFAULT_LOCALE, LocaleService.DEFAULT_LOCALE.localeId);
 
     editorCtrl.toggleKeyboardShortcutsModal = function() {
       editorCtrl.showCheatsheet = !editorCtrl.showCheatsheet;
@@ -99,6 +98,14 @@
 
     editorCtrl.encodeDocId = function(docId) {
       return DocumentService.encodeDocId(docId);
+    };
+
+    editorCtrl.isReadOnlyMode = function() {
+      return !editorCtrl.context.permission.write_translation;
+    };
+
+    editorCtrl.isReviewAllowed = function() {
+      return editorCtrl.context.permission.review_translation;
     };
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(
