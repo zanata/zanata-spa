@@ -24,8 +24,12 @@
       if (phrase.plural) {
         // on Firefox with input method turned on,
         // when hitting tab it seems to turn undefined value into ''
-        return nullToEmpty(phrase.translations.toString()) !==
-          nullToEmpty(phrase.newTranslations.toString());
+        var allSame = _.every(phrase.translations,
+          function(translation, index) {
+            return nullToEmpty(translation) ===
+              nullToEmpty(phrase.newTranslations[index]);
+          });
+        return !allSame;
       }
       else {
         return nullToEmpty(phrase.newTranslation) !==
@@ -111,7 +115,7 @@
       function (event, data) {
         if(data.phrase.plural) {
           if(!_.isUndefined(data.sourceIndex)) {
-            modifyTranslationText(data.phrase,
+            setTranslationText(data.phrase,
               data.phrase.sources[data.sourceIndex]);
           } else {
             //from key shortcut, copy corresponding source to target
@@ -121,11 +125,11 @@
               transUnitCtrl.focusedTranslationIndex + 1) {
               sourceIndex = data.phrase.sources.length - 1;
             }
-            modifyTranslationText(data.phrase,
+            setTranslationText(data.phrase,
               data.phrase.sources[sourceIndex]);
           }
         } else {
-          modifyTranslationText(data.phrase, data.phrase.source);
+          setTranslationText(data.phrase, data.phrase.source);
         }
       });
 
@@ -137,9 +141,9 @@
       function (event, phrase) {
         if (transUnitService.isTranslationModified(phrase)) {
           if(phrase.plural) {
-            modifyTranslationsText(phrase, phrase.translations);
+            setAllTranslations(phrase, phrase.translations);
           } else {
-            modifyTranslationText(phrase, phrase.translation);
+            setTranslationText(phrase, phrase.translation);
           }
         }
       });
@@ -197,7 +201,7 @@
     $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
        updateSaveButton);
 
-    function modifyTranslationText(phrase, newText) {
+    function setTranslationText(phrase, newText) {
       if (phrase.plural) {
         var transUnitCtrl = controllerList[phrase.id];
         phrase.newTranslations[transUnitCtrl.focusedTranslationIndex] = newText;
@@ -210,12 +214,13 @@
         phrase);
     }
 
-    function modifyTranslationsText(phrase, newTexts) {
+    function setAllTranslations(phrase, newTexts) {
       if(!phrase.plural) {
+        console.error('This function only process plural');
         return; //only accept plural
       }
 
-      //need slice(0) for new instance of array
+      //need slice() for new instance of array
       phrase.newTranslations = newTexts.slice();
 
       EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
@@ -237,6 +242,7 @@
     }
 
     function setSelected(transUnitCtrl, isSelected) {
+      //This check is to prevent selected event being triggered repeatedly.
       if(transUnitCtrl.selected !== isSelected) {
         transUnitCtrl.selected = isSelected || false;
       }
