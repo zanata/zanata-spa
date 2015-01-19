@@ -7,16 +7,13 @@
    */
   function EditorContentCtrl($rootScope, EditorService, PhraseService,
                              DocumentService, UrlService, EventService,
-                             $stateParams, TransUnitService, _,
+                             $stateParams, PhraseUtil, $location, _,
                              TransStatusService) {
 
     //TODO: move pager to directives/convert to infinite scroll
     var COUNT_PER_PAGE = 50,
-        editorContentCtrl = this,
-        states = UrlService.readValue('states'),
-        filter = {
-          'states': states ? states.split(' ') : states
-        };
+        editorContentCtrl = this, status, filter;
+    refreshFilterQueryFromUrl();
 
     editorContentCtrl.phrases = [];
 
@@ -25,6 +22,39 @@
       $stateParams.localeId);
 
     init();
+
+    $rootScope.$on(EventService.EVENT.FILTER_TRANS_UNIT,
+      function (event, filter) {
+        if(filter.status.all === true) {
+          $location.search('status', null);
+        } else {
+          var queries = [];
+          _.forEach(filter.status, function(val, key) {
+            if(val) {
+              queries.push(key);
+            }
+          });
+          $location.search('status', queries.join(','));
+        }
+        refreshFilterQueryFromUrl();
+        init();
+      });
+
+    function refreshFilterQueryFromUrl() {
+      status = UrlService.readValue('status');
+
+      if(!_.isUndefined(status)) {
+        status = status.split(',');
+        status = _.transform(status, function(result, state) {
+          state = TransStatusService.getServerId(state);
+          return result.push(state);
+        });
+      }
+      filter = {
+        'status': status
+      };
+    }
+
 
     $rootScope.$on(EventService.EVENT.GOTO_FIRST_PAGE,
       function () {
@@ -74,6 +104,7 @@
 
     function goToNextRow(event, data) {
       var phrases = editorContentCtrl.phrases,
+        phrase,
         currentIndex,
         nextIndex,
         nextId;
@@ -91,15 +122,22 @@
                                  'updateURL': true,
                                  'focus': true
                                }, null);
-      } /*
-      else {
-        // we have reach the end and want to unfocus
-        TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
-      }*/
+      } else {
+        // we have reach the end
+        phrase = phrases[currentIndex];
+        EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+           {
+             'phrase': phrase,
+             'status': PhraseUtil.getSaveButtonStatus(phrase),
+             'locale': $stateParams.localeId,
+             'docId': $stateParams.docId
+           });
+      }
     }
 
     function goToPreviousRow(event, data) {
       var phrases = editorContentCtrl.phrases,
+        phrase,
         currentIndex,
         previousIndex,
         prevId;
@@ -117,11 +155,17 @@
                                  'updateURL': true,
                                  'focus': true
                                }, null);
-      } /*
-      else {
-        // have have reach the start and want to unfocus
-        TransUnitService.saveCurrentRowIfModifiedAndUnfocus(data);
-      }*/
+      } else {
+        phrase = phrases[currentIndex];
+        // have reach the start
+        EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+           {
+             'phrase': phrase,
+             'status': PhraseUtil.getSaveButtonStatus(phrase),
+             'locale': $stateParams.localeId,
+             'docId': $stateParams.docId
+           });
+      }
     }
 
     function goToNextUntranslated(event, data) {

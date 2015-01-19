@@ -57,7 +57,7 @@
       function (event, data) {
         var phrase = data.phrase,
             status = data.status;
-        if (!needToSavePhrase(phrase)) {
+        if (!needToSavePhrase(phrase, status)) {
           // nothing has changed
           return;
         }
@@ -80,7 +80,7 @@
         processSaveRequest(phrase.id);
       });
 
-    function needToSavePhrase(phrase) {
+    function needToSavePhrase(phrase, status) {
       return TransUnitService.isTranslationModified(phrase) ||
         phrase.status !== status;
     }
@@ -111,13 +111,15 @@
 
       Translation.update(data).$promise.then(
         function(response) {
-          var oldStatus =  request.phrase.status;
+          var oldStatus =  request.phrase.status.ID;
 
           PhraseService.onTransUnitUpdated(context, data.id, request.locale,
-            response.revision, response.status, request.phrase.newTranslation);
+            response.revision, response.status, request.phrase);
 
-          DocumentService.updateStatistic(request.docId, request.locale,
-            oldStatus, response.status, request.phrase.wordCount);
+          DocumentService.updateStatistic(context.projectSlug,
+            context.versionSlug, request.docId, request.locale,
+            oldStatus, TransStatusService.getId(response.status),
+            request.phrase.wordCount);
 
           EventService.emitEvent(EventService.EVENT.SAVE_COMPLETED,
             request.phrase);
@@ -133,8 +135,14 @@
     }
 
     function resolveTranslationState(phrase, requestStatus) {
-      if(phrase.newTranslation === '') {
-        return TransStatusService.getStatusInfo('UNTRANSLATED');
+      if(phrase.plural) {
+        if (_.isEmpty(_.compact(phrase.newTranslations))) {
+          return TransStatusService.getStatusInfo('UNTRANSLATED');
+        }
+      } else {
+        if(_.isEmpty(phrase.newTranslation)) {
+          return TransStatusService.getStatusInfo('UNTRANSLATED');
+        }
       }
       return requestStatus;
     }

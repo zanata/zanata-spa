@@ -59,16 +59,16 @@
  */
 
 :root {
-  --u-text-color-invert: var(--color-lightest-grey);
-  --u-text-color-primary: var(--color-primary);
-  --u-text-color-secondary: var(--color-secondary);
-  --u-text-color-highlight: var(--color-highlight);
-  --u-text-color-success: var(--color-success);
-  --u-text-color-unsure: var(--color-unsure);
-  --u-text-color-neutral: var(--color-neutral);
-  --u-text-color-warning: var(--color-warning);
-  --u-text-color-danger: var(--color-danger);
-  --u-text-muted-opacity: .6;
+  --u-text-color-invert    : var(--color-lightest-grey);
+  --u-text-color-primary   : var(--color-primary);
+  --u-text-color-secondary : var(--color-secondary);
+  --u-text-color-highlight : var(--color-highlight);
+  --u-text-color-success   : var(--color-success);
+  --u-text-color-unsure    : var(--color-unsure);
+  --u-text-color-neutral   : var(--color-neutral);
+  --u-text-color-warning   : var(--color-warning);
+  --u-text-color-danger    : var(--color-danger);
+  --u-text-muted-opacity   : .6;
 }
 
 
@@ -138,6 +138,7 @@
   --Button-font              : inherit;
   --Button-padding           : calc(var(--rhythm) * .25) calc(var(--rhythm) * .5);
   --Button-padding-snug      : calc(var(--rhythm) * .25);
+  --Button-padding-snug      : calc(var(--rhythm) * .125) calc(var(--rhythm) * .25);
   --Button-color-text-invert : var(--color-white);
   --Button-color-default     : color(var(--color-secondary) tint(85%));
   --Button-color-primary     : var(--color-primary);
@@ -167,20 +168,20 @@
  */
 
 :root {
-  --Dropdown-content-color-bg         : var(--color-white);
-  --Dropdown-content-border           : var(--default-border);
-  --Dropdown-content-z                : var(--z-scale-7);
-  --Dropdown-title-size               : calc(14/16 * 1rem);
-  --Dropdown-title-color              : color(var(--color-secondary) tint(40%));
-  --Dropdown-title-color-bg           : transparent;
-  --Dropdown-item-color               : var(--color-highlight);
-  --Dropdown-item-hover-color         : var(--Dropdown-content-color-bg);
-  --Dropdown-item-hover-color-bg      : var(--Dropdown-item-color);
-  --Dropdown-item-transition          : all .2s ease-out;
-  --Dropdown-rhythm                   : var(--rhythm);
-  --Dropdown-transition               : all .2s var(--transition-ease-out-back);
-  --Dropdown-z                        : var(--z-scale-1);
-  --Dropdown-z-active                 : var(--z-scale-8);
+  --Dropdown-rhythm              : var(--rhythm);
+  --Dropdown-transition          : all .2s var(--transition-ease-out-back);
+  --Dropdown-z-index             : var(--z-scale-1);
+  --Dropdown-active-z-index      : var(--z-scale-9);
+  --Dropdown-content-color-bg    : var(--color-white);
+  --Dropdown-content-border      : var(--default-border);
+  --Dropdown-content-z-index     : var(--z-scale-8);
+  --Dropdown-title-size          : calc(14/16 * 1rem);
+  --Dropdown-title-color         : color(var(--color-secondary) tint(40%));
+  --Dropdown-title-color-bg      : transparent;
+  --Dropdown-item-color          : var(--color-highlight);
+  --Dropdown-item-hover-color    : var(--Dropdown-content-color-bg);
+  --Dropdown-item-hover-color-bg : var(--Dropdown-item-color);
+  --Dropdown-item-transition     : all .2s ease-out;
 }
 
 
@@ -191,6 +192,7 @@
 :root {
   --Header-background : var(--color-primary);
   --Header-rhythm     : var(--rhythm);
+  --Header-z-index    : var(--z-scale-9);
 }
 
 
@@ -215,8 +217,8 @@
  */
 
 :root {
-  --Icon-rhythm: var(--rhythm);
-  --Icon-transition: .25s all var(--transition-ease-out-back);
+  --Icon-rhythm     : var(--rhythm);
+  --Icon-transition : .25s all var(--transition-ease-out-back);
 }
 
 /**
@@ -242,12 +244,12 @@
  */
 
 :root {
-  --LogoLoader-color-logo: var(--color-primary);
-  --LogoLoader-color-bg: var(--color-white);
-  --LogoLoader-color-logo-invert: var(--LogoLoader-color-bg);
-  --LogoLoader-color-bg-invert: var(--LogoLoader-color-logo);
-  --LogoLoader-rhythm: var(--rhythm);
-  --LogoLoader-transition-ease: var(--transition-ease-out-back);
+  --LogoLoader-color-logo        : var(--color-primary);
+  --LogoLoader-color-bg          : var(--color-white);
+  --LogoLoader-color-logo-invert : var(--LogoLoader-color-bg);
+  --LogoLoader-color-bg-invert   : var(--LogoLoader-color-logo);
+  --LogoLoader-rhythm            : var(--rhythm);
+  --LogoLoader-transition-ease   : var(--transition-ease-out-back);
 }
 
 /**
@@ -255,18 +257,20 @@
  */
 
 :root {
-  --Modal-rhythm: 1.5rem;
-  --Modal-color-bg: color(var(--color-bg) alpha(.95));
-  --Modal-transition: all .15s linear;
-  --Modal-border: 1px solid color(var(--color-secondary) alpha(12%));
-  --Modal-dialog-transition: all .25s cubic-bezier(.175, .885, .320, 1.1);
-  --Modal-dialog-border-bottom-width: 2px;
-  --Modal-dialog-color-bg: color(var(--color-bg) tint(60%));
-  --Modal-header-color-bg: var(--color-white);
-  --Modal-title-font-size: calc(22/16 * 1rem);
-  --Modal-close-transition: all .25s ease-out;
-  --Modal-close-color-bg-hover: color(var(--color-secondary) alpha(5%));
-  --Modal-close-color-bg-active: color(var(--color-secondary) alpha(10%));
+  --Modal-rhythm                     : 1.5rem;
+  --Modal-color-bg                   : color(var(--color-bg) alpha(.95));
+  --Modal-transition                 : all .15s linear;
+  --Modal-border                     : 1px solid color(var(--color-secondary) alpha(12%));
+  --Modal-dialog-transition          : all .25s cubic-bezier(.175, .885, .320, 1.1);
+  --Modal-dialog-border-bottom-width : 2px;
+  --Modal-dialog-color-bg            : color(var(--color-bg) tint(60%));
+  --Modal-header-color-bg            : var(--color-white);
+  --Modal-title-font-size            : calc(22/16 * 1rem);
+  --Modal-close-transition           : all .25s ease-out;
+  --Modal-close-color-bg-hover       : color(var(--color-secondary) alpha(5%));
+  --Modal-close-color-bg-active      : color(var(--color-secondary) alpha(10%));
+  --Modal-z-index                    : var(--z-scale-10);
+  --Modal-header-z-index             : var(--z-scale-1);
 }
 
 /**
@@ -274,13 +278,15 @@
  */
 
 :root {
-  --Progressbar-rhythm    : var(--rhythm);
-  --Progressbar-highlight : var(--color-highlight);
-  --Progressbar-success   : var(--color-success);
-  --Progressbar-unsure    : var(--color-unsure);
-  --Progressbar-neutral   : var(--color-neutral);
-  --Progressbar-warning   : var(--color-warning);
-  --Progressbar-danger    : var(--color-danger);
+  --Progressbar-rhythm           : var(--rhythm);
+  --Progressbar-highlight        : var(--color-highlight);
+  --Progressbar-success          : var(--color-success);
+  --Progressbar-unsure           : var(--color-unsure);
+  --Progressbar-neutral          : var(--color-neutral);
+  --Progressbar-warning          : var(--color-warning);
+  --Progressbar-danger           : var(--color-danger);
+  --Progressbar-item-z-index     : var(--z-scale-1);
+  --Progressbar-approved-z-index : var(--z-scale-2);
 }
 
 
@@ -309,16 +315,22 @@
   --TransUnit-color-success          : var(--color-success);
   --TransUnit-color-unsure           : var(--color-unsure);
   --TransUnit-color-warning          : var(--color-warning);
+  --TransUnit-is-focused-z-index     : var(--z-scale-1);
+  --TransUnit-before-after-z-index   : var(--z-scale-below);
   --TransUnit-header-footer-color-bg : var(--color-white);
   --TransUnit-heading-font-size      : 1rem;
+  --TransUnit-header-z-index         : var(--z-scale-2);
   --TransUnit-metaDataButton-size    : calc(12/16 * 1rem);
   --TransUnit-rhythm                 : var(--rhythm);
-  --TransUnit-text-font-family       : var(--font-size-base);
-  --TransUnit-text-font-size         : 1rem;
+  --TransUnit-text-font-family       : var(--font-family-base);
+  --TransUnit-text-font-size         : var(--font-size-base);
   --TransUnit-text-line-height       : var(--default-line-height);
+  --TransUnit-text-color             : var(--color-base-font);
   --TransUnit-transition-ease        : var(--transition-ease-out-circ);
   --TransUnit-transition             : all .25s var(--TransUnit-transition-ease);
   --TransUnit-translation-color-bg   : var(--color-white);
+  --TransUnit-status-z-index         : var(--z-scale-2);
+  --TransUnit-status-before-z-index  : var(--z-scale-3);
 }
 
 /**
@@ -332,8 +344,9 @@
  */
 
 :root {
-  --Editor-rhythm: var(--rhythm);
-  --Editor-transition-ease: var(--transition-ease-out-back);
-  --Editor-color-status-bg: color(var(--color-secondary) tint(82%));
-  --Editor-color-translation-bg: var(--color-white);
+  --Editor-rhythm               : var(--rhythm);
+  --Editor-transition-ease      : var(--transition-ease-out-back);
+  --Editor-color-status-bg      : color(var(--color-secondary) tint(82%));
+  --Editor-color-translation-bg : var(--color-white);
+  --Editor-loader-z-index       : var(--z-scale-9);
 }

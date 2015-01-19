@@ -9,7 +9,6 @@
   function EditorShortcuts(EventService, $stateParams, _, hotkeys, PhraseUtil,
                            TransStatusService, Mousetrap, str, $window) {
     var editorShortcuts = this,
-      tabCombinationPressed = false,
       inSaveAsMode = false;
 
     // this will be set by TransUnitService
@@ -20,30 +19,12 @@
       if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
         EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-          editorShortcuts.selectedTUCtrl.getPhrase());
+          {'phrase': editorShortcuts.selectedTUCtrl.getPhrase()});
       }
     }
 
-    /**
-     * browser by default intercepts keydown on tab and move focus out of
-     * textarea. We can't use hotkeys to do this as it won't allow us register
-     * same key twice. Mousetrap is used as it's the underlying library hotkeys
-     * uses.
-     */
-
-    // TODO: Unbind tab when transunit is deselected
-    Mousetrap.bind('tab', function(event) {
-      event.preventDefault();
-      tabCombinationPressed = false;
-    }, 'keydown');
-
     function gotoNextRowCallback(event) {
-      // If they didn't use the tab key
-      // Or if the tab key wasn't used in a combination
-      // Go to the next row
-      var tabKeyCode = 9;
-      if ((event.which !== tabKeyCode || !tabCombinationPressed) &&
-        editorShortcuts.selectedTUCtrl) {
+      if (editorShortcuts.selectedTUCtrl) {
         event.preventDefault();
         event.stopPropagation();
         EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
@@ -102,32 +83,20 @@
      * 'needs work'.
      */
     function saveAsModeCallback(event) {
+      event.preventDefault();
       editorShortcuts.cancelSaveAsModeIfOn();
       var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
       if (phrase) {
-        event.preventDefault();
         EventService.emitEvent(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
           {
             'id': phrase.id,
             'open': true
           });
+
         addSaveAsModeExtensionKey(phrase, 'n', 'needsWork');
         addSaveAsModeExtensionKey(phrase, 't', 'translated');
         addSaveAsModeExtensionKey(phrase, 'a', 'approved');
-        inSaveAsMode = true;
       }
-    }
-
-    function gotoToNextUntranslatedCallback(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      if (editorShortcuts.selectedTUCtrl) {
-        EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
-          currentContext());
-      }
-      // the shortcut is a tab + u combination
-      // we don't want other tab event to trigger
-      tabCombinationPressed = true;
     }
 
     /**
@@ -160,25 +129,37 @@
         keyCombos: [{combo: 'mod+shift+s a', description: 'Save as approved'}]
       },
 
-      /*GOTO_NEXT_ROW: new ShortcutInfo(
-        'tab', gotoNextRowCallback, 'Save and go to next string',
-        [], 'keyup'),*/
-
-      // tab as shortcut has to be on keyup
       GOTO_NEXT_ROW_FAST: new ShortcutInfo(
         'mod+enter', gotoNextRowCallback,
         'Save (if changed) and go to next string',
-        ['alt+k', 'alt+down', 'tab'], 'keyup'),
+        ['alt+k', 'alt+down']),
 
       GOTO_PREVIOUS_ROW: new ShortcutInfo(
         'mod+shift+enter', gotoPreviousRowCallback,
         'Save (if changed) and go to previous string',
-        ['alt+j', 'alt+up', 'shift+tab'])/*,
-        disable for now
-      GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(
-        'tab+u', gotoToNextUntranslatedCallback)*/
-
+        ['alt+j', 'alt+up'])
+        /*
+         Disable for now until status navigation implementation
+         GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(
+        'tab+u', gotoToNextUntranslatedCallback)
+        */
     };
+
+    /*
+     Disable for now until status navigation implementation
+
+     function gotoToNextUntranslatedCallback(event) {
+     event.preventDefault();
+     event.stopPropagation();
+     if (editorShortcuts.selectedTUCtrl) {
+     EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
+     currentContext());
+     }
+     // the shortcut is a tab + u combination
+     // we don't want other tab event to trigger
+     tabCombinationPressed = true;
+     }
+     */
 
     /**
      *
@@ -264,19 +245,27 @@
         allowIn: ['INPUT', 'TEXTAREA'],
         action: 'keydown',
         callback: function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-            {
-              'phrase': phrase,
-              'status': statusInfo,
-              'locale': $stateParams.localeId,
-              'docId': $stateParams.docId
-            });
-          editorShortcuts.cancelSaveAsModeIfOn();
+          editorShortcuts.saveTranslationCallBack(event, phrase, statusInfo);
         }
       });
     }
+
+    editorShortcuts.saveTranslationCallBack = function(event, phrase,
+                                                       statusInfo) {
+      inSaveAsMode = true;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
+        {
+          'phrase': phrase,
+          'status': statusInfo,
+          'locale': $stateParams.localeId,
+          'docId': $stateParams.docId
+        });
+      editorShortcuts.cancelSaveAsModeIfOn();
+    };
 
     editorShortcuts.cancelSaveAsModeIfOn = function() {
       if (inSaveAsMode && editorShortcuts.selectedTUCtrl) {

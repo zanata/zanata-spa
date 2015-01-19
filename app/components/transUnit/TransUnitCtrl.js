@@ -11,12 +11,23 @@
     var transUnitCtrl = this;
 
     transUnitCtrl.selected = false;
+    transUnitCtrl.focused = false;
+    transUnitCtrl.focusedTranslationIndex = 0;
 
     transUnitCtrl.isTranslationModified =
       TransUnitService.isTranslationModified;
 
     transUnitCtrl.focusTranslation = function() {
-      focus('phrase-' + $scope.phrase.id);
+      focus('phrase-' + $scope.phrase.id + '-' +
+      transUnitCtrl.focusedTranslationIndex);
+    };
+
+    transUnitCtrl.onTextAreaFocus = function(phrase, index) {
+      transUnitCtrl.focused = true;
+      transUnitCtrl.selectTransUnit(phrase);
+      if (index !== undefined) {
+        transUnitCtrl.focusedTranslationIndex = index;
+      }
     };
 
     transUnitCtrl.translationTextModified = function(phrase) {
@@ -34,14 +45,14 @@
         EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
           {'id': $stateParams.id,
             'updateURL': false,
-            'focus' : $stateParams.selected}, null);
+            'focus' : $stateParams.selected});
       }
     };
 
-    transUnitCtrl.copySource = function($event, phrase) {
+    transUnitCtrl.copySource = function($event, phrase, sourceIndex) {
       $event.stopPropagation(); //prevent click event of TU
       EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-        phrase, $scope);
+        {'phrase': phrase, 'sourceIndex': sourceIndex}, $scope);
     };
 
     transUnitCtrl.undoEdit = function($event, phrase) {
@@ -57,12 +68,7 @@
     };
 
     transUnitCtrl.saveAs = function($event, phrase, status) {
-      EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-        { 'phrase' : phrase,
-          'status' : status,
-          'locale' : $stateParams.localeId,
-          'docId'  : $stateParams.docId
-        }, $scope);
+      EditorShortcuts.saveTranslationCallBack($event, phrase, status);
     };
 
     transUnitCtrl.getLocaleName = function(localeId) {
@@ -72,6 +78,10 @@
     transUnitCtrl.toggleSaveAsOptions = function(open) {
       EventService.broadcastEvent( open ? 'openDropdown': 'closeDropdown',
         {}, $scope);
+      if (open) {
+        // focus on the first dropdown option
+        focus($scope.phrase.id + '-saveAsOption-0');
+      }
     };
 
     transUnitCtrl.cancelSaveAsMode = function() {
@@ -110,11 +120,13 @@
     };
 
     transUnitCtrl.selectTransUnit = function(phrase) {
-      EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-        {'id': phrase.id,
-          'updateURL': true,
-          'focus': true
-        }, $scope);
+      if (!transUnitCtrl.selected) {
+        EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+                               {'id': phrase.id,
+                                 'updateURL': true,
+                                 'focus': true
+                               }, $scope);
+      }
     };
 
     function onTransUnitClick() {

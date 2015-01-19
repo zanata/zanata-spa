@@ -1,23 +1,29 @@
 /** @define TransUnit; use strict */
 
 :root {
-  --TransUnit-border-color: color(#416988 alpha(8%));
-  --TransUnit-color-danger: #e0575b;
-  --TransUnit-color-highlight: #4e9fdd;
-  --TransUnit-color-neutral: color(#416988 tint(65%));
-  --TransUnit-color-success: #70a98b;
-  --TransUnit-color-unsure: #e0c350;
-  --TransUnit-color-warning: #e3824e;
-  --TransUnit-header-footer-color-bg: #fff;
-  --TransUnit-heading-font-size: 1rem;
-  --TransUnit-metaDataButton-size: calc(12/16 * 1rem);
-  --TransUnit-rhythm: 1.5rem;
-  --TransUnit-text-font-family: 'Source Sans Pro', 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
-  --TransUnit-text-font-size: 1rem;
-  --TransUnit-text-line-height: 1.5;
-  --TransUnit-transition: opacity .25s var(--TransUnit-transition-ease);
-  --TransUnit-transition-ease: cubic-bezier(.075, .820, .165, 1.000);
-  --TransUnit-translation-color-bg: #fff;
+  --TransUnit-border-color           : color(#416988 alpha(8%));
+  --TransUnit-color-danger           : #e0575b;
+  --TransUnit-color-highlight        : #4e9fdd;
+  --TransUnit-color-neutral          : color(#416988 tint(65%));
+  --TransUnit-color-success          : #70a98b;
+  --TransUnit-color-unsure           : #e0c350;
+  --TransUnit-color-warning          : #e3824e;
+  --TransUnit-is-focused-z-index     : 100;
+  --TransUnit-before-after-z-index   : -1;
+  --TransUnit-header-footer-color-bg : #fff;
+  --TransUnit-header-z-index         : 200;
+  --TransUnit-heading-font-size      : 1rem;
+  --TransUnit-metaDataButton-size    : calc(12/16 * 1rem);
+  --TransUnit-rhythm                 : 1.5rem;
+  --TransUnit-text-font-family       : 'Source Sans Pro', 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+  --TransUnit-text-font-size         : 1rem;
+  --TransUnit-text-line-height       : 1.5;
+  --TransUnit-text-color             : #444c54;
+  --TransUnit-transition             : opacity .25s var(--TransUnit-transition-ease);
+  --TransUnit-transition-ease        : cubic-bezier(.075, .820, .165, 1.000);
+  --TransUnit-translation-color-bg   : #fff;
+  --TransUnit-status-z-index         : 200;
+  --TransUnit-status-before-z-index  : 300;
 }
 
 .TransUnit {
@@ -29,31 +35,61 @@
   border-bottom: 1px solid var(--TransUnit-border-color);
 }
 
+.TransUnit:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.TransUnit.is-focused {
+  z-index: var(--TransUnit-is-focused-z-index) !important;
+  opacity: 1 !important;
+  background-color: var(--TransUnit-translation-color-bg);
+}
+
+.TransUnit:before,
+.TransUnit:after {
+  position: absolute;
+  z-index: var(--TransUnit-before-after-z-index);
+  left: 0;
+  visibility: hidden;
+  width: 100%;
+  height: var(--TransUnit-rhythm);
+  content: '';
+  transition: var(--TransUnit-transition);
+  transform: scaleY(0);
+  opacity: 0;
+  background-color: var(--TransUnit-translation-color-bg);
+  background-clip: padding-box;
+}
+
+.TransUnit:before {
+  box-shadow: 0 calc(var(--TransUnit-rhythm) * -.25) calc(var(--TransUnit-rhythm) * .5) rgba(0,0,0,.04);
+  transform-origin: bottom;
+  top: calc(var(--TransUnit-rhythm) * -.75);
+}
+
+.TransUnit:after {
+  box-shadow: 0 calc(var(--TransUnit-rhythm) * .25) calc(var(--TransUnit-rhythm) * .5) rgba(0,0,0,.04);
+  transform-origin: top;
+  bottom: calc(var(--TransUnit-rhythm) * -.75);
+}
+
+.TransUnit.is-focused:before,
+.TransUnit.is-focused:after {
+  visibility: visible;
+  transform: scaleY(1);
+  opacity: 1;
+}
+
 .TransUnit.is-first {
   border-top: 1px solid var(--TransUnit-border-color);
 }
 
-/* Clearfix */
-
-.TransUnit:before,
-.TransUnit:after {
-  display: table;
-  content: ' ';
-}
-
-.TransUnit:after {
-  clear: both;
-}
-
 /* Pair with .Editor-content */
 .TransUnit-container.is-unit-selected .TransUnit {
-  opacity: .3;
+  opacity: .8;
 }
 
-.TransUnit.is-focused {
-  z-index: 5 !important;
-  opacity: 1 !important;
-}
 
 /**
  * Panels
@@ -61,9 +97,15 @@
 
 .TransUnit-panel {
   position: relative;
+  padding-top: calc(var(--TransUnit-rhythm) * .75);
+  padding-bottom: calc(var(--TransUnit-rhythm) * .75);
   padding-left: var(--TransUnit-rhythm);
   list-style: none;
   vertical-align: top;
+}
+
+.TransUnit-item {
+  position: relative;
 }
 
 .TransUnit-source {
@@ -81,29 +123,27 @@
 }
 
 /**
- * Panel Header and Footer
+ * Translation and source Header and Footer
  */
 
 .TransUnit-panelHeader,
-.TransUnit-panelFooter {
+.TransUnit-panelFooter,
+.TransUnit-itemHeader {
   position: absolute;
-  z-index: 2;
+  z-index: var(--TransUnit-header-z-index);
   right: 0;
   left: 0;
-  visibility: hidden;
-  /* a “Magic number” which I don't like, but it seems to be needed because
-     of borders extending the height of the buttons and this is the most
-     consistent work around. */
-  height: 2.38rem;
-  padding-right: calc(var(--TransUnit-rhythm) * .5);
-  padding-left: calc(var(--TransUnit-rhythm) * .5);
+  width: 100%;
+  padding-right: calc(var(--TransUnit-rhythm) * .75);
+  padding-left: calc(var(--TransUnit-rhythm) * .75);
   cursor: default;
+}
+
+.TransUnit-panelHeader,
+.TransUnit-panelFooter {
+  visibility: hidden;
   transition: var(--TransUnit-transition);
   opacity: 0;
-  border-top: 1px solid var(--TransUnit-border-color);
-  border-bottom: 1px solid var(--TransUnit-border-color);
-  background-color: var(--TransUnit-header-footer-color-bg);
-  background-clip: padding-box;
 }
 
 .TransUnit.is-focused .TransUnit-panelHeader,
@@ -114,15 +154,17 @@
 
 .TransUnit-panelHeader {
   top: calc(var(--TransUnit-rhythm) * -.75);
-  box-shadow: 0 calc(var(--TransUnit-rhythm) * -.25) var(--TransUnit-rhythm) rgba(0,0,0,.06);
+}
+
+.TransUnit-itemHeader {
+  top: 0;
 }
 
 .TransUnit-panelFooter {
   bottom: calc(var(--TransUnit-rhythm) * -.75);
-  box-shadow: 0 calc(var(--TransUnit-rhythm) * .25) var(--TransUnit-rhythm) rgba(0,0,0,.06);
 }
 
-.TransUnit-Heading {
+.TransUnit-heading {
   font-size: var(--TransUnit-heading-font-size);
   font-weight: 400;
   line-height: calc(var(--TransUnit-rhythm) * 1.5);
@@ -133,10 +175,6 @@
   text-transform: uppercase;
 }
 
-.TransUnit-panelHeaderActions {
-  float: right;
-}
-
 .TransUnit-text {
   font-family: var(--TransUnit-text-font-family);
   font-size: var(--TransUnit-text-font-size);
@@ -145,13 +183,13 @@
   width: 100%;
   min-height: var(--TransUnit-rhythm);
   margin: 0;
-  padding: calc(var(--TransUnit-rhythm) * 1.5) calc(var(--TransUnit-rhythm) * .5);
+  padding: calc(var(--TransUnit-rhythm) * .75);
   resize: none;
   transition: height .1s var(--TransUnit-transition-ease:);
   white-space: pre-wrap;
   word-wrap: break-word;
   tab-size: 4;
-  color: $color-base-font;
+  color: var(--TransUnit-text-color);
   border: none;
   background-color: transparent;
   box-shadow: none;
@@ -180,21 +218,22 @@
  */
 
 .TransUnit-status,
-.TransUnit-status:before,
-.TransUnit-status:after {
+.TransUnit-status:before {
   position: absolute;
-  z-index: 1;
-  top: -1;
-  bottom: -1;
+  z-index: var(--TransUnit-status-z-index);
   left: 0;
   width: var(--TransUnit-rhythm);
-  border-top: 1px solid var(--TransUnit-border-color);
-  border-bottom: 1px solid var(--TransUnit-border-color);
   background-color: var(--TransUnit-color-neutral);
   transition: all .4s linear;
 }
 
-.TransUnit-status.is-loading {
+.TransUnit-status {
+  top: -1;
+  bottom: -1;
+}
+
+.TransUnit-status.is-loading,
+.TransUnit-status.is-loading:before {
   background-image: repeating-linear-gradient(
     45deg,
     transparent,
@@ -207,38 +246,51 @@
   animation-iteration-count: infinite;
 }
 
+.TransUnit-status:before {
+  top: calc(var(--TransUnit-rhythm) * -.75);
+  height: 100%;
+  padding-top: calc(var(--TransUnit-rhythm) * .75);
+  padding-bottom: calc(var(--TransUnit-rhythm) * .75);
+  box-sizing: content-box;
+  z-index: var(--TransUnit-status-before-z-index);
+  visibility: hidden;
+  content: '';
+  transition: var(--TransUnit-transition);
+  transform: scaleY(.65);
+}
+
+.TransUnit.is-focused .TransUnit-status:before {
+  visibility: visible;
+  transform: scaleY(1);
+}
+
 
 /**
  * Status bar Modifiers
  */
 
 .TransUnit--highlight .TransUnit-status,
-.TransUnit--highlight .TransUnit-status:before,
-.TransUnit--highlight .TransUnit-status:after {
+.TransUnit--highlight .TransUnit-status:before {
   background-color: var(--TransUnit-color-highlight);
 }
 
 .TransUnit--success .TransUnit-status,
-.TransUnit--success .TransUnit-status:before,
-.TransUnit--success .TransUnit-status:after {
+.TransUnit--success .TransUnit-status:before {
   background-color: var(--TransUnit-color-success);
 }
 
 .TransUnit--unsure .TransUnit-status,
-.TransUnit--unsure .TransUnit-status:before,
-.TransUnit--unsure .TransUnit-status:after {
+.TransUnit--unsure .TransUnit-status:before {
   background-color: var(--TransUnit-color-unsure);
 }
 
 .TransUnit--warning .TransUnit-status,
-.TransUnit--warning .TransUnit-status:before,
-.TransUnit--warning .TransUnit-status:after {
+.TransUnit--warning .TransUnit-status:before {
   background-color: var(--TransUnit-color-warning);
 }
 
 .TransUnit--danger .TransUnit-status,
-.TransUnit--danger .TransUnit-status:before,
-.TransUnit--danger .TransUnit-status:after {
+.TransUnit--danger .TransUnit-status:before {
   background-color: var(--TransUnit-color-danger);
 }
 
@@ -292,37 +344,10 @@
  */
 
 @media (--sm-viewport) {
-  .TransUnit-translation .TransUnit-panelHeader {
-    box-shadow: 0 0 calc(var(--TransUnit-rhythm) * .25) rgba(0,0,0,.03);
-  }
-
   .TransUnit-Heading {
-    padding-left: var(--TransUnit-rhythm);
+    padding-left: calc(var(--TransUnit-rhythm) * 1);
   }
 
-  .TransUnit-status:before,
-  .TransUnit-status:after {
-    z-index: 2;
-    visibility: hidden;
-    height: var(--TransUnit-rhythm);
-    content: '';
-  }
-
-  .TransUnit-status:before {
-    top: calc(var(--TransUnit-rhythm) * -.75);
-    box-shadow: 0 calc(var(--TransUnit-rhythm) * -.25) var(--TransUnit-rhythm) rgba(0,0,0,.06);
-  }
-
-  .TransUnit-status:after {
-    top: auto;
-    bottom: calc(var(--TransUnit-rhythm) * -.75);
-    box-shadow: 0 calc(var(--TransUnit-rhythm) * .25) var(--TransUnit-rhythm) rgba(0,0,0,.06);
-  }
-
-  .TransUnit.is-focused .TransUnit-status:before,
-  .TransUnit.is-focused .TransUnit-status:after {
-    visibility: visible;
-  }
 }
 
 /**
@@ -330,7 +355,8 @@
  */
 
 @media (--gtemd-viewport) {
-  .TransUnit {
+  .TransUnit,
+  .TransUnit-item {
     display: table;
     width: 100%;
     table-layout: fixed;
@@ -350,32 +376,18 @@
     padding-left: calc(var(--TransUnit-rhythm) * .5);
   }
 
-  .TransUnit-panelHeader,
-  .TransUnit-panelFooter {
-    right: 0;
-  }
-
   /* Cover the overlapping headers */
 
-  .TransUnit-translation .TransUnit-panelHeader,
-  .TransUnit-translation .TransUnit-panelFooter {
-    padding-left: var(--TransUnit-rhythm);
+  .TransUnit-panelHeader--source,
+  .TransUnit-panelFooter--source {
+    padding-right: calc(var(--TransUnit-rhythm) * 1.25);
+    right: auto;
   }
 
-  .TransUnit-translation .TransUnit-panelHeader:before,
-  .TransUnit-translation .TransUnit-panelFooter:before {
-    position: absolute;
-    top: 0;
-    left: calc(var(--TransUnit-rhythm) * -.5);
-    width: var(--TransUnit-rhythm);
-    height: 100%;
-    content: '';
-    background-color: var(--TransUnit-header-footer-color-bg);
-    background-clip: padding-box;
-  }
-
-  .TransUnit-source .TransUnit-panelHeader {
-    padding-right: var(--TransUnit-rhythm);
+  .TransUnit-panelHeader--translation,
+  .TransUnit-panelFooter--translation {
+    padding-left: calc(var(--TransUnit-rhythm) * 1.25);
+    left: auto;
   }
 
   .TransUnit-status,

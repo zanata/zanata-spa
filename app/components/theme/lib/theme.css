@@ -123,15 +123,16 @@
  */
 
 :root {
-  --z-scale-0  : 0;
-  --z-scale-1  : 100;
-  --z-scale-2  : 200;
-  --z-scale-3  : 300;
-  --z-scale-4  : 400;
-  --z-scale-5  : 500;
-  --z-scale-6  : 600;
-  --z-scale-7  : 700;
-  --z-scale-8  : 800;
-  --z-scale-9  : 900;
-  --z-scale-10 : 1000;
+  --z-scale-below : -1;
+  --z-scale-0     : 0;
+  --z-scale-1     : 100;
+  --z-scale-2     : 200;
+  --z-scale-3     : 300;
+  --z-scale-4     : 400;
+  --z-scale-5     : 500;
+  --z-scale-6     : 600;
+  --z-scale-7     : 700;
+  --z-scale-8     : 800;
+  --z-scale-9     : 900;
+  --z-scale-10    : 1000;
 }

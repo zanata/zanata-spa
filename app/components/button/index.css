@@ -10,6 +10,7 @@
   --Button-font: inherit;
   --Button-padding: .375rem .75rem;
   --Button-padding-snug: .375rem;
+  --Button-padding-small: .1875rem .75rem;
   --Button-color-text-invert: #fff;
   --Button-color-default: color(#416988 tint(85%));
   --Button-color-primary: #4e9fdd;
@@ -200,4 +201,8 @@
 
 .Button--snug {
   padding: var(--Button-padding-snug);
+}
+
+.Button--small {
+  padding: var(--Button-padding-small);
 }

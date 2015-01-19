@@ -29,10 +29,10 @@
               <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
             </button>
             <ul class="Dropdown-content Dropdown-content--bordered">
-              <li ng-repeat="doc in editor.documents">
-                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.encodeDocId(doc.name)}}/{{editor.context.localeId}}"
+              <li ng-repeat="doc in ::editor.documents">
+                <a ng-href="#/{{::editor.context.projectSlug}}/{{::editor.context.versionSlug}}/translate/{{::editor.encodeDocId(doc.name)}}/{{::editor.context.localeId}}"
                   class="Dropdown-item">
-                  <span ng-bind="doc.name"></span>
+                  <span ng-bind="::doc.name"></span>
                 </a>
               </li>
             </ul>
@@ -47,7 +47,7 @@
             </button>
             <ul class="Dropdown-content Dropdown-content--bordered">
               <li ng-repeat="locale in editor.locales">
-                <a ng-href="#/{{editor.context.projectSlug}}/{{editor.context.versionSlug}}/translate/{{editor.encodeDocId(editor.context.docId)}}/{{locale.localeId}}"
+                <a ng-href="#/{{::editor.context.projectSlug}}/{{::editor.context.versionSlug}}/translate/{{::editor.encodeDocId(editor.context.docId)}}/{{::locale.localeId}}"
                   class="Dropdown-item">
                   <span ng-bind="locale.name"></span>
                 </a>
@@ -65,9 +65,9 @@
             ng-bind="editor.getLocaleName(app.myInfo.locale.localeId)"/>
           </a>
           <ul class="Dropdown-content Dropdown-content--bordered">
-            <li ng-repeat="locale in app.uiLocaleList">
+            <li ng-repeat="locale in ::app.uiLocaleList">
               <a ng-click="app.onChangeUILocale(locale)" class="Dropdown-item u-textNoWrap u-textRight">
-                <span ng-bind="editor.getLocaleName(locale.localeId)"></span>
+                <span ng-bind="::editor.getLocaleName(locale.localeId)"></span>
               </a>
             </li>
           </ul>
@@ -97,68 +97,7 @@
       <icon name="translate"></icon>
       <span class="u-ltemd-hidden u-sMR-1-4" translate> Translating</span></button>
     <div class="u-floatLeft">
-      <ul class="u-listHorizontal u-sizeHeight-1">
-        <li class="u-sm-hidden u-sMV-1-4">
-          <div class="Toggle u-round u-textSecondary">
-            <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-total" checked>
-            <label class="Toggle-label" for="filter-phrases-total" title="{{'Total Phrases'|translate}}">
-              <span ng-bind="editor.messageStatistic.total">0</span>
-              <span class="u-hiddenVisually" translate>Total Phrases</span>
-            </label>
-          </div>
-        </li>
-        <li class="u-ltemd-hidden u-sMV-1-4">
-          <div class="Toggle u-round u-textHighlight">
-            <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-approved">
-            <label class="Toggle-label" for="filter-phrases-approved" title="{{'Approved'|translate}}">
-              <icon name="dot" class="Icon--xsm"/></icon>
-              <span ng-bind="editor.messageStatistic.approved">0</span>
-              <span class="u-hiddenVisually" translate>Approved</span>
-            </label>
-          </div>
-        </li>
-        <li class="u-ltemd-hidden u-sMV-1-4">
-          <div class="Toggle u-round u-textSuccess">
-            <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-translated">
-            <label class="Toggle-label" for="filter-phrases-translated" title="{{'Translated'|translate}}">
-              <icon name="dot" class="Icon--xsm"/></icon>
-              <span ng-bind="editor.messageStatistic.translated">0</span>
-              <span class="u-hiddenVisually" translate>Translated</span>
-            </label>
-          </div>
-        </li>
-        <li class="u-ltemd-hidden u-sMV-1-4">
-          <div class="Toggle u-round u-textUnsure">
-            <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-needs-work">
-            <label class="Toggle-label" for="filter-phrases-needs-work" title="{{'Needs Work'|translate}}">
-              <icon name="dot" class="Icon--xsm"/></icon>
-              <span ng-bind="editor.messageStatistic.needswork">0</span>
-              <span class="u-hiddenVisually" translate>Needs Work</span>
-            </label>
-          </div>
-        </li>
-        <li class="u-ltemd-hidden u-sMV-1-4">
-          <div class="Toggle u-round u-textNeutral">
-            <input class="Toggle-checkbox" toggle-checkbox type="checkbox" id="filter-phrases-untranslated">
-            <label class="Toggle-label" for="filter-phrases-untranslated" title="{{'Untranslated'|translate}}">
-              <icon name="dot" class="Icon--xsm"/></icon>
-              <span ng-bind="editor.messageStatistic.untranslated">0</span>
-              <span class="u-hiddenVisually" translate>Untranslated</span>
-            </label>
-          </div>
-        <li ng-show="appCtrl.PRODUCTION" class="u-sML-1-4">
-          <button class="Link--neutral u-sizeHeight-1_1-2"
-            title="{{'Filters'|translate}}">
-            <icon name="filter" title="{{'Filters'|translate}}" class="u-sizeWidth-1_1-2"></icon>
-          </button>
-        </li>
-        <li ng-show="appCtrl.PRODUCTION">
-          <button class="Link--neutral u-sizeHeight-1_1-2"
-            title="{{'Search'|translate}}">
-            <icon name="search" title="{{'Search'|translate}}" class="u-sizeWidth-1_1-2"></icon>
-          </button>
-        </li>
-      </ul>
+      <trans-unit-filter editor="editor"></trans-unit-filter>
     </div>
     <div class="u-floatRight">
       <ul class="u-listHorizontal u-textCenter">
@@ -235,31 +174,4 @@
     </div>
   </nav>
   <progressbar progressbar-statistic="editor.messageStatistic"></progressbar>
-
-  <div class="Modal" ng-class="{'is-active': editor.showCheatsheet}" >
-    <div class="Modal-dialog">
-      <div class="Modal-header">
-        <h2 class="Modal-title">Keyboard Shortcuts</h2>
-        <button class="Modal-close Link Link--neutral"
-                ng-click="editor.showCheatsheet = false">
-          <icon name="cross" title="Close"></icon>
-        </button>
-      </div>
-      <div class="Modal-content u-sP-1">
-        <ul>
-          <li class="Grid" ng-repeat="shortcut in editor.shortcuts">
-            <div class="Grid-cell u-size1of2 u-sPR-1-4
-                    u-sPV-1-4 u-textRight">
-              <kbd ng-repeat="key in shortcut.combos track by $index"
-                      >{{ key }}</kbd>
-            </div>
-            <div class="Grid-cell u-size1of2 u-sPL-1-4
-                     u-sPV-1-4">
-              {{ shortcut.description }}
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
 </header>

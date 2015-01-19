@@ -2,12 +2,13 @@
   scrollbar-width-container
   class="Editor-content TransUnit-container"
   ng-class="{'is-maximised': editor.settings.hideMainNav, 'is-unit-selected': (editor.unitSelected && editor.focused)}">
-  <ul class="Editor-translations" scrollbar-width-child>
+  <ul class="Editor-translations" scrollbar-width-child ng-if="editorContent.phrases.length > 0">
     <li ng-repeat="phrase in editorContent.phrases">
       <trans-unit phrase="phrase" first-phrase="$first" editor-context="editor.context"></trans-unit>
     </li>
-    <li ng-if="editorContent.phrases.length == 0">
-      <strong translate>No content</strong>
-    </li>
   </ul>
+
+  <div class="u-textCenter u-textLead u-sP-1" ng-if="editorContent.phrases.length == 0">
+    <span translate>No content</span>
+  </div>
 </main>
