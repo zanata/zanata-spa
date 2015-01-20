@@ -95,9 +95,9 @@
     <button
       class="Link--neutral u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2 u-sMR-1-4">
       <icon name="translate"></icon>
-      <span class="u-ltemd-hidden u-sMR-1-4" ng-if="!editor.isReadOnlyMode" translate> Translating</span>
+      <span class="u-ltemd-hidden u-sMR-1-4" ng-if="!editor.isReadOnlyMode()" translate> Translating</span>
 
-      <span class="u-ltemd-hidden u-sMR-1-4" ng-if="editor.isReadOnlyMode" translate> Viewing</span>
+      <span class="u-ltemd-hidden u-sMR-1-4" ng-if="editor.isReadOnlyMode()" translate> Viewing</span>
     </button>
     <div class="u-floatLeft">
       <trans-unit-filter editor="editor"></trans-unit-filter>

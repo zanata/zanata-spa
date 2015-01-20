@@ -7,7 +7,7 @@
    */
   function TransUnitCtrl($scope, $element, $stateParams, _, TransUnitService,
     EventService, LocaleService, focus, EditorShortcuts, EditorService,
-    PhraseUtil) {
+    PhraseUtil, PhraseService) {
 
     var transUnitCtrl = this;
 
@@ -16,7 +16,7 @@
     transUnitCtrl.focusedTranslationIndex = 0;
 
     transUnitCtrl.isTranslationModified =
-      TransUnitService.isTranslationModified;
+      PhraseService.isTranslationModified;
 
     transUnitCtrl.focusTranslation = function() {
       focus('phrase-' + $scope.phrase.id + '-' +
@@ -52,26 +52,22 @@
 
     transUnitCtrl.copySource = function($event, phrase, sourceIndex) {
       $event.stopPropagation(); //prevent click event of TU
-      if(!transUnitCtrl.isReadOnly) {
-        EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-          {'phrase': phrase, 'sourceIndex': sourceIndex}, $scope);
-      }
+      EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
+        {'phrase': phrase, 'sourceIndex': sourceIndex}, $scope);
     };
 
     transUnitCtrl.undoEdit = function($event, phrase) {
-      if(!transUnitCtrl.isReadOnly) {
-        $event.stopPropagation(); //prevent click event of TU
-        EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
-          phrase, $scope);
-      }
+      $event.stopPropagation(); //prevent click event of TU
+      EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
+        phrase, $scope);
     };
 
     transUnitCtrl.isReadOnly = function() {
-      return !EditorService.context.permission.write_translation;
+      return EditorService.isReadOnly();
     };
 
     transUnitCtrl.isReviewAllowed = function() {
-      return EditorService.context.permission.review_translation;
+      return EditorService.isReviewAllowed();
     };
 
     transUnitCtrl.cancelEdit = function($event, phrase) {
@@ -81,9 +77,7 @@
     };
 
     transUnitCtrl.saveAs = function($event, phrase, status) {
-      if(!transUnitCtrl.isReadOnly) {
-        EditorShortcuts.saveTranslationCallBack($event, phrase, status);
-      }
+      EditorShortcuts.saveTranslationCallBack($event, phrase, status);
     };
 
     transUnitCtrl.getLocaleName = function(localeId) {
@@ -115,7 +109,7 @@
         TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
       transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;
       transUnitCtrl.saveButtonDisabled =
-        !TransUnitService.isTranslationModified(phrase);
+        !PhraseService.isTranslationModified(phrase);
       transUnitCtrl.loadingClass = '';
       transUnitCtrl.savingStatus = '';
     };

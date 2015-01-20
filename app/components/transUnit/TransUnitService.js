@@ -9,8 +9,8 @@
    * @ngInject
    */
   function TransUnitService(_, $location, $rootScope, $state, $stateParams,
-    $filter, MessageHandler, EventService, TransStatusService, PRODUCTION,
-    EditorShortcuts, $timeout) {
+    $filter, MessageHandler, EventService, TransStatusService, EditorService,
+    PRODUCTION, EditorShortcuts, $timeout, PhraseService) {
     var transUnitService = this,
         controllerList = {},
         selectedTUId;
@@ -18,28 +18,6 @@
     transUnitService.addController = function(id, controller) {
       controllerList[id] = controller;
     };
-
-    // TODO can move or delegate to PhraseUtil
-    transUnitService.isTranslationModified = function(phrase) {
-      if (phrase.plural) {
-        // on Firefox with input method turned on,
-        // when hitting tab it seems to turn undefined value into ''
-        var allSame = _.every(phrase.translations,
-          function(translation, index) {
-            return nullToEmpty(translation) ===
-              nullToEmpty(phrase.newTranslations[index]);
-          });
-        return !allSame;
-      }
-      else {
-        return nullToEmpty(phrase.newTranslation) !==
-          nullToEmpty(phrase.translation);
-      }
-    };
-
-    function nullToEmpty(value) {
-      return value || '';
-    }
 
     transUnitService.getSaveButtonOptions = function(saveButtonStatus) {
       return filterSaveButtonOptions(saveButtonStatus);
@@ -70,7 +48,7 @@
 
           if (selectedTUId && selectedTUId !== data.id) {
             //perform implicit save if changed
-            if(transUnitService.isTranslationModified(
+            if(PhraseService.isTranslationModified(
               oldTUController.getPhrase())) {
               EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
                 {
@@ -113,23 +91,25 @@
      */
     $rootScope.$on(EventService.EVENT.COPY_FROM_SOURCE,
       function (event, data) {
-        if(data.phrase.plural) {
-          if(!_.isUndefined(data.sourceIndex)) {
-            setTranslationText(data.phrase,
-              data.phrase.sources[data.sourceIndex]);
-          } else {
-            //from key shortcut, copy corresponding source to target
-            var transUnitCtrl = controllerList[data.phrase.id];
-            var sourceIndex = transUnitCtrl.focusedTranslationIndex;
-            if(data.phrase.sources.length <
-              transUnitCtrl.focusedTranslationIndex + 1) {
-              sourceIndex = data.phrase.sources.length - 1;
+        if(!EditorService.isReadOnly()){
+          if(data.phrase.plural) {
+            if(!_.isUndefined(data.sourceIndex)) {
+              setTranslationText(data.phrase,
+                data.phrase.sources[data.sourceIndex]);
+            } else {
+              //from key shortcut, copy corresponding source to target
+              var transUnitCtrl = controllerList[data.phrase.id];
+              var sourceIndex = transUnitCtrl.focusedTranslationIndex;
+              if(data.phrase.sources.length <
+                transUnitCtrl.focusedTranslationIndex + 1) {
+                sourceIndex = data.phrase.sources.length - 1;
+              }
+              setTranslationText(data.phrase,
+                data.phrase.sources[sourceIndex]);
             }
-            setTranslationText(data.phrase,
-              data.phrase.sources[sourceIndex]);
+          } else {
+            setTranslationText(data.phrase, data.phrase.source);
           }
-        } else {
-          setTranslationText(data.phrase, data.phrase.source);
         }
       });
 
@@ -139,7 +119,7 @@
      */
     $rootScope.$on(EventService.EVENT.UNDO_EDIT,
       function (event, phrase) {
-        if (transUnitService.isTranslationModified(phrase)) {
+        if (PhraseService.isTranslationModified(phrase)) {
           if(phrase.plural) {
             setAllTranslations(phrase, phrase.translations);
           } else {

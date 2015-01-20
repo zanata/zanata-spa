@@ -8,7 +8,7 @@
    */
   function EditorService($rootScope, $resource, _, UrlService,
     EventService, PhraseService, DocumentService, MessageHandler,
-    TransStatusService, TransUnitService) {
+    TransStatusService) {
     var editorService = this,
         queue = {};
 
@@ -55,6 +55,16 @@
       editorService.context.permission = permission;
     }
 
+    editorService.isReadOnly = function() {
+      /*jshint camelcase: false */
+      return !editorService.context.permission.write_translation;
+    };
+
+    editorService.isReviewAllowed = function() {
+      /*jshint camelcase: false */
+      return editorService.context.permission.review_translation;
+    };
+
     /**
      * EventService.EVENT.SAVE_TRANSLATION listener
      * Perform save translation with given status
@@ -66,31 +76,33 @@
       function (event, data) {
         var phrase = data.phrase,
             status = data.status;
-        if (!needToSavePhrase(phrase, status)) {
-          // nothing has changed
-          return;
-        }
+        if(!editorService.isReadOnly()) {
+          if (!needToSavePhrase(phrase, status)) {
+            // nothing has changed
+            return;
+          }
 
-        //update pending queue if contains
-        if (_.has(queue, phrase.id)) {
-          var pendingRequest = queue[phrase.id];
-          pendingRequest.phrase = phrase;
-          pendingRequest.status = status;
-        } else {
-          status = resolveTranslationState(phrase, status);
-          queue[phrase.id] = {
-            'phrase': phrase,
-            'status': status,
-            'locale': data.locale,
-            'docId': data.docId
-          };
+          //update pending queue if contains
+          if (_.has(queue, phrase.id)) {
+            var pendingRequest = queue[phrase.id];
+            pendingRequest.phrase = phrase;
+            pendingRequest.status = status;
+          } else {
+            status = resolveTranslationState(phrase, status);
+            queue[phrase.id] = {
+              'phrase': phrase,
+              'status': status,
+              'locale': data.locale,
+              'docId': data.docId
+            };
+          }
+          EventService.emitEvent(EventService.EVENT.SAVE_INITIATED, data);
+          processSaveRequest(phrase.id);
         }
-        EventService.emitEvent(EventService.EVENT.SAVE_INITIATED, data);
-        processSaveRequest(phrase.id);
       });
 
     function needToSavePhrase(phrase, status) {
-      return TransUnitService.isTranslationModified(phrase) ||
+      return PhraseService.isTranslationModified(phrase) ||
         phrase.status !== status;
     }
 

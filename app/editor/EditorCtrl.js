@@ -101,11 +101,11 @@
     };
 
     editorCtrl.isReadOnlyMode = function() {
-      return !editorCtrl.context.permission.write_translation;
+      return EditorService.isReadOnly();
     };
 
     editorCtrl.isReviewAllowed = function() {
-      return editorCtrl.context.permission.review_translation;
+      return EditorService.isReviewAllowed();
     };
 
     ProjectService.getProjectInfo($stateParams.projectSlug).then(

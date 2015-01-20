@@ -40,6 +40,27 @@
         });
     };
 
+    phraseService.isTranslationModified = function(phrase) {
+      if (phrase.plural) {
+        // on Firefox with input method turned on,
+        // when hitting tab it seems to turn undefined value into ''
+        var allSame = _.every(phrase.translations,
+          function(translation, index) {
+            return nullToEmpty(translation) ===
+              nullToEmpty(phrase.newTranslations[index]);
+          });
+        return !allSame;
+      }
+      else {
+        return nullToEmpty(phrase.newTranslation) !==
+          nullToEmpty(phrase.translation);
+      }
+    };
+
+    function nullToEmpty(value) {
+      return value || '';
+    }
+
     /**
      * Fetch each of the text flows appearing in the given states data.
      */
