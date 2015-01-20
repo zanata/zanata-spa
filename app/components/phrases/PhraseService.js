@@ -4,11 +4,8 @@
   /**
    * @typedef {Object} Phrase
    * @property {number} id text flow id
-   * @property {string} source source content
-   * @property {string[]} sources source contents if it's plural
-   * @property {string} translation original translation content
-   * @property {string[]} translations original translation plural contents
-   * @property {string} newTranslation translation in the editor
+   * @property {string[]} sources source contents
+   * @property {string[]} translations original translation
    * @property {string[]} newTranslations translations in the editor
    * @property {boolean} plural whether it's in plural form
    * @property {StatusInfo} status information about this phrase
@@ -78,17 +75,11 @@
               trans = transUnit[localeId];
           return {
             id: parseInt(id),
-            // TODO: handle plural content
-            source: source.content,
-            sources: source.contents,
+            sources: source.plural ? source.contents : [source.content],
             // Original translation
-            translation: trans ? trans.content : '',
-            translations: trans && trans.contents ?
-              trans.contents.slice() : [],
+            translations: extractTranslations(source, trans),
             // Translation from editor
-            newTranslation: trans ? trans.content : '',
-            newTranslations: trans && trans.contents ?
-              trans.contents.slice() : [],
+            newTranslations: extractTranslations(source, trans),
             plural: source.plural,
             // Conform the status from the server, return an object
             status: trans ? TransStatusService.getStatusInfo(trans.state) :
@@ -97,6 +88,13 @@
             wordCount: parseInt(source.wordCount)
           };
         });
+      }
+
+      function extractTranslations(source, trans) {
+        if(source.plural) {
+          return trans && trans.contents ? trans.contents.slice() : [];
+        }
+        return trans ? [trans.content] : [];
       }
 
       function sortPhrases(phrases) {
@@ -123,7 +121,6 @@
       var cachedPhrase = findPhrase(id, phraseService.phrases);
       //update phrase if found
       if(cachedPhrase) {
-        cachedPhrase.translation = phrase.newTranslation;
         cachedPhrase.translations = phrase.newTranslations.slice();
         cachedPhrase.revision = revision;
         cachedPhrase.status = TransStatusService.getStatusInfo(status);
@@ -134,7 +131,7 @@
     phraseService.onTransUnitUpdateFailed = function(id) {
       var phrase = findPhrase(id, phraseService.phrases);
       if(phrase) {
-        phrase.newTranslation = phrase.translation;
+        phrase.newTranslations = phrase.translations.slice();
       }
     };
 

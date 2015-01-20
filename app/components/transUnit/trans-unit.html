@@ -7,7 +7,7 @@
   <div class="TransUnit-panel TransUnit-source">
     <ng-include src="'components/transUnit/source/header.html'" ng-if="transUnitCtrl.selected"></ng-include>
     <div class="TransUnit-item" ng-if="!phrase.plural">
-      <div class="TransUnit-text" ng-bind="::phrase.source"></div>
+      <div class="TransUnit-text" ng-bind="::phrase.sources[0]"></div>
     </div>
     <div class="TransUnit-item" ng-if="phrase.plural" ng-repeat="(key, source) in ::phrase.sources">
       <div class="TransUnit-itemHeader" ng-if="transUnitCtrl.selected">
@@ -34,7 +34,7 @@
     <div class="TransUnit-item" ng-if="!phrase.plural">
       <textarea msd-elastic
         ng-change="transUnitCtrl.translationTextModified(phrase)"
-        ng-model="phrase.newTranslation" class="TransUnit-text" rows="1"
+        ng-model="phrase.newTranslations[0]" class="TransUnit-text" rows="1"
         ng-trim="false"
         ng-focus="transUnitCtrl.onTextAreaFocus(phrase)"
         ng-blur="transUnitCtrl.focused = false"

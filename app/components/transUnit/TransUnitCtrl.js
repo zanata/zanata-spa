@@ -14,12 +14,14 @@
     transUnitCtrl.focused = false;
     transUnitCtrl.focusedTranslationIndex = 0;
 
-    transUnitCtrl.isTranslationModified =
-      TransUnitService.isTranslationModified;
+    transUnitCtrl.hasTranslationChanged =
+      PhraseUtil.hasTranslationChanged;
 
     transUnitCtrl.focusTranslation = function() {
-      focus('phrase-' + $scope.phrase.id + '-' +
-      transUnitCtrl.focusedTranslationIndex);
+      if(transUnitCtrl.selected) {
+        focus('phrase-' + $scope.phrase.id + '-' +
+        transUnitCtrl.focusedTranslationIndex);
+      }
     };
 
     transUnitCtrl.onTextAreaFocus = function(phrase, index) {
@@ -100,7 +102,7 @@
         TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
       transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;
       transUnitCtrl.saveButtonDisabled =
-        !TransUnitService.isTranslationModified(phrase);
+        !PhraseUtil.hasTranslationChanged(phrase);
       transUnitCtrl.loadingClass = '';
       transUnitCtrl.savingStatus = '';
     };
