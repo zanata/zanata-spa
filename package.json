@@ -1,6 +1,6 @@
 {
   "name": "zanata-spa",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Zanata Single Page Application",
   "homepage": "https://github.com/zanata/zanata-spa",
   "main": "index.js",

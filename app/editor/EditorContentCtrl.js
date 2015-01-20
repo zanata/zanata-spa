@@ -28,17 +28,14 @@
         if(filter.status.all === true) {
           $location.search('status', null);
         } else {
-          var queryString = '';
-
+          var queries = [];
           _.forEach(filter.status, function(val, key) {
             if(val) {
-              queryString += key + ',';
+              queries.push(key);
             }
           });
-          queryString = queryString.substring(0, queryString.length - 1);
-          $location.search('status', queryString);
+          $location.search('status', queries.join(','));
         }
-
         refreshFilterQueryFromUrl();
         init();
       });

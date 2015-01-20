@@ -157,8 +157,14 @@
     }
 
     function resolveTranslationState(phrase, requestStatus) {
-      if(phrase.newTranslation === '') {
-        return TransStatusService.getStatusInfo('UNTRANSLATED');
+      if(phrase.plural) {
+        if (_.isEmpty(_.compact(phrase.newTranslations))) {
+          return TransStatusService.getStatusInfo('UNTRANSLATED');
+        }
+      } else {
+        if(_.isEmpty(phrase.newTranslation)) {
+          return TransStatusService.getStatusInfo('UNTRANSLATED');
+        }
       }
       return requestStatus;
     }

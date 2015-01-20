@@ -99,18 +99,6 @@
       }
     }
 
-    // function gotoToNextUntranslatedCallback(event) {
-    //   event.preventDefault();
-    //   event.stopPropagation();
-    //   if (editorShortcuts.selectedTUCtrl) {
-    //     EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
-    //       currentContext());
-    //   }
-    //   // the shortcut is a tab + u combination
-    //   // we don't want other tab event to trigger
-    //   tabCombinationPressed = true;
-    // }
-
     /**
      * mod will be replaced by ctrl if on windows/linux or cmd if on mac.
      * By default it listens on keydown event.
@@ -149,12 +137,29 @@
       GOTO_PREVIOUS_ROW: new ShortcutInfo(
         'mod+shift+enter', gotoPreviousRowCallback,
         'Save (if changed) and go to previous string',
-        ['alt+j', 'alt+up'])/*,
-        disable for now
-      GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(
-        'tab+u', gotoToNextUntranslatedCallback)*/
-
+        ['alt+j', 'alt+up'])
+        /*
+         Disable for now until status navigation implementation
+         GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(
+        'tab+u', gotoToNextUntranslatedCallback)
+        */
     };
+
+    /*
+     Disable for now until status navigation implementation
+
+     function gotoToNextUntranslatedCallback(event) {
+     event.preventDefault();
+     event.stopPropagation();
+     if (editorShortcuts.selectedTUCtrl) {
+     EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
+     currentContext());
+     }
+     // the shortcut is a tab + u combination
+     // we don't want other tab event to trigger
+     tabCombinationPressed = true;
+     }
+     */
 
     /**
      *
