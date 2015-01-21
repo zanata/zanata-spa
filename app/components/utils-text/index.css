@@ -11,6 +11,7 @@
   --u-text-color-warning: #e3824e;
   --u-text-color-danger: #e0575b;
   --u-text-muted-opacity: .6;
+  --u-text-rhythm: 1.5rem;
 }
 
 .u-textUpper {
@@ -73,4 +74,10 @@
 
 .u-textDanger {
   color: var(--u-text-color-danger);
+}
+
+.u-textPilcrow:before {
+  content: '\00b6';
+  color: var(--u-text-color-neutral);
+  padding: 0 calc(var(--u-text-rhythm) * 0.125);
 }

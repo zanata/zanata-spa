@@ -23,7 +23,7 @@
           </li>
         </ul>
       </div>
-      <div class="TransUnit-text" ng-bind="::source"></div>
+      <pre class="TransUnit-text" ng-bind-html="::transUnitCtrl.getHTML(source)"></pre>
     </div>
     <ng-include src="'components/transUnit/source/footer.html'" ng-if="transUnitCtrl.selected"></ng-include>
   </div>

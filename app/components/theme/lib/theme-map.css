@@ -69,6 +69,7 @@
   --u-text-color-warning   : var(--color-warning);
   --u-text-color-danger    : var(--color-danger);
   --u-text-muted-opacity   : .6;
+  --u-text-rhythm          : var(--rhythm);
 }
 
 
