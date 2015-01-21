@@ -26,7 +26,6 @@
 
     transUnitCtrl.onTextAreaFocus = function(phrase, index) {
       transUnitCtrl.focused = true;
-      transUnitCtrl.selectTransUnit(phrase);
       if (index !== undefined) {
         transUnitCtrl.focusedTranslationIndex = index;
       }
@@ -99,7 +98,8 @@
       transUnitCtrl.saveButtonStatus =
         PhraseUtil.getSaveButtonStatus($scope.phrase);
       transUnitCtrl.saveButtonOptions =
-        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
+        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus,
+          $scope.phrase);
       transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;
       transUnitCtrl.saveButtonDisabled =
         !PhraseUtil.hasTranslationChanged(phrase);
@@ -112,7 +112,8 @@
       transUnitCtrl.saveButtonStatus =
         transUnitCtrl.savingStatus = data.status;
       transUnitCtrl.saveButtonOptions =
-        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
+        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus,
+          data.phrase);
       transUnitCtrl.saveButtonText = 'Saving…';
       transUnitCtrl.saveButtonDisabled = true;
     };

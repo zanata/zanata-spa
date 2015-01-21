@@ -3,7 +3,9 @@
 
   /**
    * EventService.js
-   * Broadcast events service in app
+   * Broadcast events service in app.
+   * Usage: EventService.emitEvent(<String> event, <Map> data, scope)
+   * See EventService.emitEvent
    *
    * @ngInject
    */
@@ -15,8 +17,8 @@
        *
        * Broadcast from AppConfig
        */
-      LOADING_INITIATED: 'loadingInitiated',
-      LOADING_COMPLETE: 'loadingStarted',
+      LOADING_START: 'loadingStart',
+      LOADING_STOP: 'loadingStop',
 
       /**
        * scroll to trans unit

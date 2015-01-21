@@ -10,7 +10,7 @@
    *
    * @ngInject
    */
-  function logoLoader() {
+  function logoLoader(EventService) {
     return {
       restrict: 'EA',
       scope: {
@@ -20,11 +20,11 @@
       link: function(scope) {
         scope.classes = '';
 
-        scope.$on('loadingInitiated', function() {
+        scope.$on(EventService.EVENT.LOADING_START, function() {
           scope.classes += ' is-loading';
         });
 
-        scope.$on('loadingComplete', function() {
+        scope.$on(EventService.EVENT.LOADING_STOP, function() {
           scope.classes = scope.classes.replace('is-loading', '');
         });
 

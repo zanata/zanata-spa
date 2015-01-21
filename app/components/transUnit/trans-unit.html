@@ -28,8 +28,7 @@
     <ng-include src="'components/transUnit/source/footer.html'" ng-if="transUnitCtrl.selected"></ng-include>
   </div>
 
-  <div class="TransUnit-panel TransUnit-translation"
-       ng-click="transUnitCtrl.focusTranslation('phrase-' + phrase.id)">
+  <div class="TransUnit-panel TransUnit-translation">
     <ng-include src="'components/transUnit/translation/header.html'" ng-if="transUnitCtrl.selected"></ng-include>
     <div class="TransUnit-item" ng-if="!phrase.plural">
       <textarea msd-elastic

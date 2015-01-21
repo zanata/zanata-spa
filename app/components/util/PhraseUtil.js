@@ -9,11 +9,10 @@
   function PhraseUtil(TransStatusService, _) {
 
     function getSaveButtonStatus(phrase) {
-      var newTranslations = phrase.newTranslations;
-      if (_.isEmpty(_.compact(newTranslations))) {
+      if (hasNoTranslation(phrase)) {
         return TransStatusService.getStatusInfo('untranslated');
       }
-      else if (_.compact(newTranslations).length !== newTranslations.length) {
+      else if (hasEmptyTranslation(phrase)) {
         return TransStatusService.getStatusInfo('needswork');
       }
       else if (hasTranslationChanged(phrase)) {
@@ -35,13 +34,24 @@
       return !allSame;
     }
 
+    function hasNoTranslation(phrase) {
+      return _.isEmpty(_.compact(phrase.newTranslations));
+    }
+
+    function hasEmptyTranslation(phrase) {
+      return _.compact(phrase.newTranslations).length !==
+        phrase.newTranslations.length;
+    }
+
     function nullToEmpty(value) {
       return value || '';
     }
 
     return {
       getSaveButtonStatus  : getSaveButtonStatus,
-      hasTranslationChanged: hasTranslationChanged
+      hasTranslationChanged : hasTranslationChanged,
+      hasNoTranslation : hasNoTranslation,
+      hasEmptyTranslation : hasEmptyTranslation
     };
   }
   angular
