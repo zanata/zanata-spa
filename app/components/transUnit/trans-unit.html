@@ -6,13 +6,11 @@
 
   <div class="TransUnit-panel TransUnit-source">
     <ng-include src="'components/transUnit/source/header.html'" ng-if="transUnitCtrl.selected"></ng-include>
-    <div class="TransUnit-item" ng-if="!phrase.plural">
-      <div class="TransUnit-text" ng-bind="::phrase.sources[0]"></div>
-    </div>
-    <div class="TransUnit-item" ng-if="phrase.plural" ng-repeat="(key, source) in ::phrase.sources">
-      <div class="TransUnit-itemHeader" ng-if="transUnitCtrl.selected">
-        <span class="u-textMeta" ng-if="$first">Singular Form</span>
-        <span class="u-textMeta" ng-if="!$first">Plural Form</span>
+
+    <div class="TransUnit-item" ng-repeat="(key, source) in ::phrase.sources">
+      <div ng-if="phrase.plural && transUnitCtrl.selected" class="TransUnit-itemHeader">
+        <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
+        <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
         <ul class="u-floatRight u-listHorizontal">
           <li>
             <button class="u-floatRight Link Link--neutral u-sizeHeight-1 u-sizeWidth-1 u-textCenter"
@@ -23,29 +21,17 @@
           </li>
         </ul>
       </div>
-      <pre class="TransUnit-text" ng-bind-html="::transUnitCtrl.getHTML(source)"></pre>
+      <pre class="TransUnit-text" render-whitespace-characters ng-bind="::source"></pre>
     </div>
     <ng-include src="'components/transUnit/source/footer.html'" ng-if="transUnitCtrl.selected"></ng-include>
   </div>
 
   <div class="TransUnit-panel TransUnit-translation">
     <ng-include src="'components/transUnit/translation/header.html'" ng-if="transUnitCtrl.selected"></ng-include>
-    <div class="TransUnit-item" ng-if="!phrase.plural">
-      <textarea msd-elastic
-        ng-change="transUnitCtrl.translationTextModified(phrase)"
-        ng-model="phrase.newTranslations[0]" class="TransUnit-text" rows="1"
-        ng-trim="false"
-        ng-focus="transUnitCtrl.onTextAreaFocus(phrase)"
-        ng-blur="transUnitCtrl.focused = false"
-        focus-on="phrase-{{phrase.id}}-0"
-        blur-on="phrase-{{phrase.id}}"
-        placeholder="{{::'Enter a translation…'|translate}}">
-      </textarea>
-    </div>
-    <div class="TransUnit-item" ng-if="phrase.plural" ng-repeat="newTranslation in phrase.newTranslations track by $index">
-      <div class="TransUnit-itemHeader" ng-if="transUnitCtrl.selected">
-        <span class="u-textMeta" ng-if="$first">Singular Form</span>
-        <span class="u-textMeta" ng-if="!$first">Plural Form</span>
+    <div class="TransUnit-item" ng-repeat="newTranslation in phrase.newTranslations track by $index">
+      <div class="TransUnit-itemHeader" ng-if="transUnitCtrl.selected && phrase.plural">
+        <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
+        <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
       </div>
       <textarea msd-elastic
         ng-change="transUnitCtrl.translationTextModified(phrase)"

@@ -81,3 +81,21 @@
   color: var(--u-text-color-neutral);
   padding: 0 calc(var(--u-text-rhythm) * 0.125);
 }
+
+.u-textTab {
+  position: relative;
+}
+
+.u-textTab:before {
+  position: absolute;
+  content: '\21E5';
+  color: var(--u-text-color-neutral);
+}
+.u-textSpace {
+  position: relative;
+}
+.u-textSpace:before {
+  position: absolute;
+  content: '.';
+  color: var(--u-text-color-neutral);
+}

@@ -5,8 +5,9 @@
    * TransUnitCtrl.js
    * @ngInject
    */
-  function TransUnitCtrl($scope, $sce, $element, $stateParams, _, TransUnitService,
-    EventService, LocaleService, focus, EditorShortcuts, PhraseUtil) {
+  function TransUnitCtrl($scope, $sce, $element, $stateParams, _,
+                         TransUnitService, EventService, LocaleService, focus,
+                         EditorShortcuts, PhraseUtil) {
 
     var transUnitCtrl = this;
 
@@ -120,12 +121,6 @@
 
     transUnitCtrl.saveButtonOptionsAvailable = function() {
       return !_.isEmpty(transUnitCtrl.saveButtonOptions);
-    };
-
-    transUnitCtrl.getHTML = function(source) {
-      //tab, space, newline
-      source = source.replace(/\n/g, '<span class="u-textPilcrow"></span>\n');
-      return $sce.trustAsHtml(source);
     };
 
     transUnitCtrl.selectTransUnit = function(phrase) {
