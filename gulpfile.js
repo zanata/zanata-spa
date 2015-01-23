@@ -31,7 +31,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     rimraf = require('gulp-rimraf'),
     sourcemaps = require('gulp-sourcemaps'),
     suitconformance = require('rework-suit-conformance'),
-    svgSprite = require('gulp-svg-sprites'),
+    svgSprite = require('gulp-svg-sprite'),
     uglify = require('gulp-uglify'),
     webserver = require('gulp-webserver');
 
@@ -149,9 +149,11 @@ gulp.task('icons', function () {
   var svgs = gulp.src(paths.icons.app)
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(svgSprite({
-      selector: 'Icon-%f',
-      mode: 'symbols',
-      preview: false
+      mode: {
+        symbol: {
+          inline: true
+        }
+      }
     }))
     .pipe(rename('icons.svg'));
 
