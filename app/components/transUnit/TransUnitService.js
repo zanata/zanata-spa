@@ -186,11 +186,6 @@
     }
 
     function setAllTranslations(phrase, newTexts) {
-      if(!phrase.plural) {
-        console.error('This function only process plural');
-        return; //only accept plural
-      }
-
       //need slice() for new instance of array
       phrase.newTranslations = newTexts.slice();
 

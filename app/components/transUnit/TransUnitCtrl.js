@@ -5,7 +5,7 @@
    * TransUnitCtrl.js
    * @ngInject
    */
-  function TransUnitCtrl($scope, $sce, $element, $stateParams, _,
+  function TransUnitCtrl($scope, $element, $stateParams, _,
                          TransUnitService, EventService, LocaleService, focus,
                          EditorShortcuts, PhraseUtil) {
 
@@ -25,10 +25,18 @@
       }
     };
 
+    // when user clicked on TU or using tab to nav
     transUnitCtrl.onTextAreaFocus = function(phrase, index) {
       transUnitCtrl.focused = true;
-      if (index !== undefined) {
+      if (!_.isUndefined(index)) {
         transUnitCtrl.focusedTranslationIndex = index;
+      }
+      if(!transUnitCtrl.selected) {
+        EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+          {'id': phrase.id,
+            'updateURL': true,
+            'focus': true
+          }, $scope);
       }
     };
 

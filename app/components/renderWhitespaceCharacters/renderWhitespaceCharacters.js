@@ -9,7 +9,7 @@
    */
   function renderWhitespaceCharacters() {
     var WHITESPACES = {
-      'whitespace' : {
+      'space' : {
         'regex' : / /g,
         'template' : '<span class="u-textSpace"> </span>'
       },
@@ -32,7 +32,7 @@
 
       link: function compile(scope, element) {
         scope.$watch('ngBind', function (value) {
-          value = replaceChar(value, WHITESPACES.whitespace);
+          value = replaceChar(value, WHITESPACES.space);
           value = replaceChar(value, WHITESPACES.newline);
           value = replaceChar(value, WHITESPACES.tab);
           element.html(value);
