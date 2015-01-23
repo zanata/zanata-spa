@@ -48,6 +48,10 @@
   height: var(--u-size-rhythm) !important;
 }
 
+.u-sizeHeight-1_1-4 {
+  height: calc(var(--u-size-rhythm) * 1.25) !important;
+}
+
 .u-sizeHeight-1_1-2 {
   height: calc(var(--u-size-rhythm) * 1.5) !important;
 }

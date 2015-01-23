@@ -11,11 +11,13 @@
   --Modal-close-transition: all .25s ease-out;
   --Modal-close-color-bg-hover: color(#416988 alpha(5%));
   --Modal-close-color-bg-active: color(#416988 alpha(10%));
+  --Modal-z-index: 1000;
+  --Modal-header-z-index: 100;
 }
 
 .Modal {
   position: fixed;
-  z-index: 2000;
+  z-index: var(--Modal-z-index);
   top: 0;
   right: 0;
   bottom: 0;
@@ -68,7 +70,7 @@
   right: 0;
   border: var(--Modal-border);
   background-color: var(--Modal-header-color-bg);
-  z-index: 2;
+  z-index: var(--Modal-header-z-index);
 }
 
 .Modal-title {

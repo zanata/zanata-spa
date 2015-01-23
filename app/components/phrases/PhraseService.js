@@ -35,7 +35,7 @@
     phraseService.getPhraseCount = function(context, filter) {
       return PhraseCache.getStates(context.projectSlug, context.versionSlug,
         context.docId, context.localeId).then(function(states) {
-          var ids = getIds(states, filter.states);
+          var ids = getIds(states, filter.status);
           return ids.length;
         });
     };
@@ -52,7 +52,7 @@
         context.docId, localeId).then(getTransUnits);
 
       function getTransUnits(states) {
-        var ids = getIds(states, filter.states);
+        var ids = getIds(states, filter.status);
         if (!isNaN(offset)) {
           if(!isNaN(maxResult)) {
             ids = ids.slice(offset, offset + maxResult);
@@ -76,7 +76,6 @@
         return _.map(transUnits, function(transUnit, id) {
           var source = transUnit.source,
               trans = transUnit[localeId];
-
           return {
             id: parseInt(id),
             // TODO: handle plural content
@@ -84,10 +83,12 @@
             sources: source.contents,
             // Original translation
             translation: trans ? trans.content : '',
-            translations: trans ? trans.contents : [],
+            translations: trans && trans.contents ?
+              trans.contents.slice() : [],
             // Translation from editor
             newTranslation: trans ? trans.content : '',
-            newTranslations: trans ? trans.contents : [],
+            newTranslations: trans && trans.contents ?
+              trans.contents.slice() : [],
             plural: source.plural,
             // Conform the status from the server, return an object
             status: trans ? TransStatusService.getStatusInfo(trans.state) :
@@ -114,17 +115,18 @@
 
     //update phrase,statuses and textFlows with given tu id
     phraseService.onTransUnitUpdated = function(context, id, localeId, revision,
-      status, content, contents) {
+      status, phrase) {
 
       PhraseCache.onTransUnitUpdated(context, id, localeId, revision, status,
-        content, contents);
+        phrase);
 
-      var phrase = findPhrase(id, phraseService.phrases);
+      var cachedPhrase = findPhrase(id, phraseService.phrases);
       //update phrase if found
-      if(phrase) {
-        phrase.translation = content;
-        phrase.revision = revision;
-        phrase.status = TransStatusService.getStatusInfo(status);
+      if(cachedPhrase) {
+        cachedPhrase.translation = phrase.newTranslation;
+        cachedPhrase.translations = phrase.newTranslations.slice();
+        cachedPhrase.revision = revision;
+        cachedPhrase.status = TransStatusService.getStatusInfo(status);
       }
     };
 
@@ -202,7 +204,7 @@
 
     function getIds(resources, states) {
       if(states) {
-        resources = FilterUtil.filterResources(resources, ['state'], states);
+        resources = FilterUtil.filterResources(resources, ['status'], states);
       }
       return _.map(resources, function (item) {
         return item.id;

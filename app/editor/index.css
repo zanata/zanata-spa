@@ -1,10 +1,11 @@
 /** @define Editor; use strict */
 
 :root {
-  --Editor-rhythm: 1.5rem;
-  --Editor-transition-ease: cubic-bezier(.175, .885, .320, 1.275);
-  --Editor-color-status-bg: color(#416988 tint(82%));
-  --Editor-color-translation-bg: #fff;
+  --Editor-rhythm               : 1.5rem;
+  --Editor-transition-ease      : cubic-bezier(.175, .885, .320, 1.275);
+  --Editor-color-status-bg      : color(#416988 tint(82%));
+  --Editor-color-translation-bg : #fff;
+  --Editor-loader-z-index       : 900;
 }
 
 .Editor {
@@ -27,7 +28,7 @@
 
 .Editor-loader {
   position: absolute;
-  z-index: 500;
+  z-index: var(--Editor-loader-z-index);
   top: 0;
   left: 50%;
   transform: translate(-50%, calc(var(--Editor-rhythm) * .25));

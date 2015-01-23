@@ -53,6 +53,7 @@
 
         var toggleDropdown = function(event) {
           event.preventDefault();
+          event.stopPropagation();
 
           if (!element.hasClass('disabled') && !attrs.disabled) {
             scope.$apply(function() {

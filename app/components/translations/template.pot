@@ -4,35 +4,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Approved"
 msgstr ""
 
 #: app/components/transUnit/source/header.html
-#: app/components/transUnit/translation/header.html
 msgid "Cancel edit"
 msgstr ""
 
 #: app/editor/editor-header.html
-#: app/components/transUnit/source/footer.html
-#: app/components/transUnit/translation/footer.html
 msgid "Details"
-msgstr ""
-
-#: app/components/transUnit/source/header.html
-msgid "Do not translate"
 msgstr ""
 
 #: app/editor/editor-header.html
 msgid "Editor Settings"
-msgstr ""
-
-#: app/components/transUnit/translation/translation.html
-msgid "Enter a translation…"
-msgstr ""
-
-#: app/editor/editor-header.html
-msgid "Filters"
 msgstr ""
 
 #: app/editor/editor-header.html
@@ -44,6 +29,7 @@ msgid "Hide Menubar"
 msgstr ""
 
 #: app/editor/editor-header.html
+#: app/editor/editor.html
 msgid "Keyboard Shortcuts"
 msgstr ""
 
@@ -51,7 +37,7 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Needs Work"
 msgstr ""
 
@@ -67,19 +53,11 @@ msgstr ""
 msgid "Save as"
 msgstr ""
 
-#: app/components/transUnit/translation/footer.html
-msgid "Save as…"
-msgstr ""
-
-#: app/editor/editor-header.html
-msgid "Search"
-msgstr ""
-
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Total Phrases"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Translated"
 msgstr ""
 
@@ -88,15 +66,10 @@ msgid "Translating"
 msgstr ""
 
 #: app/editor/editor-header.html
-#: app/components/transUnit/translation/footer.html
 msgid "Translation Memory"
 msgstr ""
 
-#: app/components/transUnit/translation/header.html
-msgid "Undo edit"
-msgstr ""
-
-#: app/editor/editor-header.html
+#: app/components/transUnitFilter/trans-unit-filter.html
 msgid "Untranslated"
 msgstr ""
 

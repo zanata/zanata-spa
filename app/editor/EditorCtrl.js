@@ -6,8 +6,8 @@
    * @ngInject
    */
   function EditorCtrl($scope, UserService, DocumentService, LocaleService,
-    ProjectService, EditorService, TransStatusService,
-    StatisticUtil, UrlService, $stateParams, $state, MessageHandler, $rootScope,
+    ProjectService, EditorService, StatisticUtil,
+    UrlService, $stateParams, $state, MessageHandler, $rootScope,
     EventService, EditorShortcuts, _, Mousetrap) {
     var editorCtrl = this;
     editorCtrl.pageNumber = 1;
@@ -24,12 +24,41 @@
       };
     });
 
+    //tu status to include for display
+    editorCtrl.filter = {
+      'status' : {
+        'all': true,
+        'approved' : false,
+        'translated' : false,
+        'needsWork': false,
+        'untranslated': false
+      }
+    };
+
+    processFilterQuery();
+
+    //This is just processing UI during startup,
+    //phrase filtering are done in EditorContentCtrl during init
+    function processFilterQuery() {
+      //process filter query
+      var status = UrlService.readValue('status');
+
+      if(!_.isUndefined(status)) {
+        status = status.split(',');
+        _.forEach(status, function(val) {
+          if(!_.isUndefined(editorCtrl.filter.status[val])) {
+            editorCtrl.filter.status[val] = true;
+          }
+        });
+        updateFilter();
+      }
+    }
+
     Mousetrap.bind('?', function(event) {
       var srcElement = event.srcElement;
       if (!editorCtrl.showCheatsheet && !stopCheatsheetCallback(srcElement)) {
-        $scope.$apply(function () {
-          editorCtrl.toggleKeyboardShortcutsModal();
-        });
+        editorCtrl.toggleKeyboardShortcutsModal();
+        $scope.$digest();
       }
     }, 'keyup');
 
@@ -153,6 +182,7 @@
 
     $rootScope.$on(EventService.EVENT.REFRESH_STATISTIC,
       function (event, data) {
+
         loadStatistic(data.projectSlug, data.versionSlug, data.docId,
           data.localeId);
 
@@ -190,6 +220,45 @@
       EventService.emitEvent(EventService.EVENT.GOTO_PREV_PAGE);
     };
 
+    editorCtrl.resetFilter = function() {
+      resetFilter(true);
+    };
+
+    editorCtrl.updateFilter = function() {
+      updateFilter(true);
+    };
+
+    function updateFilter(fireEvent) {
+      if(isStatusSame(editorCtrl.filter.status)) {
+        resetFilter(fireEvent);
+      } else {
+        editorCtrl.filter.status.all = false;
+        if(fireEvent) {
+          EventService.emitEvent(EventService.EVENT.FILTER_TRANS_UNIT,
+            editorCtrl.filter);
+        }
+      }
+    }
+
+    function resetFilter(fireEvent) {
+      editorCtrl.filter.status.all = true;
+      editorCtrl.filter.status.approved = false;
+      editorCtrl.filter.status.translated = false;
+      editorCtrl.filter.status.needsWork = false;
+      editorCtrl.filter.status.untranslated = false;
+
+      if(fireEvent) {
+        EventService.emitEvent(EventService.EVENT.FILTER_TRANS_UNIT,
+          editorCtrl.filter);
+      }
+    }
+
+    function isStatusSame(statuses) {
+      return statuses.approved === statuses.translated &&
+        statuses.translated === statuses.needsWork &&
+        statuses.needsWork === statuses.untranslated;
+    }
+
     function transitionToEditorSelectedView() {
       if (isDocumentAndLocaleSelected()) {
         $state.go('editor.selectedContext', {
@@ -218,9 +287,6 @@
               .getWordStatistic(statistics);
             editorCtrl.messageStatistic = StatisticUtil
               .getMsgStatistic(statistics);
-            // Make needReview(server) available to needswork
-            editorCtrl.messageStatistic[TransStatusService.getId('needswork')] =
-              editorCtrl.messageStatistic.needReview || 0;
           },
           function(error) {
             MessageHandler.displayError('Error loading statistic: ' + error);

@@ -38,6 +38,11 @@
   color: color(var(--u-text-color-secondary) tint(50%));
 }
 
+.u-textLead {
+  font-size: calc(24/16 * 1rem);
+  font-weight: 300;
+}
+
 .u-textPrimary {
   color: var(--u-text-color-primary);
 }
