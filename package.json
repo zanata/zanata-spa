@@ -50,8 +50,7 @@
     "gulp-rework": "^0.4.0",
     "gulp-rimraf": "^0.1.0",
     "gulp-sourcemaps": "^1.2.2",
-    "gulp-svg-sprites": "^1.0.3",
-    "fibers": "1.0.1",
+    "gulp-svg-sprite": "^1.0.11",
     "gulp-uglify": "^0.2.1",
     "gulp-webserver": "^0.4.0",
     "jshint-stylish": "^0.4.0",
@@ -62,7 +61,8 @@
     "rework-ie-limits": "^0.1.1",
     "rework-npm": "^1.0.0",
     "rework-suit-conformance": "^0.4.0",
-    "rework-vars": "^3.1.1"
+    "rework-vars": "^3.1.1",
+    "vinyl": "^0.4.6"
   },
   "dependencies": {
     "normalize.css": "^3.0.1",
