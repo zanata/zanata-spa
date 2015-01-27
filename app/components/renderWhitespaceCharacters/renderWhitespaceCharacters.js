@@ -19,7 +19,7 @@
       },
       'tab' : {
         'regex' : /\t/g,
-        'template' : '<span class="u-textTab"></span>\t'
+        'template' : '<span class="u-textTab">\t</span>'
       }
     };
 
