@@ -29,7 +29,7 @@
   <div class="TransUnit-panel TransUnit-translation">
     <ng-include src="'components/transUnit/translation/header.html'" ng-if="transUnitCtrl.selected"></ng-include>
     <div class="TransUnit-item" ng-repeat="newTranslation in phrase.newTranslations track by $index">
-      <div class="TransUnit-itemHeader" ng-if="phrase.plural">
+      <div class="TransUnit-itemHeader" ng-if=" phrase.plural">
         <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
         <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
       </div>
