@@ -188,7 +188,7 @@
   transition: height .1s var(--TransUnit-transition-ease:);
   white-space: pre-wrap;
   word-wrap: break-word;
-  tab-size: 4;
+  tab-size: 8;
   color: var(--TransUnit-text-color);
   border: none;
   background-color: transparent;

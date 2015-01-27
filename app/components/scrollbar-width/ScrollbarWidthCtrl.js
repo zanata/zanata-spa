@@ -13,13 +13,11 @@
     var scrollbarWidthCtrl = this;
 
     scrollbarWidthCtrl.init = function() {
-      if(scrollbarWidthCtrl.container && scrollbarWidthCtrl.child) {
-        var container = scrollbarWidthCtrl.container[0],
-            child = scrollbarWidthCtrl.child[0],
-            scrollbarWidth = child.offsetWidth - container.offsetWidth;
+      var container = scrollbarWidthCtrl.container[0],
+          child = scrollbarWidthCtrl.child[0],
+          scrollbarWidth = child.offsetWidth - container.offsetWidth;
 
-        scrollbarWidthCtrl.width = scrollbarWidth / 2;
-      }
+      scrollbarWidthCtrl.width = scrollbarWidth / 2;
     };
 
   }

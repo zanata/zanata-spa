@@ -9,23 +9,28 @@
   function AppConfig($stateProvider, $urlRouterProvider, $httpProvider,
     hotkeysProvider) {
 
+    //Can't use injection for EventService as this module is out of the scope
     var interceptor = function($q, $rootScope) {
       return {
         request: function(config) {
-          // See EventService.LOADING_INITIATED
-          $rootScope.$broadcast('loadingInitiated');
+          // See EventService.EVENT.LOADING_START
+          $rootScope.$broadcast('loadingStart');
           return config;
         },
         requestError: function(rejection) {
-          console.log('Request error due to ', rejection);
+          // See EventService.EVENT.LOADING_STOP
+          $rootScope.$broadcast('loadingStop');
+          console.error('Request error due to ', rejection);
           return $q.reject(rejection);
         },
         response: function(response) {
-          // See EventService.LOADING_COMPLETE
-          $rootScope.$broadcast('loadingComplete');
+          // See EventService.EVENT.LOADING_STOP
+          $rootScope.$broadcast('loadingStop');
           return response || $q.when(response);
         },
         responseError: function(rejection) {
+          // See EventService.EVENT.LOADING_STOP
+          $rootScope.$broadcast('loadingStop');
           if (rejection.status === 401) {
             console.error('Unauthorized access. Please login');
           } else if (rejection.status === 404) {

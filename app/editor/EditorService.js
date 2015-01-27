@@ -7,8 +7,8 @@
    * @ngInject
    */
   function EditorService($rootScope, $resource, _, UrlService,
-    EventService, PhraseService, DocumentService, MessageHandler,
-    TransStatusService, TransUnitService) {
+    EventService, PhraseService, PhraseUtil, DocumentService, MessageHandler,
+    TransStatusService) {
     var editorService = this,
         queue = {};
 
@@ -81,7 +81,7 @@
       });
 
     function needToSavePhrase(phrase, status) {
-      return TransUnitService.isTranslationModified(phrase) ||
+      return PhraseUtil.hasTranslationChanged(phrase) ||
         phrase.status !== status;
     }
 
@@ -102,7 +102,7 @@
       var data = {
         id: request.phrase.id,
         revision: request.phrase.revision || 0,
-        content: request.phrase.newTranslation,
+        content: request.phrase.newTranslations[0],
         contents: request.phrase.newTranslations,
         // Return status object to PascalCase Id for the server
         status: TransStatusService.getServerId(request.status.ID),
@@ -135,14 +135,8 @@
     }
 
     function resolveTranslationState(phrase, requestStatus) {
-      if(phrase.plural) {
-        if (_.isEmpty(_.compact(phrase.newTranslations))) {
-          return TransStatusService.getStatusInfo('UNTRANSLATED');
-        }
-      } else {
-        if(_.isEmpty(phrase.newTranslation)) {
-          return TransStatusService.getStatusInfo('UNTRANSLATED');
-        }
+      if (_.isEmpty(_.compact(phrase.newTranslations))) {
+        return TransStatusService.getStatusInfo('UNTRANSLATED');
       }
       return requestStatus;
     }

@@ -49,8 +49,16 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
+#: app/components/transUnit/trans-unit.html
+msgid "Plural Form"
+msgstr ""
+
 #: app/components/transUnit/translation/footer.html
 msgid "Save as"
+msgstr ""
+
+#: app/components/transUnit/trans-unit.html
+msgid "Singular Form"
 msgstr ""
 
 #: app/components/transUnitFilter/trans-unit-filter.html

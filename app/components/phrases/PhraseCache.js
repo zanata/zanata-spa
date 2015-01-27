@@ -145,7 +145,6 @@
         }
         translation.revision = parseInt(revision);
         translation.state = status;
-        translation.content = phrase.newTranslation;
         translation.contents = phrase.newTranslations.slice();
       };
 

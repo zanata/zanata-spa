@@ -10,7 +10,7 @@
    */
   function TransUnitService(_, $location, $rootScope, $state, $stateParams,
     $filter, MessageHandler, EventService, TransStatusService, PRODUCTION,
-    EditorShortcuts, $timeout) {
+    EditorShortcuts, PhraseUtil, $timeout) {
     var transUnitService = this,
         controllerList = {},
         selectedTUId;
@@ -19,30 +19,8 @@
       controllerList[id] = controller;
     };
 
-    // TODO can move or delegate to PhraseUtil
-    transUnitService.isTranslationModified = function(phrase) {
-      if (phrase.plural) {
-        // on Firefox with input method turned on,
-        // when hitting tab it seems to turn undefined value into ''
-        var allSame = _.every(phrase.translations,
-          function(translation, index) {
-            return nullToEmpty(translation) ===
-              nullToEmpty(phrase.newTranslations[index]);
-          });
-        return !allSame;
-      }
-      else {
-        return nullToEmpty(phrase.newTranslation) !==
-          nullToEmpty(phrase.translation);
-      }
-    };
-
-    function nullToEmpty(value) {
-      return value || '';
-    }
-
-    transUnitService.getSaveButtonOptions = function(saveButtonStatus) {
-      return filterSaveButtonOptions(saveButtonStatus);
+    transUnitService.getSaveButtonOptions = function(saveButtonStatus, phrase) {
+      return filterSaveButtonOptions(saveButtonStatus, phrase);
     };
 
     $rootScope.$on(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
@@ -69,8 +47,10 @@
           EditorShortcuts.selectedTUCtrl = newTuController;
 
           if (selectedTUId && selectedTUId !== data.id) {
+            setSelected(oldTUController, false);
+
             //perform implicit save if changed
-            if(transUnitService.isTranslationModified(
+            if(PhraseUtil.hasTranslationChanged(
               oldTUController.getPhrase())) {
               EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
                 {
@@ -80,15 +60,13 @@
                   'docId'  : $stateParams.docId
                 });
             }
-            setSelected(oldTUController, false);
           }
 
           updateSaveButton(event, newTuController.getPhrase());
           selectedTUId = data.id;
           setSelected(newTuController, true);
-          if (!newTuController.focused) {
-            EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION, data);
-          }
+
+          EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION, data);
 
           //Update url without reload state
           if(updateURL) {
@@ -113,24 +91,21 @@
      */
     $rootScope.$on(EventService.EVENT.COPY_FROM_SOURCE,
       function (event, data) {
+        var sourceIndex = 0;
         if(data.phrase.plural) {
-          if(!_.isUndefined(data.sourceIndex)) {
-            setTranslationText(data.phrase,
-              data.phrase.sources[data.sourceIndex]);
-          } else {
-            //from key shortcut, copy corresponding source to target
+          //clicked copy source button
+          sourceIndex = data.sourceIndex;
+          if(_.isUndefined(sourceIndex)) {
+            //copy source key shortcut, copy corresponding source to target
             var transUnitCtrl = controllerList[data.phrase.id];
-            var sourceIndex = transUnitCtrl.focusedTranslationIndex;
+            sourceIndex = transUnitCtrl.focusedTranslationIndex;
             if(data.phrase.sources.length <
               transUnitCtrl.focusedTranslationIndex + 1) {
               sourceIndex = data.phrase.sources.length - 1;
             }
-            setTranslationText(data.phrase,
-              data.phrase.sources[sourceIndex]);
           }
-        } else {
-          setTranslationText(data.phrase, data.phrase.source);
         }
+        setTranslationText(data.phrase, data.phrase.sources[sourceIndex]);
       });
 
     /**
@@ -139,12 +114,8 @@
      */
     $rootScope.$on(EventService.EVENT.UNDO_EDIT,
       function (event, phrase) {
-        if (transUnitService.isTranslationModified(phrase)) {
-          if(phrase.plural) {
-            setAllTranslations(phrase, phrase.translations);
-          } else {
-            setTranslationText(phrase, phrase.translation);
-          }
+        if (PhraseUtil.hasTranslationChanged(phrase)) {
+          setAllTranslations(phrase, phrase.translations);
         }
       });
 
@@ -202,12 +173,12 @@
        updateSaveButton);
 
     function setTranslationText(phrase, newText) {
+      var index = 0;
       if (phrase.plural) {
         var transUnitCtrl = controllerList[phrase.id];
-        phrase.newTranslations[transUnitCtrl.focusedTranslationIndex] = newText;
-      } else {
-        phrase.newTranslation = newText;
+        index = transUnitCtrl.focusedTranslationIndex;
       }
+      phrase.newTranslations[index] = newText;
       EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
         phrase);
       EventService.emitEvent(EventService.EVENT.FOCUS_TRANSLATION,
@@ -215,11 +186,6 @@
     }
 
     function setAllTranslations(phrase, newTexts) {
-      if(!phrase.plural) {
-        console.error('This function only process plural');
-        return; //only accept plural
-      }
-
       //need slice() for new instance of array
       phrase.newTranslations = newTexts.slice();
 
@@ -258,22 +224,33 @@
      * Unless the translation is empty, remove untranslated as an option
      * Filter the current default save state out of the list and show remaining
      *
-     * @param  {Object} saveStatus The current default translation save state
+     * @param  {Object} saveStatus The current default translation *save* status
      * @return {Array}             Is used to construct the dropdown list
      */
-    function filterSaveButtonOptions(saveStatus) {
+    function filterSaveButtonOptions(saveStatus, phrase) {
       var filteredOptions = [];
-      if (saveStatus.ID === 'untranslated' || saveStatus.ID === 'needswork') {
-        return [];
-      } else {
-        filteredOptions = $filter('filter')
-          (TransStatusService.getAllAsArray(), {ID: '!untranslated'});
-        if (PRODUCTION) {
-          filteredOptions = $filter('filter')
-            (filteredOptions, {ID: '!approved'});
-        }
-        return $filter('filter')(filteredOptions, {ID: '!'+saveStatus.ID});
+      if (saveStatus.ID === 'untranslated') {
+        return filteredOptions;
       }
+      filteredOptions = $filter('filter')
+      (TransStatusService.getAllAsArray(), {ID: '!untranslated'});
+
+      if(phrase.plural) {
+        if(PhraseUtil.hasNoTranslation(phrase)) {
+          filteredOptions = $filter('filter')
+          (filteredOptions, {ID: '!needswork'});
+        } else if(PhraseUtil.hasEmptyTranslation(phrase)) {
+            filteredOptions = $filter('filter')
+            (filteredOptions, {ID: '!translated'});
+        }
+      }
+
+      if (PRODUCTION) {
+        filteredOptions = $filter('filter')
+        (filteredOptions, {ID: '!approved'});
+      }
+
+      return $filter('filter')(filteredOptions, {ID: '!'+saveStatus.ID});
     }
 
     return transUnitService;

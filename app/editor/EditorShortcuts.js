@@ -51,7 +51,7 @@
         }
       } else if (editorShortcuts.selectedTUCtrl) {
         var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
-        if (phrase.newTranslation !== phrase.translation) {
+        if (PhraseUtil.hasTranslationChanged(phrase)) {
           // if it has changed translation, undo edit
           EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
             phrase);

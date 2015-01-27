@@ -5,8 +5,9 @@
    * TransUnitCtrl.js
    * @ngInject
    */
-  function TransUnitCtrl($scope, $element, $stateParams, _, TransUnitService,
-    EventService, LocaleService, focus, EditorShortcuts, PhraseUtil) {
+  function TransUnitCtrl($scope, $element, $stateParams, _,
+                         TransUnitService, EventService, LocaleService, focus,
+                         EditorShortcuts, PhraseUtil) {
 
     var transUnitCtrl = this;
 
@@ -14,19 +15,28 @@
     transUnitCtrl.focused = false;
     transUnitCtrl.focusedTranslationIndex = 0;
 
-    transUnitCtrl.isTranslationModified =
-      TransUnitService.isTranslationModified;
+    transUnitCtrl.hasTranslationChanged =
+      PhraseUtil.hasTranslationChanged;
 
     transUnitCtrl.focusTranslation = function() {
-      focus('phrase-' + $scope.phrase.id + '-' +
-      transUnitCtrl.focusedTranslationIndex);
+      if(transUnitCtrl.selected) {
+        focus('phrase-' + $scope.phrase.id + '-' +
+        transUnitCtrl.focusedTranslationIndex);
+      }
     };
 
+    // when user clicked on TU or using tab to nav
     transUnitCtrl.onTextAreaFocus = function(phrase, index) {
       transUnitCtrl.focused = true;
-      transUnitCtrl.selectTransUnit(phrase);
-      if (index !== undefined) {
+      if (!_.isUndefined(index)) {
         transUnitCtrl.focusedTranslationIndex = index;
+      }
+      if(!transUnitCtrl.selected) {
+        EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
+          {'id': phrase.id,
+            'updateURL': true,
+            'focus': true
+          }, $scope);
       }
     };
 
@@ -97,10 +107,11 @@
       transUnitCtrl.saveButtonStatus =
         PhraseUtil.getSaveButtonStatus($scope.phrase);
       transUnitCtrl.saveButtonOptions =
-        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
+        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus,
+          $scope.phrase);
       transUnitCtrl.saveButtonText = transUnitCtrl.saveButtonStatus.NAME;
       transUnitCtrl.saveButtonDisabled =
-        !TransUnitService.isTranslationModified(phrase);
+        !PhraseUtil.hasTranslationChanged(phrase);
       transUnitCtrl.loadingClass = '';
       transUnitCtrl.savingStatus = '';
     };
@@ -110,7 +121,8 @@
       transUnitCtrl.saveButtonStatus =
         transUnitCtrl.savingStatus = data.status;
       transUnitCtrl.saveButtonOptions =
-        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus);
+        TransUnitService.getSaveButtonOptions(transUnitCtrl.saveButtonStatus,
+          data.phrase);
       transUnitCtrl.saveButtonText = 'Saving…';
       transUnitCtrl.saveButtonDisabled = true;
     };

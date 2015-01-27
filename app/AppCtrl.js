@@ -14,21 +14,19 @@
     appCtrl.PRODUCTION = PRODUCTION;
     appCtrl.settings = UserService.settings;
     appCtrl.uiLocaleList = [ LocaleService.DEFAULT_LOCALE ];
-    appCtrl.loading = true;
 
-    $scope.$on('$stateChangeStart', function(event, toState) {
-      appCtrl.loading = true;
-      if (toState.resolve) {
-        // TODO: Move to here
-      }
-    });
+    /*
+      Not used for the time being. But should show loading when change state
+      $scope.$on('$stateChangeStart', function(event, toState) {
+        if (toState.resolve) {
+        }
+      });
 
-    $scope.$on('$stateChangeSuccess', function(event, toState) {
-      appCtrl.loading = false;
-      if (toState.resolve) {
-        // TODO: Move to here
-      }
-    });
+      $scope.$on('$stateChangeSuccess', function(event, toState) {
+        if (toState.resolve) {
+        }
+      });
+    */
 
     UrlService.init().then(loadLocales).
       then(loadUserInformation).
