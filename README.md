@@ -20,6 +20,7 @@ Build and run a server: `npm run watch`.
 Build and run server and API server: `npm run fakewatch`.
 
  - Editor is available at [localhost:8000](http://localhost:8000)
+   - URL for a working document from the default API server [Tiny Project 1, hello.txt to French](http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr)
  - REST API server is available at
    [localhost:7878/zanata/rest](http://localhost:7878/zanata/rest)
 
