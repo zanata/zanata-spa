@@ -1,3 +1,70 @@
 <aside class="Editor-suggestions Editor-panel">
 
+  <nav class="u-bgHighest u-sPH-1-2 u-sizeHeight-1_1-2">
+    <div class="u-floatLeft">
+      (&apos; ) SUGGESTIONS
+    </div>
+    <div class="u-floatLeft">
+      <ul class="u-listHorizontal u-textCenter">
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+            title="All suggestions" ng-click="suggestions.allSuggestions()">
+            All
+          </a>
+        </li>
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+            title="Suggestions from Translation Memory" ng-click="suggestions.tmSuggestions()">
+            Translation Memory
+          </a>
+        </li>
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+            title="Suggestions from Glossary" ng-click="suggestions.glossarySuggestions()">
+            Glossary
+          </a>
+        </li>
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+            title="Suggestions from Machine Translation" ng-click="suggestions.mtSuggestions()">
+            Machine Translation
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="u-floatRight">
+      <ul class="u-listHorizontal u-textCenter">
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+            title="Auto-fill" ng-click="suggestions.toggleAutofill()">
+            (switch icon)
+            Auto-fill
+          </a>
+        </li>
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+            title="Difference" ng-click="suggestions.toggleDifference()">
+            (switch icon)
+            Difference
+          </a>
+        </li>
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+            title="Search suggestions manually" ng-click="suggestions.manualSearch()">
+            (search icon)
+          </a>
+        </li>
+        <li class="u-smv-1-4">
+          <a class="Link--neutral u-sizeHeight-1_1-2"
+            title="Hide suggestions" ng-click="suggestions.hideResults()">
+            (X icon)
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  SUGGESTION CONTENT
+
 </aside>
