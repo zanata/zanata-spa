@@ -44,7 +44,7 @@
 
 .Editor-content {
   position: fixed;
-  top: calc(var(--Editor-rhythm) * 4);
+  top: calc(var(--Editor-rhythm) * 3.75);
   bottom: 0;
   overflow: auto;
   overflow-y: scroll;
@@ -76,16 +76,10 @@
 
 .Editor-suggestions {
   position: fixed;
-  bottom: 0px;
+  bottom: 0;
   overflow-y: scroll;
   width: 100%;
-
-  /*min-height: 100%;*/
-  /*padding: var(--Editor-rhythm) 0;*/
   background: white;
-  background-position: left center;
-  background-size: var(--rhythm) 100%;
-  background-repeat: no-repeat;
 }
 
 

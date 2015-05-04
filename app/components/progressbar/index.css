@@ -21,7 +21,7 @@
 }
 
 .Progressbar--sm {
-  height: calc(var(--Progressbar-rhythm) * .5);
+  height: calc(var(--Progressbar-rhythm) * .25);
 }
 
 .Progressbar--lg {
