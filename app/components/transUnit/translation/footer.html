@@ -38,7 +38,7 @@
           </button>
         </div>
       </div>
-      <ul class="Dropdown-content u-round">
+      <ul class="Dropdown-content u-rounded">
         <li ng-repeat="status in transUnitCtrl.saveButtonOptions track by $index">
           <button class="Button Button--{{status.CSSCLASS}} u-sizeFull u-textLeft u-sizeHeight-1_1-4"
             ng-click="transUnitCtrl.saveAs($event, phrase, status)" ng-bind="status.NAME" focus-on="{{phrase.id}}-saveAsOption-{{$index}}">

@@ -53,6 +53,14 @@
   --u-space-rhythm: var(--rhythm);
 }
 
+/**
+ * Display
+ */
+
+:root {
+  --u-display-rhythm: 1.5rem;
+}
+
 
 /**
  * Text
