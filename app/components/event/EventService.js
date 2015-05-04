@@ -11,6 +11,10 @@
    */
   function EventService($rootScope) {
     var eventService = this;
+
+    /**
+     * @enum {string}
+     */
     eventService.EVENT = {
       /**
        * Loading Events
@@ -103,7 +107,22 @@
       /**
        * data: {filter: refer to editorCtrl.filter}
        */
-      FILTER_TRANS_UNIT: 'filterTransUnit'
+      FILTER_TRANS_UNIT: 'filterTransUnit',
+
+      /**
+       * Fire to request suggestions from translation memory, etc.
+       *
+       * data: { phrase: Phrase }
+       */
+      REQUEST_PHRASE_SUGGESTIONS: 'requestPhraseSuggestions',
+
+      /**
+       * Fire for manual suggestions search using a single string.
+       *
+       * data: string
+       */
+      REQUEST_TEXT_SUGGESTIONS: ' requestTextSuggestions'
+
     };
 
     /**

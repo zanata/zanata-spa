@@ -71,7 +71,8 @@
             myInfo: '/user',
             userInfo: '/user/:username',
             translation: '/trans/:localeId',
-            allLocales: '/locales'
+            allLocales: '/locales',
+            suggestions: '/suggestions/:sourceLocale/:transLocale'
           }, unary(restUrl));
           /* jshint +W101 */
 
@@ -85,6 +86,7 @@
           urlService.USER_INFO_URL = urls.userInfo;
           urlService.TRANSLATION_URL = urls.translation;
           urlService.ALL_LOCALE_URL = urls.allLocales;
+          urlService.SUGGESTIONS_URL = urls.suggestions;
 
           urlService.PROJECT_PAGE = function(projectSlug, versionSlug) {
             return urlService.serverContextPath + 'iteration/view/' +

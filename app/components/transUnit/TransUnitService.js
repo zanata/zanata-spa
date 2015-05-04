@@ -43,6 +43,11 @@
             oldTUController = controllerList[selectedTUId],
             updateURL = data.updateURL;
 
+        EventService.emitEvent(EventService.EVENT.REQUEST_PHRASE_SUGGESTIONS,
+          {
+            'phrase' : newTuController.getPhrase()
+          });
+
         if(newTuController) {
           EditorShortcuts.selectedTUCtrl = newTuController;
 
