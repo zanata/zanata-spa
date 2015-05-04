@@ -74,6 +74,21 @@
   max-width: calc(var(--Editor-rhythm) * 3.5);
 }
 
+.Editor-suggestions {
+  position: fixed;
+  bottom: 0px;
+  overflow-y: scroll;
+  width: 100%;
+
+  /*min-height: 100%;*/
+  /*padding: var(--Editor-rhythm) 0;*/
+  background: white;
+  background-position: left center;
+  background-size: var(--rhythm) 100%;
+  background-repeat: no-repeat;
+}
+
+
 /**
  * Media Queries
  */
