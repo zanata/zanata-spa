@@ -39,8 +39,8 @@
   --color-darkest-grey  : color(var(--color-black) tint(5));
 
   /* Main colors */
-  --color-primary       : #4e9fdd;
-  --color-secondary     : #416988;
+  --color-primary       : #03A6D7;
+  --color-secondary     : #20718A;
 
   /* Background colors */
   --color-bg            : color(#f0f2f4 shade(1%));
@@ -53,10 +53,10 @@
 
   /* State colors */
   --color-highlight     : var(--color-primary);
-  --color-success       : #70a98b;
-  --color-unsure        : #e0c350;
-  --color-warning       : #e3824e;
-  --color-danger        : #e0575b;
+  --color-success       : #5CCA7B;
+  --color-unsure        : #E9DF1B;
+  --color-warning       : #FFA800;
+  --color-danger        : #FF3B3D;
   --color-neutral       : color(var(--color-secondary) tint(65%));
 
   /* Font colors */
