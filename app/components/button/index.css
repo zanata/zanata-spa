@@ -26,6 +26,7 @@
 
 .Button {
   transition: var(--Button-transition);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
 }
 
 .Button:focus {

@@ -28,22 +28,22 @@
   /* Primary greys */
   --color-white         : #fff;
   --color-black         : #000;
-  --color-lightest-grey : color(var(--color-black) tint(95));
-  --color-lighter-grey  : color(var(--color-black) tint(90));
-  --color-light-grey    : color(var(--color-black) tint(80));
-  --color-lightish-grey : color(var(--color-black) tint(70));
-  --color-grey          : color(var(--color-black) tint(50));
-  --color-darkish-grey  : color(var(--color-black) tint(30));
-  --color-dark-grey     : color(var(--color-black) tint(20));
-  --color-darker-grey   : color(var(--color-black) tint(10));
-  --color-darkest-grey  : color(var(--color-black) tint(5));
+  --color-lightest-grey : color(var(--color-black) tint(95%));
+  --color-lighter-grey  : color(var(--color-black) tint(90%));
+  --color-light-grey    : color(var(--color-black) tint(80%));
+  --color-lightish-grey : color(var(--color-black) tint(70%));
+  --color-grey          : color(var(--color-black) tint(50%));
+  --color-darkish-grey  : color(var(--color-black) tint(30%));
+  --color-dark-grey     : color(var(--color-black) tint(20%));
+  --color-darker-grey   : color(var(--color-black) tint(10%));
+  --color-darkest-grey  : color(var(--color-black) tint(5%));
 
   /* Main colors */
   --color-primary       : #03A6D7;
   --color-secondary     : #20718A;
 
   /* Background colors */
-  --color-bg            : color(#f0f2f4 shade(1%));
+  --color-bg            : #ECEFF0;
   --color-bg-lightest   : var(--color-white);
   --color-bg-lighter    : color(var(--color-bg) tint(93%));
   --color-bg-light      : color(var(--color-bg) tint(46%));
@@ -57,7 +57,7 @@
   --color-unsure        : #E9DF1B;
   --color-warning       : #FFA800;
   --color-danger        : #FF3B3D;
-  --color-neutral       : color(var(--color-secondary) tint(65%));
+  --color-neutral       : color(var(--color-secondary) tint(60%));
 
   /* Font colors */
   --color-base-font     : #444c54;
