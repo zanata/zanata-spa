@@ -337,7 +337,7 @@
   --TransUnit-text-color             : var(--color-base-font);
   --TransUnit-transition-ease        : var(--transition-ease-out-circ);
   --TransUnit-transition             : all .25s var(--TransUnit-transition-ease);
-  --TransUnit-translation-color-bg   : var(--color-white);
+  --TransUnit-focus-color-bg         : var(--color-white);
   --TransUnit-status-z-index         : var(--z-scale-2);
   --TransUnit-status-before-z-index  : var(--z-scale-3);
 }
@@ -356,6 +356,6 @@
   --Editor-rhythm               : var(--rhythm);
   --Editor-transition-ease      : var(--transition-ease-out-back);
   --Editor-color-status-bg      : color(var(--color-secondary) tint(82%));
-  --Editor-color-translation-bg : var(--color-white);
+  --Editor-color-translation-bg : var(--color-bg);
   --Editor-loader-z-index       : var(--z-scale-9);
 }

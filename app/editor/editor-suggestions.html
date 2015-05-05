@@ -1,38 +1,48 @@
-<aside class="Editor-suggestions Editor-panel">
+<div id="editor-suggestions-resizer"
+  resizer="horizontal"
+  resizer-position="30%"
+  resizer-height="12"
+  resizer-top="#editor-content"
+  resizer-max="60%"
+  resizer-bottom="#editor-suggestions">
+</div>
+
+<aside class="Editor-suggestions Editor-panel" id="editor-suggestions">
 
   <nav class="u-bgHighest u-sPH-1-2 u-sizeHeight-1_1-2">
-    <div class="u-floatLeft">
-      (&apos; ) SUGGESTIONS
-    </div>
-    <div class="u-floatLeft">
-      <ul class="u-listHorizontal u-textCenter">
-        <li class="u-smv-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-            title="All suggestions" ng-click="suggestions.allSuggestions()">
-            All
-          </a>
-        </li>
-        <li class="u-smv-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-            title="Suggestions from Translation Memory" ng-click="suggestions.tmSuggestions()">
-            Translation Memory
-          </a>
-        </li>
-        <li class="u-smv-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-            title="Suggestions from Glossary" ng-click="suggestions.glossarySuggestions()">
-            Glossary
-          </a>
-        </li>
-        <li class="u-smv-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-            title="Suggestions from Machine Translation" ng-click="suggestions.mtSuggestions()">
-            Machine Translation
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="u-floatRight">
+    <h2 class="u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2">
+      <icon name="suggestions"
+        class="Icon--sm u-sMH-1-4 u-textMuted">
+      </icon>
+        Suggestions
+    </h2>
+    <ul class="u-listHorizontal">
+      <li class="u-smv-1-4">
+        <a class="Link--neutral u-sizeHeight-1_1-2"
+          title="All suggestions" ng-click="suggestions.allSuggestions()">
+          All
+        </a>
+      </li>
+      <li class="u-smv-1-4">
+        <a class="Link--neutral u-sizeHeight-1_1-2"
+          title="Suggestions from Translation Memory" ng-click="suggestions.tmSuggestions()">
+          Translation Memory
+        </a>
+      </li>
+      <li class="u-smv-1-4">
+        <a class="Link--neutral u-sizeHeight-1_1-2"
+          title="Suggestions from Glossary" ng-click="suggestions.glossarySuggestions()">
+          Glossary
+        </a>
+      </li>
+      <li class="u-smv-1-4">
+        <a class="Link--neutral u-sizeHeight-1_1-2"
+          title="Suggestions from Machine Translation" ng-click="suggestions.mtSuggestions()">
+          Machine Translation
+        </a>
+      </li>
+    </ul>
+<!--     <div class="u-floatRight">
       <ul class="u-listHorizontal u-textCenter">
         <li class="u-smv-1-4">
           <a class="Link--neutral u-sizeHeight-1_1-2"
@@ -61,10 +71,10 @@
           </a>
         </li>
       </ul>
-    </div>
+    </div> -->
   </nav>
 
-
   SUGGESTION CONTENT
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis luctus nisi et eros bibendum lacinia. Curabitur sed est nec urna pretium vulputate ut eget lectus. In ultricies, tellus non vehicula malesuada, augue sem aliquet tellus, ut faucibus turpis ante quis nibh. Ut vel turpis tortor, a consectetur ipsum. Sed posuere commodo vestibulum. Pellentesque volutpat diam sem.
 
 </aside>
