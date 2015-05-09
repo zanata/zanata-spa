@@ -14,8 +14,7 @@
 }
 
 .Editor-header,
-.Editor-loader,
-.Editor-suggestions {
+.Editor-loader {
   transition: .2s all var(--Editor-transition-ease);
 }
 
@@ -48,7 +47,7 @@
   left: 0;
   right: 0;
   top: calc(var(--Editor-rhythm) * 3.75);
-  bottom: 0 !important;
+  bottom: 0;
   overflow: auto;
   overflow-y: scroll;
   width: 100%;
@@ -82,10 +81,13 @@
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: auto;
-  background: white;
+  overflow: hidden;
   box-shadow: 0 -calc(var(--Editor-rhythm) * .125) var(--Header-rhythm) rgba(0,0,0,.1);
   transform: translateY(100%);
+}
+
+.Editor-suggestionsBody {
+
 }
 
 .Editor.is-suggestions-active .Editor-suggestions {

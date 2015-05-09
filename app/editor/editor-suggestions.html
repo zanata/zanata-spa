@@ -9,72 +9,76 @@
 
 <aside class="Editor-suggestions Editor-panel" id="editor-suggestions">
 
-  <nav class="u-bgHighest u-sPH-1-2 u-sizeHeight-1_1-2">
-    <h2 class="u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2">
+  <nav class="u-bgHighest u-sPH-3-4 u-sizeHeight-1_1-2">
+    <h2 class="Heading--panel u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2 u-floatLeft">
       <icon name="suggestions"
-        class="Icon--sm u-sMH-1-4 u-textMuted">
+        class="Icon--sm u-textMuted">
       </icon>
         Suggestions
     </h2>
-    <ul class="u-listHorizontal">
-      <li class="u-smv-1-4">
-        <a class="Link--neutral u-sizeHeight-1_1-2"
-          title="All suggestions" ng-click="suggestions.allSuggestions()">
-          All
-        </a>
-      </li>
-      <li class="u-smv-1-4">
-        <a class="Link--neutral u-sizeHeight-1_1-2"
-          title="Suggestions from Translation Memory" ng-click="suggestions.tmSuggestions()">
-          Translation Memory
-        </a>
-      </li>
-      <li class="u-smv-1-4">
-        <a class="Link--neutral u-sizeHeight-1_1-2"
-          title="Suggestions from Glossary" ng-click="suggestions.glossarySuggestions()">
-          Glossary
-        </a>
-      </li>
-      <li class="u-smv-1-4">
-        <a class="Link--neutral u-sizeHeight-1_1-2"
-          title="Suggestions from Machine Translation" ng-click="suggestions.mtSuggestions()">
-          Machine Translation
-        </a>
-      </li>
-    </ul>
-<!--     <div class="u-floatRight">
+    <div class="u-floatRight">
       <ul class="u-listHorizontal u-textCenter">
-        <li class="u-smv-1-4">
+<!--         <li class="u-smv-1-4">
           <a class="Link--neutral u-sizeHeight-1_1-2"
             title="Auto-fill" ng-click="suggestions.toggleAutofill()">
             (switch icon)
             Auto-fill
           </a>
-        </li>
+        </li> -->
         <li class="u-smv-1-4">
           <a class="Link--neutral u-sizeHeight-1_1-2"
             title="Difference" ng-click="suggestions.toggleDifference()">
-            (switch icon)
             Difference
           </a>
         </li>
-        <li class="u-smv-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-            title="Search suggestions manually" ng-click="suggestions.manualSearch()">
-            (search icon)
-          </a>
+        <li>
+          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2" title="Search suggestions" ng-click="suggestions.search()">
+            <icon name="search" title="Search suggestions" class="Icon--sm"></icon>
+          </button>
         </li>
-        <li class="u-smv-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-            title="Hide suggestions" ng-click="suggestions.hideResults()">
-            (X icon)
-          </a>
+        <li>
+          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2" title="Close suggestions" ng-click="suggestions.hideResults()">
+            <icon name="cross" title="Close suggestions" class="Icon--sm"></icon>
+          </button>
         </li>
       </ul>
-    </div> -->
+    </div>
   </nav>
 
-  SUGGESTION CONTENT
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis luctus nisi et eros bibendum lacinia. Curabitur sed est nec urna pretium vulputate ut eget lectus. In ultricies, tellus non vehicula malesuada, augue sem aliquet tellus, ut faucibus turpis ante quis nibh. Ut vel turpis tortor, a consectetur ipsum. Sed posuere commodo vestibulum. Pellentesque volutpat diam sem.
+  <div class="Editor-suggestionsBody">
+    <div class="TransUnit TransUnit--success">
+      <div class="TransUnit-status">
+      </div>
+      <div class="TransUnit-panel TransUnit-source u-sPV-1-2">
+        <div class="TransUnit-item u-sPH-3-4">
+          <div>Source Text</div>
+          <div class="u-sizeHeight-1">
+            <ul class="u-textMeta u-listInline u-sizeLineHeight-1">
+              <li><icon name="project" class="Icon--xsm"></icon> Zanata</li>
+              <li><icon name="version" class="Icon--xsm"></icon> master</li>
+              <li><icon name="document" class="Icon--xsm"></icon> messages</li>
+              <li><icon name="translate" class="Icon--xsm"></icon> 11 more occurrences</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="TransUnit-panel TransUnit-translation u-sPV-1-2">
+        <div class="TransUnit-item u-sPH-3-4">
+          <div>Translation Text</div>
+          <div class="u-sizeHeight-1">
+            <div class="u-floatLeft u-sizeLineHeight-1">
+              <span class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Translated by Sam Friedmann</li>
+            </div>
+            <div class="u-floatRight">
+              <ul class="u-listInline u-sizeLineHeight-1">
+                <li class="u-textSuccess">100%</li>
+                <li><button class="Button Button--small u-rounded Button--primary">Copy Translation</button></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </aside>

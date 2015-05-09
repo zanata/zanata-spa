@@ -206,4 +206,5 @@
 
 .Button--small {
   padding: var(--Button-padding-small);
+  font-size: calc(14/16)rem;
 }

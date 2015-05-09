@@ -44,3 +44,10 @@
 .h6 {
   font-size: var(--Heading-size-h6);
 }
+
+.Heading--panel {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+  text-transform: uppercase;
+}
