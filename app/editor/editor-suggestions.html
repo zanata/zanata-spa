@@ -46,39 +46,11 @@
   </nav>
 
   <div class="Editor-suggestionsBody">
-    <div class="TransUnit TransUnit--success">
-      <div class="TransUnit-status">
-      </div>
-      <div class="TransUnit-panel TransUnit-source u-sPV-1-2">
-        <div class="TransUnit-item u-sPH-3-4">
-          <div>Source Text</div>
-          <div class="u-sizeHeight-1">
-            <ul class="u-textMeta u-listInline u-sizeLineHeight-1">
-              <li><icon name="project" class="Icon--xsm"></icon> Zanata</li>
-              <li><icon name="version" class="Icon--xsm"></icon> master</li>
-              <li><icon name="document" class="Icon--xsm"></icon> messages</li>
-              <li><icon name="translate" class="Icon--xsm"></icon> 11 more occurrences</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="TransUnit-panel TransUnit-translation u-sPV-1-2">
-        <div class="TransUnit-item u-sPH-3-4">
-          <div>Translation Text</div>
-          <div class="u-sizeHeight-1">
-            <div class="u-floatLeft u-sizeLineHeight-1">
-              <span class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Translated by Sam Friedmann</li>
-            </div>
-            <div class="u-floatRight">
-              <ul class="u-listInline u-sizeLineHeight-1">
-                <li class="u-textSuccess">100%</li>
-                <li><button class="Button Button--small u-rounded Button--primary">Copy Translation</button></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+
+    <div ng-repeat="suggestion in editorSuggestions.suggestions">
+      <suggestion suggestion="suggestion"></suggestion>
     </div>
+
   </div>
 
 </aside>
