@@ -76,7 +76,7 @@
 }
 
 .Editor-suggestions {
-  position: absolute;
+  position: fixed;
   z-index: var(--Editor-panel-z-index);
   right: 0;
   bottom: 0;
@@ -86,8 +86,23 @@
   transform: translateY(100%);
 }
 
-.Editor-suggestionsBody {
+.Editor-suggestionsHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
 
+.Editor-suggestionsBody {
+  /* Fallback */
+  position: absolute;
+  top: calc(var(--Editor-rhythm) * 1.5);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .Editor.is-suggestions-active .Editor-suggestions {
