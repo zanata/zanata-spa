@@ -1,12 +1,13 @@
 /** @define Editor; use strict */
 
 :root {
-  --Editor-rhythm               : 1.5rem;
-  --Editor-transition-ease      : cubic-bezier(.175, .885, .320, 1.275);
-  --Editor-color-status-bg      : color(#416988 tint(82%));
-  --Editor-color-translation-bg : #ECEFF0;
-  --Editor-loader-z-index       : 900;
-  --Editor-panel-z-index        : 200;
+  --Editor-rhythm                     : 1.5rem;
+  --Editor-transition-ease            : cubic-bezier(.175, .885, .320, 1.275);
+  --Editor-color-status-bg            : color(#416988 tint(82%));
+  --Editor-color-translation-bg       : #ECEFF0;
+  --Editor-loader-z-index             : 900;
+  --Editor-panel-z-index              : 200;
+  --Editor-suggestions-header-z-index : 300;
 }
 
 .Editor {
@@ -91,6 +92,8 @@
   top: 0;
   left: 0;
   right: 0;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  z-index: var(--Editor-suggestions-header-z-index);
 }
 
 .Editor-suggestionsBody {

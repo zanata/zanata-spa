@@ -247,6 +247,14 @@
   --Link-color-highlight : var(--color-highlight);
 }
 
+/**
+ * Difference
+ */
+
+:root {
+  --difference-color-addition: color(var(--color-success) tint(67%));
+  --difference-color-deletion: color(var(--color-danger) tint(84%));
+}
 
 /**
  * LogoLoader
@@ -338,6 +346,7 @@
   --TransUnit-transition-ease        : var(--transition-ease-out-circ);
   --TransUnit-transition             : all .25s var(--TransUnit-transition-ease);
   --TransUnit-focus-color-bg         : var(--color-white);
+  --TransUnit-hover-color-bg         : color(var(--color-bg) tint(45%));
   --TransUnit-status-z-index         : var(--z-scale-2);
   --TransUnit-status-before-z-index  : var(--z-scale-3);
 }

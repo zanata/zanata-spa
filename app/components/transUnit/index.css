@@ -22,6 +22,7 @@
   --TransUnit-transition             : opacity .25s var(--TransUnit-transition-ease);
   --TransUnit-transition-ease        : cubic-bezier(.075, .820, .165, 1.000);
   --TransUnit-focus-color-bg         : #fff;
+  --TransUnit-hover-color-bg         : color(#fff shade(3%));
   --TransUnit-status-z-index         : 200;
   --TransUnit-status-before-z-index  : 300;
 }
@@ -399,6 +400,10 @@
 /**
  * Type Modifiers
  */
+
+.TransUnit--suggestion:hover {
+  background-color: var(--TransUnit-hover-color-bg);
+}
 
 .TransUnit--suggestion .TransUnit-panel {
   padding-top: calc(var(--TransUnit-rhythm) * .5);
