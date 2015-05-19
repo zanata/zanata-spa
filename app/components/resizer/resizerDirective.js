@@ -45,7 +45,7 @@
       }
 
       function adjustVerticalPanel(resizerPositionX) {
-        var x = resizerPosition = resizerPositionX,
+        var x = resizerPositionX,
             leftPanel = angular.element(document
               .querySelector(attrs.resizerLeft)),
             rightPanel = angular.element(document
@@ -55,6 +55,7 @@
             minimumPanelSize = attrs.resizerMin ||
               parseInt(attrs.resizerWidth);
 
+        resizerPosition = x;
         x = restrictMinOrMax(x, maximumPanelSize, minimumPanelSize);
 
         element.css({
@@ -71,7 +72,7 @@
       }
 
       function adjustHorizontalPanel(resizerPositionY) {
-        var y = resizerPosition = resizerPositionY,
+        var y = resizerPositionY,
             topPanel = angular.element(document
               .querySelector(attrs.resizerTop)),
             bottomPanel = angular.element(document
@@ -81,6 +82,7 @@
             minimumPanelSize = attrs.resizerMin ||
               parseInt(attrs.resizerHeight);
 
+        resizerPosition = y;
         y = restrictMinOrMax(y, maximumPanelSize, minimumPanelSize);
 
         element.css({
