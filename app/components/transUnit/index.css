@@ -263,36 +263,6 @@
   transform: scaleY(1);
 }
 
-
-/**
- * Status bar Modifiers
- */
-
-.TransUnit--highlight .TransUnit-status,
-.TransUnit--highlight .TransUnit-status:before {
-  background-color: var(--TransUnit-color-highlight);
-}
-
-.TransUnit--success .TransUnit-status,
-.TransUnit--success .TransUnit-status:before {
-  background-color: var(--TransUnit-color-success);
-}
-
-.TransUnit--unsure .TransUnit-status,
-.TransUnit--unsure .TransUnit-status:before {
-  background-color: var(--TransUnit-color-unsure);
-}
-
-.TransUnit--warning .TransUnit-status,
-.TransUnit--warning .TransUnit-status:before {
-  background-color: var(--TransUnit-color-warning);
-}
-
-.TransUnit--danger .TransUnit-status,
-.TransUnit--danger .TransUnit-status:before {
-  background-color: var(--TransUnit-color-danger);
-}
-
 /**
  * Meta data
  */
@@ -395,6 +365,67 @@
     left: 50%;
     margin-left: calc(var(--TransUnit-rhythm) * -.5);
   }
+}
+
+/**
+ * Status bar Modifiers
+ */
+
+.TransUnit--highlight .TransUnit-status,
+.TransUnit--highlight .TransUnit-status:before {
+  background-color: var(--TransUnit-color-highlight);
+}
+
+.TransUnit--success .TransUnit-status,
+.TransUnit--success .TransUnit-status:before {
+  background-color: var(--TransUnit-color-success);
+}
+
+.TransUnit--unsure .TransUnit-status,
+.TransUnit--unsure .TransUnit-status:before {
+  background-color: var(--TransUnit-color-unsure);
+}
+
+.TransUnit--warning .TransUnit-status,
+.TransUnit--warning .TransUnit-status:before {
+  background-color: var(--TransUnit-color-warning);
+}
+
+.TransUnit--danger .TransUnit-status,
+.TransUnit--danger .TransUnit-status:before {
+  background-color: var(--TransUnit-color-danger);
+}
+
+/**
+ * Type Modifiers
+ */
+
+.TransUnit--suggestion .TransUnit-panel {
+  padding-top: calc(var(--TransUnit-rhythm) * .5);
+  padding-bottom: calc(var(--TransUnit-rhythm) * .5);
+}
+
+.TransUnit--suggestion .TransUnit-item,
+.TransUnit--suggestion .TransUnit-details {
+  padding-left: calc(var(--TransUnit-rhythm) * .75);
+  padding-right: calc(var(--TransUnit-rhythm) * .75);
+}
+
+.TransUnit--suggestion .TransUnit-itemHeader {
+  margin-top: calc(var(--TransUnit-rhythm) * -.75);
+}
+
+/**
+ * If there is more than 1 TransUnit-item
+ * Includes 1 the details div in count, hence the 3 instead of 2
+ */
+.TransUnit--suggestion .TransUnit-item:nth-last-child(n+3):first-child,
+.TransUnit--suggestion .TransUnit-item:nth-last-child(n+3):first-child ~ .TransUnit-item{
+  margin-top: calc(var(--TransUnit-rhythm) * 1);
+}
+
+.TransUnit--suggestion .TransUnit-details {
+  margin-top: calc(var(--TransUnit-rhythm) * .25);
 }
 
 @keyframes loading {

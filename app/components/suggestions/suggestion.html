@@ -1,62 +1,50 @@
-<div class="TransUnit TransUnit--{{suggestionCtrl.rowDisplayType()}}"
+<div class="TransUnit TransUnit--suggestion TransUnit--{{suggestionCtrl.rowDisplayType()}}"
      ng-init="plural = suggestion.sourceContents.length > 1">
   <div class="TransUnit-status">
   </div>
-  <div class="TransUnit-panel TransUnit-source u-sPV-1-2">
-    <div class="TransUnit-item u-sPH-3-4">
-
-      <!-- TODO stop plural form labels overlapping -->
-      <div class="TransUnit-item" ng-repeat="source in suggestion.sourceContents">
-        <div ng-if="plural" class="TransUnit-itemHeader">
-          <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
-          <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
-        </div>
-
-        <div>{{source}}</div>
+  <div class="TransUnit-panel TransUnit-source">
+    <!-- TODO stop plural form labels overlapping -->
+    <div class="TransUnit-item" ng-repeat="source in suggestion.sourceContents">
+      <div ng-if="plural" class="TransUnit-itemHeader">
+        <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
+        <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
       </div>
+      <div>{{source}}</div>
+    </div>
+    <!-- TODO different display depending on imported or local -->
+    <div class="TransUnit-details"
+         ng-init="detail = suggestion.matchDetails[0]; remaining = suggestion.matchDetails.length - 1; isTextFlow = detail.type === 'LOCAL_PROJECT'">
+      <ul class="u-textMeta u-listInline u-sizeLineHeight-1">
+        <li ng-if="isTextFlow" title="{{detail.projectId}}"><icon name="project" class="Icon--xsm"></icon> {{detail.projectName}}</li>
+        <li ng-if="isTextFlow"><icon name="version" class="Icon--xsm"></icon> {{detail.version}}</li>
+        <li ng-if="isTextFlow"
+            title="{{detail.documentPath ? detail.documentPath + '/' : ''}}{{detail.documentName}}"><icon name="document" class="Icon--xsm"></icon> {{detail.documentName}}</li>
 
-      <!-- TODO different display depending on imported or local -->
-      <div class="u-sizeHeight-1"
-           ng-init="detail = suggestion.matchDetails[0]; remaining = suggestion.matchDetails.length - 1; isTextFlow = detail.type === 'LOCAL_PROJECT'">
-        <ul class="u-textMeta u-listInline u-sizeLineHeight-1">
-          <li ng-if="isTextFlow" title="{{detail.projectId}}"><icon name="project" class="Icon--xsm"></icon> {{detail.projectName}}</li>
-          <li ng-if="isTextFlow"><icon name="version" class="Icon--xsm"></icon> {{detail.version}}</li>
-          <li ng-if="isTextFlow"
-              title="{{detail.documentPath ? detail.documentPath + '/' : ''}}{{detail.documentName}}"><icon name="document" class="Icon--xsm"></icon> {{detail.documentName}}</li>
+        <li ng-if="!isTextFlow"><icon name="import" class="Icon--xsm"></icon> {{detail.transMemorySlug}}</li>
 
-          <li ng-if="!isTextFlow"><icon name="import" class="Icon--xsm"></icon> {{detail.transMemorySlug}}</li>
-
-          <li ng-if="remaining > 0"><icon name="translate" class="Icon--xsm"></icon> {{remaining}} more occurrences</li>
-        </ul>
-      </div>
+        <li ng-if="remaining > 0"><icon name="translate" class="Icon--xsm"></icon> {{remaining}} more occurrences</li>
+      </ul>
     </div>
   </div>
   <div class="TransUnit-panel TransUnit-translation u-sPV-1-2">
-    <div class="TransUnit-item u-sPH-3-4">
-
-
-      <!-- TODO stop plural form labels overlapping -->
-      <div class="TransUnit-item" ng-repeat="target in suggestion.targetContents">
-        <div class="TransUnit-itemHeader" ng-if="plural">
-          <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
-          <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
-        </div>
-        <div>{{target}}</div>
-
+    <div class="TransUnit-item" ng-repeat="target in suggestion.targetContents">
+      <div class="TransUnit-itemHeader" ng-if="plural">
+        <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
+        <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
       </div>
-
-      <div class="u-sizeHeight-1">
-        <div ng-if="translator !== undefined" class="u-floatLeft u-sizeLineHeight-1">
-          <!-- TODO open details when any metadata is clicked -->
-          <span class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Translated by {{translator}}</span>
-        </div>
-        <div class="u-floatRight">
-          <ul class="u-listInline u-sizeLineHeight-1">
-            <li class="u-text{{suggestionCtrl.percentDisplayType()}}">{{suggestionCtrl.percent()}}%</li>
-            <!-- TODO attach event to this -->
-            <li><button class="Button Button--small u-rounded Button--primary">Copy Translation</button></li>
-          </ul>
-        </div>
+      <div>{{target}}</div>
+    </div>
+    <div class="TransUnit-details">
+      <div ng-if="translator !== undefined" class="u-floatLeft u-sizeLineHeight-1">
+        <!-- TODO open details when any metadata is clicked -->
+        <span class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Translated by {{translator}}</span>
+      </div>
+      <div class="u-floatRight">
+        <ul class="u-listInline u-sizeLineHeight-1">
+          <li class="u-text{{suggestionCtrl.percentDisplayType()}}">{{suggestionCtrl.percent()}}%</li>
+          <!-- TODO attach event to this -->
+          <li><button class="Button Button--small u-rounded Button--primary">Copy Translation</button></li>
+        </ul>
       </div>
     </div>
   </div>
