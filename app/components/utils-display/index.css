@@ -15,8 +15,13 @@
   overflow: hidden !important;
 }
 
+.u-roundish {
+  border-radius: calc(var(--u-display-rhythm) * .375) !important;
+  overflow: hidden !important;
+}
+
 .u-rounded {
-  border-radius: calc(var(--u-display-rhythm) / 1.5) !important;
+  border-radius: calc(var(--u-display-rhythm) * .75) !important;
   overflow: hidden !important;
 }
 

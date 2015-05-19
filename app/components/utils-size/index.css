@@ -78,6 +78,10 @@
   line-height: var(--u-size-rhythm) !important;
 }
 
+.u-sizeLineHeight-1_1-4 {
+  line-height: calc(var(--u-size-rhythm) * 1.25) !important;
+}
+
 .u-sizeLineHeight-1_1-2 {
   line-height: calc(var(--u-size-rhythm) * 1.5) !important;
 }

@@ -145,9 +145,9 @@
   --Button-color             : transparent;
   --Button-disabled-opacity  : 0.6;
   --Button-font              : inherit;
-  --Button-padding           : calc(var(--rhythm) * .25) calc(var(--rhythm) * .5);
+  --Button-padding           : calc(var(--rhythm) * .125) calc(var(--rhythm) * .5);
   --Button-padding-snug      : calc(var(--rhythm) * .25);
-  --Button-padding-snug      : calc(var(--rhythm) * .125) calc(var(--rhythm) * .25);
+  --Button-padding-small     : calc(var(--rhythm) * .125) calc(var(--rhythm) * .5);
   --Button-color-text-invert : var(--color-white);
   --Button-color-default     : color(var(--color-secondary) tint(85%));
   --Button-color-primary     : var(--color-primary);

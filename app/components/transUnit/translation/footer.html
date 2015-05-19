@@ -1,23 +1,24 @@
 <div class="TransUnit-panelFooter TransUnit-panelFooter--translation u-cf">
   <div class="u-floatLeft u-sizeHeight-1_1-2">
-    <ul ng-show="appCtrl.PRODUCTION" class="u-listHorizontal">
-      <li class="u-gtemd-hidden">
+    <ul class="u-listHorizontal">
+      <li class="u-gtemd-hidden" ng-show="appCtrl.PRODUCTION">
         <button class="Link Link--neutral u-sizeHeight-1_1-2"
           title="{{::'Details'|translate}}">
           <icon name="info" title="{{::'Details'|translate}}" class="u-sizeWidth-1_1-2"></icon>
         </button>
       </li>
       <li>
-        <button class="Link Link--neutral u-sizeHeight-1_1-2"
-          title="{{::'Translation Memory'|translate}}">
-          <icon name="suggestions" title="{{::'Translation Memory'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+        <button class="Button Button--snug Button--invisible u-roundish"
+          title="{{::'Suggestions available'|translate}}">
+          <icon name="suggestions" class="Icon--sm"></icon>
+          <span class="u-textMini">4</span>
         </button>
       </li>
     </ul>
   </div>
   <div class="u-floatRight">
     <span ng-show="!transUnitCtrl.saveButtonDisabled"
-          class="u-textMeta u-sMR-1-4 u-floatLeft u-sizeLineHeight-1_1-2" translate>
+          class="u-textMeta u-sMR-1-4 u-floatLeft u-sizeLineHeight-1_1-4" translate>
       Save as
     </span>
     <dropdown class="Dropdown" on-close-dropdown="transUnitCtrl.cancelSaveAsMode()">
