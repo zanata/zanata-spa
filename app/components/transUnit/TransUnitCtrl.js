@@ -7,7 +7,7 @@
    */
   function TransUnitCtrl($scope, $element, $stateParams, _,
                          TransUnitService, EventService, LocaleService, focus,
-                         EditorShortcuts, PhraseUtil) {
+                         EditorShortcuts, PhraseUtil, SettingsService) {
 
     var transUnitCtrl = this;
 
@@ -92,6 +92,12 @@
         // focus on the first dropdown option
         focus($scope.phrase.id + '-saveAsOption-0');
       }
+    };
+
+    transUnitCtrl.toggleSuggestionPanel = function () {
+      var SHOW_SUGGESTIONS = SettingsService.SETTING.SHOW_SUGGESTIONS;
+      SettingsService.update(SHOW_SUGGESTIONS,
+        !SettingsService.get(SHOW_SUGGESTIONS));
     };
 
     transUnitCtrl.cancelSaveAsMode = function() {

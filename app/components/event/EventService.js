@@ -121,8 +121,17 @@
        *
        * data: string
        */
-      REQUEST_TEXT_SUGGESTIONS: ' requestTextSuggestions'
+      REQUEST_TEXT_SUGGESTIONS: 'requestTextSuggestions',
 
+      /**
+       * Indicates a single user setting has changed.
+       *
+       * Event handlers should switch on the setting name to determine whether
+       * it is a setting they are interested in.
+       *
+       * data: { setting: string, value: boolean|number|string }
+       */
+      USER_SETTING_CHANGED: 'userSettingChanged'
     };
 
     /**

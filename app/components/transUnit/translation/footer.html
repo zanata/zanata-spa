@@ -8,10 +8,12 @@
         </button>
       </li>
       <li>
+        <!-- TODO different style depending whether expanded? -->
         <button class="Button Button--snug Button--invisible u-roundish"
-          title="{{::'Suggestions available'|translate}}">
+          title="{{::'Suggestions available'|translate}}"
+          ng-click="transUnitCtrl.toggleSuggestionPanel()">
           <icon name="suggestions" class="Icon--sm"></icon>
-          <span class="u-textMini">4</span>
+          <span class="u-textMini">TODO 4</span>
         </button>
       </li>
     </ul>

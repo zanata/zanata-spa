@@ -1,13 +1,13 @@
-<div id="editor-suggestions-resizer"
-  resizer="horizontal"
-  resizer-position="30%"
-  resizer-height="12"
-  resizer-top="#editor-content"
-  resizer-max="60%"
-  resizer-bottom="#editor-suggestions">
+<div ng-show="show" id="editor-suggestions-resizer"
+     resizer="horizontal"
+     resizer-position="30%"
+     resizer-height="12"
+     resizer-top="#editor-content"
+     resizer-max="60%"
+     resizer-bottom="#editor-suggestions">
 </div>
 
-<aside class="Editor-suggestions Editor-panel" id="editor-suggestions">
+<aside ng-if="show" class="Editor-suggestions Editor-panel" id="editor-suggestions">
 
   <nav class="Editor-suggestionsHeader u-bgHighest u-sPH-3-4 u-sizeHeight-1_1-2">
     <h2 class="Heading--panel u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2 u-floatLeft">
@@ -37,7 +37,7 @@
           </button>
         </li>
         <li>
-          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2" title="Close suggestions" ng-click="suggestions.hideResults()">
+          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2" title="Close suggestions" ng-click="editorSuggestions.closeSuggestions()">
             <icon name="cross" title="Close suggestions" class="Icon--sm"></icon>
           </button>
         </li>

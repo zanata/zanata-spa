@@ -1,13 +1,61 @@
 (function() {
   'use strict';
 
-  function resizer($window, $document, $timeout) {
+  /**
+   * Represents a draggable resizer.
+   *
+   * @param $window
+   * @param $document
+   * @param $timeout
+   * @returns {Function}
+   */
+  function resizer(SettingsService, $window, $document, $timeout) {
 
-    return function(scope, element, attrs) {
+    function link(scope, element, attrs) {
 
-      var resizerPosition =
-            normalisePercentage(attrs.resizerPosition, $window.innerHeight),
-          resizing;
+      /**
+       * The height to use for the resizer when it is visible.
+       *
+       * @type {Number}
+       */
+      scope.height = parseInt(attrs.resizerHeight);
+
+      /**
+       * The current height of the resizer to display.
+       *
+       * @type {Number}
+       */
+      scope.actualHeight = scope.height;
+
+      scope.position =
+        normalisePercentage(attrs.resizerPosition, $window.innerHeight);
+      scope.actualPosition = scope.position;
+
+      scope.show =
+        SettingsService.subscribe(SettingsService.SETTING.SHOW_SUGGESTIONS,
+        function (show) {
+          scope.show = show;
+          setBottomPanelVisibility(show);
+        });
+
+      function setBottomPanelVisibility(showing) {
+        if (showing) {
+          scope.actualPosition = scope.position;
+          scope.actualHeight = scope.height;
+        } else {
+          // save resizer position so it can be restored
+          // does not appear to set properly without an intermediate variable
+          var currentPos = scope.actualPosition;
+          scope.position = currentPos;
+          scope.actualPosition = 0;
+          scope.actualHeight = 0;
+        }
+
+        // Panel only renders properly if resizer is adjusted in a later frame
+        setTimeout(adjustResizer);
+      }
+
+      setBottomPanelVisibility(scope.show);
 
       element.addClass('Resizer');
 
@@ -15,13 +63,13 @@
       if (attrs.resizer === 'vertical') {
         element.addClass('Resizer--vertical');
         $timeout(function (){
-          adjustVerticalPanel(resizerPosition);
+          adjustVerticalPanel(scope.actualPosition);
         });
       }
       else {
         element.addClass('Resizer--horizontal');
         $timeout(function (){
-          adjustHorizontalPanel(resizerPosition);
+          adjustHorizontalPanel(scope.actualPosition);
         });
       }
 
@@ -32,8 +80,8 @@
       });
 
       angular.element($window).bind('resize', function() {
-        $timeout.cancel(resizing);
-        resizing = $timeout(adjustResizer);
+        $timeout.cancel(scope.resizing);
+        scope.resizing = $timeout(adjustResizer);
       });
 
       function mousemove(event) {
@@ -55,11 +103,11 @@
             minimumPanelSize = attrs.resizerMin ||
               parseInt(attrs.resizerWidth);
 
-        resizerPosition = x;
+        scope.actualPosition = x;
         x = restrictMinOrMax(x, maximumPanelSize, minimumPanelSize);
 
         element.css({
-          left: (x - (parseInt(attrs.resizerHeight) / 2))  + 'px'
+          left: (x - (scope.actualHeight / 2))  + 'px'
         });
 
         leftPanel.css({
@@ -79,14 +127,13 @@
               .querySelector(attrs.resizerBottom)),
             maximumPanelSize =
               normalisePercentage(attrs.resizerMax, $window.innerHeight),
-            minimumPanelSize = attrs.resizerMin ||
-              parseInt(attrs.resizerHeight);
+            minimumPanelSize = attrs.resizerMin || scope.actualHeight;
 
-        resizerPosition = y;
+        scope.actualPosition = y;
         y = restrictMinOrMax(y, maximumPanelSize, minimumPanelSize);
 
         element.css({
-          bottom: (y - (parseInt(attrs.resizerHeight) / 2))  + 'px'
+          bottom: (y - (scope.actualHeight / 2))  + 'px'
         });
 
         topPanel.css({
@@ -105,10 +152,10 @@
 
       function adjustResizer() {
         if (attrs.resizer === 'vertical') {
-          adjustVerticalPanel(resizerPosition);
+          adjustVerticalPanel(scope.actualPosition);
         }
         else {
-          adjustHorizontalPanel(resizerPosition);
+          adjustHorizontalPanel(scope.actualPosition);
         }
       }
 
@@ -128,16 +175,18 @@
 
       function normalisePercentage(fraction, whole) {
         if ((/[0-9]*\.?[0-9]+%/).test(fraction)) {
-          return Math.round(whole *
-            (parseInt(fraction.replace('%', '')) / 100));
+          return Math.round(whole * (parseInt(fraction.replace('%','')) / 100));
         }
         else {
           return parseInt(fraction);
         }
       }
 
-    };
+    }
 
+    return {
+      link: link
+    };
   }
 
   angular
