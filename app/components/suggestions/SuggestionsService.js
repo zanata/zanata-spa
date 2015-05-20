@@ -62,7 +62,8 @@
    * SuggestionsService.js
    * @ngInject
    */
-  function SuggestionsService(EditorService, UrlService, $resource) {
+  function SuggestionsService(EditorService, EventService, UrlService,
+                              $resource) {
 
     /**
      * Get a list of suggestions for how to translate a piece of text.
@@ -83,7 +84,12 @@
      *                                       given phrase
      */
     function getSuggestionsForPhrase(phrase) {
-      return getSuggestionsForContents(phrase.sources);
+      return getSuggestionsForContents(phrase.sources)
+        .then(function (suggestions) {
+          EventService.emitEvent(EventService.EVENT.PHRASE_SUGGESTION_COUNT,
+            { id: phrase.id, count: suggestions.length });
+          return suggestions;
+        });
     }
 
     /**

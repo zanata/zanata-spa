@@ -110,6 +110,13 @@
       FILTER_TRANS_UNIT: 'filterTransUnit',
 
       /**
+       * Reports the number of suggestions that are available for a phrase.
+       *
+       * data: { id: number, count: number }
+       */
+      PHRASE_SUGGESTION_COUNT: 'phraseSuggestionCount',
+
+      /**
        * Fire to request suggestions from translation memory, etc.
        *
        * data: { phrase: Phrase }

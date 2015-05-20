@@ -5,7 +5,7 @@
    * TransUnitCtrl.js
    * @ngInject
    */
-  function TransUnitCtrl($scope, $element, $stateParams, _,
+  function TransUnitCtrl($rootScope, $scope, $element, $stateParams, _,
                          TransUnitService, EventService, LocaleService, focus,
                          EditorShortcuts, PhraseUtil, SettingsService) {
 
@@ -99,6 +99,14 @@
       SettingsService.update(SHOW_SUGGESTIONS,
         !SettingsService.get(SHOW_SUGGESTIONS));
     };
+
+    $scope.suggestionCount = 0;
+    $rootScope.$on(EventService.EVENT.PHRASE_SUGGESTION_COUNT,
+      function (event, data) {
+        if (data.id === $scope.phrase.id) {
+          $scope.suggestionCount = data.count;
+        }
+      });
 
     transUnitCtrl.cancelSaveAsMode = function() {
       EditorShortcuts.cancelSaveAsModeIfOn();
