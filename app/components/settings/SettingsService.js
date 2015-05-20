@@ -31,7 +31,8 @@
     settingsService.SETTING = {
       SUGGESTIONS_AUTOFILL_ON_ROW_SELECT: 'suggestionsAutofillOnRowSelect',
       SUGGESTIONS_SHOW_DIFFERENCE: 'suggestionsShowDifference',
-      SHOW_SUGGESTIONS: 'showSuggestions'
+      SHOW_SUGGESTIONS: 'showSuggestions',
+      SUGGESTIONS_PANEL_HEIGHT: 'suggestionsPanelHeight'
     };
 
     var SETTING = settingsService.SETTING;
@@ -44,6 +45,7 @@
     defaultSettings[SETTING.SUGGESTIONS_AUTOFILL_ON_ROW_SELECT] = true;
     defaultSettings[SETTING.SUGGESTIONS_SHOW_DIFFERENCE] = false;
     defaultSettings[SETTING.SHOW_SUGGESTIONS] = true;
+    defaultSettings[SETTING.SUGGESTIONS_PANEL_HEIGHT] = '30%';
 
     /**
      * Local settings cache.

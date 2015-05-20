@@ -27,8 +27,8 @@
        */
       scope.actualHeight = scope.height;
 
-      scope.position =
-        normalisePercentage(attrs.resizerPosition, $window.innerHeight);
+      scope.position = normalisePercentage(SettingsService.get(
+        SettingsService.SETTING.SUGGESTIONS_PANEL_HEIGHT), $window.innerHeight);
       scope.actualPosition = scope.position;
 
       scope.show =
@@ -37,6 +37,14 @@
           scope.show = show;
           setBottomPanelVisibility(show);
         });
+
+      /**
+       * Persist the current size as a setting.
+       */
+      function saveCurrentSize() {
+        SettingsService.update(SettingsService.SETTING.SUGGESTIONS_PANEL_HEIGHT,
+          scope.actualPosition);
+      }
 
       function setBottomPanelVisibility(showing) {
         if (showing) {
@@ -148,6 +156,9 @@
       function mouseup() {
         $document.unbind('mousemove', mousemove);
         $document.unbind('mouseup', mouseup);
+
+        // Now that a new value has stopped rapidly changing, persist it.
+        saveCurrentSize();
       }
 
       function adjustResizer() {
