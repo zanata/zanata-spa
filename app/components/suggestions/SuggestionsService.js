@@ -106,8 +106,8 @@
         query: {
           method: 'POST',
           params: {
-            sourceLocale: sourceLocale,
-            transLocale: transLocale,
+            from: sourceLocale,
+            to: transLocale,
             searchType: 'FUZZY_PLURAL'
           },
           isArray: true

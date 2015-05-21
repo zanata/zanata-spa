@@ -72,7 +72,7 @@
             userInfo: '/user/:username',
             translation: '/trans/:localeId',
             allLocales: '/locales',
-            suggestions: '/suggestions/:sourceLocale/:transLocale'
+            suggestions: '/suggestions'
           }, unary(restUrl));
           /* jshint +W101 */
 
