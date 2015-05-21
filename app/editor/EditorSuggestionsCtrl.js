@@ -8,6 +8,8 @@
   function EditorSuggestionsCtrl($scope, _, SettingsService, SuggestionsService,
     EventService, $rootScope) {
     var SHOW_SUGGESTIONS_SETTING = SettingsService.SETTING.SHOW_SUGGESTIONS;
+    var SUGGESTIONS_SHOW_DIFFERENCE_SETTING =
+      SettingsService.SETTING.SUGGESTIONS_SHOW_DIFFERENCE;
 
     var editorSuggestionsCtrl = this;
 
@@ -18,6 +20,11 @@
     $scope.show = SettingsService.subscribe(SHOW_SUGGESTIONS_SETTING,
       function (show) {
         $scope.show = show;
+      });
+
+    $scope.diff = SettingsService.subscribe(SUGGESTIONS_SHOW_DIFFERENCE_SETTING,
+      function (diff) {
+        $scope.diff = diff;
       });
 
     editorSuggestionsCtrl.closeSuggestions = function () {
