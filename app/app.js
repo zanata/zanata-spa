@@ -14,7 +14,8 @@
       'cfp.hotkeys',
       'focusOn',
       'monospaced.elastic',
-      'gettext'
+      'gettext',
+      'diff-match-patch'
     ]);
 
 })();

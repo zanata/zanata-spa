@@ -27,7 +27,8 @@
     "lodash": "~2.4.1",
     "ng-focus-on": "~0.2.2",
     "mousetrap": "~1.4.6",
-    "underscore.string": "~2.4.0"
+    "underscore.string": "~2.4.0",
+    "angular-diff-match-patch": "~0.1.10"
   },
   "overrides": {
     "modernizr": {
@@ -53,5 +54,3 @@
     }
   }
 }
-
-
