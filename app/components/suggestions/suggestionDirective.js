@@ -18,7 +18,8 @@
         // make variable 'suggestion' available in the template's scope, and
         // bind its value from the attribute with the same name.
         // (a different name for the attribute can be specified after the =
-        suggestion: '='
+        suggestion: '=',
+        index: '='
 
         // If I put & instead of = in front of a name, it will run it in the
         // parent scope instead of this directive's isolated scope. Good for

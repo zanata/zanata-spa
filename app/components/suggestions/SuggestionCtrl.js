@@ -5,7 +5,7 @@
    * SuggestionCtrl.js
    * @ngInject
    */
-  function SuggestionCtrl($scope, _) {
+  function SuggestionCtrl(EventService, $rootScope, $scope, _) {
     var suggestionCtrl = this;
 
     /**
@@ -110,6 +110,23 @@
       return '9';
     }
 
+    /**
+     * Request this suggestion to be copied to the selected translation field.
+     *
+     * Generates a COPY_FROM_SUGGESTION event.
+     */
+    suggestionCtrl.copySuggestion = function () {
+      EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION,
+        { suggestion: $scope.suggestion });
+    };
+
+    $rootScope.$on(EventService.EVENT.COPY_FROM_SUGGESTION_N,
+      function (event, data) {
+        if (data === $scope.index) {
+          suggestionCtrl.copySuggestion();
+        }
+      });
+
     // TODO sort detail before it is sent here for display
     $scope.sortedDetails =
       _.sortBy($scope.suggestion.matchDetails, typeAndDateSort);
@@ -117,7 +134,6 @@
 
     // Will be undefined for imported matches
     $scope.translator = suggestionCtrl.topMatch().lastModifiedBy;
-
 
 
     return suggestionCtrl;

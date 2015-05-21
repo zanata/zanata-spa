@@ -113,6 +113,43 @@
         setTranslationText(data.phrase, data.phrase.sources[sourceIndex]);
       });
 
+    $rootScope.$on(EventService.EVENT.COPY_FROM_SUGGESTION,
+      function (event, data) {
+        if (selectedTUId) {
+          var transUnitCtrl = controllerList[selectedTUId];
+          var phrase = transUnitCtrl.getPhrase();
+
+          var suggestion = data.suggestion;
+          var targets = suggestion.targetContents;
+
+          var copyAsPlurals = phrase.plural && targets.length > 1;
+
+
+          if (copyAsPlurals) {
+            var pluralCount = phrase.translations.length;
+
+            if (targets.length < pluralCount) {
+              var lastSuggestion = _.last(targets);
+              // pad suggestions with last suggestion, but only when there are
+              // no translations entered for the extra plural forms.
+              targets = _.assign(phrase.translations.slice(), targets,
+                function (current, suggested) {
+                  if (suggested) return suggested;
+                  if (current) return current;
+                  return lastSuggestion;
+                });
+            }
+            if (targets.length > pluralCount) {
+              targets = _.first(targets, pluralCount);
+            }
+
+            setAllTranslations(phrase, targets);
+          } else {
+            setTranslationText(phrase, targets[0]);
+          }
+        }
+      });
+
     /**
      * EventService.EVENT.UNDO_EDIT listener
      * Cancel edit and restore translation

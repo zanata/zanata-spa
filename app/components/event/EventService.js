@@ -36,6 +36,16 @@
       //data: {phrase: Phrase, sourceIndex:sourceIndex}
       COPY_FROM_SOURCE: 'copyFromSource',
 
+      // data: { suggestion: Suggestion }
+      COPY_FROM_SUGGESTION: 'copyFromSuggestion',
+
+      /**
+       * Emit this to trigger copying of the nth suggestion to the selected row.
+       *
+       * data: number (zero-based index of suggestion to copy)
+       */
+      COPY_FROM_SUGGESTION_N: 'copyFromSuggestionN',
+
       //data: {phrase: Phrase}
       UNDO_EDIT: 'undoEdit',
 

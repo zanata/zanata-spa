@@ -42,8 +42,8 @@
       <div class="u-floatRight">
         <ul class="u-listInline u-sizeLineHeight-1">
           <li class="u-text{{suggestionCtrl.percentDisplayType()}}">{{suggestionCtrl.percent()}}%</li>
-          <!-- TODO attach event to this -->
-          <li><button class="Button Button--small u-rounded Button--primary">Copy Translation</button></li>
+          <li><button class="Button Button--small u-rounded Button--primary"
+            ng-click="suggestionCtrl.copySuggestion()">Copy Translation</button></li>
         </ul>
       </div>
     </div>
