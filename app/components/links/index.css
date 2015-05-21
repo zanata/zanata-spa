@@ -25,8 +25,7 @@
   cursor: pointer;
 }
 
-.Link:hover,
-.Link:focus {
+.Link:hover {
   color: var(--Link-color-hover);
 }
 
@@ -42,13 +41,11 @@
 }
 
 .Link--invert,
-.Link--invert:hover,
-.Link--invert:focus {
+.Link--invert:hover {
   color: var(--Link-color-invert) !important;
 }
 
-.Link--invert:hover,
-.Link--invert:focus {
+.Link--invert:hover {
   opacity: 1;
 }
 
@@ -63,8 +60,7 @@
   color: var(--Link-color-success) !important;
 }
 
-.Link--success:hover,
-.Link--success:focus {
+.Link--success:hover {
   color: color(var(--Link-color-success) shade(30%)) !important;
 }
 
@@ -79,8 +75,7 @@
   color: var(--Link-color-unsure) !important;
 }
 
-.Link--unsure:hover,
-.Link--unsure:focus {
+.Link--unsure:hover {
   color: color(var(--Link-color-unsure) shade(30%)) !important;
 }
 .Link--unsure:active,
@@ -94,8 +89,7 @@
   color: var(--Link-color-neutral) !important;
 }
 
-.Link--neutral:hover,
-.Link--neutral:focus {
+.Link--neutral:hover {
   color: color(var(--Link-color-neutral) shade(30%)) !important;
 }
 
@@ -110,8 +104,7 @@
   color: var(--Link-color-warning) !important;
 }
 
-.Link--warning:hover,
-.Link--warning:focus {
+.Link--warning:hover {
   color: color(var(--Link-color-warning) shade(30%)) !important;
 }
 
@@ -126,8 +119,7 @@
   color: var(--Link-color-danger) !important;
 }
 
-.Link--danger:hover,
-.Link--danger:focus {
+.Link--danger:hover {
   color: color(var(--Link-color-danger) shade(30%)) !important;
 }
 .Link--danger:active,

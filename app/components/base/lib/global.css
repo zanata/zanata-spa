@@ -34,3 +34,8 @@ body {
   min-width: 320px;
   background: var(--base-bg-color);
 }
+
+:active,
+:hover {
+  outline: none;
+}

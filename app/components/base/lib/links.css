@@ -10,8 +10,7 @@ a {
   cursor: pointer;
 }
 
-a:hover,
-a:focus {
+a:hover {
   color: var(--base-link-color-hover);
 }
 

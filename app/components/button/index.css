@@ -31,13 +31,15 @@
   text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
 }
 
-.Button:focus {
-  outline: none;
-}
-
 .Button:disabled,
 .Button.is-disabled {
   pointer-events: none;
+}
+
+.Button:hover,
+.Button:active,
+.Button.is-active {
+  outline: inherit;
 }
 
 /* Default */
@@ -46,8 +48,7 @@
   background-color: var(--Button-color-default);
 }
 
-.Button--default:hover,
-.Button--default:focus {
+.Button--default:hover {
   background-color: color(var(--Button-color-default) shade(10%));
 }
 
@@ -67,8 +68,7 @@
   background-color: var(--Button-color-primary);
 }
 
-.Button--primary:hover,
-.Button--primary:focus {
+.Button--primary:hover {
   background-color: color(var(--Button-color-primary) shade(10%));
 }
 
@@ -84,8 +84,7 @@
   background-color: var(--Button-color-secondary);
 }
 
-.Button--secondary:hover,
-.Button--secondary:focus {
+.Button--secondary:hover {
   background-color: color(var(--Button-color-secondary) shade(10%));
 }
 
@@ -101,8 +100,7 @@
   background-color: var(--Button-color-highlight);
 }
 
-.Button--highlight:hover,
-.Button--highlight:focus {
+.Button--highlight:hover {
   background-color: color(var(--Button-color-highlight) shade(10%));
 }
 
@@ -118,8 +116,7 @@
   background-color: var(--Button-color-success);
 }
 
-.Button--success:hover,
-.Button--success:focus {
+.Button--success:hover {
   background-color: color(var(--Button-color-success) shade(10%));
 }
 
@@ -135,8 +132,7 @@
   background-color: var(--Button-color-unsure);
 }
 
-.Button--unsure:hover,
-.Button--unsure:focus {
+.Button--unsure:hover {
   background-color: color(var(--Button-color-unsure) shade(10%));
 }
 
@@ -152,8 +148,7 @@
   background-color: var(--Button-color-neutral);
 }
 
-.Button--neutral:hover,
-.Button--neutral:focus {
+.Button--neutral:hover {
   background-color: color(var(--Button-color-neutral) shade(10%));
 }
 
@@ -169,8 +164,7 @@
   background-color: var(--Button-color-warning);
 }
 
-.Button--warning:hover,
-.Button--warning:focus {
+.Button--warning:hover {
   background-color: color(var(--Button-color-warning) shade(10%));
 }
 
@@ -186,8 +180,7 @@
   background-color: var(--Button-color-danger);
 }
 
-.Button--danger:hover,
-.Button--danger:focus {
+.Button--danger:hover {
   background-color: color(var(--Button-color-danger) shade(10%));
 }
 
@@ -203,8 +196,7 @@
   color: color(var(--Button-color-secondary) tint(50%));
 }
 
-.Button--invisible:hover,
-.Button--invisible:focus {
+.Button--invisible:hover {
   background-color: color(var(--Button-color-secondary) tint(92%));
   color: color(var(--Button-color-secondary) tint(30%));
 }
