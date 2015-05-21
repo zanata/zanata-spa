@@ -94,10 +94,14 @@
       }
     };
 
+    var SHOW_SUGGESTIONS = SettingsService.SETTING.SHOW_SUGGESTIONS;
+    $scope.showSuggestions = SettingsService.subscribe(SHOW_SUGGESTIONS,
+      function (show) {
+        $scope.showSuggestions = show;
+      });
+
     transUnitCtrl.toggleSuggestionPanel = function () {
-      var SHOW_SUGGESTIONS = SettingsService.SETTING.SHOW_SUGGESTIONS;
-      SettingsService.update(SHOW_SUGGESTIONS,
-        !SettingsService.get(SHOW_SUGGESTIONS));
+      SettingsService.update(SHOW_SUGGESTIONS, !$scope.showSuggestions);
     };
 
     $scope.suggestionCount = 0;

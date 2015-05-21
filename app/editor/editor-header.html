@@ -130,6 +130,8 @@
         </li>
         <li>
           <button class="Link--neutral u-sizeHeight-1_1-2"
+            ng-class="{ 'is-active': showSuggestions }"
+            ng-click="editor.toggleSuggestionPanel()"
             title="{{'Translation Memory'|translate}}">
             <icon name="suggestions" title="{{'Translation Memory'|translate}}" class="u-sizeWidth-1_1-2"></icon>
           </button>

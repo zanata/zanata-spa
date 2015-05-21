@@ -9,6 +9,7 @@
       </li>
       <li ng-if="suggestionCount > 0">
         <button class="Button Button--snug Button--invisible u-roundish"
+          ng-class="{ 'is-active': showSuggestions }"
           title="{{::'Suggestions available'|translate}}"
           ng-click="transUnitCtrl.toggleSuggestionPanel()">
           <icon name="suggestions" class="Icon--sm"></icon>

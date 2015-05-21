@@ -6,7 +6,7 @@
    * @ngInject
    */
   function EditorCtrl($scope, UserService, DocumentService, LocaleService,
-    ProjectService, EditorService, StatisticUtil,
+    ProjectService, EditorService, SettingsService, StatisticUtil,
     UrlService, $stateParams, $state, MessageHandler, $rootScope,
     EventService, EditorShortcuts, _, Mousetrap) {
     var editorCtrl = this;
@@ -91,6 +91,16 @@
     editorCtrl.toggleKeyboardShortcutsModal = function() {
       editorCtrl.showCheatsheet = !editorCtrl.showCheatsheet;
     };
+
+    var SHOW_SUGGESTIONS = SettingsService.SETTING.SHOW_SUGGESTIONS;
+    $scope.showSuggestions = SettingsService.subscribe(SHOW_SUGGESTIONS,
+      function (show) {
+        $scope.showSuggestions = show;
+      });
+    editorCtrl.toggleSuggestionPanel = function () {
+      SettingsService.update(SHOW_SUGGESTIONS, !$scope.showSuggestions);
+    };
+
 
     editorCtrl.versionPage = function() {
       return UrlService.PROJECT_PAGE(editorCtrl.context.projectSlug,
