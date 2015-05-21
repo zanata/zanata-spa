@@ -47,9 +47,11 @@
   </nav>
 
   <div class="Editor-suggestionsBody">
-
     <div ng-repeat="suggestion in editorSuggestions.suggestions">
-      <suggestion suggestion="suggestion" index="$index"></suggestion>
+      <suggestion suggestion="suggestion"
+        index="$index"
+        search="editorSuggestions.searchPhrase.sources"
+        diff-enabled="diff"></suggestion>
     </div>
 
   </div>
