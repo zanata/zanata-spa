@@ -123,16 +123,20 @@
         'alt+c', copySourceCallback, 'Copy source as translation', 'alt+g'),
 
       COPY_SUGGESTION_1: new ShortcutInfo(
-        'mod+alt+1', copySuggestionCallback(1), 'Copy first suggestion as translation'),
+        'mod+alt+1', copySuggestionCallback(1),
+        'Copy first suggestion as translation'),
 
       COPY_SUGGESTION_2: new ShortcutInfo(
-        'mod+alt+2', copySuggestionCallback(2), 'Copy second suggestion as translation'),
+        'mod+alt+2', copySuggestionCallback(2),
+        'Copy second suggestion as translation'),
 
       COPY_SUGGESTION_3: new ShortcutInfo(
-        'mod+alt+3', copySuggestionCallback(3), 'Copy third suggestion as translation'),
+        'mod+alt+3', copySuggestionCallback(3),
+        'Copy third suggestion as translation'),
 
       COPY_SUGGESTION_4: new ShortcutInfo(
-        'mod+alt+4', copySuggestionCallback(4), 'Copy fourth suggestion as translation'),
+        'mod+alt+4', copySuggestionCallback(4),
+        'Copy fourth suggestion as translation'),
 
       CANCEL_EDIT: new ShortcutInfo('esc', cancelEditCallback, 'Cancel edit'),
 
