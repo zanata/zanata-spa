@@ -33,7 +33,10 @@
     };
 
     function displaySuggestions(suggestions) {
-      editorSuggestionsCtrl.suggestions = suggestions;
+      editorSuggestionsCtrl.suggestions = _.chain(suggestions)
+        .sortBy(['similarityPercent', 'relevanceScore'])
+        .reverse()
+        .value();
     }
 
     function handleError (error) {
