@@ -25,10 +25,12 @@
           </a>
         </li> -->
         <li class="u-smv-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-            title="Difference" ng-click="suggestions.toggleDifference()">
-            Difference
-          </a>
+          <span class="Switch" ng-click="suggestions.toggleDifference()">
+            <input type="checkbox" class="Switch-checkbox" id="difference-toggle"/>
+            <label class="Switch-label" for="difference-toggle">
+              <span class="Switch-labelText">Difference</span>
+            </label>
+          </span>
         </li>
         <li>
           <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2" title="Search suggestions" ng-click="suggestions.search()">
