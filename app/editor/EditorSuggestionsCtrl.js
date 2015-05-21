@@ -13,6 +13,8 @@
 
     editorSuggestionsCtrl.suggestions = [];
 
+    editorSuggestionsCtrl.searchPhrase = null;
+
     $scope.show = SettingsService.subscribe(SHOW_SUGGESTIONS_SETTING,
       function (show) {
         $scope.show = show;
@@ -36,6 +38,7 @@
       function (event, data) {
         SuggestionsService.getSuggestionsForPhrase(data.phrase)
           .then(displaySuggestions, handleError);
+        editorSuggestionsCtrl.searchPhrase = data.phrase;
       });
 
     // Manual suggestions search
