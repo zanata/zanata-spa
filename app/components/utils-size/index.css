@@ -30,6 +30,10 @@
   width: calc(var(--u-size-rhythm) * 2) !important;
 }
 
+.u-sizeWidth-6 {
+  width: calc(var(--u-size-rhythm) * 6) !important;
+}
+
 /* Height */
 
 .u-sizeHeight-1-4 {

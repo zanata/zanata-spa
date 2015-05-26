@@ -5,8 +5,14 @@
    * SuggestionCtrl.js
    * @ngInject
    */
-  function SuggestionCtrl(EventService, $rootScope, $scope, _) {
+  function SuggestionCtrl(EventService, $rootScope, $scope, _, $timeout) {
     var suggestionCtrl = this;
+
+    suggestionCtrl.copyButtonText = 'Copy Translation';
+
+    $scope.searchTerm = (typeof $scope.search === 'string') ?
+      [$scope.search] :
+      $scope.search.sources;
 
     /**
      * Get a modifier for the row class that will determine display colours.
@@ -17,6 +23,7 @@
      *
      * @return {string} modifier to append to the TransUnit-- css class
      */
+
     suggestionCtrl.rowDisplayType = function () {
       /* @type {MatchDetail} */
       var topMatch = suggestionCtrl.topMatch();
@@ -116,9 +123,17 @@
      * Generates a COPY_FROM_SUGGESTION event.
      */
     suggestionCtrl.copySuggestion = function () {
+      suggestionCtrl.copyButtonText = 'Copied';
+      suggestionCtrl.copyButtonDisabled = true;
+      $timeout(function() {
+        suggestionCtrl.copyButtonDisabled = false;
+        suggestionCtrl.copyButtonText = 'Copy Translation';
+      }, 500);
       EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION,
         { suggestion: $scope.suggestion });
     };
+
+
 
     $rootScope.$on(EventService.EVENT.COPY_FROM_SUGGESTION_N,
       function (event, data) {

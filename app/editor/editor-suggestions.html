@@ -6,9 +6,9 @@
      resizer-bottom="#editor-suggestions">
 </div>
 
-<aside ng-if="show" class="Editor-suggestions Editor-panel" id="editor-suggestions">
+<aside ng-if="show" class="Editor-suggestions Editor-panel" id="editor-suggestions" ng-class="{'is-search-active': searchIsVisible}">
 
-  <nav class="Editor-suggestionsHeader u-bgHighest u-sPH-3-4 u-sizeHeight-1_1-2">
+  <nav class="Editor-suggestionsHeader u-bgHighest u-sPH-3-4">
     <h2 class="Heading--panel u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2 u-floatLeft">
       <icon name="suggestions"
         class="Icon--sm u-textMuted">
@@ -24,7 +24,7 @@
             Auto-fill
           </a>
         </li> -->
-        <li class="u-smv-1-4">
+        <li class="u-sM-1-4">
           <span class="Switch">
             <input type="checkbox" class="Switch-checkbox" id="difference-toggle" ng-model="diff"/>
             <label class="Switch-label" for="difference-toggle">
@@ -32,8 +32,11 @@
             </label>
           </span>
         </li>
-        <li>
-          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2" title="Search suggestions" ng-click="suggestions.search()">
+        <li class="u-sM-1-8">
+          <button class="Button Button--snug Button--invisible u-roundish" title="Search suggestions"
+            ng-class="{'is-active': searchIsVisible, 'is-disabled': editorSuggestions.searchDisplayRequired }"
+            ng-click="editorSuggestions.toggleSearch($event)"
+            ng-disabled="editorSuggestions.searchDisplayRequired">
             <icon name="search" title="Search suggestions" class="Icon--sm"></icon>
           </button>
         </li>
@@ -44,14 +47,40 @@
         </li>
       </ul>
     </div>
+    <div class="Editor-suggestionsSearch u-sPB-1-4" ng-if="searchIsVisible">
+      <div class="InputGroup InputGroup--outlined InputGroup--rounded" ng-class="{'is-focused': searchSugFocused}">
+        <span class="InputGroup-addon" ng-click="focusSearch($event)"><icon name="search" title="Search suggestions" class="Icon--xsm"></icon></span>
+        <input type="search"
+          placeholder="Search suggestions…"
+          class="InputGroup-input u-sizeLineHeight-1_1-4"
+          ng-model="editorSuggestions.searchText"
+          ng-trim="false"
+          ng-focus="searchSugFocused = true"
+          ng-blur="searchSugFocused = false"
+          ng-change="editorSuggestions.searchForText(editorSuggestions.searchText)"
+          focus-on="searchSugInput" />
+          <span ng-switch on="searchIsLoading" class="InputGroup-addon">
+            <!-- TODO Add loading indicator -->
+            <span ng-click="focusSearch($event)" ng-switch-when="true" class="Editor-suggestionsSearchLoader">Loading… </span>
+            <span ng-click="focusSearch($event)" ng-switch-default ng-hide="editorSuggestions.searchText === ''" class="Editor-suggestionsSearchResults" ng-bind="editorSuggestions.searchResultsTotal + ' results'"></span>
+          </span>
+          <span class="InputGroup-addon"><button ng-if="editorSuggestions.searchText !== ''" ng-click="editorSuggestions.clearSearchResults($event)"><icon name="cross" title="Clear search" class="Icon--xsm"></icon></button></span>
+      </div>
+    </div>
   </nav>
 
   <div class="Editor-suggestionsBody">
-    <div ng-repeat="suggestion in editorSuggestions.suggestions">
-      <suggestion suggestion="suggestion"
-        index="$index"
-        search="editorSuggestions.searchPhrase.sources"
-        diff-enabled="diff"></suggestion>
+    <div ng-switch on="searchIsLoading">
+      <div ng-switch-when="true" class="u-sPH-3-4 u-sPV-1-2">
+        <!-- TODO Add loading indicator -->
+        Loading results…
+      </div>
+      <div ng-switch-default ng-repeat="suggestion in editorSuggestions.suggestions">
+        <suggestion suggestion="suggestion"
+          index="$index"
+          search="editorSuggestions.searchPhrase"
+          diff-enabled="diff"></suggestion>
+      </div>
     </div>
 
   </div>

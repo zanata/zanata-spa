@@ -100,8 +100,19 @@
         $scope.showSuggestions = show;
       });
 
+    $rootScope.$on(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
+      function(event, data) {
+        transUnitCtrl.suggestionsSearchIsActive = data;
+      });
+
     transUnitCtrl.toggleSuggestionPanel = function () {
-      SettingsService.update(SHOW_SUGGESTIONS, !$scope.showSuggestions);
+      if (transUnitCtrl.suggestionsSearchIsActive) {
+        EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
+          false);
+      }
+      else {
+        SettingsService.update(SHOW_SUGGESTIONS, !$scope.showSuggestions);
+      }
     };
 
     $scope.suggestionCount = 0;

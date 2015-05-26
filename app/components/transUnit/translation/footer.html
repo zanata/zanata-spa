@@ -1,5 +1,5 @@
 <div class="TransUnit-panelFooter TransUnit-panelFooter--translation u-cf">
-  <div class="u-floatLeft u-sizeHeight-1_1-2">
+  <div class="TransUnit-panelFooterLeftNav u-floatLeft u-sizeHeight-1_1-2">
     <ul class="u-listHorizontal">
       <li class="u-gtemd-hidden" ng-show="appCtrl.PRODUCTION">
         <button class="Link Link--neutral u-sizeHeight-1_1-2"
@@ -9,7 +9,7 @@
       </li>
       <li ng-if="suggestionCount > 0">
         <button class="Button Button--snug Button--invisible u-roundish"
-          ng-class="{ 'is-active': showSuggestions }"
+          ng-class="{ 'is-active': showSuggestions && !transUnitCtrl.suggestionsSearchIsActive }"
           title="{{::'Suggestions available'|translate}}"
           ng-click="transUnitCtrl.toggleSuggestionPanel()">
           <icon name="suggestions" class="Icon--sm"></icon>

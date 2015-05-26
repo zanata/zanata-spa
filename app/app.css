@@ -2,7 +2,7 @@
  * Utils
  */
 
-@import 'suitcss-utils-layout';
+@import './components/utils-layout/index.css';
 @import './components/utils-background/index.css';
 @import './components/utils-display/index.css';
 @import './components/utils-list/index.css';
@@ -20,6 +20,7 @@
 @import './components/base/index.css';
 @import './components/button-group/index.css';
 @import './components/button/index.css';
+@import './components/input-group/index.css';
 @import './components/dropdown/index.css';
 @import './components/header/index.css';
 @import './components/heading/index.css';

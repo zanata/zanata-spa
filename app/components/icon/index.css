@@ -40,9 +40,9 @@
 }
 
 .Icon--xsm .Icon-item {
-  vertical-align: -5%;
-  width: calc(var(--Icon-rhythm) * .5);
-  height: calc(var(--Icon-rhythm) * .5);
+  vertical-align: -10%;
+  width: calc(var(--Icon-rhythm) * .625);
+  height: calc(var(--Icon-rhythm) * .625);
 }
 
 .Icon--stroked .Icon-item {

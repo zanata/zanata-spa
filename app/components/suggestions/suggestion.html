@@ -10,7 +10,7 @@
         <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
       </div>
       <div ng-if="!diffEnabled">{{source}}</div>
-      <div ng-if="diffEnabled" semantic-diff left-obj="search[$index]" right-obj="source" class="Difference"></div>
+      <div ng-if="diffEnabled" semantic-diff left-obj="searchTerm[$index]" right-obj="source" class="Difference"></div>
     </div>
     <!-- TODO different display depending on imported or local -->
     <div class="TransUnit-details"
@@ -40,11 +40,14 @@
         <!-- TODO open details when any metadata is clicked -->
         <span class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Translated by {{translator}}</span>
       </div>
-      <div class="u-floatRight">
+      <div class="u-floatRight u-sm-floatNone">
         <ul class="u-listInline u-sizeLineHeight-1">
           <li class="u-text{{suggestionCtrl.percentDisplayType()}}">{{suggestionCtrl.percent()}}%</li>
-          <li><button class="Button Button--small u-rounded Button--primary"
-            ng-click="suggestionCtrl.copySuggestion()">Copy Translation</button></li>
+          <li>
+            <button class="Button Button--small u-rounded Button--primary u-sizeWidth-6"
+            ng-class="{'is-disabled': suggestionCtrl.copyButtonDisabled}"
+            ng-click="suggestionCtrl.copySuggestion()" ng-bind="suggestionCtrl.copyButtonText" ng-disabled="suggestionCtrl.copyButtonDisabled"></button>
+          </li>
         </ul>
       </div>
     </div>

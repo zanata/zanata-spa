@@ -141,6 +141,13 @@
       REQUEST_TEXT_SUGGESTIONS: 'requestTextSuggestions',
 
       /**
+       * Fired every time search is toggled
+       *
+       * @type {Boolean}
+       */
+      SUGGESTIONS_SEARCH_TOGGLE: 'suggestionsSearchToggle',
+
+      /**
        * Indicates a single user setting has changed.
        *
        * Event handlers should switch on the setting name to determine whether

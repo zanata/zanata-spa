@@ -18,6 +18,10 @@
 
  /* All */
 
+ .u-sM-1-8 {
+   margin: calc(var(--u-space-rhythm) * .125) !important;
+ }
+
  .u-sM-1-4 {
    margin: calc(var(--u-space-rhythm) * .25) !important;
  }
