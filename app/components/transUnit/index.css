@@ -26,6 +26,7 @@
   --TransUnit-hover-color-bg         : color(#fff shade(3%));
   --TransUnit-status-z-index         : 200;
   --TransUnit-status-before-z-index  : 300;
+  --TransUnit-status-after-z-index   : 400;
 }
 
 .TransUnit {
@@ -220,7 +221,8 @@
  */
 
 .TransUnit-status,
-.TransUnit-status:before {
+.TransUnit-status:before,
+.TransUnit-status:after {
   position: absolute;
   z-index: var(--TransUnit-status-z-index);
   left: 0;
@@ -261,9 +263,30 @@
   transform: scaleY(.65);
 }
 
+.TransUnit-status:after {
+  transition: none;
+  transition: opacity .3 ease-out;
+  z-index: var(--TransUnit-status-after-z-index);
+  top: 0;
+  box-sizing: content-box;
+  width: calc(var(--TransUnit-rhythm) * .875);
+  height: 100%;
+  content: '';
+  background-color: #fff;
+  opacity: .6;
+}
+
 .TransUnit.is-focused .TransUnit-status:before {
   visibility: visible;
   transform: scaleY(1);
+}
+
+.TransUnit.is-focused .TransUnit-status:after {
+  /*transform: scaleY(1);*/
+  top: calc(var(--TransUnit-rhythm) * -.75);
+  padding-top: calc(var(--TransUnit-rhythm) * .75);
+  padding-bottom: calc(var(--TransUnit-rhythm) * .75);
+  opacity: .8;
 }
 
 /**
