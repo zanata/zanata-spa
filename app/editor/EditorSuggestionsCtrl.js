@@ -19,6 +19,7 @@
     editorSuggestionsCtrl.searchText = '';
     editorSuggestionsCtrl.searchDisplayRequired = false;
     editorSuggestionsCtrl.searchIsText = false;
+    editorSuggestionsCtrl.unitSelected = false;
 
     $scope.searchIsVisible = false;
     $scope.searchIsLoading = false;
@@ -38,7 +39,7 @@
         $event.preventDefault();
       }
       focus('searchSugInput');
-    }
+    };
 
     editorSuggestionsCtrl.closeSuggestions = function () {
       SettingsService.update(SHOW_SUGGESTIONS_SETTING, false);
@@ -61,10 +62,10 @@
       editorSuggestionsCtrl.searchInProgress = $timeout(function() {
         EventService.emitEvent(EventService.EVENT.REQUEST_TEXT_SUGGESTIONS,
           newText);
-      });
+      }, 300);
     };
 
-    editorSuggestionsCtrl.toggleSearch = function($event) {
+    editorSuggestionsCtrl.toggleSearch = function() {
       if ($scope.searchIsVisible) {
         EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
           false);
@@ -74,6 +75,12 @@
           true);
       }
     };
+
+    // Init
+    if (!editorSuggestionsCtrl.unitSelected && $scope.show) {
+      editorSuggestionsCtrl.searchDisplayRequired = true;
+      showSearch();
+    }
 
     function displaySuggestions(suggestions) {
       var filteredSuggestions = [];
@@ -124,7 +131,7 @@
       });
     }
 
-    function hideSearch($event) {
+    function hideSearch() {
       $scope.searchIsVisible = false;
       editorSuggestionsCtrl.clearSearchResults(null, true);
       if (editorSuggestionsCtrl.unitSelected) {
@@ -156,7 +163,7 @@
       });
 
     $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
-      function (event, phrase) {
+      function () {
         if ($scope.show) {
           showSearch(null, true);
           editorSuggestionsCtrl.searchDisplayRequired = true;
