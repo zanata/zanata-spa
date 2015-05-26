@@ -29,7 +29,7 @@
       var topMatch = suggestionCtrl.topMatch();
 
       if (topMatch.type === 'IMPORTED_TM') {
-        return 'imported';
+        return 'secondary';
       }
       if (topMatch.type === 'LOCAL_PROJECT') {
         if (topMatch.contentState === 'Translated') {

@@ -8,6 +8,7 @@
   --TransUnit-color-success          : #70a98b;
   --TransUnit-color-unsure           : #e0c350;
   --TransUnit-color-warning          : #e3824e;
+  --TransUnit-color-secondary        : #20718A;
   --TransUnit-is-focused-z-index     : 100;
   --TransUnit-before-after-z-index   : -1;
   --TransUnit-header-footer-color-bg : #fff;
@@ -400,6 +401,11 @@
 .TransUnit--danger .TransUnit-status,
 .TransUnit--danger .TransUnit-status:before {
   background-color: var(--TransUnit-color-danger);
+}
+
+.TransUnit--secondary .TransUnit-status,
+.TransUnit--secondary .TransUnit-status:before {
+  background-color: var(--TransUnit-color-secondary);
 }
 
 /**
