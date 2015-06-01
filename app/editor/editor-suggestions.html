@@ -48,16 +48,16 @@
       </ul>
     </div>
     <div class="Editor-suggestionsSearch u-sPB-1-4" ng-if="searchIsVisible">
-      <div class="InputGroup InputGroup--outlined InputGroup--rounded" ng-class="{'is-focused': searchSugFocused}">
+      <div class="InputGroup InputGroup--outlined InputGroup--rounded" ng-class="{'is-focused': editorSuggestions.searchSugFocused}">
         <span class="InputGroup-addon" ng-click="focusSearch($event)"><icon name="search" title="Search suggestions" class="Icon--xsm"></icon></span>
         <input type="search"
           placeholder="Search suggestions…"
           class="InputGroup-input u-sizeLineHeight-1_1-4"
-          ng-model="editorSuggestions.searchText"
+          ng-model="editorSuggestions.searchPhrase"
           ng-trim="false"
-          ng-focus="searchSugFocused = true"
-          ng-blur="searchSugFocused = false"
-          ng-change="editorSuggestions.searchForText(editorSuggestions.searchText)"
+          ng-focus="editorSuggestions.searchSugFocused = true"
+          ng-blur="editorSuggestions.searchSugFocused = false"
+          ng-change="editorSuggestions.searchForText(editorSuggestions.searchPhrase)"
           focus-on="searchSugInput" />
           <span ng-switch on="searchIsLoading" class="InputGroup-addon">
             <!-- TODO Add loading indicator -->
@@ -71,15 +71,26 @@
 
   <div class="Editor-suggestionsBody">
     <div ng-switch on="searchIsLoading">
-      <div ng-switch-when="true" class="u-sPH-3-4 u-sPV-1-2">
+      <div ng-switch-when="true" class="u-posCenterCenter">
         <!-- TODO Add loading indicator -->
-        Loading results…
+        <p class="u-textLead u-textMuted">Loading suggestions…</p>
       </div>
-      <div ng-switch-default ng-repeat="suggestion in editorSuggestions.suggestions">
-        <suggestion suggestion="suggestion"
-          index="$index"
-          search="editorSuggestions.searchPhrase"
-          diff-enabled="diff"></suggestion>
+      <div ng-switch-default>
+        <div ng-if="!editorSuggestions.searchPhrase && !editorSuggestions.searchSugFocused && editorSuggestions.searchDisplayRequired" class="u-posCenterCenter">
+          <p class="u-textLead u-textMuted">Select a phrase or enter a search term.</p>
+        </div>
+        <div ng-if="!editorSuggestions.searchPhrase && (editorSuggestions.searchSugFocused || !editorSuggestions.searchDisplayRequired)" class="u-posCenterCenter">
+          <p class="u-textLead u-textMuted">Enter a search term.</p>
+        </div>
+        <div ng-if="editorSuggestions.searchPhrase && editorSuggestions.suggestions.length === 0" class="u-posCenterCenter">
+          <p class="u-textLead u-textMuted">0 suggestions available for the <span ng-if="!editorSuggestions.searchIsText">currently selected phrase</span><span ng-if="editorSuggestions.searchIsText">current search</span>.</p>
+        </div>
+        <div ng-if="editorSuggestions.searchPhrase && editorSuggestions.suggestions.length > 0" ng-repeat="suggestion in editorSuggestions.suggestions">
+          <suggestion suggestion="suggestion"
+            index="$index"
+            search="editorSuggestions.searchPhrase"
+            diff-enabled="diff"></suggestion>
+        </div>
       </div>
     </div>
 

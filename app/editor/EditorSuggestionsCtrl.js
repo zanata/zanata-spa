@@ -16,10 +16,10 @@
     editorSuggestionsCtrl.suggestions = [];
     editorSuggestionsCtrl.searchPhrase = null;
     editorSuggestionsCtrl.searchResultsTotal = 0;
-    editorSuggestionsCtrl.searchText = '';
     editorSuggestionsCtrl.searchDisplayRequired = false;
     editorSuggestionsCtrl.searchIsText = false;
     editorSuggestionsCtrl.unitSelected = false;
+    editorSuggestionsCtrl.searchSugFocused = false;
 
     $scope.searchIsVisible = false;
     $scope.searchIsLoading = false;
@@ -49,7 +49,8 @@
 
     editorSuggestionsCtrl.clearSearchResults =
       function($event, dontFocusInput) {
-      editorSuggestionsCtrl.searchText = '';
+      // editorSuggestionsCtrl.searchText = '';
+      editorSuggestionsCtrl.searchPhrase = '';
       editorSuggestionsCtrl.suggestions = [];
       if (!dontFocusInput && $event) {
         $scope.focusSearch($event);
@@ -57,6 +58,9 @@
     };
 
     editorSuggestionsCtrl.searchForText = function (newText) {
+      if (newText.length > 0) {
+        $scope.searchIsLoading = true;
+      }
       editorSuggestionsCtrl.searchIsText = true;
       $timeout.cancel(editorSuggestionsCtrl.searchInProgress);
       editorSuggestionsCtrl.searchInProgress = $timeout(function() {
@@ -141,6 +145,7 @@
     }
 
     function showSearch($event, dontFocusInput) {
+      editorSuggestionsCtrl.searchPhrase = '';
       $scope.searchIsVisible = true;
       if (!dontFocusInput && $event) {
         $scope.focusSearch($event);
@@ -155,7 +160,7 @@
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
         editorSuggestionsCtrl.unitSelected = data.id;
-        if (editorSuggestionsCtrl.searchText === '' && $scope.searchIsVisible) {
+        if (editorSuggestionsCtrl.searchPhrase === '' && $scope.searchIsVisible) {
           EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
            false);
         }
@@ -183,6 +188,7 @@
     // Automatic suggestions search on row select
     $rootScope.$on(EventService.EVENT.REQUEST_PHRASE_SUGGESTIONS,
       function (event, data) {
+        $scope.searchIsLoading = true;
         editorSuggestionsCtrl.searchIsText = false;
         SuggestionsService.getSuggestionsForPhrase(data.phrase)
           .then(displaySuggestions, handleError);
@@ -193,11 +199,11 @@
     $rootScope.$on(EventService.EVENT.REQUEST_TEXT_SUGGESTIONS,
       function (event, data) {
         if (data === '') {
+          editorSuggestionsCtrl.searchPhrase = '';
           displaySuggestions('');
           // editorSuggestionsCtrl.suggestions = [];
           return false;
         }
-        $scope.searchIsLoading = true;
         SuggestionsService.getSuggestionsForText(data)
           .then(displaySuggestions, handleError);
         editorSuggestionsCtrl.searchPhrase = data;
