@@ -58,6 +58,7 @@
           ng-focus="editorSuggestions.searchSugFocused = true"
           ng-blur="editorSuggestions.searchSugFocused = false"
           ng-change="editorSuggestions.searchForText(editorSuggestions.searchPhrase)"
+          maxlength="1000"
           focus-on="searchSugInput" />
           <span ng-switch on="searchIsLoading" class="InputGroup-addon">
             <!-- TODO Add loading indicator -->
