@@ -87,8 +87,7 @@
     }
 
     function displaySuggestions(suggestions) {
-      var filteredSuggestions = [];
-      filteredSuggestions = _.chain(suggestions)
+      var filteredSuggestions = _.chain(suggestions)
         .sortBy(['similarityPercent', 'relevanceScore'])
         .reverse()
         .value();
@@ -158,6 +157,10 @@
     }
 
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
+      /**
+       * @param event
+       * @param data {Object}
+       */
       function (event, data) {
         editorSuggestionsCtrl.unitSelected = data.id;
         if (editorSuggestionsCtrl.searchPhrase === '' &&
@@ -188,6 +191,10 @@
 
     // Automatic suggestions search on row select
     $rootScope.$on(EventService.EVENT.REQUEST_PHRASE_SUGGESTIONS,
+      /**
+       * @param event
+       * @param data {Object}
+       */
       function (event, data) {
         $scope.searchIsLoading = true;
         editorSuggestionsCtrl.searchIsText = false;
@@ -198,6 +205,11 @@
 
     // Manual suggestions search
     $rootScope.$on(EventService.EVENT.REQUEST_TEXT_SUGGESTIONS,
+      /**
+       * @param event
+       * @param {string} data
+       * @return {boolean}
+       */
       function (event, data) {
         if (data === '') {
           editorSuggestionsCtrl.searchPhrase = '';
