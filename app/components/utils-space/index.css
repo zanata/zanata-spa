@@ -48,6 +48,10 @@
 
 /* Top */
 
+.u-sMT-1-8 {
+  margin-top: calc(var(--u-space-rhythm) * .125) !important;
+}
+
 .u-sMT-1-4 {
   margin-top: calc(var(--u-space-rhythm) * .25) !important;
 }

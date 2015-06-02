@@ -21,10 +21,6 @@ msgid "Editor Settings"
 msgstr ""
 
 #: app/editor/editor-header.html
-msgid "Glossary"
-msgstr ""
-
-#: app/editor/editor-header.html
 msgid "Hide Menubar"
 msgstr ""
 
@@ -58,6 +54,10 @@ msgstr ""
 msgid "Save as"
 msgstr ""
 
+#: app/editor/editor-header.html
+msgid "Show suggestions panel"
+msgstr ""
+
 #: app/components/suggestions/suggestion.html
 #: app/components/transUnit/trans-unit.html
 msgid "Singular Form"
@@ -73,10 +73,6 @@ msgstr ""
 
 #: app/editor/editor-header.html
 msgid "Translating"
-msgstr ""
-
-#: app/editor/editor-header.html
-msgid "Translation Memory"
 msgstr ""
 
 #: app/components/transUnitFilter/trans-unit-filter.html
