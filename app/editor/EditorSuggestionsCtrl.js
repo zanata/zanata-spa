@@ -160,7 +160,8 @@
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
         editorSuggestionsCtrl.unitSelected = data.id;
-        if (editorSuggestionsCtrl.searchPhrase === '' && $scope.searchIsVisible) {
+        if (editorSuggestionsCtrl.searchPhrase === '' &&
+          $scope.searchIsVisible) {
           EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
            false);
         }

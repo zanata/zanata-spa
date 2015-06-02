@@ -226,8 +226,9 @@
  */
 
 :root {
-  --Icon-rhythm     : var(--rhythm);
-  --Icon-transition : .25s all var(--transition-ease-out-back);
+  --Icon-rhythm          : var(--rhythm);
+  --Icon-transition-ease : var(--transition-ease-out-back);
+  --Icon-transition      : .25s all var(--Icon-transition-ease);
 }
 
 /**

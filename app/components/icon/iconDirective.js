@@ -26,13 +26,26 @@
           titleHtml = '<title>' + scope.title + '</title>';
         }
 
-        // Stupid hack to make svg work
-        svg = '' +
-          '<svg class="Icon-item">' +
-            '<use xlink:href="#Icon-' + scope.name + '" />' +
-            titleHtml +
-          '</svg>';
-        element.html($sce.trustAsHtml(svg));
+        if (scope.name === 'loader') {
+          // Can't seem to animate svg symbols
+          element.addClass('Icon--loader');
+          icon = '' +
+            '<span class="Icon-item">' +
+              '<span class="Icon--loader-dot"></span>' +
+              '<span class="Icon--loader-dot"></span>' +
+              '<span class="Icon--loader-dot"></span>' +
+            '</span>';
+          element.html($sce.trustAsHtml(icon));
+        }
+        else {
+          // Stupid hack to make svg work
+          svg = '' +
+            '<svg class="Icon-item">' +
+              '<use xlink:href="#Icon-' + scope.name + '" />' +
+              titleHtml +
+            '</svg>';
+          element.html($sce.trustAsHtml(svg));
+        }
       }
     };
   }

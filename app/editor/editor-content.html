@@ -9,8 +9,9 @@
         <trans-unit phrase="phrase" first-phrase="$first" editor-context="editor.context"></trans-unit>
       </li>
     </ul>
-    <div class="u-textCenter u-textLead u-sP-1" ng-if="editorContent.phrases.length == 0">
-      <span translate>No content</span>
+    <div class="u-posCenterCenter u-textEmpty u-textCenter" ng-if="editorContent.phrases.length == 0">
+      <icon name="translate" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
+      <p translate>No content</p>
     </div>
   </div>
 </main>

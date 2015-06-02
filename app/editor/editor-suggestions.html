@@ -71,19 +71,23 @@
 
   <div class="Editor-suggestionsBody">
     <div ng-switch on="searchIsLoading">
-      <div ng-switch-when="true" class="u-posCenterCenter">
+      <div ng-switch-when="true" class="u-posCenterCenter u-textEmpty u-textCenter">
         <!-- TODO Add loading indicator -->
-        <p class="u-textLead u-textMuted">Loading suggestions…</p>
+        <icon name="loader" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
+        <p>Loading suggestions</p>
       </div>
       <div ng-switch-default>
-        <div ng-if="!editorSuggestions.searchPhrase && !editorSuggestions.searchSugFocused && editorSuggestions.searchDisplayRequired" class="u-posCenterCenter">
-          <p class="u-textLead u-textMuted">Select a phrase or enter a search term.</p>
+        <div ng-if="!editorSuggestions.searchPhrase && !editorSuggestions.searchSugFocused && editorSuggestions.searchDisplayRequired" class="u-posCenterCenter u-textEmpty u-textCenter">
+          <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
+          <p>Select a phrase or enter a search term</p>
         </div>
-        <div ng-if="!editorSuggestions.searchPhrase && (editorSuggestions.searchSugFocused || !editorSuggestions.searchDisplayRequired)" class="u-posCenterCenter">
-          <p class="u-textLead u-textMuted">Enter a search term.</p>
+        <div ng-if="!editorSuggestions.searchPhrase && (editorSuggestions.searchSugFocused || !editorSuggestions.searchDisplayRequired)" class="u-posCenterCenter u-textEmpty u-textCenter">
+          <icon name="search" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
+          <p>Enter a search term</p>
         </div>
-        <div ng-if="editorSuggestions.searchPhrase && editorSuggestions.suggestions.length === 0" class="u-posCenterCenter">
-          <p class="u-textLead u-textMuted">0 suggestions available for the <span ng-if="!editorSuggestions.searchIsText">currently selected phrase</span><span ng-if="editorSuggestions.searchIsText">current search</span>.</p>
+        <div ng-if="editorSuggestions.searchPhrase && editorSuggestions.suggestions.length === 0" class="u-posCenterCenter u-textEmpty u-textCenter">
+          <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
+          <p>No matching suggestions for the <span ng-if="!editorSuggestions.searchIsText">currently selected phrase</span><span ng-if="editorSuggestions.searchIsText">current search</span></p>
         </div>
         <div ng-if="editorSuggestions.searchPhrase && editorSuggestions.suggestions.length > 0" ng-repeat="suggestion in editorSuggestions.suggestions">
           <suggestion suggestion="suggestion"
