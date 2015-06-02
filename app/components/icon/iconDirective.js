@@ -18,6 +18,7 @@
       // templateUrl: 'components/icon/icon.html',
       link: function(scope, element) {
         var svg = '',
+            loader = '',
             titleHtml = '';
 
         element.addClass('Icon');
@@ -29,13 +30,13 @@
         if (scope.name === 'loader') {
           // Can't seem to animate svg symbols
           element.addClass('Icon--loader');
-          icon = '' +
+          loader = '' +
             '<span class="Icon-item">' +
               '<span class="Icon--loader-dot"></span>' +
               '<span class="Icon--loader-dot"></span>' +
               '<span class="Icon--loader-dot"></span>' +
             '</span>';
-          element.html($sce.trustAsHtml(icon));
+          element.html($sce.trustAsHtml(loader));
         }
         else {
           // Stupid hack to make svg work
