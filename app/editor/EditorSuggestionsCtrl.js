@@ -6,7 +6,7 @@
    * @ngInject
    */
   function EditorSuggestionsCtrl($scope, _, SettingsService, SuggestionsService,
-    EventService, $rootScope, $timeout, focus) {
+      TextSuggestionsService, EventService, $rootScope, $timeout, focus) {
     var SHOW_SUGGESTIONS_SETTING = SettingsService.SETTING.SHOW_SUGGESTIONS;
     var SUGGESTIONS_SHOW_DIFFERENCE_SETTING =
       SettingsService.SETTING.SUGGESTIONS_SHOW_DIFFERENCE;
@@ -192,15 +192,15 @@
         }
       });
 
-   $rootScope.$on(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
-      function(event, activate) {
-        if (activate) {
-          showSearch(event);
-        }
-        else {
-          hideSearch(event);
-        }
-      });
+    $rootScope.$on(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
+    function(event, activate) {
+      if (activate) {
+        showSearch(event);
+      }
+      else {
+        hideSearch(event);
+      }
+    });
 
     // Automatic suggestions search on row select
     $rootScope.$on(EventService.EVENT.REQUEST_PHRASE_SUGGESTIONS,
@@ -217,22 +217,21 @@
       });
 
     // Manual suggestions search
-    $rootScope.$on(EventService.EVENT.REQUEST_TEXT_SUGGESTIONS,
-      /**
-       * @param event
-       * @param {string} data
-       * @return {boolean}
-       */
-      function (event, data) {
-        if (data === '') {
-          $scope.searchInput.text = '';
-          displaySuggestions([]);
-          return false;
-        }
-        SuggestionsService.getSuggestionsForText(data)
-          .then(displaySuggestions, handleError);
-        $scope.searchInput.text = data;
-      });
+    $rootScope.$on('TextSuggestionsService:updated', function () {
+      if (editorSuggestionsCtrl.searchIsText) {
+        updateTextDisplay();
+      }
+    });
+
+    /**
+     * Update all the state to match the latest from the text search service.
+     */
+    function updateTextDisplay() {
+      $scope.searchStrings = TextSuggestionsService.getSearchStrings();
+      $scope.searchIsLoading = TextSuggestionsService.isLoading();
+      displaySuggestions(TextSuggestionsService.getResults());
+    }
+
 
     return editorSuggestionsCtrl;
   }
