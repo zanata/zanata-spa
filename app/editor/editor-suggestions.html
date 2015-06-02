@@ -90,7 +90,7 @@
           <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
           <p>No matching suggestions for the <span ng-if="!editorSuggestions.searchIsText">currently selected phrase</span><span ng-if="editorSuggestions.searchIsText">current search</span></p>
         </div>
-        <div ng-if="editorSuggestions.searchPhrase && editorSuggestions.suggestions.length > 0" ng-repeat="suggestion in editorSuggestions.suggestions">
+        <div ng-if="editorSuggestions.searchPhrase && editorSuggestions.suggestions.length > 0" ng-repeat="suggestion in editorSuggestions.suggestions track by $index">
           <suggestion suggestion="suggestion"
             index="$index"
             search="editorSuggestions.searchPhrase"

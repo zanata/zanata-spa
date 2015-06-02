@@ -58,7 +58,7 @@
   width: 100%;
   height: var(--TransUnit-rhythm);
   content: '';
-  transition: var(--TransUnit-transition);
+  /*transition: var(--TransUnit-transition);*/
   transform: scaleY(0);
   opacity: 0;
   background-color: var(--TransUnit-focus-color-bg);
@@ -145,7 +145,7 @@
 .TransUnit-panelHeader,
 .TransUnit-panelFooter {
   visibility: hidden;
-  transition: var(--TransUnit-transition);
+  /*transition: var(--TransUnit-transition);*/
   opacity: 0;
 }
 
@@ -228,7 +228,6 @@
   left: 0;
   width: var(--TransUnit-rhythm);
   background-color: var(--TransUnit-color-neutral);
-  transition: all .4s linear;
 }
 
 .TransUnit-status {
@@ -259,13 +258,11 @@
   z-index: var(--TransUnit-status-before-z-index);
   visibility: hidden;
   content: '';
-  transition: var(--TransUnit-transition);
   transform: scaleY(.65);
 }
 
 .TransUnit-status:after {
   transition: none;
-  transition: opacity .3 ease-out;
   z-index: var(--TransUnit-status-after-z-index);
   top: 0;
   box-sizing: content-box;
@@ -282,7 +279,6 @@
 }
 
 .TransUnit.is-focused .TransUnit-status:after {
-  /*transform: scaleY(1);*/
   top: calc(var(--TransUnit-rhythm) * -.75);
   padding-top: calc(var(--TransUnit-rhythm) * .75);
   padding-bottom: calc(var(--TransUnit-rhythm) * .75);

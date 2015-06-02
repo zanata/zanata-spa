@@ -5,7 +5,7 @@
   ng-class="{'is-maximised': editor.settings.hideMainNav, 'is-unit-selected': (editor.unitSelected && editor.focused)}">
   <div scrollbar-width-child>
     <ul class="Editor-translations" ng-if="editorContent.phrases.length > 0">
-      <li ng-repeat="phrase in editorContent.phrases">
+      <li ng-repeat="phrase in editorContent.phrases track by phrase.id">
         <trans-unit phrase="phrase" first-phrase="$first" editor-context="editor.context"></trans-unit>
       </li>
     </ul>
