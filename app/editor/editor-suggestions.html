@@ -77,24 +77,24 @@
         <p>Loading suggestions</p>
       </div>
       <div ng-switch-default>
-        <div ng-if="!editorSuggestions.searchPhrase && !editorSuggestions.searchSugFocused && editorSuggestions.searchDisplayRequired" class="u-posCenterCenter u-textEmpty u-textCenter">
+        <div ng-if="!editorSuggestions.searchStrings && !editorSuggestions.searchSugFocused && editorSuggestions.searchDisplayRequired" class="u-posCenterCenter u-textEmpty u-textCenter">
           <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
           <p>Select a phrase or enter a search term</p>
         </div>
-        <div ng-if="!editorSuggestions.searchPhrase && (editorSuggestions.searchSugFocused || !editorSuggestions.searchDisplayRequired)" class="u-posCenterCenter u-textEmpty u-textCenter">
+        <div ng-if="!editorSuggestions.searchStrings && (editorSuggestions.searchSugFocused || !editorSuggestions.searchDisplayRequired)" class="u-posCenterCenter u-textEmpty u-textCenter">
           <icon name="search" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
           <p>Enter a search term</p>
         </div>
-        <div ng-if="editorSuggestions.searchPhrase && editorSuggestions.suggestions.length === 0" class="u-posCenterCenter u-textEmpty u-textCenter">
+        <div ng-if="editorSuggestions.searchStrings && editorSuggestions.suggestions.length === 0" class="u-posCenterCenter u-textEmpty u-textCenter">
           <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
           <p ng-if="editorSuggestions.searchIsText">No matching suggestions for the current search</p>
           <p ng-if="!editorSuggestions.searchIsText">No matching suggestions for the currently selected phrase</p>
 
         </div>
-        <div ng-if="editorSuggestions.searchPhrase && editorSuggestions.suggestions.length > 0" ng-repeat="suggestion in editorSuggestions.suggestions track by $index">
+        <div ng-if="editorSuggestions.searchStrings && editorSuggestions.suggestions.length > 0" ng-repeat="suggestion in editorSuggestions.suggestions track by $index">
           <suggestion suggestion="suggestion"
             index="$index"
-            search="editorSuggestions.searchPhrase"
+            search="editorSuggestions.searchStrings"
             diff-enabled="diff"></suggestion>
         </div>
       </div>

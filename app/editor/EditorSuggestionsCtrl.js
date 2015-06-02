@@ -16,7 +16,7 @@
     editorSuggestionsCtrl.suggestions = [];
 
     /* @type {string[]} */
-    editorSuggestionsCtrl.searchPhrase = null;
+    editorSuggestionsCtrl.searchStrings = [];
     editorSuggestionsCtrl.searchResultsTotal = 0;
     editorSuggestionsCtrl.searchDisplayRequired = false;
     editorSuggestionsCtrl.searchIsText = false;
@@ -33,7 +33,7 @@
      */
     $scope.searchInput = { text: '' };
     $scope.$watch('searchInput.text', function (newText) {
-      editorSuggestionsCtrl.searchPhrase = [newText];
+      editorSuggestionsCtrl.searchStrings = [newText];
       editorSuggestionsCtrl.searchForText(newText);
     });
 
@@ -111,7 +111,7 @@
       }
 
       if ($scope.searchIsVisible) {
-        setPhraseSuggestions(editorSuggestionsCtrl.searchPhrase,
+        setPhraseSuggestions(editorSuggestionsCtrl.searchStrings,
           filteredSuggestions);
         editorSuggestionsCtrl.searchResultsTotal =
           editorSuggestionsCtrl.suggestions.length;
@@ -135,13 +135,13 @@
     }
 
     function setPhraseSuggestions(searchPhrase, suggestions) {
-      editorSuggestionsCtrl.searchPhrase = searchPhrase;
+      editorSuggestionsCtrl.searchStrings = searchPhrase;
       editorSuggestionsCtrl.suggestions = suggestions;
     }
 
     function restorePhraseSuggestions() {
       $timeout(function() {
-        editorSuggestionsCtrl.searchPhrase =
+        editorSuggestionsCtrl.searchStrings =
           editorSuggestionsCtrl.currentSearchPhrase;
         editorSuggestionsCtrl.suggestions =
           editorSuggestionsCtrl.currentPhraseSuggestions;
