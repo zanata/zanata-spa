@@ -14,6 +14,8 @@
     var editorSuggestionsCtrl = this;
 
     editorSuggestionsCtrl.suggestions = [];
+
+    /* @type {string[]} */
     editorSuggestionsCtrl.searchPhrase = null;
     editorSuggestionsCtrl.searchResultsTotal = 0;
     editorSuggestionsCtrl.searchDisplayRequired = false;
@@ -23,6 +25,17 @@
 
     $scope.searchIsVisible = false;
     $scope.searchIsLoading = false;
+
+    /**
+     * Bound to search text entered by user.
+     *
+     * I could not get $watch to work with a string, it works in an object.
+     */
+    $scope.searchInput = { text: '' };
+    $scope.$watch('searchInput.text', function (newText) {
+      editorSuggestionsCtrl.searchPhrase = [newText];
+      editorSuggestionsCtrl.searchForText(newText);
+    });
 
     $scope.show = SettingsService.subscribe(SHOW_SUGGESTIONS_SETTING,
       function (show) {
@@ -50,12 +63,13 @@
     editorSuggestionsCtrl.clearSearchResults =
       function($event, dontFocusInput) {
       // editorSuggestionsCtrl.searchText = '';
-      editorSuggestionsCtrl.searchPhrase = '';
-      editorSuggestionsCtrl.suggestions = [];
-      if (!dontFocusInput && $event) {
-        $scope.focusSearch($event);
-      }
-    };
+
+        $scope.searchInput.text = '';
+        editorSuggestionsCtrl.suggestions = [];
+        if (!dontFocusInput && $event) {
+          $scope.focusSearch($event);
+        }
+      };
 
     editorSuggestionsCtrl.searchForText = function (newText) {
       if (newText.length > 0) {

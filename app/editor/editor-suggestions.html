@@ -53,11 +53,10 @@
         <input type="search"
           placeholder="Search suggestions…"
           class="InputGroup-input u-sizeLineHeight-1_1-4"
-          ng-model="editorSuggestions.searchPhrase"
+          ng-model="searchInput.text"
           ng-trim="false"
           ng-focus="editorSuggestions.searchSugFocused = true"
           ng-blur="editorSuggestions.searchSugFocused = false"
-          ng-change="editorSuggestions.searchForText(editorSuggestions.searchPhrase)"
           maxlength="1000"
           focus-on="searchSugInput" />
           <span ng-switch on="searchIsLoading" class="InputGroup-addon">

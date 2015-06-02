@@ -41,7 +41,8 @@
       return results;
     }
 
-    // FIXME prevent exessive searches, use same approach as TextSuggestionsService
+    // FIXME prevent exessive searches, use same approach as
+    //       TextSuggestionsService
     $rootScope.$on(EventService.EVENT.REQUEST_PHRASE_SUGGESTIONS,
       function (event, data) {
         if (searchPhrase && searchPhrase.id === data.phrase.id) {
