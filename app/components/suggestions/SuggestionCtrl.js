@@ -10,9 +10,9 @@
 
     suggestionCtrl.copyButtonText = 'Copy Translation';
 
-    $scope.searchTerm = (typeof $scope.search === 'string') ?
-      [$scope.search] :
-      $scope.search.sources;
+    while ($scope.search.length < $scope.suggestion.sourceContents.length) {
+      $scope.search.push('');
+    }
 
     /**
      * Get a modifier for the row class that will determine display colours.

@@ -158,7 +158,7 @@
     }
 
     function showSearch($event, dontFocusInput) {
-      editorSuggestionsCtrl.searchPhrase = '';
+      $scope.searchInput.text = '';
       $scope.searchIsVisible = true;
       if (!dontFocusInput && $event) {
         $scope.focusSearch($event);
@@ -177,8 +177,7 @@
        */
       function (event, data) {
         editorSuggestionsCtrl.unitSelected = data.id;
-        if (editorSuggestionsCtrl.searchPhrase === '' &&
-          $scope.searchIsVisible) {
+        if ($scope.searchInput.text === '' && $scope.searchIsVisible) {
           EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
            false);
         }
@@ -214,7 +213,7 @@
         editorSuggestionsCtrl.searchIsText = false;
         SuggestionsService.getSuggestionsForPhrase(data.phrase)
           .then(displaySuggestions, handleError);
-        cacheSearchPhrase(data.phrase);
+        cacheSearchPhrase(data.phrase.sources);
       });
 
     // Manual suggestions search
@@ -226,14 +225,13 @@
        */
       function (event, data) {
         if (data === '') {
-          editorSuggestionsCtrl.searchPhrase = '';
-          displaySuggestions('');
-          // editorSuggestionsCtrl.suggestions = [];
+          $scope.searchInput.text = '';
+          displaySuggestions([]);
           return false;
         }
         SuggestionsService.getSuggestionsForText(data)
           .then(displaySuggestions, handleError);
-        editorSuggestionsCtrl.searchPhrase = data;
+        $scope.searchInput.text = data;
       });
 
     return editorSuggestionsCtrl;

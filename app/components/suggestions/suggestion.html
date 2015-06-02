@@ -10,7 +10,7 @@
         <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
       </div>
       <div ng-if="!diffEnabled">{{source}}</div>
-      <div ng-if="diffEnabled" semantic-diff left-obj="searchTerm[$index]" right-obj="source" class="Difference"></div>
+      <div ng-if="diffEnabled" semantic-diff left-obj="search[$index]" right-obj="source" class="Difference"></div>
     </div>
     <!-- TODO different display depending on imported or local -->
     <div class="TransUnit-details"
