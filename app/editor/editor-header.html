@@ -167,7 +167,7 @@
           <button class="Link--neutral u-sizeHeight-1_1-2"
             title="{{'Hide Menubar'|translate}}"
             ng-click="editor.settings.hideMainNav = !editor.settings.hideMainNav">
-            <icon name="chevron-up-double" title="{{'Hide Menubar'|translate}}" class="u-sizeWidth-1_1-2"
+            <icon name="chevron-up-double" title="{{!editor.settings.hideMainNav ? 'Hide Menubar' : 'Show Menubar' |translate}}" class="u-sizeWidth-1_1-2"
               ng-class="{'is-rotated': editor.settings.hideMainNav}">
             </icon>
           </button>
