@@ -52,7 +52,7 @@
      */
     $scope.searchInput = { text: '' };
     $scope.$watch('searchInput.text', function (newText) {
-      editorSuggestionsCtrl.searchForText(newText);
+      editorSuggestionsCtrl.searchForText();
     });
 
     $scope.show = SettingsService.subscribe(SHOW_SUGGESTIONS_SETTING,
@@ -88,12 +88,12 @@
         }
       };
 
-    editorSuggestionsCtrl.searchForText = function (newText) {
+    editorSuggestionsCtrl.searchForText = function () {
+      var newText = $scope.searchInput.text;
       if (newText.length > 0) {
         $scope.searchIsLoading = true;
       }
       setTextSearch(true);
-      //editorSuggestionsCtrl.searchIsText = true;
       EventService.emitEvent(EventService.EVENT.REQUEST_TEXT_SUGGESTIONS,
         newText);
     };
@@ -141,7 +141,7 @@
       if (!dontFocusInput && $event) {
         $scope.focusSearch($event);
       }
-      editorSuggestionsCtrl.searchForText('');
+      editorSuggestionsCtrl.searchForText();
     }
 
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
