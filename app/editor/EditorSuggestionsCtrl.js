@@ -30,7 +30,6 @@
     // TODO initialize with current trans unit selection state.
     $scope.isTransUnitSelected = false;
 
-
     // These must always be opposites. Probably change to an enum.
     $scope.isTextSearch = false;
     $scope.isPhraseSearch = true;
@@ -39,12 +38,6 @@
       $scope.isTextSearch = active;
       $scope.isPhraseSearch = !active;
     }
-
-
-    // FIXME this holds an id, it should never be boolean
-    editorSuggestionsCtrl.unitSelected = false;
-
-    // TODO $scope.search = { isVisible, isLoading, Input: { text, focused } }
 
     $scope.search = {
       isVisible: false,
@@ -114,7 +107,7 @@
     };
 
     // Init
-    if (!editorSuggestionsCtrl.unitSelected && $scope.show) {
+    if ($scope.show && !$scope.isTransUnitSelected) {
       showSearch();
     }
 
@@ -149,7 +142,6 @@
        * @param data {Object}
        */
       function (event, data) {
-        editorSuggestionsCtrl.unitSelected = data.id;
         // Automatically switch back to phrase search when no search is entered
         if ($scope.search.input.text === '' && $scope.search.isVisible) {
           EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
