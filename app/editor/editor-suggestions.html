@@ -48,15 +48,15 @@
       </ul>
     </div>
     <div class="Editor-suggestionsSearch u-sPB-1-4" ng-if="searchIsVisible">
-      <div class="InputGroup InputGroup--outlined InputGroup--rounded" ng-class="{'is-focused': editorSuggestions.searchSugFocused}">
+      <div class="InputGroup InputGroup--outlined InputGroup--rounded" ng-class="{'is-focused': searchInputFocused}">
         <span class="InputGroup-addon" ng-click="focusSearch($event)"><icon name="search" title="Search suggestions" class="Icon--xsm"></icon></span>
         <input type="search"
           placeholder="Search suggestions…"
           class="InputGroup-input u-sizeLineHeight-1_1-4"
           ng-model="searchInput.text"
           ng-trim="false"
-          ng-focus="editorSuggestions.searchSugFocused = true"
-          ng-blur="editorSuggestions.searchSugFocused = false"
+          ng-focus="editorSuggestions.setInputFocused(true)"
+          ng-blur="editorSuggestions.setInputFocused(false)"
           maxlength="1000"
           focus-on="searchSugInput" />
           <span ng-switch on="searchIsLoading" class="InputGroup-addon">
@@ -81,11 +81,11 @@
         <p>Loading suggestions</p>
       </div>
       <div ng-switch-default>
-        <div ng-if="!searchStrings.length && !editorSuggestions.searchSugFocused && !isTransUnitSelected" class="u-posCenterCenter u-textEmpty u-textCenter">
+        <div ng-if="!searchStrings.length && !searchInputFocused && !isTransUnitSelected" class="u-posCenterCenter u-textEmpty u-textCenter">
           <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
           <p>Select a phrase or enter a search term</p>
         </div>
-        <div ng-if="!searchStrings.length && (editorSuggestions.searchSugFocused || isTransUnitSelected)" class="u-posCenterCenter u-textEmpty u-textCenter">
+        <div ng-if="!searchStrings.length && (searchInputFocused || isTransUnitSelected)" class="u-posCenterCenter u-textEmpty u-textCenter">
           <icon name="search" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
           <p>Enter a search term</p>
         </div>

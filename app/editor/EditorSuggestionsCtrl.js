@@ -36,7 +36,11 @@
 
     // FIXME this holds an id, it should never be boolean
     editorSuggestionsCtrl.unitSelected = false;
-    editorSuggestionsCtrl.searchSugFocused = false;
+
+    $scope.searchInputFocused = false;
+    editorSuggestionsCtrl.setInputFocused = function (focused) {
+      $scope.searchInputFocused = focused;
+    };
 
     $scope.searchIsVisible = false;
     $scope.searchIsLoading = false;
