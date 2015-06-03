@@ -14,28 +14,13 @@
 
     var editorSuggestionsCtrl = this;
 
-    editorSuggestionsCtrl.suggestions = [];
+    $scope.suggestions = [];
 
     /* @type {string[]} */
     $scope.searchStrings = [];
 
-    // Used to display number of results in search textbox
-    editorSuggestionsCtrl.searchResultsTotal = 0;
-
     // FIXME initialize with current trans unit.
     $scope.isTransUnitSelected = false;
-
-
-
-    /**
-     * This is the main one that tries to decide whether results come from text
-     * suggestions service or phrase suggestions service.
-     *
-     *
-     *
-     * @type {boolean}
-     */
-    //editorSuggestionsCtrl.searchIsText = false;
 
 
     // These must always be opposites. Probably change to an enum.
@@ -125,16 +110,14 @@
       showSearch();
     }
 
+    // TODO move sorting/filtering to suggestion service
     function displaySuggestions(suggestions) {
       var filteredSuggestions = _.chain(suggestions)
         .sortBy(['similarityPercent', 'relevanceScore'])
         .reverse()
         .value();
 
-      editorSuggestionsCtrl.suggestions = filteredSuggestions;
-      editorSuggestionsCtrl.searchResultsTotal = filteredSuggestions.length;
-
-      //$scope.searchIsLoading = false;
+      $scope.suggestions = filteredSuggestions;
     }
 
     function hideSearch() {
