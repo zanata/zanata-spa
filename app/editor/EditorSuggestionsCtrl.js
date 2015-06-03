@@ -48,7 +48,7 @@
       }
     };
 
-    $scope.$watch('search.input.text', function (newText) {
+    $scope.$watch('search.input.text', function () {
       editorSuggestionsCtrl.searchForText();
     });
 
@@ -137,11 +137,7 @@
     }
 
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
-      /**
-       * @param event
-       * @param data {Object}
-       */
-      function (event, data) {
+      function () {
         // Automatically switch back to phrase search when no search is entered
         if ($scope.search.input.text === '' && $scope.search.isVisible) {
           EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,

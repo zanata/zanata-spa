@@ -44,7 +44,6 @@
     }
 
 
-
     var pendingSearchHandle = null;
 
     /* Number of requests that are in progress */
@@ -153,7 +152,7 @@
           return;
         }
 
-        if (!pendingSearch && activeRequests == 0 && searchText === data) {
+        if (!pendingSearch && activeRequests === 0 && searchText === data) {
           // search is identical and there are no other searches to replace it
           return;
         }
