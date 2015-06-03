@@ -34,9 +34,9 @@
         </li>
         <li class="u-sM-1-8">
           <button class="Button Button--snug Button--invisible u-roundish" title="Search suggestions"
-            ng-class="{'is-active': searchIsVisible, 'is-disabled': editorSuggestions.searchDisplayRequired }"
+            ng-class="{'is-active': searchIsVisible, 'is-disabled': !isTransUnitSelected }"
             ng-click="editorSuggestions.toggleSearch($event)"
-            ng-disabled="editorSuggestions.searchDisplayRequired">
+            ng-disabled="!isTransUnitSelected">
             <icon name="search" title="Search suggestions" class="Icon--sm"></icon>
           </button>
         </li>
@@ -77,24 +77,23 @@
         <p>Loading suggestions</p>
       </div>
       <div ng-switch-default>
-        <div ng-if="!editorSuggestions.searchStrings && !editorSuggestions.searchSugFocused && editorSuggestions.searchDisplayRequired" class="u-posCenterCenter u-textEmpty u-textCenter">
+        <div ng-if="!searchStrings.length && !editorSuggestions.searchSugFocused && !isTransUnitSelected" class="u-posCenterCenter u-textEmpty u-textCenter">
           <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
           <p>Select a phrase or enter a search term</p>
         </div>
-        <div ng-if="!editorSuggestions.searchStrings && (editorSuggestions.searchSugFocused || !editorSuggestions.searchDisplayRequired)" class="u-posCenterCenter u-textEmpty u-textCenter">
+        <div ng-if="!searchStrings.length && (editorSuggestions.searchSugFocused || isTransUnitSelected)" class="u-posCenterCenter u-textEmpty u-textCenter">
           <icon name="search" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
           <p>Enter a search term</p>
         </div>
-        <div ng-if="editorSuggestions.searchStrings && editorSuggestions.suggestions.length === 0" class="u-posCenterCenter u-textEmpty u-textCenter">
+        <div ng-if="searchStrings.length && !editorSuggestions.suggestions.length" class="u-posCenterCenter u-textEmpty u-textCenter">
           <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
-          <p ng-if="editorSuggestions.searchIsText">No matching suggestions for the current search</p>
-          <p ng-if="!editorSuggestions.searchIsText">No matching suggestions for the currently selected phrase</p>
-
+          <p ng-if="isTextSearch">No matching suggestions for the current search</p>
+          <p ng-if="isPhraseSearch">No matching suggestions for the currently selected phrase</p>
         </div>
-        <div ng-if="editorSuggestions.searchStrings && editorSuggestions.suggestions.length > 0" ng-repeat="suggestion in editorSuggestions.suggestions track by $index">
+        <div ng-if="searchStrings.length && editorSuggestions.suggestions.length" ng-repeat="suggestion in editorSuggestions.suggestions">
           <suggestion suggestion="suggestion"
             index="$index"
-            search="editorSuggestions.searchStrings"
+            search="searchStrings"
             diff-enabled="diff"></suggestion>
         </div>
       </div>

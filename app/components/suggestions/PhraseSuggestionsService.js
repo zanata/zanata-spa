@@ -6,7 +6,7 @@
    * @ngInject
    */
   function PhraseSuggestionsService(_, EventService, SuggestionsService,
-                                    $rootScope) {
+                                    $timeout, $rootScope) {
     /* @type {boolean} */
     var loading = false;
 
@@ -15,6 +15,8 @@
 
     /* @type {Array<Suggestion>} */
     var results = [];
+
+    var currentSearchHandle;
 
     /**
      * @return {boolean} true if results have been requested and not delivered
@@ -29,7 +31,7 @@
      *                    has been performed.
      */
     function getSearchStrings() {
-      return searchPhrase;// ? searchPhrase.sources : null;
+      return searchPhrase ? searchPhrase.sources : [];
     }
 
     /**
@@ -41,8 +43,6 @@
       return results;
     }
 
-    // FIXME prevent exessive searches, use same approach as
-    //       TextSuggestionsService
     $rootScope.$on(EventService.EVENT.REQUEST_PHRASE_SUGGESTIONS,
       function (event, data) {
         if (searchPhrase && searchPhrase.id === data.phrase.id) {
@@ -56,16 +56,19 @@
         results = [];
         $rootScope.$broadcast('PhraseSuggestionsService:updated');
 
-        // Run the search and notify listeners when it is done
-        SuggestionsService.getSuggestionsForPhrase(data.phrase).then(
-          function (suggestions) {
-            results = suggestions;
-            loading = false;
-            $rootScope.$broadcast('PhraseSuggestionsService:updated');
-          },
-          function (error) {
-            console.error('Error searching for phrase ', error);
-          });
+        $timeout.cancel(currentSearchHandle);
+        currentSearchHandle = $timeout(function() {
+          // Run the search and notify listeners when it is done
+          SuggestionsService.getSuggestionsForPhrase(data.phrase).then(
+            function (suggestions) {
+              results = suggestions;
+              loading = false;
+              $rootScope.$broadcast('PhraseSuggestionsService:updated');
+            },
+            function (error) {
+              console.error('Error searching for phrase ', error);
+            });
+        }, 300);
       });
 
     return {

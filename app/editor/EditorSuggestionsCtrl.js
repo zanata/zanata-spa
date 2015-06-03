@@ -5,8 +5,9 @@
    * EditorSuggestionsCtrl.js
    * @ngInject
    */
-  function EditorSuggestionsCtrl($scope, _, SettingsService, SuggestionsService,
-      TextSuggestionsService, EventService, $rootScope, $timeout, focus) {
+  function EditorSuggestionsCtrl($scope, _, SettingsService,
+      PhraseSuggestionsService, TextSuggestionsService, EventService,
+      $rootScope, $timeout, focus) {
     var SHOW_SUGGESTIONS_SETTING = SettingsService.SETTING.SHOW_SUGGESTIONS;
     var SUGGESTIONS_SHOW_DIFFERENCE_SETTING =
       SettingsService.SETTING.SUGGESTIONS_SHOW_DIFFERENCE;
@@ -17,9 +18,38 @@
 
     /* @type {string[]} */
     editorSuggestionsCtrl.searchStrings = [];
+
+    // Used to display number of results in search textbox
     editorSuggestionsCtrl.searchResultsTotal = 0;
-    editorSuggestionsCtrl.searchDisplayRequired = false;
-    editorSuggestionsCtrl.searchIsText = false;
+
+    // FIXME initialize with current trans unit.
+    $scope.isTransUnitSelected = false;
+
+
+
+    /**
+     * This is the main one that tries to decide whether results come from text
+     * suggestions service or phrase suggestions service.
+     *
+     *
+     *
+     * @type {boolean}
+     */
+    //editorSuggestionsCtrl.searchIsText = false;
+
+
+    // These must always be opposites. Probably change to an enum.
+    $scope.isTextSearch = false;
+    $scope.isPhraseSearch = true;
+
+    function setTextSearch(active) {
+      $scope.isTextSearch = active;
+      $scope.isPhraseSearch = !active;
+    }
+
+
+
+    // FIXME this holds an id, it should never be boolean
     editorSuggestionsCtrl.unitSelected = false;
     editorSuggestionsCtrl.searchSugFocused = false;
 
@@ -75,12 +105,10 @@
       if (newText.length > 0) {
         $scope.searchIsLoading = true;
       }
-      editorSuggestionsCtrl.searchIsText = true;
-      $timeout.cancel(editorSuggestionsCtrl.searchInProgress);
-      editorSuggestionsCtrl.searchInProgress = $timeout(function() {
-        EventService.emitEvent(EventService.EVENT.REQUEST_TEXT_SUGGESTIONS,
-          newText);
-      }, 300);
+      setTextSearch(true);
+      //editorSuggestionsCtrl.searchIsText = true;
+      EventService.emitEvent(EventService.EVENT.REQUEST_TEXT_SUGGESTIONS,
+        newText);
     };
 
     editorSuggestionsCtrl.toggleSearch = function() {
@@ -96,7 +124,6 @@
 
     // Init
     if (!editorSuggestionsCtrl.unitSelected && $scope.show) {
-      editorSuggestionsCtrl.searchDisplayRequired = true;
       showSearch();
     }
 
@@ -106,55 +133,21 @@
         .reverse()
         .value();
 
-      if (!editorSuggestionsCtrl.searchIsText) {
-        cacheSuggestions(filteredSuggestions);
-      }
+      editorSuggestionsCtrl.suggestions = filteredSuggestions;
+      editorSuggestionsCtrl.searchResultsTotal = filteredSuggestions.length;
 
-      if ($scope.searchIsVisible) {
-        setPhraseSuggestions(editorSuggestionsCtrl.searchStrings,
-          filteredSuggestions);
-        editorSuggestionsCtrl.searchResultsTotal =
-          editorSuggestionsCtrl.suggestions.length;
-      }
-      else {
-        setPhraseSuggestions(editorSuggestionsCtrl.currentSearchPhrase,
-          filteredSuggestions);
-        editorSuggestionsCtrl.searchResultsTotal = 0;
-      }
-
-      $scope.searchIsLoading = false;
-
-    }
-
-    function cacheSearchPhrase(searchPhrase) {
-      editorSuggestionsCtrl.currentSearchPhrase = searchPhrase;
-    }
-
-    function cacheSuggestions(suggestions) {
-      editorSuggestionsCtrl.currentPhraseSuggestions = suggestions;
-    }
-
-    function setPhraseSuggestions(searchPhrase, suggestions) {
-      editorSuggestionsCtrl.searchStrings = searchPhrase;
-      editorSuggestionsCtrl.suggestions = suggestions;
-    }
-
-    function restorePhraseSuggestions() {
-      $timeout(function() {
-        editorSuggestionsCtrl.searchStrings =
-          editorSuggestionsCtrl.currentSearchPhrase;
-        editorSuggestionsCtrl.suggestions =
-          editorSuggestionsCtrl.currentPhraseSuggestions;
-      });
+      //$scope.searchIsLoading = false;
     }
 
     function hideSearch() {
       $scope.searchIsVisible = false;
-      editorSuggestionsCtrl.clearSearchResults(null, true);
-      if (editorSuggestionsCtrl.unitSelected) {
-        editorSuggestionsCtrl.searchIsText = false;
-        restorePhraseSuggestions();
-      }
+      setTextSearch(false);
+      updatePhraseDisplay();
+
+      // The setting for text search, plus the fact that nothing is selected,
+      // should naturally determine what gets displayed.
+
+      // TODO make sure that it is properly keeping track of what is selected.
     }
 
     function showSearch($event, dontFocusInput) {
@@ -166,10 +159,6 @@
       editorSuggestionsCtrl.searchForText('');
     }
 
-    function handleError (error) {
-      console.error('It\'s over! ', error);
-    }
-
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       /**
        * @param event
@@ -177,18 +166,21 @@
        */
       function (event, data) {
         editorSuggestionsCtrl.unitSelected = data.id;
+        // Automatically switch back to phrase search when no search is entered
         if ($scope.searchInput.text === '' && $scope.searchIsVisible) {
           EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
            false);
         }
-        editorSuggestionsCtrl.searchDisplayRequired = false;
+        $scope.isTransUnitSelected = true;
       });
 
     $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
       function () {
+        $scope.isTransUnitSelected = false;
+
         if ($scope.show) {
+          // FIXME make this not needed, just respond to isTransUnitSelected
           showSearch(null, true);
-          editorSuggestionsCtrl.searchDisplayRequired = true;
         }
       });
 
@@ -203,22 +195,25 @@
     });
 
     // Automatic suggestions search on row select
-    $rootScope.$on(EventService.EVENT.REQUEST_PHRASE_SUGGESTIONS,
-      /**
-       * @param event
-       * @param data {Object}
-       */
-      function (event, data) {
-        $scope.searchIsLoading = true;
-        editorSuggestionsCtrl.searchIsText = false;
-        SuggestionsService.getSuggestionsForPhrase(data.phrase)
-          .then(displaySuggestions, handleError);
-        cacheSearchPhrase(data.phrase.sources);
-      });
+    $rootScope.$on('PhraseSuggestionsService:updated', function () {
+      if ($scope.isPhraseSearch) {
+        updatePhraseDisplay();
+      }
+    });
+
+    /**
+     * Update all the state to match the latest from the phrase search.
+     */
+    function updatePhraseDisplay() {
+      $scope.searchStrings = PhraseSuggestionsService.getSearchStrings();
+      $scope.searchIsLoading = PhraseSuggestionsService.isLoading();
+      displaySuggestions(PhraseSuggestionsService.getResults());
+    }
+
 
     // Manual suggestions search
     $rootScope.$on('TextSuggestionsService:updated', function () {
-      if (editorSuggestionsCtrl.searchIsText) {
+      if ($scope.isTextSearch) {
         updateTextDisplay();
       }
     });

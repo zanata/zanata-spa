@@ -33,7 +33,7 @@
      *                    has been performed.
      */
     function getSearchStrings() {
-      return searchText ? [searchText] : null;
+      return searchText ? [searchText] : [];
     }
 
     /**
