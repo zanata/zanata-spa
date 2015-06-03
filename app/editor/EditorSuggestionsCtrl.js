@@ -15,11 +15,19 @@
     var editorSuggestionsCtrl = this;
 
     $scope.suggestions = [];
+    $scope.hasSuggestions = false;
+    $scope.$watch('suggestions.length', function (length) {
+      $scope.hasSuggestions = length !== 0;
+    });
 
     /* @type {string[]} */
     $scope.searchStrings = [];
+    $scope.hasSearch = false;
+    $scope.$watch('searchStrings.length', function (length) {
+      $scope.hasSearch = length !== 0;
+    });
 
-    // FIXME initialize with current trans unit.
+    // TODO initialize with current trans unit selection state.
     $scope.isTransUnitSelected = false;
 
 
@@ -124,11 +132,6 @@
       $scope.search.isVisible = false;
       setTextSearch(false);
       updatePhraseDisplay();
-
-      // The setting for text search, plus the fact that nothing is selected,
-      // should naturally determine what gets displayed.
-
-      // TODO make sure that it is properly keeping track of what is selected.
     }
 
     function showSearch($event, dontFocusInput) {
