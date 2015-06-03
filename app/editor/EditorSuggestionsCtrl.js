@@ -37,10 +37,7 @@
     // FIXME this holds an id, it should never be boolean
     editorSuggestionsCtrl.unitSelected = false;
 
-    $scope.searchInputFocused = false;
-    editorSuggestionsCtrl.setInputFocused = function (focused) {
-      $scope.searchInputFocused = focused;
-    };
+    // TODO $scope.search = { isVisible, isLoading, Input: { text, focused } }
 
     $scope.searchIsVisible = false;
     $scope.searchIsLoading = false;
@@ -50,7 +47,10 @@
      *
      * I could not get $watch to work with a string, it works in an object.
      */
-    $scope.searchInput = { text: '' };
+    $scope.searchInput = {
+      text: '',
+      focused: false
+    };
     $scope.$watch('searchInput.text', function (newText) {
       editorSuggestionsCtrl.searchForText();
     });
