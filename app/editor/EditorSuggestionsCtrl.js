@@ -33,25 +33,21 @@
     }
 
 
-
     // FIXME this holds an id, it should never be boolean
     editorSuggestionsCtrl.unitSelected = false;
 
     // TODO $scope.search = { isVisible, isLoading, Input: { text, focused } }
 
-    $scope.searchIsVisible = false;
-    $scope.searchIsLoading = false;
-
-    /**
-     * Bound to search text entered by user.
-     *
-     * I could not get $watch to work with a string, it works in an object.
-     */
-    $scope.searchInput = {
-      text: '',
-      focused: false
+    $scope.search = {
+      isVisible: false,
+      isLoading: false,
+      input: {
+        text: '',
+        focused: false
+      }
     };
-    $scope.$watch('searchInput.text', function (newText) {
+
+    $scope.$watch('search.input.text', function (newText) {
       editorSuggestionsCtrl.searchForText();
     });
 
@@ -81,7 +77,7 @@
     editorSuggestionsCtrl.clearSearchResults =
       function($event, dontFocusInput) {
         // just remove the text, service will handle updating to empty results.
-        $scope.searchInput.text = '';
+        $scope.search.input.text = '';
 
         if (!dontFocusInput && $event) {
           $scope.focusSearch($event);
@@ -89,9 +85,9 @@
       };
 
     editorSuggestionsCtrl.searchForText = function () {
-      var newText = $scope.searchInput.text;
+      var newText = $scope.search.input.text;
       if (newText.length > 0) {
-        $scope.searchIsLoading = true;
+        $scope.search.isLoading = true;
       }
       setTextSearch(true);
       EventService.emitEvent(EventService.EVENT.REQUEST_TEXT_SUGGESTIONS,
@@ -99,7 +95,7 @@
     };
 
     editorSuggestionsCtrl.toggleSearch = function() {
-      if ($scope.searchIsVisible) {
+      if ($scope.search.isVisible) {
         EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
           false);
       }
@@ -125,7 +121,7 @@
     }
 
     function hideSearch() {
-      $scope.searchIsVisible = false;
+      $scope.search.isVisible = false;
       setTextSearch(false);
       updatePhraseDisplay();
 
@@ -136,8 +132,8 @@
     }
 
     function showSearch($event, dontFocusInput) {
-      $scope.searchInput.text = '';
-      $scope.searchIsVisible = true;
+      $scope.search.input.text = '';
+      $scope.search.isVisible = true;
       if (!dontFocusInput && $event) {
         $scope.focusSearch($event);
       }
@@ -152,7 +148,7 @@
       function (event, data) {
         editorSuggestionsCtrl.unitSelected = data.id;
         // Automatically switch back to phrase search when no search is entered
-        if ($scope.searchInput.text === '' && $scope.searchIsVisible) {
+        if ($scope.search.input.text === '' && $scope.search.isVisible) {
           EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
            false);
         }
@@ -191,7 +187,7 @@
      */
     function updatePhraseDisplay() {
       $scope.searchStrings = PhraseSuggestionsService.getSearchStrings();
-      $scope.searchIsLoading = PhraseSuggestionsService.isLoading();
+      $scope.search.isLoading = PhraseSuggestionsService.isLoading();
       displaySuggestions(PhraseSuggestionsService.getResults());
     }
 
@@ -208,7 +204,7 @@
      */
     function updateTextDisplay() {
       $scope.searchStrings = TextSuggestionsService.getSearchStrings();
-      $scope.searchIsLoading = TextSuggestionsService.isLoading();
+      $scope.search.isLoading = TextSuggestionsService.isLoading();
       displaySuggestions(TextSuggestionsService.getResults());
     }
 

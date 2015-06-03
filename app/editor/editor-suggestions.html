@@ -6,7 +6,7 @@
      resizer-bottom="#editor-suggestions">
 </div>
 
-<aside ng-if="show" class="Editor-suggestions Editor-panel" id="editor-suggestions" ng-class="{'is-search-active': searchIsVisible}">
+<aside ng-if="show" class="Editor-suggestions Editor-panel" id="editor-suggestions" ng-class="{'is-search-active': search.isVisible}">
 
   <nav class="Editor-suggestionsHeader u-bgHighest u-sPH-3-4">
     <h2 class="Heading--panel u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2 u-floatLeft">
@@ -34,7 +34,7 @@
         </li>
         <li class="u-sM-1-8">
           <button class="Button Button--snug Button--invisible u-roundish" title="Search suggestions"
-            ng-class="{'is-active': searchIsVisible, 'is-disabled': !isTransUnitSelected }"
+            ng-class="{'is-active': search.isVisible, 'is-disabled': !isTransUnitSelected }"
             ng-click="editorSuggestions.toggleSearch($event)"
             ng-disabled="!isTransUnitSelected">
             <icon name="search" title="Search suggestions" class="Icon--sm"></icon>
@@ -47,19 +47,19 @@
         </li>
       </ul>
     </div>
-    <div class="Editor-suggestionsSearch u-sPB-1-4" ng-if="searchIsVisible">
-      <div class="InputGroup InputGroup--outlined InputGroup--rounded" ng-class="{'is-focused': searchInput.focused}">
+    <div class="Editor-suggestionsSearch u-sPB-1-4" ng-if="search.isVisible">
+      <div class="InputGroup InputGroup--outlined InputGroup--rounded" ng-class="{'is-focused': search.input.focused}">
         <span class="InputGroup-addon" ng-click="focusSearch($event)"><icon name="search" title="Search suggestions" class="Icon--xsm"></icon></span>
         <input type="search"
           placeholder="Search suggestions…"
           class="InputGroup-input u-sizeLineHeight-1_1-4"
-          ng-model="searchInput.text"
+          ng-model="search.input.text"
           ng-trim="false"
-          ng-focus="searchInput.focused = true"
-          ng-blur="searchInput.focused = false"
+          ng-focus="search.input.focused = true"
+          ng-blur="search.input.focused = false"
           maxlength="1000"
           focus-on="searchSugInput" />
-          <span ng-switch on="searchIsLoading" class="InputGroup-addon">
+          <span ng-switch on="search.isLoading" class="InputGroup-addon">
             <!-- TODO Add loading indicator -->
             <span ng-click="focusSearch($event)" ng-switch-when="true" class="Editor-suggestionsSearchLoader">Loading… </span>
             <span ng-click="focusSearch($event)" ng-switch-default ng-hide="!searchStrings.length" class="Editor-suggestionsSearchResults" ng-bind="suggestions.length + ' results'"></span>
@@ -74,18 +74,18 @@
   </nav>
 
   <div class="Editor-suggestionsBody">
-    <div ng-switch on="searchIsLoading">
+    <div ng-switch on="search.isLoading">
       <div ng-switch-when="true" class="u-posCenterCenter u-textEmpty u-textCenter">
         <!-- TODO Add loading indicator -->
         <icon name="loader" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
         <p>Loading suggestions</p>
       </div>
       <div ng-switch-default>
-        <div ng-if="!searchStrings.length && !searchInput.focused && !isTransUnitSelected" class="u-posCenterCenter u-textEmpty u-textCenter">
+        <div ng-if="!searchStrings.length && !search.input.focused && !isTransUnitSelected" class="u-posCenterCenter u-textEmpty u-textCenter">
           <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
           <p>Select a phrase or enter a search term</p>
         </div>
-        <div ng-if="!searchStrings.length && (searchInput.focused || isTransUnitSelected)" class="u-posCenterCenter u-textEmpty u-textCenter">
+        <div ng-if="!searchStrings.length && (search.input.focused || isTransUnitSelected)" class="u-posCenterCenter u-textEmpty u-textCenter">
           <icon name="search" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
           <p>Enter a search term</p>
         </div>
