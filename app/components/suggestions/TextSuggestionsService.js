@@ -53,7 +53,10 @@
           return;
         }
 
-        // Empty search should update immediately
+        // a new search will happen, cancel any pending search
+        $timeout.cancel(currentSearchHandle);
+
+        // Empty search can update immediately
         if (data === '') {
           searchText = data;
           loading = false;
@@ -62,13 +65,15 @@
           return;
         }
 
-        $timeout.cancel(currentSearchHandle);
         currentSearchHandle = $timeout(function() {
           // Update everything and notify listeners of the update
           searchText = data;
           loading = true;
           results = [];
           $rootScope.$broadcast('TextSuggestionsService:updated');
+
+          // TODO keep a list of promises for searches that have been started
+          // TODO when a more recent search returns, cancel earlier searches
 
           // Run the search and notify listeners when it is done
           SuggestionsService.getSuggestionsForText(data).then(

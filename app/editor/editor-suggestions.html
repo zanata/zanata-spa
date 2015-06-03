@@ -64,7 +64,11 @@
             <span ng-click="focusSearch($event)" ng-switch-when="true" class="Editor-suggestionsSearchLoader">Loading… </span>
             <span ng-click="focusSearch($event)" ng-switch-default ng-hide="editorSuggestions.searchText === ''" class="Editor-suggestionsSearchResults" ng-bind="editorSuggestions.searchResultsTotal + ' results'"></span>
           </span>
-          <span class="InputGroup-addon"><span></span><button ng-if="editorSuggestions.searchText !== ''" ng-click="editorSuggestions.clearSearchResults($event)"><icon name="cross" title="Clear search" class="Icon--xsm"></icon></button></span>
+          <span class="InputGroup-addon">
+            <button ng-if="searchStrings.length" ng-click="editorSuggestions.clearSearchResults($event)">
+              <icon name="cross" title="Clear search" class="Icon--xsm"></icon>
+            </button>
+          </span>
       </div>
     </div>
   </nav>

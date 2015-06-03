@@ -17,7 +17,7 @@
     editorSuggestionsCtrl.suggestions = [];
 
     /* @type {string[]} */
-    editorSuggestionsCtrl.searchStrings = [];
+    $scope.searchStrings = [];
 
     // Used to display number of results in search textbox
     editorSuggestionsCtrl.searchResultsTotal = 0;
@@ -63,7 +63,6 @@
      */
     $scope.searchInput = { text: '' };
     $scope.$watch('searchInput.text', function (newText) {
-      editorSuggestionsCtrl.searchStrings = [newText];
       editorSuggestionsCtrl.searchForText(newText);
     });
 
@@ -92,10 +91,9 @@
 
     editorSuggestionsCtrl.clearSearchResults =
       function($event, dontFocusInput) {
-      // editorSuggestionsCtrl.searchText = '';
-
+        // just remove the text, service will handle updating to empty results.
         $scope.searchInput.text = '';
-        editorSuggestionsCtrl.suggestions = [];
+
         if (!dontFocusInput && $event) {
           $scope.focusSearch($event);
         }
