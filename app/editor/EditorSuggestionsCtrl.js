@@ -55,6 +55,13 @@
     $scope.show = SettingsService.subscribe(SHOW_SUGGESTIONS_SETTING,
       function (show) {
         $scope.show = show;
+
+        if (show && !$scope.isTransUnitSelected) {
+          if ($scope.show && !$scope.search.isVisible) {
+            showSearch(null, true);
+          }
+        }
+
       });
 
     $scope.diff = SettingsService.subscribe(SUGGESTIONS_SHOW_DIFFERENCE_SETTING,
