@@ -209,6 +209,31 @@
       displaySuggestions(TextSuggestionsService.getResults());
     }
 
+    $rootScope.$on(EventService.EVENT.COPY_FROM_SUGGESTION_N,
+      function (event, matchIndex) {
+
+        if ($scope.show) {
+          // copy visible suggestion with that index
+          copySuggestion($scope.suggestions[matchIndex]);
+
+          // event for copy button on suggestion to display 'copied'
+          $scope.$broadcast('EditorSuggestionsCtrl:nth-suggestion-copied',
+                            matchIndex);
+
+        } else {
+          // copy suggestion from background phrase search
+          copySuggestion(PhraseSuggestionsService.getResults()[matchIndex]);
+        }
+
+      });
+
+
+    function copySuggestion(suggestion) {
+      if (suggestion) {
+        EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION,
+          { suggestion: suggestion });
+      }
+    }
 
     return editorSuggestionsCtrl;
   }

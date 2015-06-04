@@ -117,30 +117,32 @@
       return '9';
     }
 
-    /**
-     * Request this suggestion to be copied to the selected translation field.
-     *
-     * Generates a COPY_FROM_SUGGESTION event.
-     */
-    suggestionCtrl.copySuggestion = function () {
+    suggestionCtrl.showSuggestionCopied = function () {
       suggestionCtrl.copyButtonText = 'Copied';
       suggestionCtrl.copyButtonDisabled = true;
       $timeout(function() {
         suggestionCtrl.copyButtonDisabled = false;
         suggestionCtrl.copyButtonText = 'Copy Translation';
       }, 500);
+    };
+
+    /**
+     * Request this suggestion to be copied to the selected translation field.
+     *
+     * Generates a COPY_FROM_SUGGESTION event.
+     */
+    suggestionCtrl.copySuggestion = function () {
+      suggestionCtrl.showSuggestionCopied();
       EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION,
         { suggestion: $scope.suggestion });
     };
 
-
-
-    $rootScope.$on(EventService.EVENT.COPY_FROM_SUGGESTION_N,
-      function (event, data) {
-        if (data === $scope.index) {
-          suggestionCtrl.copySuggestion();
+    $scope.$on('EditorSuggestionsCtrl:nth-suggestion-copied',
+      function (event, index) {
+        if (index === $scope.index) {
+          suggestionCtrl.showSuggestionCopied();
         }
-      });
+    });
 
     // TODO sort detail before it is sent here for display
     $scope.sortedDetails =
