@@ -110,10 +110,6 @@
   overflow-y: scroll;
 }
 
-.Editor.is-suggestions-active .Editor-suggestions {
-  /*transform: translateY(0);*/
-}
-
 .Editor-suggestions.is-search-active .Editor-suggestionsBody {
   top: calc(var(--Editor-rhythm) * 3);
 }

@@ -345,7 +345,7 @@
   --TransUnit-transition-ease        : var(--transition-ease-out-circ);
   --TransUnit-transition             : all .25s var(--TransUnit-transition-ease);
   --TransUnit-focus-color-bg         : var(--color-white);
-  --TransUnit-hover-color-bg         : color(var(--color-bg) tint(45%));
+  --TransUnit-hover-color-bg         : var(--color-bg-lighter);
   --TransUnit-status-z-index         : var(--z-scale-2);
   --TransUnit-status-before-z-index  : var(--z-scale-3);
 }

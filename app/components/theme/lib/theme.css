@@ -45,7 +45,7 @@
   /* Background colors */
   --color-bg            : #ECEFF0;
   --color-bg-lightest   : var(--color-white);
-  --color-bg-lighter    : color(var(--color-bg) tint(93%));
+  --color-bg-lighter    : color(var(--color-bg) tint(80%));
   --color-bg-light      : color(var(--color-bg) tint(46%));
   --color-bg-dark       : color(var(--color-bg) shade(3%));
   --color-bg-darker     : color(var(--color-bg) shade(6%));

@@ -6,7 +6,7 @@
      resizer-bottom="#editor-suggestions">
 </div>
 
-<aside ng-if="show" class="Editor-suggestions Editor-panel" id="editor-suggestions" ng-class="{'is-search-active': search.isVisible}">
+<aside ng-if="show" class="Editor-suggestions Editor-panel u-bgHigh" id="editor-suggestions" ng-class="{'is-search-active': search.isVisible}">
 
   <nav class="Editor-suggestionsHeader u-bgHighest u-sPH-3-4">
     <h2 class="Heading--panel u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2 u-floatLeft">
@@ -17,7 +17,7 @@
     </h2>
     <div class="u-floatRight">
       <ul class="u-listHorizontal u-textCenter">
-<!--         <li class="u-smv-1-4">
+        <!-- <li class="u-smv-1-4">
           <a class="Link--neutral u-sizeHeight-1_1-2"
             title="Auto-fill" ng-click="suggestions.toggleAutofill()">
             (switch icon)
@@ -73,7 +73,7 @@
     </div>
   </nav>
 
-  <div class="Editor-suggestionsBody">
+  <div class="Editor-suggestionsBody u-bgHigh">
     <div ng-switch on="search.isLoading">
       <div ng-switch-when="true" class="u-posCenterCenter u-textEmpty u-textCenter">
         <!-- TODO Add loading indicator -->
