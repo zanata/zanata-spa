@@ -17,10 +17,6 @@
   border-radius: 100px;
 }
 
-.LogoLoader svg {
-  overflow: visible;
-}
-
 .LogoLoader--inverted {
   color: var(--LogoLoader-color-logo-invert);
 }
@@ -28,9 +24,21 @@
 .LogoLoader-logo {
   position: absolute;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
   transition: all .25s var(--LogoLoader-transition-ease);
   fill: currentColor;
+}
+
+
+.LogoLoader-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: visible;
 }
 
 .LogoLoader path {
@@ -72,12 +80,6 @@
   animation-delay: .1s;
 }
 
-@keyframes rotate {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes pulseBegin {
   0% {
      transform: scale(1);
@@ -98,11 +100,11 @@
 
 @keyframes pulse {
   0% {
-     transform: scale(1);
+     transform: scale(.6);
      opacity: 0;
   }
   20% {
-     transform: scale(1);
+     transform: scale(.6);
   }
   40% {
     transform: scale(1.2);
