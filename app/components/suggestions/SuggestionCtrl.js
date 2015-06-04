@@ -118,9 +118,9 @@
         }
     });
 
+    $scope.detail = suggestionCtrl.topMatch();
     // Will be undefined for imported matches
-    $scope.user = suggestionCtrl.topMatch().lastModifiedBy || 'Annoymous';
-    $scope.detail = $scope.suggestion.matchDetails[0];
+    $scope.user = $scope.detail.lastModifiedBy || 'Annoymous';
     $scope.remaining = $scope.suggestion.matchDetails.length - 1;
     $scope.isTextFlow = $scope.detail.type === 'LOCAL_PROJECT';
 
