@@ -122,14 +122,9 @@
       showSearch();
     }
 
-    // TODO move sorting/filtering to suggestion service
+    // TODO inline this
     function displaySuggestions(suggestions) {
-      var filteredSuggestions = _.chain(suggestions)
-        .sortBy(['similarityPercent', 'relevanceScore'])
-        .reverse()
-        .value();
-
-      $scope.suggestions = filteredSuggestions;
+      $scope.suggestions = suggestions;
     }
 
     function hideSearch() {

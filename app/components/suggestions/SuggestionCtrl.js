@@ -88,34 +88,8 @@
      * @return {MatchDetail} the best match
      */
     suggestionCtrl.topMatch = function () {
-      return $scope.sortedDetails[0];
+      return $scope.suggestion.matchDetails[0];
     };
-
-    // TODO use sortByAll when lodash version is increased
-    /**
-     * Return a string that will naturally sort local project details before
-     * imported TM details, approved state above translated state, and older
-     * modification dates first, in that priority order.
-     *
-     * @param detail {MatchDetail} to generate a sorting string for
-     * @returns {string}
-     */
-    function typeAndDateSort (detail) {
-
-      if (detail.type === 'IMPORTED_TM') {
-        return '3' + detail.lastChanged;
-      }
-      if (detail.type === 'LOCAL_PROJECT') {
-        if (detail.contentState === 'Translated') {
-          return '2' + detail.lastModifiedDate;
-        }
-        if (detail.contentState === 'Approved') {
-          return '1' + detail.lastModifiedDate;
-        }
-      }
-      // Unrecognized, sort last
-      return '9';
-    }
 
     suggestionCtrl.showSuggestionCopied = function () {
       suggestionCtrl.copyButtonText = 'Copied';
@@ -143,11 +117,6 @@
           suggestionCtrl.showSuggestionCopied();
         }
     });
-
-    // TODO sort detail before it is sent here for display
-    $scope.sortedDetails =
-      _.sortBy($scope.suggestion.matchDetails, typeAndDateSort);
-
 
     // Will be undefined for imported matches
     $scope.user = suggestionCtrl.topMatch().lastModifiedBy || 'Annoymous';

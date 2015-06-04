@@ -62,7 +62,7 @@
    * SuggestionsService.js
    * @ngInject
    */
-  function SuggestionsService(EditorService, EventService, UrlService,
+  function SuggestionsService(EditorService, EventService, UrlService, _,
                               $resource) {
 
     /**
@@ -115,8 +115,94 @@
       };
 
       var Suggestions = $resource(UrlService.SUGGESTIONS_URL, {}, postQuery);
-      return Suggestions.query({}, contents).$promise;
+      return Suggestions.query({}, contents).$promise.then(sortSuggestions);
     }
+
+    /**
+     * Sort suggestions so better matches are at the top, and details are in
+     * order from most to least relevant.
+     *
+     * @param {Suggestion[]} suggestions
+     * @return {Suggestion[]} the given suggestions in order.
+     */
+    function sortSuggestions(suggestions) {
+      return _.chain(suggestions)
+        .map(sortDetails)
+        .map(addBestMatchScores)
+        .sortBy(['similarityPercent', 'bestMatchScore',
+                 'bestMatchModificationDate', 'relevanceScore'])
+        .reverse()
+        .value();
+    }
+
+    /**
+     * Add properties 'bestMatchScore' and 'bestMatchModificationDate' to a
+     * suggestion to help with sorting.
+     *
+     * Higher scores are considered better, since the final results are in
+     * descending order.
+     *
+     * @param {Suggestion} suggestion
+     * @return {Suggestion}
+     */
+    function addBestMatchScores (suggestion) {
+      var date, score;
+      var topMatch = suggestion.matchDetails[0];
+
+      if (topMatch.type === 'LOCAL_PROJECT') {
+        date = topMatch.lastModifiedDate;
+        score = topMatch.contentState === 'Translated' ? 0 : 1;
+      }
+
+      if (topMatch.type === 'IMPORTED_TM') {
+        date = topMatch.lastChanged;
+        score = 2;
+      }
+
+      return _.assign({}, suggestion, {
+        bestMatchScore: score,
+        bestMatchModificationDate: date
+      });
+    }
+
+    /**
+     * Sort the match details of a suggestion by type and date.
+     *
+     * @param {Suggestion} suggestion to sort details
+     * @return {Suggestion} the given suggestion with details in correct order
+     */
+    function sortDetails (suggestion) {
+      var sortedDetails = _.sortBy(suggestion.matchDetails, typeAndDateSort);
+      return _.assign({}, suggestion, { matchDetails: sortedDetails });
+    }
+
+    // TODO use sortByAll when lodash version is increased
+    /**
+     * Return a string that will naturally sort local project details before
+     * imported TM details, approved state above translated state, and older
+     * modification dates first, in that priority order.
+     *
+     * @param {MatchDetail} detail
+     * @return {string} representation of order that will sort appropriately.
+     */
+    function typeAndDateSort (detail) {
+
+      if (detail.type === 'IMPORTED_TM') {
+        return '3' + detail.lastChanged;
+      }
+      if (detail.type === 'LOCAL_PROJECT') {
+        if (detail.contentState === 'Translated') {
+          return '2' + detail.lastModifiedDate;
+        }
+        if (detail.contentState === 'Approved') {
+          return '1' + detail.lastModifiedDate;
+        }
+      }
+      // Unrecognized, sort last
+      return '9';
+    }
+
+
 
     return {
       getSuggestionsForPhrase: getSuggestionsForPhrase,
