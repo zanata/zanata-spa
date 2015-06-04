@@ -262,10 +262,8 @@
  */
 
 :root {
-  --LogoLoader-color-logo        : var(--color-primary);
-  --LogoLoader-color-bg          : var(--color-white);
-  --LogoLoader-color-logo-invert : var(--LogoLoader-color-bg);
-  --LogoLoader-color-bg-invert   : var(--LogoLoader-color-logo);
+  --LogoLoader-color-logo        : var(--color-white);
+  --LogoLoader-color-logo-invert : var(--color-primary);
   --LogoLoader-rhythm            : var(--rhythm);
   --LogoLoader-transition-ease   : var(--transition-ease-out-back);
 }

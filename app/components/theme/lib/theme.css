@@ -57,7 +57,7 @@
   --color-unsure        : #E9DF1B;
   --color-warning       : #FFA800;
   --color-danger        : #FF3B3D;
-  --color-neutral       : color(var(--color-secondary) tint(60%));
+  --color-neutral       : color(var(--color-secondary) tint(70%));
 
   /* Font colors */
   --color-base-font     : #444c54;
