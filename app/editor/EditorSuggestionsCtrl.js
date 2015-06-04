@@ -134,6 +134,7 @@
         $scope.focusSearch($event);
       }
       editorSuggestionsCtrl.searchForText();
+      updateTextDisplay();
     }
 
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
@@ -149,9 +150,7 @@
     $rootScope.$on(EventService.EVENT.CANCEL_EDIT,
       function () {
         $scope.isTransUnitSelected = false;
-
-        if ($scope.show) {
-          // FIXME make this not needed, just respond to isTransUnitSelected
+        if ($scope.show && !$scope.search.isVisible) {
           showSearch(null, true);
         }
       });
