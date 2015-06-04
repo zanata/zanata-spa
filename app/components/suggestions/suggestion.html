@@ -9,12 +9,11 @@
         <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
         <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
       </div>
-      <div ng-if="!diffEnabled">{{source}}</div>
+      <div ng-if="!diffEnabled" ng-bind="::source"></div>
       <div ng-if="diffEnabled" semantic-diff left-obj="search[$index]" right-obj="source" class="Difference"></div>
     </div>
     <!-- TODO different display depending on imported or local -->
-    <div class="TransUnit-details"
-         ng-init="detail = suggestion.matchDetails[0]; remaining = suggestion.matchDetails.length - 1; isTextFlow = detail.type === 'LOCAL_PROJECT'">
+    <div class="TransUnit-details">
       <ul class="u-textMeta u-listInline u-sizeLineHeight-1">
         <li ng-if="isTextFlow" title="{{detail.projectId}}"><icon name="project" class="Icon--xsm"></icon> {{detail.projectName}}</li>
         <li ng-if="isTextFlow"><icon name="version" class="Icon--xsm"></icon> {{detail.version}}</li>
@@ -33,16 +32,18 @@
         <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
         <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
       </div>
-      <div>{{target}}</div>
+      <div ng-bind="::target"></div>
     </div>
     <div class="TransUnit-details">
-      <div ng-if="translator !== undefined" class="u-floatLeft u-sizeLineHeight-1">
+      <div ng-switch="suggestionCtrl.rowDisplayType()" class="u-floatLeft u-sizeLineHeight-1">
         <!-- TODO open details when any metadata is clicked -->
-        <span class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Translated by {{translator}}</span>
+        <span ng-switch-when="secondary" class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Last updated {{detail.lastChanged | date: 'mediumDate'}}</span>
+        <span ng-switch-when="highlight" class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Approved by {{user}} on {{detail.lastModifiedDate | date: 'mediumDate'}}</span>
+        <span ng-switch-when="success" class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Translated by {{user}} on {{detail.lastModifiedDate | date: 'mediumDate'}}</span>
       </div>
       <div class="u-floatRight u-sm-floatNone">
         <ul class="u-listInline u-sizeLineHeight-1">
-          <li class="u-text{{suggestionCtrl.percentDisplayType()}}">{{suggestionCtrl.percent()}}%</li>
+          <li class="u-text{{suggestionCtrl.percentDisplayType()}}" ng-bind="suggestionCtrl.percent() + '%'"></li>
           <li>
             <button class="Button Button--small u-rounded Button--primary u-sizeWidth-6"
             ng-class="{'is-disabled': suggestionCtrl.copyButtonDisabled}"

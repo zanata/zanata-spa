@@ -150,8 +150,10 @@
 
 
     // Will be undefined for imported matches
-    $scope.translator = suggestionCtrl.topMatch().lastModifiedBy;
-
+    $scope.user = suggestionCtrl.topMatch().lastModifiedBy || 'Annoymous';
+    $scope.detail = $scope.suggestion.matchDetails[0];
+    $scope.remaining = $scope.suggestion.matchDetails.length - 1;
+    $scope.isTextFlow = $scope.detail.type === 'LOCAL_PROJECT';
 
     return suggestionCtrl;
   }
