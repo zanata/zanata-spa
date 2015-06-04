@@ -56,9 +56,13 @@
       function (show) {
         $scope.show = show;
 
-        if (show && !$scope.isTransUnitSelected) {
-          if ($scope.show && !$scope.search.isVisible) {
-            showSearch(null, true);
+        if (show) {
+          if ($scope.isTransUnitSelected) {
+            updatePhraseDisplay();
+          } else {
+            if (!$scope.search.isVisible) {
+              showSearch(null, true);
+            }
           }
         }
 
