@@ -60,6 +60,11 @@
   top: calc(var(--Editor-rhythm) * 1.75);
 }
 
+/*So firefox keeps the background at 100% height when there are only a few translations*/
+.Editor-translationsWrapper {
+  height: 100%;
+}
+
 .Editor-translations {
   min-height: 100%;
   padding: calc(var(--Editor-rhythm) * 2) 0;
