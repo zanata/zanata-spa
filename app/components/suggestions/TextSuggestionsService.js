@@ -166,6 +166,7 @@
           // Ensure that earlier active searches will not overwrite results.
           pendingSearch = null;
           $timeout.cancel(pendingSearchHandle);
+          pendingSearchHandle = null;
           latestSearchTimestamp = Date.now;
           latestResultsTimestamp = Date.now();
 
