@@ -9,10 +9,7 @@
   --TransUnit-color-unsure           : #e0c350;
   --TransUnit-color-warning          : #e3824e;
   --TransUnit-color-secondary        : #20718A;
-  --TransUnit-is-focused-z-index     : 100;
-  --TransUnit-before-after-z-index   : -1;
   --TransUnit-header-footer-color-bg : #fff;
-  --TransUnit-header-z-index         : 200;
   --TransUnit-heading-font-size      : 1rem;
   --TransUnit-metaDataButton-size    : calc(12/16 * 1rem);
   --TransUnit-rhythm                 : 1.5rem;
@@ -44,7 +41,6 @@
 }
 
 .TransUnit.is-focused {
-  z-index: var(--TransUnit-is-focused-z-index) !important;
   opacity: 1 !important;
   background-color: var(--TransUnit-focus-color-bg);
 }
@@ -52,7 +48,6 @@
 .TransUnit:before,
 .TransUnit:after {
   position: absolute;
-  z-index: var(--TransUnit-before-after-z-index);
   left: 0;
   visibility: hidden;
   width: 100%;

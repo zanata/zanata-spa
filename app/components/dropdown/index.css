@@ -45,7 +45,11 @@
   left: 0;
   visibility: hidden;
   float: left;
-  min-width: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(var(--Dropdown-rhythm) * 12);
+  min-width: 120%;
   margin: 0;
   padding: 0;
   transition: var(--Dropdown-transition);

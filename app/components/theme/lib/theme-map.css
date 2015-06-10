@@ -180,7 +180,7 @@
   --Dropdown-rhythm              : var(--rhythm);
   --Dropdown-transition          : all .2s var(--transition-ease-out-back);
   --Dropdown-z-index             : var(--z-scale-1);
-  --Dropdown-active-z-index      : var(--z-scale-9);
+  --Dropdown-active-z-index      : var(--z-scale-10);
   --Dropdown-content-color-bg    : var(--color-white);
   --Dropdown-content-border      : var(--default-border);
   --Dropdown-content-z-index     : var(--z-scale-8);
@@ -331,8 +331,6 @@
   --TransUnit-color-success          : var(--color-success);
   --TransUnit-color-unsure           : var(--color-unsure);
   --TransUnit-color-warning          : var(--color-warning);
-  --TransUnit-is-focused-z-index     : var(--z-scale-1);
-  --TransUnit-before-after-z-index   : var(--z-scale-below);
   --TransUnit-header-footer-color-bg : var(--color-white);
   --TransUnit-heading-font-size      : 1rem;
   --TransUnit-header-z-index         : var(--z-scale-2);
