@@ -5,6 +5,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     csso = require('gulp-csso'),
     // debug = require('gulp-debug'),
     env = process.env.NODE_ENV || 'development',
+    eslint = require('gulp-eslint'),
     fs = require('fs'),
     gettext = require('gulp-angular-gettext'),
     gulp = require('gulp'),
@@ -309,6 +310,18 @@ gulp.task('watch', ['serve'], function(){
   gulp.watch(paths.images.bower, ['imagesBower']);
   gulp.watch(paths.fonts.bower, ['fontsBower']);
   gulp.watch(paths.app + '/index.html', ['copyIndex']);
+});
+
+gulp.task('lint', function () {
+  return gulp.src(paths.js.app)
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError());
+});
+
+gulp.task('lint-watch', function () {
+  gulp.watch(paths.js.app, ['lint']);
+  gulp.watch('.eslintrc', ['lint']);
 });
 
 gulp.task('default', ['build']);
