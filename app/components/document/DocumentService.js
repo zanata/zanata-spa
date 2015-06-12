@@ -46,7 +46,7 @@
     documentService.getStatistics = function (_projectSlug, _versionSlug,
       _docId, _localeId) {
       if (_docId && _localeId) {
-        var key = generateStatisticKey(_docId,  _localeId);
+        var key = generateStatisticKey(_docId, _localeId);
         if (_.has(statisticMap, key)) {
           return $q.when(statisticMap[key]);
         } else {
@@ -98,7 +98,7 @@
 
     documentService.containsDoc = function (documents, docId) {
       return _.any(documents, function(document) {
-         return StringUtil.equals(document.name, docId, true);
+        return StringUtil.equals(document.name, docId, true);
       });
     };
 

@@ -111,7 +111,7 @@
 
       Translation.update(data).$promise.then(
         function(response) {
-          var oldStatus =  request.phrase.status.ID;
+          var oldStatus = request.phrase.status.ID;
 
           PhraseService.onTransUnitUpdated(context, data.id, request.locale,
             response.revision, response.status, request.phrase);

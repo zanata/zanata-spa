@@ -130,8 +130,8 @@
         var key = generateKey(context.projectSlug, context.versionSlug,
           context.docId, localeId);
 
-        var stateEntry = _.find(states[key], function(stateEntry) {
-          return stateEntry.id === id;
+        var stateEntry = _.find(states[key], function(entry) {
+          return entry.id === id;
         });
         //Update states cache
         if(stateEntry) {

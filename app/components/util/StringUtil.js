@@ -33,9 +33,9 @@
     }
 
     return {
-      startsWith : startsWith,
-      endsWith   : endsWith,
-      equals     : equals
+      startsWith: startsWith,
+      endsWith: endsWith,
+      equals: equals
     };
   }
   angular

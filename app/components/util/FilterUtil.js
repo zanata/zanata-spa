@@ -64,9 +64,9 @@
     }
 
     return {
-      filterResources  : filterResources,
-      cleanResourceList:cleanResourceList,
-      cleanResourceMap   : cleanResourceMap
+      filterResources: filterResources,
+      cleanResourceList: cleanResourceList,
+      cleanResourceMap: cleanResourceMap
     };
   }
   angular

@@ -82,8 +82,8 @@
         function(translationList) {
           for ( var i in translationList.locales) {
             var language = {
-              'localeId' : translationList.locales[i],
-              'name' : ''
+              'localeId': translationList.locales[i],
+              'name': ''
             };
             appCtrl.uiLocaleList.push(language);
           }

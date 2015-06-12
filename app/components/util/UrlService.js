@@ -58,6 +58,7 @@
           }
 
           /* jshint -W101 */
+          /* eslint-disable max-len */
           // URLs over multiple lines are hard to read, allowing long lines here.
           // Warnings for jshint are turned off/on with -/+ before the warning code.
           // See: https://github.com/jshint/jshint/blob/2.1.4/src/shared/messages.js
@@ -74,6 +75,7 @@
             allLocales: '/locales',
             suggestions: '/suggestions'
           }, unary(restUrl));
+          /* eslint-enable max-len */
           /* jshint +W101 */
 
           urlService.PROJECT_URL = urls.project;
@@ -88,9 +90,9 @@
           urlService.ALL_LOCALE_URL = urls.allLocales;
           urlService.SUGGESTIONS_URL = urls.suggestions;
 
-          urlService.PROJECT_PAGE = function(projectSlug, versionSlug) {
+          urlService.projectPage = function(projectSlug, versionSlug) {
             return urlService.serverContextPath + 'iteration/view/' +
-              projectSlug + '/' +  versionSlug;
+              projectSlug + '/' + versionSlug;
           };
 
           urlService.DASHBOARD_PAGE = urlService.serverContextPath +

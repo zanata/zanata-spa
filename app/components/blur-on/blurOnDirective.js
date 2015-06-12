@@ -12,10 +12,10 @@
       link: function(scope, elem, attr) {
         return scope.$on('blurOn', function (e, name) {
           if (name === attr.blurOn) {
-              return elem[0].blur();
-            }
-          });
-        }
+            return elem[0].blur();
+          }
+        });
+      }
     };
   }
 

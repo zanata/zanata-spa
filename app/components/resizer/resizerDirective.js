@@ -115,7 +115,7 @@
         x = restrictMinOrMax(x, maximumPanelSize, minimumPanelSize);
 
         element.css({
-          left: (x - (scope.actualHeight / 2))  + 'px'
+          left: (x - (scope.actualHeight / 2)) + 'px'
         });
 
         leftPanel.css({
@@ -141,7 +141,7 @@
         y = restrictMinOrMax(y, maximumPanelSize, minimumPanelSize);
 
         element.css({
-          bottom: (y - (scope.actualHeight / 2))  + 'px'
+          bottom: (y - (scope.actualHeight / 2)) + 'px'
         });
 
         topPanel.css({
@@ -186,7 +186,8 @@
 
       function normalisePercentage(fraction, whole) {
         if ((/[0-9]*\.?[0-9]+%/).test(fraction)) {
-          return Math.round(whole * (parseInt(fraction.replace('%','')) / 100));
+          return Math.round(whole *
+            (parseInt(fraction.replace('%', '')) / 100));
         }
         else {
           return parseInt(fraction);

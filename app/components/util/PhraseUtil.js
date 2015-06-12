@@ -48,10 +48,10 @@
     }
 
     return {
-      getSaveButtonStatus  : getSaveButtonStatus,
-      hasTranslationChanged : hasTranslationChanged,
-      hasNoTranslation : hasNoTranslation,
-      hasEmptyTranslation : hasEmptyTranslation
+      getSaveButtonStatus: getSaveButtonStatus,
+      hasTranslationChanged: hasTranslationChanged,
+      hasNoTranslation: hasNoTranslation,
+      hasEmptyTranslation: hasEmptyTranslation
     };
   }
   angular

@@ -12,6 +12,9 @@
     var DELAY = 300;
     var MAX_ACTIVE_REQUESTS = 3;
 
+    /* Number of requests that are in progress */
+    var activeRequests = 0;
+
     /* @type {string} */
     var searchText = null;
 
@@ -46,8 +49,6 @@
 
     var pendingSearchHandle = null;
 
-    /* Number of requests that are in progress */
-    var activeRequests = 0;
     /* Time that most recent search was started */
     var latestSearchTimestamp = Date.now();
     var latestResultsTimestamp = Date.now();
@@ -61,10 +62,10 @@
      * ensure that an appropriate timer is running to initiate the pending
      * search.
      *
-     * @param {string} searchText
+     * @param {string} text the search text to use when the search is run
      */
-    function deferSearch(searchText) {
-      pendingSearch = searchText;
+    function deferSearch(text) {
+      pendingSearch = text;
       if (pendingSearchHandle) {
         // timer is already running, no need to start
         return;

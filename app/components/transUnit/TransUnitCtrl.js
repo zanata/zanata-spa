@@ -55,7 +55,7 @@
         EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
           {'id': $stateParams.id,
             'updateURL': false,
-            'focus' : $stateParams.selected});
+            'focus': $stateParams.selected});
       }
     };
 
@@ -86,7 +86,7 @@
     };
 
     transUnitCtrl.toggleSaveAsOptions = function(open) {
-      EventService.broadcastEvent( open ? 'openDropdown': 'closeDropdown',
+      EventService.broadcastEvent(open ? 'openDropdown' : 'closeDropdown',
         {}, $scope);
       if (open) {
         // focus on the first dropdown option

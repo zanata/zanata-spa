@@ -29,7 +29,7 @@
         if (transUnitCtrl) {
           transUnitCtrl.toggleSaveAsOptions(data.open);
         }
-    });
+      });
 
     /**
      * EventService.EVENT.SELECT_TRANS_UNIT listener
@@ -45,7 +45,7 @@
 
         EventService.emitEvent(EventService.EVENT.REQUEST_PHRASE_SUGGESTIONS,
           {
-            'phrase' : newTuController.getPhrase()
+            'phrase': newTuController.getPhrase()
           });
 
         if(newTuController) {
@@ -59,10 +59,10 @@
               oldTUController.getPhrase())) {
               EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
                 {
-                  'phrase' : oldTUController.getPhrase(),
-                  'status' : TransStatusService.getStatusInfo('TRANSLATED'),
-                  'locale' : $stateParams.localeId,
-                  'docId'  : $stateParams.docId
+                  'phrase': oldTUController.getPhrase(),
+                  'status': TransStatusService.getStatusInfo('TRANSLATED'),
+                  'locale': $stateParams.localeId,
+                  'docId': $stateParams.docId
                 });
             }
           }
@@ -238,8 +238,8 @@
     }
 
     function updateSaveButton(event, phrase) {
-       var transUnitCtrl = controllerList[phrase.id];
-       transUnitCtrl.updateSaveButton(phrase);
+      var transUnitCtrl = controllerList[phrase.id];
+      transUnitCtrl.updateSaveButton(phrase);
     }
 
     function phraseSaving(event, data) {
@@ -274,25 +274,24 @@
       if (saveStatus.ID === 'untranslated') {
         return filteredOptions;
       }
-      filteredOptions = $filter('filter')
-      (TransStatusService.getAllAsArray(), {ID: '!untranslated'});
+      filteredOptions = $filter('filter')(TransStatusService.getAllAsArray(),
+                                          {ID: '!untranslated'});
 
       if(phrase.plural) {
         if(PhraseUtil.hasNoTranslation(phrase)) {
-          filteredOptions = $filter('filter')
-          (filteredOptions, {ID: '!needswork'});
+          filteredOptions =
+            $filter('filter')(filteredOptions, {ID: '!needswork'});
         } else if(PhraseUtil.hasEmptyTranslation(phrase)) {
-            filteredOptions = $filter('filter')
-            (filteredOptions, {ID: '!translated'});
+          filteredOptions =
+            $filter('filter')(filteredOptions, {ID: '!translated'});
         }
       }
 
       if (PRODUCTION) {
-        filteredOptions = $filter('filter')
-        (filteredOptions, {ID: '!approved'});
+        filteredOptions = $filter('filter')(filteredOptions, {ID: '!approved'});
       }
 
-      return $filter('filter')(filteredOptions, {ID: '!'+saveStatus.ID});
+      return $filter('filter')(filteredOptions, {ID: '!' + saveStatus.ID});
     }
 
     return transUnitService;
@@ -302,5 +301,3 @@
     .module('app')
     .factory('TransUnitService', TransUnitService);
 })();
-
-

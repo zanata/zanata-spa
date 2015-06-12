@@ -26,7 +26,7 @@
             'NAME': 'Needs Work',
             'CSSCLASS': 'unsure'
           },
-          'TRANSLATED' : {
+          'TRANSLATED': {
             'ID': 'translated',
             'NAME': 'Translated',
             'CSSCLASS': 'success'

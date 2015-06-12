@@ -55,7 +55,7 @@
         templateUrl: 'editor/editor.html',
         controller: 'EditorCtrl as editor',
         resolve: {
-          url : function(UrlService) {
+          url: function(UrlService) {
             return UrlService.init();
           }
         }
@@ -80,7 +80,7 @@
         reloadOnSearch: false
       });
 
-      hotkeysProvider.includeCheatSheet = false;
+    hotkeysProvider.includeCheatSheet = false;
 
   //   $locationProvider.html5Mode(true);
   //     .hashPrefix('!');

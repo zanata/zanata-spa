@@ -9,17 +9,17 @@
    */
   function renderWhitespaceCharacters() {
     var WHITESPACES = {
-      'space' : {
-        'regex' : / /g,
-        'template' : '<span class="u-textSpace"> </span>'
+      'space': {
+        'regex': / /g,
+        'template': '<span class="u-textSpace"> </span>'
       },
-      'newline' : {
-        'regex' : /\n/g,
-        'template' : '<span class="u-textPilcrow"></span>\n'
+      'newline': {
+        'regex': /\n/g,
+        'template': '<span class="u-textPilcrow"></span>\n'
       },
-      'tab' : {
-        'regex' : /\t/g,
-        'template' : '<span class="u-textTab">\t</span>'
+      'tab': {
+        'regex': /\t/g,
+        'template': '<span class="u-textTab">\t</span>'
       }
     };
 

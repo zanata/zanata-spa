@@ -17,19 +17,19 @@
         // second combo (secondary keys) is an array. We have to flatten it
         var keyCombos = _.flatten(shortcutInfo.keyCombos, 'combo');
         return {
-        combos: _.map(keyCombos, function(key) {
-          return EditorShortcuts.symbolizeKey(key);
-        }),
-        description: shortcutInfo.keyCombos[0].description
-      };
-    });
+          combos: _.map(keyCombos, function(key) {
+            return EditorShortcuts.symbolizeKey(key);
+          }),
+          description: shortcutInfo.keyCombos[0].description
+        };
+      });
 
     //tu status to include for display
     editorCtrl.filter = {
-      'status' : {
+      'status': {
         'all': true,
-        'approved' : false,
-        'translated' : false,
+        'approved': false,
+        'translated': false,
         'needsWork': false,
         'untranslated': false
       }
@@ -103,7 +103,7 @@
 
 
     editorCtrl.versionPage = function() {
-      return UrlService.PROJECT_PAGE(editorCtrl.context.projectSlug,
+      return UrlService.projectPage(editorCtrl.context.projectSlug,
         editorCtrl.context.versionSlug);
     };
 

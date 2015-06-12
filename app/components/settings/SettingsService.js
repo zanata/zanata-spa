@@ -91,8 +91,8 @@
      *
      * @param {Object<SettingKey, SettingValue>} settings
      */
-    function updateAll(settings) {
-      _.each(settings, function (value, key) {
+    function updateAll(settingsMap) {
+      _.each(settingsMap, function (value, key) {
         update(key, value);
       });
     }

@@ -116,7 +116,7 @@
         if (index === $scope.index) {
           suggestionCtrl.showSuggestionCopied();
         }
-    });
+      });
 
     $scope.detail = suggestionCtrl.topMatch();
     // Will be undefined for imported matches

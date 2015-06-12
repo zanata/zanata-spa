@@ -54,8 +54,8 @@
     };
 
     scope.$watch('isOpen', function(isOpen, wasOpen) {
-      $animate[isOpen ? 'addClass' : 'removeClass']
-        (dropdownCtrl.$element, openClass);
+      var action = isOpen ? 'addClass' : 'removeClass';
+      $animate[action](dropdownCtrl.$element, openClass);
 
       if (isOpen) {
         // need to wrap it in a timeout

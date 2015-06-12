@@ -35,7 +35,7 @@
       }
     };
 
-    var closeDropdown = function(evt) {
+    function closeDropdown(evt) {
       if (!openScope) {
         return;
       }
@@ -47,14 +47,14 @@
       openScope.$apply(function() {
         openScope.isOpen = false;
       });
-    };
+    }
 
-    var escapeKeyBind = function(evt) {
+    function escapeKeyBind(evt) {
       if (evt.which === 27) {
         openScope.focusToggleElement();
         closeDropdown();
       }
-    };
+    }
   }
 
   angular

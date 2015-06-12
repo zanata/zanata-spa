@@ -67,10 +67,10 @@
      * ensure that an appropriate timer is running to initiate the pending
      * search.
      *
-     * @param {Phrase} searchPhrase
+     * @param {Phrase} phrase the phrase to use when the search is run
      */
-    function deferSearch(searchPhrase) {
-      pendingSearch = searchPhrase;
+    function deferSearch(phrase) {
+      pendingSearch = phrase;
       if (pendingSearchHandle) {
         // timer is already running, no need to start
         return;

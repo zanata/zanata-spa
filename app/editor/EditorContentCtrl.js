@@ -24,12 +24,12 @@
     init();
 
     $rootScope.$on(EventService.EVENT.FILTER_TRANS_UNIT,
-      function (event, filter) {
-        if(filter.status.all === true) {
+      function (event, filterInfo) {
+        if(filterInfo.status.all === true) {
           $location.search('status', null);
         } else {
           var queries = [];
-          _.forEach(filter.status, function(val, key) {
+          _.forEach(filterInfo.status, function(val, key) {
             if(val) {
               queries.push(key);
             }
@@ -75,7 +75,7 @@
     $rootScope.$on(EventService.EVENT.GOTO_NEXT_PAGE,
       function () {
         if(EditorService.currentPageIndex < EditorService.maxPageIndex) {
-          EditorService.currentPageIndex +=1;
+          EditorService.currentPageIndex++;
           changePage(EditorService.currentPageIndex);
         }
       });
@@ -109,8 +109,8 @@
         nextIndex,
         nextId;
 
-      currentIndex = _.findIndex(phrases, function (phrase) {
-        return phrase.id === data.currentId;
+      currentIndex = _.findIndex(phrases, function (searchPhrase) {
+        return searchPhrase.id === data.currentId;
       });
       nextIndex = Math.min(currentIndex + 1, phrases.length - 1);
       nextId = phrases[nextIndex].id;
@@ -142,8 +142,8 @@
         previousIndex,
         prevId;
 
-      currentIndex = _.findIndex(phrases, function (phrase) {
-        return phrase.id === data.currentId;
+      currentIndex = _.findIndex(phrases, function (searchPhrase) {
+        return searchPhrase.id === data.currentId;
       });
       previousIndex = Math.max(currentIndex - 1, 0);
       prevId = phrases[previousIndex].id;
@@ -218,19 +218,19 @@
         }
       );
 
-      PhraseService.getPhraseCount(EditorService.context, filter).
-        then(function(count) {
+      PhraseService.getPhraseCount(EditorService.context, filter)
+        .then(function(count) {
           EditorService.maxPageIndex = parseInt(count / COUNT_PER_PAGE);
           if(count > COUNT_PER_PAGE) {
             EditorService.maxPageIndex = count % COUNT_PER_PAGE !== 0 ?
-              EditorService.maxPageIndex +=1 : EditorService.maxPageIndex;
+              EditorService.maxPageIndex++ : EditorService.maxPageIndex;
           }
 
-          EditorService.maxPageIndex =  EditorService.maxPageIndex -1 < 0 ? 0 :
-            EditorService.maxPageIndex -1;
+          EditorService.maxPageIndex = EditorService.maxPageIndex < 1 ? 0 :
+            EditorService.maxPageIndex - 1;
 
           loadPhrase(EditorService.currentPageIndex);
-      });
+        });
     }
 
     function loadPhrase(pageIndex) {

@@ -107,11 +107,11 @@
      * @return {function} callback that will copy the nth suggestion.
      */
     function copySuggestionCallback(oneBasedIndex) {
-      return (function (event) {
+      return function (event) {
         event.preventDefault();
         EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION_N,
-          oneBasedIndex-1);
-      });
+          oneBasedIndex - 1);
+      };
     }
 
     /**

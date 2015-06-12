@@ -56,16 +56,16 @@
       return list.query().$promise;
     }
 
-    function getLocaleByLocaleId(locales, localeId) {
-      if(locales) {
-        return _.find(locales, function(locale) {
+    function getLocaleByLocaleId(localeList, localeId) {
+      if(localeList) {
+        return _.find(localeList, function(locale) {
           return StringUtil.equals(locale.localeId, localeId, true);
         });
       }
     }
 
-    function containsLocale (locales, localeId) {
-      return _.any(locales, function(locale) {
+    function containsLocale (localeList, localeId) {
+      return _.any(localeList, function(locale) {
         return StringUtil.equals(locale.localeId, localeId, true);
       });
     }
@@ -79,15 +79,15 @@
     }
 
     return {
-      getSupportedLocales : getSupportedLocales,
-      getUILocaleList     : getUILocaleList,
-      getLocaleByLocaleId : getLocaleByLocaleId,
-      getAllLocales : getAllLocales,
-      containsLocale : containsLocale,
-      getName : getName,
+      getSupportedLocales: getSupportedLocales,
+      getUILocaleList: getUILocaleList,
+      getLocaleByLocaleId: getLocaleByLocaleId,
+      getAllLocales: getAllLocales,
+      containsLocale: containsLocale,
+      getName: getName,
       DEFAULT_LOCALE: {
-        'localeId' : 'en-US',
-        'name' : 'English'
+        'localeId': 'en-US',
+        'name': 'English'
       }
     };
   }
