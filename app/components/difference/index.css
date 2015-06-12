@@ -3,9 +3,9 @@
   --difference-color-deletion: #F4DEDF;
 }
 
-.Difference {
-  display: inline-block;
-  padding: 0 2px;
+.Difference ins,
+.Difference del {
+  padding: 0 1px;
   border-radius: 2px;
 }
 
