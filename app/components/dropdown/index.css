@@ -48,8 +48,8 @@
   overflow: auto;
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: calc(var(--Dropdown-rhythm) * 12);
-  min-width: 120%;
+  max-height: calc(var(--Dropdown-rhythm) * 17);
+  min-width: 100%;
   margin: 0;
   padding: 0;
   transition: var(--Dropdown-transition);
@@ -82,7 +82,8 @@
 
 .Dropdown-item {
   display: block;
-  padding: calc(var(--Dropdown-rhythm) * .125) calc(var(--Dropdown-rhythm) * .25);
+  line-height: calc(var(--Dropdown-rhythm) * .875);
+  padding: calc(var(--Dropdown-rhythm) * .25) calc(var(--Dropdown-rhythm) * .25);
   transition: var(--Dropdown-item-transition);
   color: var(--Dropdown-item-color);
 }
