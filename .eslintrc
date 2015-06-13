@@ -1,20 +1,65 @@
-{
-  "rules": {
-    "curly": [2, "multi-line"],
-    "indent": [2, 2],
-    "linebreak-style": [2, "unix"],
-    "max-len": [1, 80, 2],
-    "new-cap": [2, {
-    }],
-    "no-console": [1],
-    "no-use-before-define": [2, "nofunc"],
-    "quotes": [2, "single"],
-    "semi": [2, "always"]
-  },
-  "env": {
-    "browser": true
-  },
-  "globals": {
-    "angular": false
-  }
-}
+
+# Rule details at http://eslint.org/docs/rules/
+# Specific rules usually http://eslint.org/docs/rules/<rule-name>
+# First argument to a rule is always one of:
+#  - 0: disable rule
+#  - 1: generate warning
+#  - 2: generate error
+rules:
+
+  # require curly braces around blocks
+  curly:
+    - 2
+    - multi-line  # unless the entire block is on one line
+
+  indent:
+    - 2
+    - 2  # 2 spaces per indentation level
+
+  linebreak-style:
+    - 2
+    - unix  # only allow LF
+
+  # Enforced max line length. Temporarily disable in the rare cases that
+  # a long line is more readable (e.g. URLs), using
+  #    /* eslint-disable max-len */
+  #    Your legitimately long lines here...
+  #    /* eslint-enable max-len */
+  max-len:
+    - 2   # error to enforce compliance, disable when needed
+    - 80  # line length
+    - 2   # count tabs as 2 characters (required, but we don't allow tabs)
+
+  # All constructor functions start with caps, and other functions do not
+  new-cap:
+    - 2
+
+  # No logging to console, so debugging lines are not left in by mistake.
+  no-console:
+    - 1  # Just a warning, until rule is customized to allow console.error
+
+  # Do not use variables before they are defined.
+  no-use-before-define:
+    - 2
+    - nofunc  # allow use of hoisted functions before their definition
+
+  # Consistent quoting style
+  quotes:
+    - 2
+    - single  # use single quotes everywhere...
+    - avoid-escape  # except for strings that contain single-quotes
+
+  # Consistent use of semicolons.
+  # Consider changing this to get cleaner code, if we would not write errors.
+  semi:
+    - 2
+    - always  # must add a semicolon any place it is valid
+
+env:
+  browser: true  # assume all browser APIs are available
+
+# Pairs global variable name, and whether to allow writing to it.
+# See:
+# http://eslint.org/docs/user-guide/configuring.html#specifying-globals
+globals:
+  angular: false  # angular is a global, and should never be written to
