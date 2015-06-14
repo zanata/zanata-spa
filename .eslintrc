@@ -1,6 +1,10 @@
 
-# Rule details at http://eslint.org/docs/rules/
+# Default rule details at http://eslint.org/docs/rules/
 # Specific rules usually http://eslint.org/docs/rules/<rule-name>
+#
+# Rules in the form "angluar/*" are from:
+#     https://www.npmjs.com/package/eslint-plugin-angular
+#
 # First argument to a rule is always one of:
 #  - 0: disable rule
 #  - 1: generate warning
@@ -63,3 +67,6 @@ env:
 # http://eslint.org/docs/user-guide/configuring.html#specifying-globals
 globals:
   angular: false  # angular is a global, and should never be written to
+
+plugins:
+  - angular

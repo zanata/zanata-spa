@@ -28,6 +28,7 @@
   },
   "license": "LGPL-2.1",
   "devDependencies": {
+    "eslint-plugin-angular": "Gillespie59/eslint-plugin-angular#0.0.9",
     "fake-zanata-server": "^3.0.1",
     "gulp": "^3.8.6",
     "gulp-angular-gettext": "^0.3.1",
