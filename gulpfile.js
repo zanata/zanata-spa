@@ -6,6 +6,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     // debug = require('gulp-debug'),
     env = process.env.NODE_ENV || 'development',
     eslint = require('gulp-eslint'),
+    flow = require('gulp-flowtype'),
     fs = require('fs'),
     gettext = require('gulp-angular-gettext'),
     gulp = require('gulp'),
@@ -322,6 +323,21 @@ gulp.task('lint', function () {
 gulp.task('lint-watch', function () {
   gulp.watch(paths.js.app, ['lint']);
   gulp.watch('.eslintrc', ['lint']);
+});
+
+gulp.task('typecheck', function () {
+  // Just start flow in the root of /app, let it recurse.
+  return gulp.src(paths.js.app)
+    .pipe(flow({
+      // check files even without @flow annotation
+      all: true
+    }));
+});
+
+gulp.task('typecheck-watch', function () {
+  gulp.watch(paths.js.app, ['typecheck']);
+  gulp.watch('./.flowconfig', ['typecheck']);
+  gulp.watch('./app/.flowconfig', ['typecheck']);
 });
 
 gulp.task('default', ['build']);
