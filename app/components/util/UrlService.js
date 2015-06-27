@@ -7,12 +7,12 @@
    * UrlService.js
    * @ngInject
    */
-  function UrlService($location, $http, $q, $stateParams, _) {
+  function UrlService($location, $http, $q, $stateParams, $window, _) {
     //IE doesn't support location.origin
     if (!location.origin) {
       location.origin =
-        window.location.protocol + '//' + window.location.hostname +
-        (window.location.port ? (':' + window.location.port) : '');
+        $window.location.protocol + '//' + $window.location.hostname +
+        ($window.location.port ? (':' + $window.location.port) : '');
     }
 
     var urlService = this,
