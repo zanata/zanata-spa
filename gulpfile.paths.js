@@ -2,23 +2,23 @@
  * Path Definitions
  */
 
-paths = {};
+var paths = {};
 
-paths.app = './app',
-paths.build =  './build';
+paths.app = './app';
+paths.build = './build';
 paths.bower = './bower_main';
-paths.config = paths.app + '/config.json'
+paths.config = paths.app + '/config.json';
 paths.css = {
   all: paths.app + '/**/*.css',
   app: paths.app + '/app.css',
-  bower: paths.bower + '/**/*.css',
+  bower: paths.bower + '/**/*.css'
 };
 paths.fonts = {
   bower: paths.bower + '/**/fonts/**/*'
 };
 paths.icons = {
   app: paths.app + '/components/icon/images/*.svg'
-}
+};
 paths.images = {
   app: [
     '!' + paths.icons.app,
@@ -34,14 +34,14 @@ paths.js = {
   bower: [
     paths.bower + '/**/angular.js',
     paths.bower + '/**/*.js'
-  ],
+  ]
 };
 paths.modernizr = {
   src: paths.bower + '/modernizr/modernizr.js',
   build: paths.bower + '/modernizr',
   buildName: 'modernizr-custom.js'
 };
-paths.templates = ['!' + paths.app + '/index.html', paths.app + '/**/*.html'],
+paths.templates = ['!' + paths.app + '/index.html', paths.app + '/**/*.html'];
 paths.translations = {
   build: paths.build + '/translations',
   po: paths.app + '/components/translations',
