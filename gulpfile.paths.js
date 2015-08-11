@@ -36,6 +36,7 @@ paths.js = {
     paths.bower + '/**/*.js'
   ]
 };
+paths.jsx = paths.app + '/**/*.jsx';
 paths.modernizr = {
   src: paths.bower + '/modernizr/modernizr.js',
   build: paths.bower + '/modernizr',

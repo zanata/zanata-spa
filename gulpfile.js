@@ -1,6 +1,8 @@
+/*eslint-env node*/
 'use strict';
 
 var angularTemplatecache = require('gulp-angular-templatecache'),
+    babel = require('gulp-babel'),
     concat = require('gulp-concat'),
     csso = require('gulp-csso'),
     // debug = require('gulp-debug'),
@@ -14,6 +16,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     inject = require('gulp-inject'),
     jshint = require('gulp-jshint'),
     mainBowerFiles = require('main-bower-files'),
+    merge = require('merge-stream'),
     modulizr = require('gulp-modulizr'),
     ngAnnotate = require('gulp-ng-annotate'),
     notify = require('gulp-notify'),
@@ -97,8 +100,11 @@ gulp.task('cssBower', ['bowerMain'], function(){
     .pipe(gulp.dest(paths.build + '/css'));
 });
 
-gulp.task('js',function(){
-  return gulp.src(paths.js.app)
+gulp.task('js', function(){
+  var jsx = gulp.src(paths.jsx).pipe(babel());
+  var js = gulp.src(paths.js.app);
+
+  return merge(jsx, js)
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
@@ -303,6 +309,7 @@ gulp.task('serve', ['webserver']);
 gulp.task('watch', ['serve'], function(){
   gulp.watch(paths.js.bower, ['jsBower']);
   gulp.watch(paths.js.app, ['js']);
+  gulp.watch(paths.jsx, ['js']);
   gulp.watch(paths.css.bower, ['cssBower']);
   gulp.watch(paths.css.all, ['css']);
   gulp.watch(paths.templates, ['templates', 'translations']);
