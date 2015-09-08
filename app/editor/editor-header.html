@@ -17,21 +17,7 @@
           <docs-dropdown></docs-dropdown>
         </li>
         <li>
-          <dropdown class="Dropdown">
-            <button dropdown-toggle
-              class="Dropdown-toggle Link--invert"/>
-              <span ng-bind="editor.getLocaleName(editor.context.localeId)"></span>
-              <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
-            </button>
-            <ul class="Dropdown-content Dropdown-content--bordered">
-              <li ng-repeat="locale in editor.locales">
-                <a ng-href="#/{{::editor.context.projectSlug}}/{{::editor.context.versionSlug}}/translate/{{::editor.encodeDocId(editor.context.docId)}}/{{::locale.localeId}}"
-                  class="Dropdown-item">
-                  <span ng-bind="locale.name"></span>
-                </a>
-              </li>
-            </ul>
-          </dropdown>
+          <languages-dropdown></languages-dropdown>
         </li>
       </ul>
     </div>

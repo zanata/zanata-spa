@@ -7,7 +7,7 @@
    * LocaleService.js
    * @ngInject
    */
-  function LocaleService(UrlService, StringUtil, FilterUtil, $resource, _) {
+  function LocaleService(UrlService, StringUtil, FilterUtil, $rootScope, $resource, _) {
 
     var locales = [];
 
@@ -43,6 +43,7 @@
       });
       return Locales.query().$promise.then(function(results) {
         locales = FilterUtil.cleanResourceList(results);
+        $rootScope.$broadcast('locales-updated');
       });
     }
 
