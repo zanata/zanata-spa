@@ -14,21 +14,7 @@
       </icon>
       <ul class="u-listInline u-inlineBlock">
         <li>
-          <dropdown class="Dropdown">
-            <button dropdown-toggle
-              class="Dropdown-toggle Link--invert"/>
-              <span ng-bind="editor.context.docId"></span>
-              <icon name="chevron-down" class="Icon--sm Dropdown-toggleIcon"/>
-            </button>
-            <ul class="Dropdown-content Dropdown-content--bordered">
-              <li ng-repeat="doc in ::editor.documents">
-                <a ng-href="#/{{::editor.context.projectSlug}}/{{::editor.context.versionSlug}}/translate/{{::editor.encodeDocId(doc.name)}}/{{::editor.context.localeId}}"
-                  class="Dropdown-item">
-                  <span ng-bind="::doc.name"></span>
-                </a>
-              </li>
-            </ul>
-          </dropdown>
+          <docs-dropdown></docs-dropdown>
         </li>
         <li>
           <dropdown class="Dropdown">
