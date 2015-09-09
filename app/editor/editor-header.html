@@ -23,19 +23,7 @@
     </div>
     <ul class="u-listHorizontal u-posAbsoluteRight u-sMR-1-2">
       <li>
-        <dropdown class="Dropdown Dropdown--right u-sMV-1-2">
-          <a dropdown-toggle
-            class="Dropdown-toggle Link--invert u-inlineBlock u-textNoWrap u-sPH-1-4"
-            ng-bind="editor.getLocaleName(app.myInfo.locale.localeId)"/>
-          </a>
-          <ul class="Dropdown-content Dropdown-content--bordered">
-            <li ng-repeat="locale in ::app.uiLocaleList">
-              <a ng-click="app.onChangeUILocale(locale)" class="Dropdown-item u-textNoWrap u-textRight">
-                <span ng-bind="::editor.getLocaleName(locale.localeId)"></span>
-              </a>
-            </li>
-          </ul>
-        </dropdown>
+        <ui-language-dropdown></ui-language-dropdown>
       </li>
       <li ng-show="appCtrl.PRODUCTION">
         <button class="Link--invert Header-item u-sizeWidth-1_1-2"

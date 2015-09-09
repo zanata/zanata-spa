@@ -52,8 +52,13 @@
                   appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE;
                 });
       } else {
-        gettextCatalog.setCurrentLanguage(
-          LocaleService.DEFAULT_LOCALE.localeId);
+        // wrapped in apply because this MUST be run at the appropriate part of
+        // the angular cycle, or it does not remove the old strings from the UI
+        // (you end up with multiple strings displaying).
+        $scope.$apply(function () {
+          gettextCatalog.setCurrentLanguage(
+            LocaleService.DEFAULT_LOCALE.localeId);
+        });
       }
     };
 

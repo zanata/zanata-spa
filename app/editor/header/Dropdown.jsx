@@ -10,7 +10,8 @@ Dropdown = React.createClass({
       onToggle: React.PropTypes.func.isRequired,
       isOpen: React.PropTypes.bool.isRequired,
       enabled: React.PropTypes.bool,
-      button: React.PropTypes.element.isRequired
+      button: React.PropTypes.element.isRequired,
+      className: React.PropTypes.string
     };
   },
 
@@ -29,7 +30,7 @@ Dropdown = React.createClass({
     let classes = cx({
       'Dropdown': true,
       'is-active': this.props.isOpen
-    });
+    }) + ' ' + this.props.className;
 
     let buttonProps = {
       ref: 'button',
