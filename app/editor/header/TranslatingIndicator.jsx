@@ -1,0 +1,31 @@
+/* global React, Icon, TranslatingIndicator */
+
+/**
+ * Indicator that shows 'Translating' when the user is
+ * translating the document. Presumably it will show
+ * 'viewing' when that mode is available.
+ */
+TranslatingIndicator = React.createClass({
+
+  propTypes: () => {
+    return {
+      // DO NOT RENAME, the translation string extractor looks specifically
+      // for gettextCatalog.getString when generating the translation template.
+      gettextCatalog: React.PropTypes.shape({
+        getString: React.PropTypes.func.isRequired
+      }).isRequired
+    };
+  },
+
+  render: function() {
+    return (
+      <button
+        className="Link--neutral u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2 u-sMR-1-4">
+        <Icon name="translate"/> <span
+          className="u-ltemd-hidden u-sMR-1-4">
+          {this.props.gettextCatalog.getString('Translating')}
+        </span>
+      </button>
+    );
+  }
+});
