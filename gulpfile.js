@@ -219,7 +219,12 @@ gulp.task('config', function() {
 });
 
 gulp.task('generatePot', function () {
-  return gulp.src(paths.translations.src)
+  var plain = gulp.src(paths.translations.src.plain);
+  // angular-gettext does not know how to extract strings from es6/jsx
+  // so this is first compiled to es5
+  var jsx = gulp.src(paths.translations.src.jsx).pipe(babel());
+
+  return merge(plain, jsx)
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(gettext.extract('template.pot', {
       // options to pass to angular-gettext-tools...
@@ -227,6 +232,10 @@ gulp.task('generatePot', function () {
     .pipe(gulp.dest(paths.translations.po));
 });
 
+// angular-gettext puts the absolute path in the pot file, so it changes
+// with a build on someone else's machine with no actual changes.
+// This is a workaround to strip the path. There is probably a way to
+// configure it better, but I have not personally looked.
 gulp.task('filterPotAbsolutePath', ['generatePot'], function () {
   var regex = new RegExp(process.cwd() + '/', 'g');
   gulp.src(paths.translations.po + '/**/*.pot', {base: './'})

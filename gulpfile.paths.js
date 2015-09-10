@@ -46,7 +46,13 @@ paths.templates = ['!' + paths.app + '/index.html', paths.app + '/**/*.html'];
 paths.translations = {
   build: paths.build + '/translations',
   po: paths.app + '/components/translations',
-  src: paths.app + '/**/*.html'
+  src: {
+    plain: [
+      paths.app + '/**/*.html',
+      paths.app + '/**/*.js'
+    ],
+    jsx: paths.app + '/**/*.jsx'
+  }
 };
 
 module.exports = paths;
