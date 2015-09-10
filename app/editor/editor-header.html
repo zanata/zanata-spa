@@ -5,42 +5,9 @@
 </a>
 <header role="banner" class="Header Editor-header" focus-on="editor-header"
   ng-class="{'is-minimised': editor.settings.hideMainNav}">
-  <nav role="navigation"
-    class="Editor-mainNav u-posRelative u-textCenter">
-    <div class="u-posAbsoluteLeft">
-      <project-version-link></project-version-link>
-      <icon name="chevron-right"
-        class="Icon--sm u-sMH-1-4 u-textInvert u-textMuted u-sm-hidden">
-      </icon>
-      <ul class="u-listInline u-inlineBlock">
-        <li>
-          <docs-dropdown></docs-dropdown>
-        </li>
-        <li>
-          <languages-dropdown></languages-dropdown>
-        </li>
-      </ul>
-    </div>
-    <ul class="u-listHorizontal u-posAbsoluteRight u-sMR-1-2">
-      <li>
-        <ui-language-dropdown></ui-language-dropdown>
-      </li>
-      <li ng-show="appCtrl.PRODUCTION">
-        <button class="Link--invert Header-item u-sizeWidth-1_1-2"
-          title="{{'More'|translate}}"><icon name="ellipsis"/><span
-          class="u-hiddenVisually" translate>More</span></button>
-      </li>
-      <li ng-show="appCtrl.PRODUCTION">
-        <button class="Link--invert Header-item u-sizeWidth-1_1-2"
-          title="{{'Notifications'|translate}}">
-          <icon name="notification" title="{{'Notifications'|translate}}"/>
-        </button>
-      </li>
-      <li>
-        <dashboard-link></dashboard-link>
-      </li>
-    </ul>
-  </nav>
+
+  <nav-header></nav-header>
+
   <nav class="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
     <button
       class="Link--neutral u-sPV-1-4 u-floatLeft u-sizeHeight-1_1-2 u-sMR-1-4">

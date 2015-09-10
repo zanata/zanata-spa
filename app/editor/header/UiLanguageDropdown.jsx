@@ -7,14 +7,14 @@ UiLanguageDropdown = React.createClass({
 
   propTypes: {
     // editor.getLocaleName(app.myInfo.locale.localeId)
-    localeName: React.PropTypes.string,
+    uiLocaleName: React.PropTypes.string,
     toggleDropdown: React.PropTypes.func.isRequired,
     isOpen: React.PropTypes.bool.isRequired,
     // app.uiLocaleList
     uiLocales: React.PropTypes.arrayOf(React.PropTypes.shape({
       localeId: React.PropTypes.string,
       name: React.PropTypes.string
-    })),
+    })).isRequired,
     changeUiLocale: React.PropTypes.func.isRequired
   },
 
@@ -41,7 +41,7 @@ UiLanguageDropdown = React.createClass({
 
     let toggleButton = (
       <a className="Link--invert u-inlineBlock u-textNoWrap u-sPH-1-4">
-        {this.props.localeName}
+        {this.props.uiLocaleName}
       </a>
     );
 

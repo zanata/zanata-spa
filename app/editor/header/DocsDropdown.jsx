@@ -6,20 +6,26 @@
 DocsDropdown = React.createClass({
 
   propTypes: {
+    editorContext: React.PropTypes.shape({
+      projectSlug: React.PropTypes.string.isRequired,
+      versionSlug: React.PropTypes.string.isRequired,
+      docId: React.PropTypes.string.isRequired,
+      localeId: React.PropTypes.string.isRequired
+    }),
+
     toggleDropdown: React.PropTypes.func.isRequired,
     isOpen: React.PropTypes.bool.isRequired,
-    projectSlug: React.PropTypes.string.isRequired,
-    versionSlug: React.PropTypes.string.isRequired,
-    selectedDocId: React.PropTypes.string.isRequired,
     encodeDocId: React.PropTypes.func.isRequired,
-    localeId: React.PropTypes.string.isRequired,
     allDocs: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
   },
 
-  docUrl: function (docId) {
-    let encodedId = this.props.encodeDocId(docId);
-    return '#/' + this.props.projectSlug + '/' + this.props.versionSlug
-        + '/translate/' + encodedId + '/' + this.props.localeId;
+  docUrl: function (docName) {
+    if (this.props.editorContext) {
+      let ctx = this.props.editorContext;
+      let encodedId = this.props.encodeDocId(docName);
+      return '#/' + ctx.projectSlug + '/' + ctx.versionSlug
+          + '/translate/' + encodedId + '/' + ctx.localeId;
+    }
   },
 
   render: function() {
@@ -32,9 +38,12 @@ DocsDropdown = React.createClass({
       );
     });
 
+    let selectedDoc = this.props.editorContext ?
+      this.props.editorContext.docId : undefined;
+
     let toggleButton = (
       <button className="Link--invert">
-        {this.props.selectedDocId} <Icon name="chevron-down"
+        {selectedDoc} <Icon name="chevron-down"
               classes="Icon--sm Dropdown-toggleIcon"/>
       </button>
     );

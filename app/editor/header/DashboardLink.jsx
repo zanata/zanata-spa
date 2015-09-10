@@ -8,7 +8,7 @@ DashboardLink = React.createClass({
   propTypes: () => {
     return {
       dashboardUrl: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired,
+      name: React.PropTypes.string,
       gravatarUrl: React.PropTypes.string
     };
   },

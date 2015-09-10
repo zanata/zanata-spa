@@ -5,11 +5,20 @@
  * Label is project + version name
  */
 ProjectVersionLink = React.createClass({
-  getDefaultProps: function() {
+
+  propTypes: () => {
+    return {
+      projectName: React.PropTypes.string,
+      versionSlug: React.PropTypes.string,
+      versionPageUrl: React.PropTypes.string
+    };
+  },
+
+  getDefaultProps: () => {
     return {
       projectName: 'Loading ',
-      versionName: 'Loading '
-    }
+      versionSlug: 'Loading '
+    };
   },
 
   render: function() {
@@ -20,8 +29,9 @@ ProjectVersionLink = React.createClass({
           <i className="i i--arrow-left"></i>
         </span>
         <span className="Editor-currentProject u-sm-hidden u-sML-1-2">
-          <span>{this.props.projectName}</span> <span className="u-textMuted">{this.props.versionName}</span>
+          <span>{this.props.projectName}</span> <span
+            className="u-textMuted">{this.props.versionSlug}</span>
         </span>
-      </a>)
+      </a>);
   }
 });

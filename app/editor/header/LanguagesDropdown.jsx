@@ -6,12 +6,14 @@
 LanguagesDropdown = React.createClass({
 
   propTypes: {
+    editorContext: React.PropTypes.shape({
+      projectSlug: React.PropTypes.string.isRequired,
+      versionSlug: React.PropTypes.string.isRequired
+    }),
     locales: React.PropTypes.arrayOf(React.PropTypes.shape({
       localeId: React.PropTypes.string,
       name: React.PropTypes.string
     })),
-    projectSlug: React.PropTypes.string.isRequired,
-    versionSlug: React.PropTypes.string.isRequired,
     encodedDocId: React.PropTypes.string.isRequired,
     localeName: React.PropTypes.string.isRequired,
     toggleDropdown: React.PropTypes.func.isRequired,
