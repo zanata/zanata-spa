@@ -8,21 +8,23 @@ Icon = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
     title: React.PropTypes.node,
-    classes: React.PropTypes.arrayOf(React.PropTypes.string)
+    classes: React.PropTypes.string
   },
 
   render: function() {
-    let titleMarkup = (this.props.title ? '<title>' + this.props.title + '</title>' : '');
+    let titleMarkup = this.props.title ?
+         '<title>' + this.props.title + '</title>' : '';
 
     // jsx does not understand xlink:href, so it is generated manually.
     // includes <title>since this is used as the full content of the svg tag
-    let innerHtml = '<use xlink:href="#Icon-' + this.props.name + '"/>' + titleMarkup;
+    let innerHtml = '<use xlink:href="#Icon-' + this.props.name +
+                    '"/>' + titleMarkup;
 
-    let classes = this.props.classes ? this.props.classes.slice() : [];
-    classes.push('Icon');
+    let classes = this.props.classes ?
+      this.props.classes + ' Icon' : 'Icon';
 
     return (
-      <div className={classes.join(' ')}>
+      <div className={classes}>
         <svg className="Icon-item" dangerouslySetInnerHTML={{__html: innerHtml}} />
       </div>
     );
