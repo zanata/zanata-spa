@@ -7,14 +7,12 @@
  */
 TranslatingIndicator = React.createClass({
 
-  propTypes: () => {
-    return {
-      // DO NOT RENAME, the translation string extractor looks specifically
-      // for gettextCatalog.getString when generating the translation template.
-      gettextCatalog: React.PropTypes.shape({
-        getString: React.PropTypes.func.isRequired
-      }).isRequired
-    };
+  propTypes: {
+    // DO NOT RENAME, the translation string extractor looks specifically
+    // for gettextCatalog.getString when generating the translation template.
+    gettextCatalog: React.PropTypes.shape({
+      getString: React.PropTypes.func.isRequired
+    }).isRequired
   },
 
   render: function() {

@@ -5,14 +5,12 @@
  */
 Dropdown = React.createClass({
 
-  propTypes: () => {
-    return {
-      onToggle: React.PropTypes.func.isRequired,
-      isOpen: React.PropTypes.bool.isRequired,
-      enabled: React.PropTypes.bool,
-      button: React.PropTypes.element.isRequired,
-      className: React.PropTypes.string
-    };
+  propTypes: {
+    onToggle: React.PropTypes.func.isRequired,
+    isOpen: React.PropTypes.bool.isRequired,
+    enabled: React.PropTypes.bool,
+    button: React.PropTypes.element.isRequired,
+    className: React.PropTypes.string
   },
 
   getDefaultProps: () => {

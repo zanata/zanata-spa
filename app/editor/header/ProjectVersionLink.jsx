@@ -6,12 +6,10 @@
  */
 ProjectVersionLink = React.createClass({
 
-  propTypes: () => {
-    return {
-      projectName: React.PropTypes.string,
-      versionSlug: React.PropTypes.string,
-      versionPageUrl: React.PropTypes.string
-    };
+  propTypes: {
+    projectName: React.PropTypes.string,
+    versionSlug: React.PropTypes.string,
+    versionPageUrl: React.PropTypes.string
   },
 
   getDefaultProps: () => {
