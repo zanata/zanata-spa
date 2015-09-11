@@ -85,7 +85,7 @@ NavHeader = React.createClass({
         <div className="u-posAbsoluteLeft">
           <ProjectVersionLink {...projectVersionLinkProps}/>
           <Icon name="chevron-right"
-             classes="Icon--sm u-sMH-1-4 u-textInvert u-textMuted u-sm-hidden"/>
+             className="Icon--sm u-sMH-1-4 u-textInvert u-textMuted u-sm-hidden"/>
           <ul className="u-listInline u-inlineBlock">
             <li>
               <DocsDropdown {...docsDropdownProps}/>

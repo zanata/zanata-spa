@@ -8,7 +8,7 @@ Icon = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
     title: React.PropTypes.node,
-    classes: React.PropTypes.string
+    className: React.PropTypes.string
   },
 
   render: function() {
@@ -20,8 +20,8 @@ Icon = React.createClass({
     let innerHtml = '<use xlink:href="#Icon-' + this.props.name +
                     '"/>' + titleMarkup;
 
-    let classes = this.props.classes ?
-      this.props.classes + ' Icon' : 'Icon';
+    let classes = this.props.className ?
+      this.props.className + ' Icon' : 'Icon';
 
     return (
       <div className={classes}>
