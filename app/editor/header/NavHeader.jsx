@@ -100,6 +100,19 @@ NavHeader = React.createClass({
           <li>
             <UiLanguageDropdown {...uiLangDropdownProps}/>
           </li>
+          {/* A couple of items from the Angular template that were not used
+          <li ng-show="appCtrl.PRODUCTION">
+            <button class="Link--invert Header-item u-sizeWidth-1_1-2"
+              title="{{'More'|translate}}"><icon name="ellipsis"/><span
+              class="u-hiddenVisually" translate>More</span></button>
+          </li>
+          <li ng-show="appCtrl.PRODUCTION">
+            <button class="Link--invert Header-item u-sizeWidth-1_1-2"
+              title="{{'Notifications'|translate}}">
+              <icon name="notification" title="{{'Notifications'|translate}}"/>
+            </button>
+          </li>
+          */}
           <li>
             <DashboardLink {...this.props.user}/>
           </li>
