@@ -1,4 +1,4 @@
-/* global React, Pager */
+/* global React, Pager, Icon */
 
 /**
  * Paging buttons and current-page indicator.

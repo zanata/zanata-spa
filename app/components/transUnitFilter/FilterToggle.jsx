@@ -1,4 +1,4 @@
-/* global React, FilterToggle */
+/* global React, FilterToggle, Icon */
 
 /**
  * Styled checkbox to toggle a filter option on and off.

@@ -5,63 +5,7 @@
 </a>
 <header role="banner" class="Header Editor-header" focus-on="editor-header"
   ng-class="{'is-minimised': editor.settings.hideMainNav}">
-
   <nav-header></nav-header>
-
-  <nav class="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
-    <translating-indicator></translating-indicator>
-    <div class="u-floatLeft">
-      <trans-unit-filter></trans-unit-filter>
-    </div>
-    <div class="u-floatRight">
-
-      <ul class="u-listHorizontal u-textCenter">
-        <li class="u-sMV-1-4">
-          <react-pager></react-pager>
-        </li>
-        <li class="u-sM-1-8">
-          <button class="Button Button--snug u-roundish Button--invisible"
-            ng-class="{ 'is-active': showSuggestions }"
-            ng-click="editor.toggleSuggestionPanel()"
-            title="{{'Show suggestions panel'|translate}}">
-            <icon name="suggestions" title="{{'Show suggestions panel'|translate}}" class="Icon--sm"></icon>
-          </button>
-        </li>
-        <li ng-show="appCtrl.PRODUCTION">
-          <button class="Link--neutral u-sizeHeight-1_1-2"
-            title="{{'Details'|translate}}">
-            <icon name="info" title="{{'Details'|translate}}" class="u-sizeWidth-1_1-2"></icon>
-          </button>
-        </li>
-        <li ng-show="appCtrl.PRODUCTION">
-          <button class="Link--neutral u-sizeHeight-1_1-2"
-          title="{{'Editor Settings'|translate}}">
-            <icon name="settings" title="{{'Editor Settings'|translate}}" class="u-sizeWidth-1_1-2"></icon>
-          </button>
-        </li>
-        <li class="u-sm-hidden u-sM-1-8">
-          <button class="Button Button--snug u-roundish Button--invisible"
-            title="{{'Keyboard Shortcuts'|translate}}"
-            ng-click="editor.toggleKeyboardShortcutsModal()">
-            <icon name="keyboard" title="{{'Keyboard Shortcuts'|translate}}" class="Icon--sm"
-              ng-class="{'is-active': false}">
-            </icon>
-          </button>
-        </li>
-        <li class="u-sM-1-8">
-          <button class="Button Button--snug u-roundish Button--invisible"
-            title="{{'Hide Menubar'|translate}}"
-            ng-class="{'is-active': editor.settings.hideMainNav}"
-            ng-click="editor.settings.hideMainNav = !editor.settings.hideMainNav">
-            <icon name="chevron-up-double"
-              class="Icon--sm"
-              title="{{!editor.settings.hideMainNav ? 'Hide Menubar' : 'Show Menubar' |translate}}"
-              ng-class="{'is-rotated': editor.settings.hideMainNav}">
-            </icon>
-          </button>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <controls-header></controls-header>
   <progressbar progressbar-statistic="editor.messageStatistic" size="small"></progressbar>
 </header>

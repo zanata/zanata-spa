@@ -89,7 +89,9 @@
       'READ_WRITE');
 
     editorCtrl.toggleKeyboardShortcutsModal = function() {
-      editorCtrl.showCheatsheet = !editorCtrl.showCheatsheet;
+      $scope.$apply(function () {
+        editorCtrl.showCheatsheet = !editorCtrl.showCheatsheet;
+      });
     };
 
     var SHOW_SUGGESTIONS = SettingsService.SETTING.SHOW_SUGGESTIONS;
@@ -239,6 +241,12 @@
 
     editorCtrl.updateFilter = function() {
       updateFilter(true);
+    };
+
+    editorCtrl.toggleMainNav = function() {
+      $scope.$apply(function () {
+        editorCtrl.settings.hideMainNav = !editorCtrl.settings.hideMainNav;
+      });
     };
 
     function updateFilter(fireEvent) {
