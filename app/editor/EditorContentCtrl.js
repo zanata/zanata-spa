@@ -74,7 +74,8 @@
 
     $rootScope.$on(EventService.EVENT.GOTO_NEXT_PAGE,
       function () {
-        if(EditorService.currentPageIndex < EditorService.maxPageIndex) {
+        if(!_.isNull(EditorService.maxPageIndex) &&
+           EditorService.currentPageIndex < EditorService.maxPageIndex) {
           EditorService.currentPageIndex++;
           changePage(EditorService.currentPageIndex);
         }
@@ -82,7 +83,8 @@
 
     $rootScope.$on(EventService.EVENT.GOTO_LAST_PAGE,
       function () {
-        if(EditorService.currentPageIndex < EditorService.maxPageIndex) {
+        if(!_.isNull(EditorService.maxPageIndex) &&
+           EditorService.currentPageIndex < EditorService.maxPageIndex) {
           EditorService.currentPageIndex = EditorService.maxPageIndex;
           changePage(EditorService.currentPageIndex);
         }
@@ -223,8 +225,7 @@
           var maxPage = Math.ceil(count / COUNT_PER_PAGE);
 
           // page number is 1-based, index is 0-based
-          // FIXME just give -1 index or undefined and make the other code handle it
-          EditorService.maxPageIndex = maxPage > 0 ? maxPage - 1 : 0;
+          EditorService.maxPageIndex = maxPage > 0 ? maxPage - 1 : null;
 
           loadPhrase(EditorService.currentPageIndex);
         });

@@ -201,12 +201,15 @@
       });
 
     editorCtrl.pageNumber = function() {
-      if(EditorService.maxPageIndex === 0) {
-        return EditorService.currentPageIndex + 1;
-      } else {
-        return (EditorService.currentPageIndex + 1) + ' of ' +
-          (EditorService.maxPageIndex + 1);
-      }
+      return EditorService.currentPageIndex + 1;
+    };
+
+    /**
+     * Page count, or undefined if count is not known
+     */
+    editorCtrl.pageCount = function () {
+      var maxIndex = EditorService.maxPageIndex;
+      return _.isNull(maxIndex) ? undefined : maxIndex + 1;
     };
 
     editorCtrl.getLocaleName = function(localeId) {
