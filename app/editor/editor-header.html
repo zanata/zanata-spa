@@ -14,33 +14,10 @@
       <trans-unit-filter></trans-unit-filter>
     </div>
     <div class="u-floatRight">
+
       <ul class="u-listHorizontal u-textCenter">
         <li class="u-sMV-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-            title="First page" ng-click="editor.firstPage()">
-            <icon name="previous" title="First page" class="u-sizeWidth-1"></icon>
-          </a>
-        </li>
-        <li class="u-sMV-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-                  title="Previous page" ng-click="editor.previousPage()">
-            <icon name="chevron-left" title="Previous page" class="u-sizeWidth-1"></icon>
-          </a>
-        </li>
-        <li class="u-sMV-1-4 u-sizeHeight-1 u-sPH-1-4">
-          <span ng-bind="editor.pageNumber()" class="u-textNeutral"></span>
-        </li>
-        <li class="u-sMV-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-                  title="Next page" ng-click="editor.nextPage()">
-            <icon name="chevron-right" title="Next page" class="u-sizeWidth-1"></icon>
-          </a>
-        </li>
-        <li class="u-sMV-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-            title="Last page" ng-click="editor.lastPage()">
-            <icon name="next" title="Last page" class="u-sizeWidth-1"></icon>
-          </a>
+          <react-pager></react-pager>
         </li>
         <li class="u-sM-1-8">
           <button class="Button Button--snug u-roundish Button--invisible"
