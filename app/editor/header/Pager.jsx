@@ -24,7 +24,7 @@ Pager = React.createClass({
     render: function () {
       return (
         <li>
-          <a className="Link--neutral u-sizeHeight-1_1-2"
+          <a className="Link--neutral u-sizeHeight-1_1-2 u-textNoSelect"
             title={this.props.title}
             onClick={this.props.action}>
             <Icon name={this.props.icon}
