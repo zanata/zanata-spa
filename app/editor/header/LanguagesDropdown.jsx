@@ -1,9 +1,12 @@
-/* global React, LanguagesDropdown, Dropdown, Icon */
+/* global React, Dropdown */
+
+import Dropdown from './Dropdown.jsx'
+import Icon from './Icon.jsx'
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.
  */
-LanguagesDropdown = React.createClass({
+let LanguagesDropdown = React.createClass({
 
   propTypes: {
     editorContext: React.PropTypes.shape({
@@ -55,3 +58,5 @@ LanguagesDropdown = React.createClass({
     );
   }
 });
+
+export default LanguagesDropdown

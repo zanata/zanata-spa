@@ -1,9 +1,11 @@
-/* global React, UiLanguageDropdown, Dropdown */
+/* global React */
+
+import Dropdown from './Dropdown.jsx'
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.
  */
-UiLanguageDropdown = React.createClass({
+let UiLanguageDropdown = React.createClass({
 
   propTypes: {
     // editor.getLocaleName(app.myInfo.locale.localeId)
@@ -57,3 +59,5 @@ UiLanguageDropdown = React.createClass({
     );
   }
 });
+
+export default UiLanguageDropdown

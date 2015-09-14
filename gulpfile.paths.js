@@ -29,14 +29,26 @@ paths.images = {
   ],
   bower: paths.bower + '/**/img/**/*'
 };
+
+
+
+// entry point(s) for webpack build
+paths.webpackEntry = paths.app + '/**/editorHeaderDirective.js';
+
 paths.js = {
-  app: [paths.app + '/app.js', paths.app + '/**/*.js'],
+  app: [
+    paths.app + '/app.js',
+    paths.app + '/**/*.js',
+    // compiled to bundle by webpack, so exclude
+    '!' + paths.webpackEntry
+  ],
   bower: [
     paths.bower + '/**/angular.js',
     paths.bower + '/**/*.js'
   ]
 };
 paths.jsx = paths.app + '/**/*.jsx';
+
 paths.modernizr = {
   src: paths.bower + '/modernizr/modernizr.js',
   build: paths.bower + '/modernizr',
@@ -51,6 +63,7 @@ paths.translations = {
       paths.app + '/**/*.html',
       paths.app + '/**/*.js'
     ],
+    // has to be run through babel
     jsx: paths.app + '/**/*.jsx'
   }
 };

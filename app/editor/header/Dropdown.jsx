@@ -1,9 +1,9 @@
-/* global React, Dropdown */
+/* global React */
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.
  */
-Dropdown = React.createClass({
+let Dropdown = React.createClass({
 
   propTypes: {
     onToggle: React.PropTypes.func.isRequired,
@@ -54,3 +54,5 @@ Dropdown = React.createClass({
     );
   }
 });
+
+export default Dropdown

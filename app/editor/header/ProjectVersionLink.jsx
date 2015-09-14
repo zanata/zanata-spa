@@ -1,10 +1,10 @@
-/* global React, ProjectVersionLink */
+/* global React */
 
 /**
  * Link to open the version page.
  * Label is project + version name
  */
-ProjectVersionLink = React.createClass({
+let ProjectVersionLink = React.createClass({
 
   propTypes: {
     projectName: React.PropTypes.string,
@@ -33,3 +33,5 @@ ProjectVersionLink = React.createClass({
       </a>);
   }
 });
+
+export default ProjectVersionLink

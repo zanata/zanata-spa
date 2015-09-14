@@ -1,9 +1,11 @@
-/* global React, IconButton, Icon */
+/* global React */
+
+import Icon from './Icon.jsx'
 
 /**
  * Action button with an icon and title.
  */
-IconButton = React.createClass({
+let IconButton = React.createClass({
 
   propTypes: {
     icon: React.PropTypes.string.isRequired,
@@ -39,3 +41,5 @@ IconButton = React.createClass({
     );
   }
 });
+
+export default IconButton

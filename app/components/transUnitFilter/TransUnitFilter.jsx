@@ -1,9 +1,11 @@
-/* global React, TransUnitFilter, FilterToggle */
+/* global React */
+
+import FilterToggle from './FilterToggle.jsx'
 
 /**
  * Panel with controls to filter the list of trans units
  */
-TransUnitFilter = React.createClass({
+let TransUnitFilter = React.createClass({
 
   propTypes: {
     filterStatus: React.PropTypes.shape({
@@ -125,3 +127,5 @@ TransUnitFilter = React.createClass({
     );
   }
 });
+
+export default TransUnitFilter

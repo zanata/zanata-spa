@@ -1,9 +1,9 @@
-/* global React, DashboardLink */
+/* global React */
 
 /**
  * Gravatar icon that links to the dashboard page
  */
-DashboardLink = React.createClass({
+let DashboardLink = React.createClass({
 
   propTypes: {
     dashboardUrl: React.PropTypes.string.isRequired,
@@ -29,3 +29,5 @@ DashboardLink = React.createClass({
     );
   }
 });
+
+export default DashboardLink

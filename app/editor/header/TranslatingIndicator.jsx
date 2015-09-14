@@ -1,11 +1,13 @@
-/* global React, Icon, TranslatingIndicator */
+/* global React */
+
+import Icon from './Icon.jsx'
 
 /**
  * Indicator that shows 'Translating' when the user is
  * translating the document. Presumably it will show
  * 'viewing' when that mode is available.
  */
-TranslatingIndicator = React.createClass({
+let TranslatingIndicator = React.createClass({
 
   propTypes: {
     // DO NOT RENAME, the translation string extractor looks specifically
@@ -27,3 +29,5 @@ TranslatingIndicator = React.createClass({
     );
   }
 });
+
+export default TranslatingIndicator

@@ -28,6 +28,9 @@
   },
   "license": "LGPL-2.1",
   "devDependencies": {
+    "babel-core": "^5.8.24",
+    "babel-eslint": "^4.1.1",
+    "babel-loader": "^5.3.2",
     "fake-zanata-server": "^3.0.1",
     "gulp": "^3.8.6",
     "gulp-angular-gettext": "^0.3.1",
@@ -65,17 +68,19 @@
     "rework-npm": "^1.0.0",
     "rework-suit-conformance": "^0.4.0",
     "rework-vars": "^3.1.1",
-    "vinyl": "^0.4.6"
+    "vinyl": "^0.4.6",
+    "webpack": "^1.12.1",
+    "webpack-stream": "^2.1.0"
   },
   "dependencies": {
     "normalize.css": "^3.0.1",
     "suitcss-components-button": "^4.0.0",
     "suitcss-components-button-group": "^2.2.0",
+    "suitcss-components-grid": "~2.0.1",
     "suitcss-utils-display": "^0.4.1",
     "suitcss-utils-layout": "^0.4.1",
     "suitcss-utils-position": "^0.2.1",
     "suitcss-utils-size": "^0.7.1",
-    "suitcss-utils-text": "^0.4.1",
-    "suitcss-components-grid": "~2.0.1"
+    "suitcss-utils-text": "^0.4.1"
   }
 }

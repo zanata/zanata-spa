@@ -1,9 +1,9 @@
-/* global React, ProgressBar, _ */
+/* global React, _ */
 
 /**
  * Bar showing translation progress
  */
-ProgressBar = React.createClass({
+let ProgressBar = React.createClass({
 
   propTypes: {
     size: React.PropTypes.string,
@@ -100,3 +100,5 @@ ProgressBar = React.createClass({
     );
   }
 });
+
+export default ProgressBar

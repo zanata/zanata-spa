@@ -1,9 +1,9 @@
-/* global React, Icon */
+/* global React */
 
 /**
  * Icon component, usually renders an svg icon
  */
-Icon = React.createClass({
+let Icon = React.createClass({
 
   propTypes: {
     name: React.PropTypes.string.isRequired,
@@ -30,3 +30,5 @@ Icon = React.createClass({
     );
   }
 });
+
+export default Icon

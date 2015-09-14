@@ -1,10 +1,14 @@
-/* global React, ControlsHeader, TranslatingIndicator, TransUnitFilter,
-   Pager, IconButton, _ */
+/* global React, _ */
+
+import IconButton from './IconButton.jsx'
+import Pager from './Pager.jsx'
+import TranslatingIndicator from './TranslatingIndicator.jsx'
+import TransUnitFilter from '../../components/transUnitFilter/TransUnitFilter.jsx'
 
 /**
  * Header row with editor controls (filtering, paging, etc.)
  */
-ControlsHeader = React.createClass({
+let ControlsHeader = React.createClass({
 
   propTypes: {
     filterStatus: React.PropTypes.shape({
@@ -121,3 +125,5 @@ ControlsHeader = React.createClass({
     );
   }
 });
+
+export default ControlsHeader

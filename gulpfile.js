@@ -37,6 +37,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     suitconformance = require('rework-suit-conformance'),
     svgSprite = require('gulp-svg-sprite'),
     uglify = require('gulp-uglify'),
+    webpack = require('webpack-stream'),
     webserver = require('gulp-webserver');
 
 function notifyError(err) {
@@ -101,10 +102,24 @@ gulp.task('cssBower', ['bowerMain'], function(){
 });
 
 gulp.task('js', function(){
-  var jsx = gulp.src(paths.jsx).pipe(babel());
+  // compile and bundle the tree of React components
+  // to pass in with other js
+  var bundledReact = gulp.src(paths.webpackEntry).pipe(webpack({
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          exclude: /(node_modules|bower_components)/,
+          loader: 'babel'
+        }
+      ]
+    }
+  }));
+
+
   var js = gulp.src(paths.js.app);
 
-  return merge(jsx, js)
+  return merge(js, bundledReact)
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
@@ -319,6 +334,7 @@ gulp.task('watch', ['serve'], function(){
   gulp.watch(paths.js.bower, ['jsBower']);
   gulp.watch(paths.js.app, ['js']);
   gulp.watch(paths.jsx, ['js']);
+  gulp.watch(paths.webpackEntry, ['js']);
   gulp.watch(paths.css.bower, ['cssBower']);
   gulp.watch(paths.css.all, ['css']);
   gulp.watch(paths.templates, ['templates', 'translations']);

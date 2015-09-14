@@ -1,9 +1,12 @@
-/* global React, DocsDropdown, Dropdown, Icon */
+/* global React */
+
+import Dropdown from './Dropdown.jsx'
+import Icon from './Icon.jsx'
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.
  */
-DocsDropdown = React.createClass({
+let DocsDropdown = React.createClass({
 
   propTypes: {
     editorContext: React.PropTypes.shape({
@@ -59,3 +62,5 @@ DocsDropdown = React.createClass({
     );
   }
 });
+
+export default DocsDropdown

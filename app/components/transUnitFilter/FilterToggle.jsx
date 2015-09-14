@@ -1,9 +1,12 @@
-/* global React, FilterToggle, Icon */
+/* global React */
+
+// FIXME put this one in components instead
+import Icon from '../../editor/header/Icon.jsx'
 
 /**
  * Styled checkbox to toggle a filter option on and off.
  */
-FilterToggle = React.createClass({
+let FilterToggle = React.createClass({
 
   propTypes: {
     id: React.PropTypes.string,
@@ -53,3 +56,5 @@ FilterToggle = React.createClass({
     );
   }
 });
+
+export default FilterToggle

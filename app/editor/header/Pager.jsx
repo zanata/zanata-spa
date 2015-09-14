@@ -1,9 +1,11 @@
-/* global React, Pager, Icon */
+/* global React */
+
+import Icon from './Icon.jsx'
 
 /**
  * Paging buttons and current-page indicator.
  */
-Pager = React.createClass({
+let Pager = React.createClass({
 
   propTypes: {
     pageNumber: React.PropTypes.number.isRequired,
@@ -87,3 +89,5 @@ Pager = React.createClass({
     );
   }
 });
+
+export default Pager

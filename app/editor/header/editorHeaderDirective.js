@@ -1,6 +1,8 @@
-/* global React, EditorHeader */
+/* global require, React */
 (function() {
   'use strict';
+
+  var EditorHeader = require('./EditorHeader.jsx');
 
   /**
    * @name editor-header
@@ -74,7 +76,6 @@
               break;
           }
         }
-
 
         function render() {
           var app = scope.app;

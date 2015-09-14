@@ -1,9 +1,13 @@
-/* global React, EditorHeader, NavHeader, ControlsHeader, _ */
+/* global React, _ */
+
+import ControlsHeader from './ControlsHeader.jsx'
+import NavHeader from './NavHeader.jsx'
+import ProgressBar from '../../components/progressbar/ProgressBar.jsx'
 
 /**
  * Header for navigation and control of the editor
  */
-EditorHeader = React.createClass({
+let EditorHeader = React.createClass({
 
   propTypes: {
     user: React.PropTypes.shape({
@@ -132,3 +136,5 @@ EditorHeader = React.createClass({
     );
   }
 });
+
+export default EditorHeader

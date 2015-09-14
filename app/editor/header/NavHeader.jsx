@@ -1,10 +1,16 @@
-/* global React, NavHeader, ProjectVersionLink, Icon,
-   DashboardLink, DocsDropdown, LanguagesDropdown, UiLanguageDropdown, _ */
+/* global React, _ */
+
+import DashboardLink from './DashboardLink.jsx'
+import DocsDropdown from './DocsDropdown.jsx'
+import Icon from './Icon.jsx'
+import LanguagesDropdown from './LanguagesDropdown.jsx'
+import ProjectVersionLink from './ProjectVersionLink.jsx'
+import UiLanguageDropdown from './UiLanguageDropdown.jsx'
 
 /**
  * Hideable navigation header across the top of the app.
  */
-NavHeader = React.createClass({
+let NavHeader = React.createClass({
 
   propTypes: {
     user: React.PropTypes.shape({
@@ -121,3 +127,5 @@ NavHeader = React.createClass({
     );
   }
 });
+
+export default NavHeader
