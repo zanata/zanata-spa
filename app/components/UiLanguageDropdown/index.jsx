@@ -41,20 +41,20 @@ let UiLanguageDropdown = React.createClass({
       );
     });
 
-    let toggleButton = (
-      <a className="Link--invert u-inlineBlock u-textNoWrap u-sPH-1-4">
-        {this.props.uiLocaleName}
-      </a>
-    );
-
     return (
-      <Dropdown button={toggleButton}
-                onToggle={this.props.toggleDropdown}
+      <Dropdown onToggle={this.props.toggleDropdown}
                 isOpen={this.props.isOpen}
                 className="Dropdown--right u-sMV-1-2">
-        <ul>
-          {items}
-        </ul>
+        <Dropdown.Button>
+          <a className="Link--invert u-inlineBlock u-textNoWrap u-sPH-1-4">
+            {this.props.uiLocaleName}
+          </a>
+        </Dropdown.Button>
+        <Dropdown.Content>
+          <ul>
+            {items}
+          </ul>
+        </Dropdown.Content>
       </Dropdown>
     );
   }

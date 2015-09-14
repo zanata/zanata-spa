@@ -44,20 +44,21 @@ let DocsDropdown = React.createClass({
     let selectedDoc = this.props.editorContext ?
       this.props.editorContext.docId : undefined;
 
-    let toggleButton = (
-      <button className="Link--invert">
-        {selectedDoc} <Icon name="chevron-down"
-              className="Icon--sm Dropdown-toggleIcon"/>
-      </button>
-    );
-
     return (
-      <Dropdown button={toggleButton}
-                onToggle={this.props.toggleDropdown}
+      <Dropdown onToggle={this.props.toggleDropdown}
                 isOpen={this.props.isOpen}>
-        <ul>
-          {items}
-        </ul>
+        <Dropdown.Button>
+          <button className="Link--invert">
+            {selectedDoc}
+            <Icon name="chevron-down"
+                  className="Icon--sm Dropdown-toggleIcon u-sML-1-8"/>
+          </button>
+        </Dropdown.Button>
+        <Dropdown.Content>
+          <ul>
+            {items}
+          </ul>
+        </Dropdown.Content>
       </Dropdown>
     );
   }
