@@ -104,7 +104,7 @@ gulp.task('cssBower', ['bowerMain'], function(){
 gulp.task('js', function(){
   // compile and bundle the tree of React components
   // to pass in with other js
-  var bundledReact = gulp.src(paths.webpackEntry).pipe(webpack({
+  var bundledReact = gulp.src(paths.webpack.entry).pipe(webpack({
     module: {
       loaders: [
         {
@@ -113,6 +113,11 @@ gulp.task('js', function(){
           loader: 'babel'
         }
       ]
+    },
+    resolve: {
+      // subdirectories to check while searching up tree for module
+      modulesDirectories: ['node_modules', 'components'],
+      extensions: paths.webpack.moduleExtensions
     }
   }));
 
@@ -334,7 +339,7 @@ gulp.task('watch', ['serve'], function(){
   gulp.watch(paths.js.bower, ['jsBower']);
   gulp.watch(paths.js.app, ['js']);
   gulp.watch(paths.jsx, ['js']);
-  gulp.watch(paths.webpackEntry, ['js']);
+  gulp.watch(paths.webpack.entry, ['js']);
   gulp.watch(paths.css.bower, ['cssBower']);
   gulp.watch(paths.css.all, ['css']);
   gulp.watch(paths.templates, ['templates', 'translations']);

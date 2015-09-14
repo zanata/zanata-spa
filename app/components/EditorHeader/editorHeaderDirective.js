@@ -2,7 +2,7 @@
 (function() {
   'use strict';
 
-  var EditorHeader = require('./EditorHeader.jsx');
+  var EditorHeader = require('EditorHeader');
 
   /**
    * @name editor-header

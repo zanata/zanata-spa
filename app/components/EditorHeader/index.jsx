@@ -1,8 +1,8 @@
 /* global React, _ */
 
-import ControlsHeader from './ControlsHeader.jsx'
-import NavHeader from './NavHeader.jsx'
-import ProgressBar from '../../components/progressbar/ProgressBar.jsx'
+import ControlsHeader from 'ControlsHeader'
+import NavHeader from 'NavHeader'
+import ProgressBar from 'ProgressBar'
 
 /**
  * Header for navigation and control of the editor

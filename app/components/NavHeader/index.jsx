@@ -1,11 +1,11 @@
 /* global React, _ */
 
-import DashboardLink from './DashboardLink.jsx'
-import DocsDropdown from './DocsDropdown.jsx'
-import Icon from './Icon.jsx'
-import LanguagesDropdown from './LanguagesDropdown.jsx'
-import ProjectVersionLink from './ProjectVersionLink.jsx'
-import UiLanguageDropdown from './UiLanguageDropdown.jsx'
+import DashboardLink from 'DashboardLink'
+import DocsDropdown from 'DocsDropdown'
+import Icon from 'Icon'
+import LanguagesDropdown from 'LanguagesDropdown'
+import ProjectVersionLink from 'ProjectVersionLink'
+import UiLanguageDropdown from 'UiLanguageDropdown'
 
 /**
  * Hideable navigation header across the top of the app.

@@ -1,6 +1,6 @@
 /* global React */
 
-import Icon from './Icon.jsx'
+import Icon from 'Icon'
 
 /**
  * Indicator that shows 'Translating' when the user is

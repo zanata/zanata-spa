@@ -1,7 +1,7 @@
 /* global React */
 
-import Dropdown from './Dropdown.jsx'
-import Icon from './Icon.jsx'
+import Dropdown from 'Dropdown'
+import Icon from 'Icon'
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.

@@ -1,9 +1,9 @@
 /* global React, _ */
 
-import IconButton from './IconButton.jsx'
-import Pager from './Pager.jsx'
-import TranslatingIndicator from './TranslatingIndicator.jsx'
-import TransUnitFilter from '../../components/transUnitFilter/TransUnitFilter.jsx'
+import IconButton from 'IconButton'
+import Pager from 'Pager'
+import TranslatingIndicator from 'TranslatingIndicator'
+import TransUnitFilter from 'TransUnitFilter'
 
 /**
  * Header row with editor controls (filtering, paging, etc.)

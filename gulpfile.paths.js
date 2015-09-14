@@ -32,15 +32,22 @@ paths.images = {
 
 
 
-// entry point(s) for webpack build
-paths.webpackEntry = paths.app + '/**/editorHeaderDirective.js';
+paths.webpack = {
+  // entry point(s) for webpack build
+  entry: paths.app + '/**/editorHeaderDirective.js',
+  // where to search for imported modules, must be absolute path
+  modules: __dirname + '/app/components',
+  // extensions that are considered modules by webpack
+  // (empty string is needed for when the extension is given when importing)
+  moduleExtensions: ['', '.js', '.jsx']
+};
 
 paths.js = {
   app: [
     paths.app + '/app.js',
     paths.app + '/**/*.js',
     // compiled to bundle by webpack, so exclude
-    '!' + paths.webpackEntry
+    '!' + paths.webpack.entry
   ],
   bower: [
     paths.bower + '/**/angular.js',
@@ -63,8 +70,8 @@ paths.translations = {
       paths.app + '/**/*.html',
       paths.app + '/**/*.js'
     ],
-    // has to be run through babel
-    jsx: paths.app + '/**/*.jsx'
+    // has to be run through babel before extracting strings
+    jsx: paths.jsx
   }
 };
 

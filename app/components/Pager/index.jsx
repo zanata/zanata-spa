@@ -1,6 +1,6 @@
 /* global React */
 
-import Icon from './Icon.jsx'
+import Icon from 'Icon'
 
 /**
  * Paging buttons and current-page indicator.

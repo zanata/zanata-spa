@@ -1,7 +1,6 @@
 /* global React */
 
-// FIXME put this one in components instead
-import Icon from '../../editor/header/Icon.jsx'
+import Icon from 'Icon'
 
 /**
  * Styled checkbox to toggle a filter option on and off.

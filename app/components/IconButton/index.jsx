@@ -1,6 +1,6 @@
 /* global React */
 
-import Icon from './Icon.jsx'
+import Icon from 'Icon'
 
 /**
  * Action button with an icon and title.
