@@ -1,5 +1,6 @@
 /* global React, _ */
 
+import cx from 'classnames'
 import ControlsHeader from 'ControlsHeader'
 import NavHeader from 'NavHeader'
 import ProgressBar from 'ProgressBar'
@@ -107,8 +108,8 @@ let EditorHeader = React.createClass({
 
   render: function() {
 
-    let classes = 'Header Editor-header'
-        + (this.props.mainNavHidden ? ' is-minimised' : '');
+    let className = cx('Header', 'Editor-header',
+      { 'is-minimised': this.props.mainNavHidden });
 
     let navHeaderProps = _.pick(this.props, ['user', 'editorContext',
       'projectName', 'versionPageUrl', 'encodeDocId', 'encodedDocId',
@@ -125,7 +126,7 @@ let EditorHeader = React.createClass({
 
     return (
       <header role="banner"
-              className={classes}
+              className={className}
               focus-on="editor-header">
         <NavHeader {...navHeaderProps}/>
         <ControlsHeader {...controlsHeaderProps}/>

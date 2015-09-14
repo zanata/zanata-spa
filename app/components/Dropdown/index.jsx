@@ -1,5 +1,7 @@
 /* global React */
 
+import cx from 'classnames'
+
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.
  */
@@ -24,11 +26,10 @@ let Dropdown = React.createClass({
   },
 
   render: function() {
-    let cx = React.addons.classSet;
-    let classes = cx({
+    let className = cx({
       'Dropdown': true,
       'is-active': this.props.isOpen
-    }) + ' ' + this.props.className;
+    }, this.props.className);
 
     let buttonProps = {
       ref: 'button',
@@ -45,7 +46,7 @@ let Dropdown = React.createClass({
       this.props.button, buttonProps);
 
     return (
-      <div className={classes}>
+      <div className={className}>
         {button}
         <div className="Dropdown-content Dropdown-content--bordered">
           {this.props.children}

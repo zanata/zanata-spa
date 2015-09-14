@@ -1,5 +1,7 @@
 /* global React */
 
+import cx from 'classnames'
+
 /**
  * Icon component, usually renders an svg icon
  */
@@ -20,11 +22,10 @@ let Icon = React.createClass({
     let innerHtml = '<use xlink:href="#Icon-' + this.props.name +
                     '"/>' + titleMarkup;
 
-    let classes = this.props.className ?
-      this.props.className + ' Icon' : 'Icon';
+    let className = cx(this.props.className, 'Icon');
 
     return (
-      <div className={classes}>
+      <div className={className}>
         <svg className="Icon-item" dangerouslySetInnerHTML={{__html: innerHtml}} />
       </div>
     );

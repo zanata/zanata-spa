@@ -1,5 +1,6 @@
 /* global React */
 
+import cx from 'classnames'
 import Icon from 'Icon'
 
 /**
@@ -30,14 +31,13 @@ let FilterToggle = React.createClass({
   },
 
   render: function() {
-    let classes = 'Toggle u-round ' +
-      (this.props.className ? this.props.className : '');
+    let className = cx('Toggle u-round', this.props.className)
 
     let dot = this.props.withDot ?
       <Icon name="dot" className="Icon--xsm"/> : undefined;
 
     return (
-      <div className={classes}>
+      <div className={className}>
         <input className="Toggle-checkbox"
                type="checkbox"
                id={this.props.id}

@@ -1,5 +1,6 @@
 /* global React, _ */
 
+import cx from 'classnames'
 import IconButton from 'IconButton'
 import Pager from 'Pager'
 import TranslatingIndicator from 'TranslatingIndicator'
@@ -117,7 +118,7 @@ let ControlsHeader = React.createClass({
                   : this.props.gettextCatalog.getString('Hide Menubar')}
                 onClick={this.props.toggleMainNav}
                 active={this.props.mainNavHidden}
-                className={this.props.mainNavHidden ? 'is-rotated' : ''}/>
+                className={cx({'is-rotated': this.props.mainNavHidden})}/>
             </li>
           </ul>
         </div>

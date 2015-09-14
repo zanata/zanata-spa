@@ -1,5 +1,7 @@
 /* global React, _ */
 
+import cx from 'classnames'
+
 /**
  * Bar showing translation progress
  */
@@ -44,13 +46,13 @@ let ProgressBar = React.createClass({
       width: React.PropTypes.number.isRequired
     },
     render: function () {
-      let classes = 'Progressbar-item Progressbar-' + this.props.state;
+      let className = cx('Progressbar-item', 'Progressbar-' + this.props.state);
       let style = {
         marginLeft: this.props.start + '%',
         width: this.props.width + '%'
       };
       return (
-        <span className={classes}
+        <span className={className}
           style={style}/>
       );
     }
@@ -58,9 +60,11 @@ let ProgressBar = React.createClass({
 
   render: function() {
     let ProgressItem = this.ProgressItem;
-    let classes = 'Progressbar'
-      + (this.props.size === 'small' ? ' Progressbar--sm' : '')
-      + (this.props.size === 'large' ? ' Progressbar--lg' : '');
+    let className = cx('Progressbar', {
+      'Progressbar--sm': this.props.size === 'small',
+      'Progressbar--lg': this.props.size === 'large'
+    });
+
     let stats = this.props.stats;
 
     let total = parseFloat(stats.total);
@@ -79,7 +83,7 @@ let ProgressBar = React.createClass({
     starts.untranslated = starts.needswork + widths.needswork;
 
     return (
-      <div className={classes}>
+      <div className={className}>
         <ProgressItem
           state="approved"
           start={starts.approved}
