@@ -1,5 +1,5 @@
 (function () {
-  'use strict';
+  'use strict'
 
   /**
    * @typedef {Object} StatusInfo
@@ -13,63 +13,63 @@
    *
    * @ngInject
    */
-  function TransStatusService(_) {
-    var transStatusService = this,
-      STATUSES = {
-        'UNTRANSLATED': {
-          'ID': 'untranslated',
-          'NAME': 'Untranslated',
-          'CSSCLASS': 'neutral'
-        },
-        'NEEDSWORK': {
-          'ID': 'needswork',
-          'NAME': 'Needs Work',
-          'CSSCLASS': 'unsure'
-        },
-        'TRANSLATED': {
-          'ID': 'translated',
-          'NAME': 'Translated',
-          'CSSCLASS': 'success'
-        },
-        'APPROVED': {
-          'ID': 'approved',
-          'NAME': 'Approved',
-          'CSSCLASS': 'highlight'
-        }
-      };
+  function TransStatusService (_) {
+    var transStatusService = this
+    var STATUSES = {
+      'UNTRANSLATED': {
+        'ID': 'untranslated',
+        'NAME': 'Untranslated',
+        'CSSCLASS': 'neutral'
+      },
+      'NEEDSWORK': {
+        'ID': 'needswork',
+        'NAME': 'Needs Work',
+        'CSSCLASS': 'unsure'
+      },
+      'TRANSLATED': {
+        'ID': 'translated',
+        'NAME': 'Translated',
+        'CSSCLASS': 'success'
+      },
+      'APPROVED': {
+        'ID': 'approved',
+        'NAME': 'Approved',
+        'CSSCLASS': 'highlight'
+      }
+    }
 
-    transStatusService.getAll = function() {
-      return STATUSES;
-    };
+    transStatusService.getAll = function () {
+      return STATUSES
+    }
 
-    transStatusService.getAllAsArray = function() {
-      return _.values(STATUSES);
-    };
+    transStatusService.getAllAsArray = function () {
+      return _.values(STATUSES)
+    }
 
     /**
      *
      * @param {string} statusKey string representation of the status.
      * @returns {StatusInfo}
      */
-    transStatusService.getStatusInfo = function(statusKey) {
-      return STATUSES[conformStatus(statusKey)];
-    };
+    transStatusService.getStatusInfo = function (statusKey) {
+      return STATUSES[conformStatus(statusKey)]
+    }
 
-    transStatusService.getId = function(statusKey) {
-      return STATUSES[conformStatus(statusKey)].ID;
-    };
+    transStatusService.getId = function (statusKey) {
+      return STATUSES[conformStatus(statusKey)].ID
+    }
 
-    transStatusService.getServerId = function(statusId) {
-      return serverStatusId(statusId);
-    };
+    transStatusService.getServerId = function (statusId) {
+      return serverStatusId(statusId)
+    }
 
-    transStatusService.getName = function(statusKey) {
-      return STATUSES[conformStatus(statusKey)].NAME;
-    };
+    transStatusService.getName = function (statusKey) {
+      return STATUSES[conformStatus(statusKey)].NAME
+    }
 
-    transStatusService.getCSSClass = function(statusKey) {
-      return STATUSES[conformStatus(statusKey)].CSSCLASS;
-    };
+    transStatusService.getCSSClass = function (statusKey) {
+      return STATUSES[conformStatus(statusKey)].CSSCLASS
+    }
 
     /**
      * Conform it to uppercase for lookups and
@@ -78,14 +78,14 @@
      * @param  {string} status
      * @return {string}        new value to use
      */
-    function conformStatus(statusKey) {
-      statusKey = angular.uppercase(statusKey);
+    function conformStatus (statusKey) {
+      statusKey = angular.uppercase(statusKey)
       if (!statusKey || statusKey === 'NEW') {
-        statusKey = 'UNTRANSLATED';
+        statusKey = 'UNTRANSLATED'
       } else if (statusKey === 'NEEDREVIEW') {
-        statusKey = 'NEEDSWORK';
+        statusKey = 'NEEDSWORK'
       }
-      return statusKey;
+      return statusKey
     }
 
     /**
@@ -95,21 +95,21 @@
      * @param  {string} status
      * @return {string}        new value to use
      */
-    function serverStatusId(statusId) {
-      statusId = angular.lowercase(statusId);
+    function serverStatusId (statusId) {
+      statusId = angular.lowercase(statusId)
       if (!statusId || statusId === 'untranslated') {
-        return 'New';
+        return 'New'
       } else if (statusId === 'needswork') {
-        return 'NeedReview';
+        return 'NeedReview'
       }
-      return statusId.charAt(0).toUpperCase() + statusId.slice(1).toLowerCase();
+      return statusId.charAt(0).toUpperCase() + statusId.slice(1).toLowerCase()
     }
 
-    return transStatusService;
+    return transStatusService
   }
 
   angular
     .module('app')
-    .factory('TransStatusService', TransStatusService);
-})();
+    .factory('TransStatusService', TransStatusService)
+})()
 

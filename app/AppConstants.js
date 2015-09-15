@@ -1,5 +1,5 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * AddConstants
@@ -13,8 +13,5 @@
     .constant('str', window._.string)
     .constant('Mousetrap', window.Mousetrap)
     // Toggle to hide/show features that are ready for production
-    .constant('PRODUCTION', true);
-
-})();
-
-
+    .constant('PRODUCTION', true)
+})()

@@ -1,5 +1,5 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * @typedef {Object} ImportedMatchDetail
@@ -62,9 +62,8 @@
    * SuggestionsService.js
    * @ngInject
    */
-  function SuggestionsService(EditorService, EventService, UrlService, _,
+  function SuggestionsService (EditorService, EventService, UrlService, _,
                               $resource) {
-
     /**
      * Get a list of suggestions for how to translate a piece of text.
      *
@@ -72,8 +71,8 @@
      * @return {Promise<Array<Suggestion>>} suggestions for translating the
      *                                      given text
      */
-    function getSuggestionsForText(searchText) {
-      return getSuggestionsForContents([searchText]);
+    function getSuggestionsForText (searchText) {
+      return getSuggestionsForContents([searchText])
     }
 
     /**
@@ -83,13 +82,13 @@
      * @returns {Promise<Array<Suggestion>>} suggestions for translating the
      *                                       given phrase
      */
-    function getSuggestionsForPhrase(phrase) {
+    function getSuggestionsForPhrase (phrase) {
       return getSuggestionsForContents(phrase.sources)
         .then(function (suggestions) {
           EventService.emitEvent(EventService.EVENT.PHRASE_SUGGESTION_COUNT,
-            { id: phrase.id, count: suggestions.length });
-          return suggestions;
-        });
+            { id: phrase.id, count: suggestions.length })
+          return suggestions
+        })
     }
 
     /**
@@ -98,9 +97,9 @@
      * @param contents {Array<string>} source strings to find matches for
      * @returns {Promise<Array<Suggestion>>}
      */
-    function getSuggestionsForContents(contents) {
-      var sourceLocale = EditorService.context.srcLocale.localeId;
-      var transLocale = EditorService.context.localeId;
+    function getSuggestionsForContents (contents) {
+      var sourceLocale = EditorService.context.srcLocale.localeId
+      var transLocale = EditorService.context.localeId
 
       var postQuery = {
         query: {
@@ -112,10 +111,10 @@
           },
           isArray: true
         }
-      };
+      }
 
-      var Suggestions = $resource(UrlService.SUGGESTIONS_URL, {}, postQuery);
-      return Suggestions.query({}, contents).$promise.then(sortSuggestions);
+      var Suggestions = $resource(UrlService.SUGGESTIONS_URL, {}, postQuery)
+      return Suggestions.query({}, contents).$promise.then(sortSuggestions)
     }
 
     /**
@@ -125,14 +124,14 @@
      * @param {Suggestion[]} suggestions
      * @return {Suggestion[]} the given suggestions in order.
      */
-    function sortSuggestions(suggestions) {
+    function sortSuggestions (suggestions) {
       return _.chain(suggestions)
         .map(sortDetails)
         .map(addBestMatchScores)
         .sortBy(['similarityPercent', 'bestMatchScore',
                  'bestMatchModificationDate', 'relevanceScore'])
         .reverse()
-        .value();
+        .value()
     }
 
     /**
@@ -146,23 +145,23 @@
      * @return {Suggestion}
      */
     function addBestMatchScores (suggestion) {
-      var date, score;
-      var topMatch = suggestion.matchDetails[0];
+      var date, score
+      var topMatch = suggestion.matchDetails[0]
 
       if (topMatch.type === 'LOCAL_PROJECT') {
-        date = topMatch.lastModifiedDate;
-        score = topMatch.contentState === 'Translated' ? 0 : 1;
+        date = topMatch.lastModifiedDate
+        score = topMatch.contentState === 'Translated' ? 0 : 1
       }
 
       if (topMatch.type === 'IMPORTED_TM') {
-        date = topMatch.lastChanged;
-        score = 2;
+        date = topMatch.lastChanged
+        score = 2
       }
 
       return _.assign({}, suggestion, {
         bestMatchScore: score,
         bestMatchModificationDate: date
-      });
+      })
     }
 
     /**
@@ -172,8 +171,8 @@
      * @return {Suggestion} the given suggestion with details in correct order
      */
     function sortDetails (suggestion) {
-      var sortedDetails = _.sortBy(suggestion.matchDetails, typeAndDateSort);
-      return _.assign({}, suggestion, { matchDetails: sortedDetails });
+      var sortedDetails = _.sortBy(suggestion.matchDetails, typeAndDateSort)
+      return _.assign({}, suggestion, { matchDetails: sortedDetails })
     }
 
     // TODO use sortByAll when lodash version is increased
@@ -186,31 +185,28 @@
      * @return {string} representation of order that will sort appropriately.
      */
     function typeAndDateSort (detail) {
-
       if (detail.type === 'IMPORTED_TM') {
-        return '3' + detail.lastChanged;
+        return '3' + detail.lastChanged
       }
       if (detail.type === 'LOCAL_PROJECT') {
         if (detail.contentState === 'Translated') {
-          return '2' + detail.lastModifiedDate;
+          return '2' + detail.lastModifiedDate
         }
         if (detail.contentState === 'Approved') {
-          return '1' + detail.lastModifiedDate;
+          return '1' + detail.lastModifiedDate
         }
       }
       // Unrecognized, sort last
-      return '9';
+      return '9'
     }
-
-
 
     return {
       getSuggestionsForPhrase: getSuggestionsForPhrase,
       getSuggestionsForText: getSuggestionsForText
-    };
+    }
   }
 
   angular
     .module('app')
-    .factory('SuggestionsService', SuggestionsService);
-})();
+    .factory('SuggestionsService', SuggestionsService)
+})()

@@ -1,5 +1,5 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * Handle locales related information.
@@ -7,10 +7,9 @@
    * LocaleService.js
    * @ngInject
    */
-  function LocaleService(UrlService, StringUtil, FilterUtil, $rootScope,
+  function LocaleService (UrlService, StringUtil, FilterUtil, $rootScope,
     $resource, _) {
-
-    var locales = [];
+    var locales = []
 
     /**
      * Get project-version supported locales
@@ -18,8 +17,7 @@
      * @param versionSlug
      * @returns {$promise|*}
      */
-    function getSupportedLocales(projectSlug, versionSlug) {
-
+    function getSupportedLocales (projectSlug, versionSlug) {
       var Locales = $resource(UrlService.LOCALE_LIST_URL, {}, {
         query: {
           method: 'GET',
@@ -29,55 +27,55 @@
           },
           isArray: true
         }
-      });
+      })
 
-      return Locales.query().$promise;
+      return Locales.query().$promise
     }
 
-    //Returns all locales supported in Zanata instance
-    function getAllLocales() {
+    // Returns all locales supported in Zanata instance
+    function getAllLocales () {
       var Locales = $resource(UrlService.ALL_LOCALE_URL, {}, {
         query: {
           method: 'GET',
           isArray: true
         }
-      });
-      return Locales.query().$promise.then(function(results) {
-        locales = FilterUtil.cleanResourceList(results);
-        $rootScope.$broadcast('locales-updated');
-      });
+      })
+      return Locales.query().$promise.then(function (results) {
+        locales = FilterUtil.cleanResourceList(results)
+        $rootScope.$broadcast('locales-updated')
+      })
     }
 
-    function getUILocaleList() {
+    function getUILocaleList () {
       var list = $resource(UrlService.uiTranslationListURL, {}, {
         query: {
           method: 'GET'
         }
-      });
+      })
 
-      return list.query().$promise;
+      return list.query().$promise
     }
 
-    function getLocaleByLocaleId(localeList, localeId) {
-      if(localeList) {
-        return _.find(localeList, function(locale) {
-          return StringUtil.equals(locale.localeId, localeId, true);
-        });
+    function getLocaleByLocaleId (localeList, localeId) {
+      if (localeList) {
+        return _.find(localeList, function (locale) {
+          return StringUtil.equals(locale.localeId, localeId, true)
+        })
       }
     }
 
     function containsLocale (localeList, localeId) {
-      return _.any(localeList, function(locale) {
-        return StringUtil.equals(locale.localeId, localeId, true);
-      });
+      return _.any(localeList, function (locale) {
+        return StringUtil.equals(locale.localeId, localeId, true)
+      })
     }
 
-    function getName(localeId) {
-      var locale = getLocaleByLocaleId(locales, localeId);
-      if(locale) {
-        return locale.name;
+    function getName (localeId) {
+      var locale = getLocaleByLocaleId(locales, localeId)
+      if (locale) {
+        return locale.name
       }
-      return localeId;
+      return localeId
     }
 
     return {
@@ -91,10 +89,10 @@
         'localeId': 'en-US',
         'name': 'English'
       }
-    };
+    }
   }
 
   angular
     .module('app')
-    .factory('LocaleService', LocaleService);
-})();
+    .factory('LocaleService', LocaleService)
+})()

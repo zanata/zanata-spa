@@ -1,5 +1,5 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * Root application
@@ -16,6 +16,5 @@
       'monospaced.elastic',
       'gettext',
       'diff-match-patch'
-    ]);
-
-})();
+    ])
+})()

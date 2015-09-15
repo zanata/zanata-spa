@@ -1,17 +1,17 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * EditorDetailsCtrl.js
    * @ngInject
    */
-  function EditorDetailsCtrl() {
-    var editorDetailsCtrl = this;
+  function EditorDetailsCtrl () {
+    var editorDetailsCtrl = this
 
-    return editorDetailsCtrl;
+    return editorDetailsCtrl
   }
 
   angular
     .module('app')
-    .controller('EditorDetailsCtrl', EditorDetailsCtrl);
-})();
+    .controller('EditorDetailsCtrl', EditorDetailsCtrl)
+})()

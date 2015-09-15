@@ -1,5 +1,5 @@
 (function () {
-  'use strict';
+  'use strict'
 
   /**
    * @typedef {Object} Phrase
@@ -18,49 +18,48 @@
    *
    * @ngInject
    */
-  function PhraseService(FilterUtil, PhraseCache, TransStatusService, _,
+  function PhraseService (FilterUtil, PhraseCache, TransStatusService, _,
                          $stateParams) {
-    var phraseService = {};
+    var phraseService = {}
 
-    phraseService.phrases = []; //current displayed phrases
+    phraseService.phrases = [] // current displayed phrases
 
     // FIXME use an object for all the ID arguments - in general we will only
     // need to modify such an object sporadically when switching document
     // or locale, and it is neater than passing them all
     // around separately.
 
-    phraseService.getPhraseCount = function(context, filter) {
+    phraseService.getPhraseCount = function (context, filter) {
       return PhraseCache.getStates(context.projectSlug, context.versionSlug,
-        context.docId, context.localeId).then(function(states) {
-          var ids = getIds(states, filter.status);
-          return ids.length;
-        });
-    };
+        context.docId, context.localeId).then(function (states) {
+          var ids = getIds(states, filter.status)
+          return ids.length
+        })
+    }
 
     /**
      * Fetch each of the text flows appearing in the given states data.
      */
     phraseService.fetchAllPhrase = function (context, filter,
                                              offset, maxResult) {
-
-      var localeId = context.localeId;
+      var localeId = context.localeId
 
       return PhraseCache.getStates(context.projectSlug, context.versionSlug,
-        context.docId, localeId).then(getTransUnits);
+        context.docId, localeId).then(getTransUnits)
 
-      function getTransUnits(states) {
-        var ids = getIds(states, filter.status);
+      function getTransUnits (states) {
+        var ids = getIds(states, filter.status)
         if (!isNaN(offset)) {
-          if(!isNaN(maxResult)) {
-            ids = ids.slice(offset, offset + maxResult);
+          if (!isNaN(maxResult)) {
+            ids = ids.slice(offset, offset + maxResult)
           } else {
-            ids = ids.slice(offset);
+            ids = ids.slice(offset)
           }
         }
         // Reading for chaining promises https://github.com/kriskowal/q
         // (particularly "Sequences").
-        return PhraseCache.getTransUnits(ids, localeId).
-          then(transformToPhrases).then(sortPhrases);
+        return PhraseCache.getTransUnits(ids, localeId)
+          .then(transformToPhrases).then(sortPhrases)
       }
 
       /**
@@ -69,12 +68,12 @@
        *
        * @returns {Phrase[]}
        */
-      function transformToPhrases(transUnits) {
-        return _.map(transUnits, function(transUnit, id) {
-          var source = transUnit.source,
-            trans = transUnit[localeId];
+      function transformToPhrases (transUnits) {
+        return _.map(transUnits, function (transUnit, id) {
+          var source = transUnit.source
+          var trans = transUnit[localeId]
           return {
-            id: parseInt(id),
+            id: parseInt(id, 10),
             sources: source.plural ? source.contents : [source.content],
             // Original translation
             translations: extractTranslations(source, trans),
@@ -82,147 +81,145 @@
             newTranslations: extractTranslations(source, trans),
             plural: source.plural,
             // Conform the status from the server, return an object
-            status: trans ? TransStatusService.getStatusInfo(trans.state) :
-              TransStatusService.getStatusInfo('untranslated'),
-            revision: trans ? parseInt(trans.revision) : 0,
-            wordCount: parseInt(source.wordCount)
-          };
-        });
+            status: trans ? TransStatusService.getStatusInfo(trans.state)
+              : TransStatusService.getStatusInfo('untranslated'),
+            revision: trans ? parseInt(trans.revision, 10) : 0,
+            wordCount: parseInt(source.wordCount, 10)
+          }
+        })
       }
 
-      function extractTranslations(source, trans) {
-        if(source.plural) {
-          return trans && trans.contents ? trans.contents.slice() : [];
+      function extractTranslations (source, trans) {
+        if (source.plural) {
+          return trans && trans.contents ? trans.contents.slice() : []
         }
-        return trans ? [trans.content] : [];
+        return trans ? [trans.content] : []
       }
 
-      function sortPhrases(phrases) {
+      function sortPhrases (phrases) {
         return PhraseCache.getStates(context.projectSlug, context.versionSlug,
-          context.docId, localeId).then(function(states) {
-            phraseService.phrases = _.sortBy(phrases, function(phrase) {
-              var index = _.findIndex(states, function(state) {
-                return state.id === phrase.id;
-              });
-              return index >= 0 ? index : phrases.length;
-            });
-            return phraseService.phrases;
-          });
+          context.docId, localeId).then(function (states) {
+            phraseService.phrases = _.sortBy(phrases, function (phrase) {
+              var index = _.findIndex(states, function (state) {
+                return state.id === phrase.id
+              })
+              return index >= 0 ? index : phrases.length
+            })
+            return phraseService.phrases
+          })
       }
-    };
+    }
 
-    //update phrase,statuses and textFlows with given tu id
-    phraseService.onTransUnitUpdated = function(context, id, localeId, revision,
-      status, phrase) {
-
+    // update phrase,statuses and textFlows with given tu id
+    phraseService.onTransUnitUpdated = function (context, id, localeId,
+      revision, status, phrase) {
       PhraseCache.onTransUnitUpdated(context, id, localeId, revision, status,
-        phrase);
+        phrase)
 
-      var cachedPhrase = findPhrase(id, phraseService.phrases);
-      //update phrase if found
-      if(cachedPhrase) {
-        cachedPhrase.translations = phrase.newTranslations.slice();
-        cachedPhrase.revision = revision;
-        cachedPhrase.status = TransStatusService.getStatusInfo(status);
+      var cachedPhrase = findPhrase(id, phraseService.phrases)
+      // update phrase if found
+      if (cachedPhrase) {
+        cachedPhrase.translations = phrase.newTranslations.slice()
+        cachedPhrase.revision = revision
+        cachedPhrase.status = TransStatusService.getStatusInfo(status)
       }
-    };
+    }
 
-    //rollback content of phrase
-    phraseService.onTransUnitUpdateFailed = function(id) {
-      var phrase = findPhrase(id, phraseService.phrases);
-      if(phrase) {
-        phrase.newTranslations = phrase.translations.slice();
+    // rollback content of phrase
+    phraseService.onTransUnitUpdateFailed = function (id) {
+      var phrase = findPhrase(id, phraseService.phrases)
+      if (phrase) {
+        phrase.newTranslations = phrase.translations.slice()
       }
-    };
+    }
 
     // find next Id from phrases states
-    phraseService.findNextId = function(currentId) {
+    phraseService.findNextId = function (currentId) {
       return PhraseCache.getStates($stateParams.projectSlug,
                                    $stateParams.versionSlug, $stateParams.docId,
                                    $stateParams.localeId)
         .then(function (states) {
           var currentIndex,
-            nextIndex;
+            nextIndex
           currentIndex = _.findIndex(states, function (state) {
-            return state.id === currentId;
-          });
-          nextIndex = currentIndex + 1 < states.length ?
-            currentIndex + 1 : states.length - 1;
-          return states[nextIndex].id;
-        });
-    };
+            return state.id === currentId
+          })
+          nextIndex = currentIndex + 1 < states.length
+            ? currentIndex + 1 : states.length - 1
+          return states[nextIndex].id
+        })
+    }
 
     // find previous id from phrases states
-    phraseService.findPreviousId = function(currentId) {
+    phraseService.findPreviousId = function (currentId) {
       return PhraseCache.getStates($stateParams.projectSlug,
                                    $stateParams.versionSlug, $stateParams.docId,
                                    $stateParams.localeId)
         .then(function (states) {
           var currentIndex,
-            previousIndex;
+            previousIndex
           currentIndex = _.findIndex(states, function (state) {
-            return state.id === currentId;
-          });
-          previousIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : 0;
-          return states[previousIndex].id;
-        });
-    };
+            return state.id === currentId
+          })
+          previousIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : 0
+          return states[previousIndex].id
+        })
+    }
 
     // find next phrase with requested status
-    phraseService.findNextStatus = function(currentId, status) {
+    phraseService.findNextStatus = function (currentId, status) {
       return PhraseCache.getStates($stateParams.projectSlug,
                                    $stateParams.versionSlug, $stateParams.docId,
                                    $stateParams.localeId)
         .then(function (statusList) {
-          var currentIndex,
-            nextStatusInfo,
-            requestStatus = TransStatusService.getStatusInfo(status);
+          var currentIndex
+          var nextStatusInfo
+          var requestStatus = TransStatusService.getStatusInfo(status)
 
           currentIndex = _.findIndex(statusList, function (state) {
-            return state.id === currentId;
-          });
+            return state.id === currentId
+          })
 
           for (var i = currentIndex + 1; i < statusList.length; i++) {
             nextStatusInfo = TransStatusService.getStatusInfo(
-              statusList[i].state);
+              statusList[i].state)
             if (nextStatusInfo.ID === requestStatus.ID) {
-              return statusList[i].id;
+              return statusList[i].id
             }
           }
-          return currentId;
-        });
-    };
-
-    function findPhrase(id, phrases) {
-      return _.find(phrases, function(phrase) {
-        return phrase.id === id;
-      });
+          return currentId
+        })
     }
 
-    function getIds(resources, states) {
-      if(states) {
-        resources = FilterUtil.filterResources(resources, ['status'], states);
+    function findPhrase (id, phrases) {
+      return _.find(phrases, function (phrase) {
+        return phrase.id === id
+      })
+    }
+
+    function getIds (resources, states) {
+      if (states) {
+        resources = FilterUtil.filterResources(resources, ['status'], states)
       }
       return _.map(resources, function (item) {
-        return item.id;
-      });
+        return item.id
+      })
     }
 
     // Does not appear to be used anywhere. Removing until phrase-caching code
     // is added.
-    // phraseService.findById = function(phraseId) {
-    //   var deferred = $q.defer();
-    //   var phrase = phrases[phraseId];
-    //   deferred.resolve(phrase);
-    //   return deferred.promise;
-    // };
+    // phraseService.findById = function (phraseId) {
+    //   var deferred = $q.defer()
+    //   var phrase = phrases[phraseId]
+    //   deferred.resolve(phrase)
+    //   return deferred.promise
+    // }
 
-    return phraseService;
+    return phraseService
   }
 
   angular
     .module('app')
-    .factory('PhraseService', PhraseService);
-
-})();
+    .factory('PhraseService', PhraseService)
+})()
 

@@ -1,5 +1,5 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * @name scrollbarWidth
@@ -8,14 +8,14 @@
    * Scrollbar width container
    * Needed for the controller to reference all properties
    */
-  function scrollbarWidth() {
+  function scrollbarWidth () {
     return {
       restrict: 'A',
       controller: 'ScrollbarWidthCtrl as scrollbarWidthCtrl',
-      link: function(scope, element, attrs, scrollbarWidthCtrl) {
-        scrollbarWidthCtrl.init(element);
+      link: function (scope, element, attrs, scrollbarWidthCtrl) {
+        scrollbarWidthCtrl.init(element)
       }
-    };
+    }
   }
 
   /**
@@ -24,18 +24,18 @@
    * @description
    * The element to add the scrollbar width to
    */
-  function scrollbarWidthElement() {
+  function scrollbarWidthElement () {
     return {
       restrict: 'A',
       require: '?^scrollbarWidth',
-      link: function(scope, element, attrs, scrollbarWidthCtrl) {
+      link: function (scope, element, attrs, scrollbarWidthCtrl) {
         if (!scrollbarWidthCtrl) {
-          return;
+          return
         }
         // Use the attribute to decide which property to set
-        element.css(attrs.scrollbarWidthElement, scrollbarWidthCtrl.width);
+        element.css(attrs.scrollbarWidthElement, scrollbarWidthCtrl.width)
       }
-    };
+    }
   }
 
   /**
@@ -44,17 +44,17 @@
    * @description
    * Get the scrollbar container width
    */
-  function scrollbarWidthContainer() {
+  function scrollbarWidthContainer () {
     return {
       restrict: 'A',
       require: '?^scrollbarWidth',
-      link: function(scope, element, attrs, scrollbarWidthCtrl) {
+      link: function (scope, element, attrs, scrollbarWidthCtrl) {
         if (!scrollbarWidthCtrl) {
-          return;
+          return
         }
-        scrollbarWidthCtrl.container = element;
+        scrollbarWidthCtrl.container = element
       }
-    };
+    }
   }
 
   /**
@@ -63,17 +63,17 @@
    * @description
    * Get the scrollbar child width
    */
-  function scrollbarWidthChild() {
+  function scrollbarWidthChild () {
     return {
       restrict: 'A',
       require: '?^scrollbarWidth',
-      link: function(scope, element, attrs, scrollbarWidthCtrl) {
+      link: function (scope, element, attrs, scrollbarWidthCtrl) {
         if (!scrollbarWidthCtrl) {
-          return;
+          return
         }
-        scrollbarWidthCtrl.child = element;
+        scrollbarWidthCtrl.child = element
       }
-    };
+    }
   }
 
   angular
@@ -81,6 +81,5 @@
     .directive('scrollbarWidth', scrollbarWidth)
     .directive('scrollbarWidthElement', scrollbarWidthElement)
     .directive('scrollbarWidthContainer', scrollbarWidthContainer)
-    .directive('scrollbarWidthChild', scrollbarWidthChild);
-
-})();
+    .directive('scrollbarWidthChild', scrollbarWidthChild)
+})()
