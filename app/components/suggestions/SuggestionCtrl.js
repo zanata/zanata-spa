@@ -60,7 +60,11 @@
      * unless it is exactly 100%.
      */
     suggestionCtrl.percent = function () {
-      var percent = $scope.suggestion.similarityPercent;
+      var percent = parseFloat($scope.suggestion.similarityPercent);
+
+      if (!isFinite(percent)) {
+        return null;
+      }
 
       // Prevent very high percentages displaying as 100%
       if (percent > 99.99 && percent < 100) {
