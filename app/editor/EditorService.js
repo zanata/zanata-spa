@@ -10,7 +10,7 @@
     EventService, PhraseService, PhraseUtil, DocumentService, MessageHandler,
     TransStatusService) {
     var editorService = this,
-        queue = {};
+      queue = {};
 
     editorService.context = {};
 
@@ -57,7 +57,7 @@
     $rootScope.$on(EventService.EVENT.SAVE_TRANSLATION,
       function (event, data) {
         var phrase = data.phrase,
-            status = data.status;
+          status = data.status;
         if (!needToSavePhrase(phrase, status)) {
           // nothing has changed
           return;

@@ -1,5 +1,3 @@
-/* global React */
-
 import Dropdown from 'Dropdown'
 
 /**
@@ -21,15 +19,15 @@ let UiLanguageDropdown = React.createClass({
   },
 
   localeUrl: function (locale) {
-    return '#/' + this.props.projectSlug + '/' + this.props.versionSlug
-        + '/translate/' + this.props.encodedDocId + '/' + locale.localeId;
+    return '#/' + this.props.projectSlug + '/' + this.props.versionSlug +
+      '/translate/' + this.props.encodedDocId + '/' + locale.localeId
   },
 
   changeUiLocale: function (locale) {
-    return () => this.props.changeUiLocale(locale);
+    return () => this.props.changeUiLocale(locale)
   },
 
-  render: function() {
+  render: function () {
     let items = this.props.uiLocales.map(locale => {
       return (
         <li key={locale.localeId}>
@@ -38,8 +36,8 @@ let UiLanguageDropdown = React.createClass({
             {locale.name}
           </a>
         </li>
-      );
-    });
+      )
+    })
 
     return (
       <Dropdown onToggle={this.props.toggleDropdown}
@@ -56,8 +54,8 @@ let UiLanguageDropdown = React.createClass({
           </ul>
         </Dropdown.Content>
       </Dropdown>
-    );
+    )
   }
-});
+})
 
 export default UiLanguageDropdown

@@ -46,7 +46,7 @@
             baseUrl = config.baseUrl;
           } else {
             var deployPath = config.appPath.replace(/^\//g, ''),
-                index = location.href.indexOf(deployPath);
+              index = location.href.indexOf(deployPath);
 
             urlService.serverContextPath = location.origin + location.pathname;
             if(index >= 0) {

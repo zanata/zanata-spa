@@ -1,5 +1,3 @@
-/* global React */
-
 import cx from 'classnames'
 
 /**
@@ -19,27 +17,28 @@ let Dropdown = React.createClass({
   getDefaultProps: () => {
     return {
       enabled: true
-    };
+    }
   },
 
   toggleDropdown: function () {
-    this.props.onToggle(this.refs.button.getDOMNode());
+    this.props.onToggle(this.refs.button.getDOMNode())
   },
 
-  render: function() {
+  render: function () {
     let className = cx({
       'Dropdown': true,
       'is-active': this.props.isOpen
-    }, this.props.className);
+    }, this.props.className)
 
-    var buttonCount = 0,
-        contentCount = 0;
+    var buttonCount = 0
+    var contentCount = 0
 
     let children = React.Children.map(this.props.children, (child) => {
       if (child.type === Dropdown.Button) {
-        buttonCount++;
-        let onClick = this.props.enabled ?
-          { onClick: this.toggleDropdown } : {};
+        buttonCount++
+        // TODO should be ok just to assign onClick undefined
+        let onClick = this.props.enabled
+          ? { onClick: this.toggleDropdown } : {}
         return (
           <div ref="button"
                className="Dropdown-toggle"
@@ -48,34 +47,34 @@ let Dropdown = React.createClass({
                {...onClick}>
             {child}
           </div>
-        );
+        )
       }
       if (child.type === Dropdown.Content) {
-        contentCount++;
-        return child;
+        contentCount++
+        return child
       }
-      throw Error('<Dropdown> can only contain <Dropdown.Button> and '
-        + '<Dropdown.Content> elements, but found <' + child.type
-        + '>. Put the always-visible part in <Dropdown.Button>'
-        + ' and the revealed part in <Dropdown.Content>');
-    });
+      throw Error('<Dropdown> can only contain <Dropdown.Button> and ' +
+        '<Dropdown.Content> elements, but found <' + child.type + '>. ' +
+        'Put the always-visible part in <Dropdown.Button> and the revealed ' +
+        'part in <Dropdown.Content>')
+    })
 
     if (buttonCount !== 1) {
-      throw Error('<Dropdown> must contain exactly one <Dropdown.Button>,'
-        + ' but found ' + buttonCount);
+      throw Error('<Dropdown> must contain exactly one <Dropdown.Button>, ' +
+        ' but found ' + buttonCount)
     }
     if (contentCount !== 1) {
-      throw Error('<Dropdown> must contain exactly one <Dropdown.Content>,'
-        + ' but found ' + contentCount);
+      throw Error('<Dropdown> must contain exactly one <Dropdown.Content>, ' +
+        'but found ' + contentCount)
     }
 
     return (
       <div className={className}>
         {children}
       </div>
-    );
+    )
   }
-});
+})
 
 Dropdown.Button = React.createClass({
   propTypes: {
@@ -83,9 +82,9 @@ Dropdown.Button = React.createClass({
   },
   render: function () {
     // just unwrap the child and return it
-    return React.Children.only(this.props.children);
+    return React.Children.only(this.props.children)
   }
-});
+})
 
 Dropdown.Content = React.createClass({
   render: function () {
@@ -93,10 +92,10 @@ Dropdown.Content = React.createClass({
       <div className="Dropdown-content Dropdown-content--bordered">
         {this.props.children}
       </div>
-    );
+    )
   }
-});
+})
 
-window.dropdownbutton = Dropdown.Button;
+window.dropdownbutton = Dropdown.Button
 
 export default Dropdown

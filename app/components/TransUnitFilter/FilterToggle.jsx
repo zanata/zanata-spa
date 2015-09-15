@@ -1,5 +1,3 @@
-/* global React */
-
 import cx from 'classnames'
 import Icon from 'Icon'
 
@@ -27,14 +25,14 @@ let FilterToggle = React.createClass({
     return {
       count: 0,
       withDot: true
-    };
+    }
   },
 
-  render: function() {
+  render: function () {
     let className = cx('Toggle u-round', this.props.className)
 
-    let dot = this.props.withDot ?
-      <Icon name="dot" className="Icon--xsm"/> : undefined;
+    let dot = this.props.withDot
+      ? <Icon name="dot" className="Icon--xsm"/> : undefined
 
     return (
       <div className={className}>
@@ -52,8 +50,8 @@ let FilterToggle = React.createClass({
           <span className="u-hiddenVisually">{this.props.title}</span>
         </label>
       </div>
-    );
+    )
   }
-});
+})
 
 export default FilterToggle

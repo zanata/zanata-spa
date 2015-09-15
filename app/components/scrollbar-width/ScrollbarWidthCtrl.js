@@ -14,8 +14,8 @@
 
     scrollbarWidthCtrl.init = function() {
       var container = scrollbarWidthCtrl.container[0],
-          child = scrollbarWidthCtrl.child[0],
-          scrollbarWidth = child.offsetWidth - container.offsetWidth;
+        child = scrollbarWidthCtrl.child[0],
+        scrollbarWidth = child.offsetWidth - container.offsetWidth;
 
       scrollbarWidthCtrl.width = scrollbarWidth / 2;
     };

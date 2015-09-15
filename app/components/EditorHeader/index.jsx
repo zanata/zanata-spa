@@ -1,5 +1,3 @@
-/* global React, _ */
-
 import cx from 'classnames'
 import ControlsHeader from 'ControlsHeader'
 import NavHeader from 'NavHeader'
@@ -52,7 +50,6 @@ let EditorHeader = React.createClass({
     localeDropdownKey: React.PropTypes.any.isRequired,
     uiLocaleDropdownKey: React.PropTypes.any.isRequired,
 
-
     filterStatus: React.PropTypes.shape({
       all: React.PropTypes.bool.isRequired,
       approved: React.PropTypes.bool.isRequired,
@@ -74,7 +71,7 @@ let EditorHeader = React.createClass({
       needswork: React.PropTypes.oneOfType(
         [React.PropTypes.number, React.PropTypes.string]),
       untranslated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string ])
+        [React.PropTypes.number, React.PropTypes.string])
     }),
 
     // TODO replace with dispatched event
@@ -106,23 +103,22 @@ let EditorHeader = React.createClass({
     }).isRequired
   },
 
-  render: function() {
-
+  render: function () {
     let className = cx('Header', 'Editor-header',
-      { 'is-minimised': this.props.mainNavHidden });
+      { 'is-minimised': this.props.mainNavHidden })
 
     let navHeaderProps = _.pick(this.props, ['user', 'editorContext',
       'projectName', 'versionPageUrl', 'encodeDocId', 'encodedDocId',
       'allDocs', 'localeName', 'locales', 'uiLocaleName', 'uiLocales',
       'changeUiLocale', 'toggleDropdown', 'openDropdown', 'docsDropdownKey',
-      'localeDropdownKey', 'uiLocaleDropdownKey']);
+      'localeDropdownKey', 'uiLocaleDropdownKey'])
 
     let controlsHeaderProps = _.pick(this.props, ['filterStatus',
       'counts', 'resetFilter', 'onFilterChange', 'pageNumber', 'pageCount',
       'firstPage', 'previousPage', 'nextPage', 'lastPage',
       'toggleSuggestionPanel', 'suggestionsVisible',
       'toggleKeyboardShortcutsModal', 'mainNavHidden', 'toggleMainNav',
-      'gettextCatalog']);
+      'gettextCatalog'])
 
     return (
       <header role="banner"
@@ -134,8 +130,8 @@ let EditorHeader = React.createClass({
           size="small"
           stats={this.props.counts}/>
       </header>
-    );
+    )
   }
-});
+})
 
 export default EditorHeader

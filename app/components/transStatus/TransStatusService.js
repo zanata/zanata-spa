@@ -15,28 +15,28 @@
    */
   function TransStatusService(_) {
     var transStatusService = this,
-        STATUSES = {
-          'UNTRANSLATED': {
-            'ID': 'untranslated',
-            'NAME': 'Untranslated',
-            'CSSCLASS': 'neutral'
-          },
-          'NEEDSWORK': {
-            'ID': 'needswork',
-            'NAME': 'Needs Work',
-            'CSSCLASS': 'unsure'
-          },
-          'TRANSLATED': {
-            'ID': 'translated',
-            'NAME': 'Translated',
-            'CSSCLASS': 'success'
-          },
-          'APPROVED': {
-            'ID': 'approved',
-            'NAME': 'Approved',
-            'CSSCLASS': 'highlight'
-          }
-        };
+      STATUSES = {
+        'UNTRANSLATED': {
+          'ID': 'untranslated',
+          'NAME': 'Untranslated',
+          'CSSCLASS': 'neutral'
+        },
+        'NEEDSWORK': {
+          'ID': 'needswork',
+          'NAME': 'Needs Work',
+          'CSSCLASS': 'unsure'
+        },
+        'TRANSLATED': {
+          'ID': 'translated',
+          'NAME': 'Translated',
+          'CSSCLASS': 'success'
+        },
+        'APPROVED': {
+          'ID': 'approved',
+          'NAME': 'Approved',
+          'CSSCLASS': 'highlight'
+        }
+      };
 
     transStatusService.getAll = function() {
       return STATUSES;

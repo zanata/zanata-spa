@@ -1,5 +1,3 @@
-/* global React */
-
 import Icon from 'Icon'
 
 /**
@@ -34,22 +32,24 @@ let Pager = React.createClass({
                   className="u-sizeWidth-1"/>
           </a>
         </li>
-      );
+      )
     }
   }),
 
-  render: function() {
-    let gettextCatalog = this.props.gettextCatalog;
-    let PagerButton = this.PagerButton;
+  render: function () {
+    let gettextCatalog = this.props.gettextCatalog
+    let PagerButton = this.PagerButton
 
-    let pageNumber = this.props.pageNumber;
-    let pageCount = this.props.pageCount;
+    let pageNumber = this.props.pageNumber
+    let pageCount = this.props.pageCount
 
-    let pageXofY = pageCount ? gettextCatalog.getString(
-      '{{currentPage}} of {{totalPages}}', {
+    let pageXofY = pageCount
+      ? gettextCatalog.getString(
+        '{{currentPage}} of {{totalPages}}', {
           currentPage: pageNumber,
           totalPages: pageCount
-      }) : pageNumber;
+        })
+      : pageNumber
 
     let buttons = {
       first: {
@@ -72,7 +72,7 @@ let Pager = React.createClass({
         title: gettextCatalog.getString('Last page'),
         action: this.props.lastPage
       }
-    };
+    }
 
     return (
       <ul className="u-listHorizontal u-textCenter">
@@ -86,8 +86,8 @@ let Pager = React.createClass({
         <PagerButton {...buttons.next}/>
         <PagerButton {...buttons.last}/>
       </ul>
-    );
+    )
   }
-});
+})
 
 export default Pager

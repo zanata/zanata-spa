@@ -11,7 +11,7 @@
   function DocumentService($q, $resource, UrlService, StringUtil,
                            StatisticUtil, EventService, _, TransStatusService) {
     var documentService = this,
-        statisticMap = {};
+      statisticMap = {};
 
     /**
      * Finds all documents in given project version

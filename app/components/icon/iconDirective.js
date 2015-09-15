@@ -18,8 +18,8 @@
       // templateUrl: 'components/icon/icon.html',
       link: function(scope, element) {
         var svg = '',
-            loader = '',
-            titleHtml = '';
+          loader = '',
+          titleHtml = '';
 
         element.addClass('Icon');
 

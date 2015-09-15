@@ -13,10 +13,10 @@
   function DropdownService($document, $rootScope) {
         // For Angular components, these will be phased out
     var openScope = null,
-        // For React components, just an identifier, do not trigger events
-        openDropdown = null,
-        openDropdownButton = null,
-        dropdownService = this;
+      // For React components, just an identifier, do not trigger events
+      openDropdown = null,
+      openDropdownButton = null,
+      dropdownService = this;
 
     dropdownService.getOpenDropdown = function () {
       return openDropdown;

@@ -72,7 +72,7 @@
       function transformToPhrases(transUnits) {
         return _.map(transUnits, function(transUnit, id) {
           var source = transUnit.source,
-              trans = transUnit[localeId];
+            trans = transUnit[localeId];
           return {
             id: parseInt(id),
             sources: source.plural ? source.contents : [source.content],

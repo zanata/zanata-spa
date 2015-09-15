@@ -1,4 +1,3 @@
-/* global require, React */
 (function() {
   'use strict';
 
@@ -47,11 +46,7 @@
         var localeDropdownKey = {};
         var uiLocaleDropdownKey = {};
 
-
-
         render();
-
-
 
         /**
          * To create a plain callback that already has an associated key,

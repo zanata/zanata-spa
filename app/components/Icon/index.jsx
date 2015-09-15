@@ -1,5 +1,3 @@
-/* global React */
-
 import cx from 'classnames'
 
 /**
@@ -13,23 +11,25 @@ let Icon = React.createClass({
     className: React.PropTypes.string
   },
 
-  render: function() {
-    let titleMarkup = this.props.title ?
-         '<title>' + this.props.title + '</title>' : '';
+  render: function () {
+    let titleMarkup = this.props.title
+      ? '<title>' + this.props.title + '</title>'
+      : ''
 
     // jsx does not understand xlink:href, so it is generated manually.
     // includes <title>since this is used as the full content of the svg tag
     let innerHtml = '<use xlink:href="#Icon-' + this.props.name +
-                    '"/>' + titleMarkup;
+                    '"/>' + titleMarkup
 
-    let className = cx(this.props.className, 'Icon');
+    let className = cx(this.props.className, 'Icon')
 
     return (
       <div className={className}>
-        <svg className="Icon-item" dangerouslySetInnerHTML={{__html: innerHtml}} />
+        <svg className="Icon-item"
+             dangerouslySetInnerHTML={{__html: innerHtml}} />
       </div>
-    );
+    )
   }
-});
+})
 
 export default Icon

@@ -1,18 +1,28 @@
 
-# TODO
-# extends: standard
+extends: standard
+
+ecmaFeatures:
+  jsx: true
 
 env:
   browser: true  # assume all browser APIs are available
+  node: false
 
 plugins:
+  - react
   - no-console-log
+
+# Use the babel parser to handle es6 and jsx properly
+parser: babel-eslint
 
 # Pairs global variable name, and whether to allow writing to it.
 # See:
 # http://eslint.org/docs/user-guide/configuring.html#specifying-globals
 globals:
-  angular: false  # angular is a global, and should never be written to
+  React: false  # React is a global, and should never be written to
+  # TODO import lodash npm module instead
+  _: false
+
 
 # Rule details at http://eslint.org/docs/rules/
 # Specific rules usually http://eslint.org/docs/rules/<rule-name>
@@ -21,16 +31,6 @@ globals:
 #  - 1: generate warning
 #  - 2: generate error
 rules:
-
-  # require curly braces around blocks
-  curly:
-    - 2
-    - multi-line  # unless the entire block is on one line
-
-  indent:
-    - 2
-    - 2  # 2 spaces per indentation level
-    - { SwitchCase: 1 } # how many levels to indent switch cases
 
   linebreak-style:
     - 2
@@ -46,10 +46,6 @@ rules:
     - 80  # line length
     - 2   # count tabs as 2 characters (required, but we don't allow tabs)
 
-  # All constructor functions start with caps, and other functions do not
-  new-cap:
-    - 2
-
   # No logging to console, so debugging lines are not left in by mistake.
   no-console-log/no-console-log:
     - 1  # Just a warning, do not want to stop build during development
@@ -58,15 +54,3 @@ rules:
   no-use-before-define:
     - 2
     - nofunc  # allow use of hoisted functions before their definition
-
-  # Consistent quoting style
-  quotes:
-    - 2
-    - single  # use single quotes everywhere...
-    - avoid-escape  # except for strings that contain single-quotes
-
-  # Consistent use of semicolons.
-  # Consider changing this to get cleaner code, if we would not write errors.
-  semi:
-    - 2
-    - always  # must add a semicolon any place it is valid

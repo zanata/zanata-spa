@@ -12,8 +12,8 @@
     $filter, MessageHandler, EventService, TransStatusService, PRODUCTION,
     EditorShortcuts, PhraseUtil, $timeout) {
     var transUnitService = this,
-        controllerList = {},
-        selectedTUId;
+      controllerList = {},
+      selectedTUId;
 
     transUnitService.addController = function(id, controller) {
       controllerList[id] = controller;
@@ -40,8 +40,8 @@
     $rootScope.$on(EventService.EVENT.SELECT_TRANS_UNIT,
       function (event, data) {
         var newTuController = controllerList[data.id],
-            oldTUController = controllerList[selectedTUId],
-            updateURL = data.updateURL;
+          oldTUController = controllerList[selectedTUId],
+          updateURL = data.updateURL;
 
         EventService.emitEvent(EventService.EVENT.REQUEST_PHRASE_SUGGESTIONS,
           {

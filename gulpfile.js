@@ -101,33 +101,53 @@ gulp.task('cssBower', ['bowerMain'], function(){
     .pipe(gulp.dest(paths.build + '/css'));
 });
 
-gulp.task('js', function(){
+
+gulp.task('lint-jsx', function () {
+  // lint jsx before it is compiled by webpack
+  return gulp.src(paths.jsx)
+    .pipe(plumber({errorHandler: notifyError}))
+    .pipe(eslint('./es6.eslintrc.json'))
+    .pipe(eslint.format());
+});
+gulp.task('lint-jsx-watch', ['lint-jsx'], function () {
+  gulp.watch(paths.jsx, ['lint-jsx']);
+  gulp.watch('./es6.eslintrc.json', ['lint-jsx']);
+});
+
+
+gulp.task('js', ['lint-jsx'], function(){
   // compile and bundle the tree of React components
   // to pass in with other js
-  var bundledReact = gulp.src(paths.webpack.entry).pipe(webpack({
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          exclude: /(node_modules|bower_components)/,
-          loader: 'babel'
-        }
-      ]
-    },
-    resolve: {
-      // subdirectories to check while searching up tree for module
-      modulesDirectories: ['node_modules', 'components'],
-      extensions: paths.webpack.moduleExtensions
-    }
-  }));
+  // TODO get this to run through sourcemaps
+  var bundledReact = gulp.src(paths.webpack.entry)
+    .pipe(eslint('./.eslintrc'))
+    .pipe(eslint.format())
+    .pipe(webpack({
+      module: {
+        loaders: [
+          {
+            test: /\.jsx?$/,
+            exclude: /(node_modules|bower_components)/,
+            loader: 'babel'
+          }
+        ]
+      },
+      resolve: {
+        // subdirectories to check while searching up tree for module
+        modulesDirectories: ['node_modules', 'components'],
+        extensions: paths.webpack.moduleExtensions
+      }
+    }));
 
 
-  var js = gulp.src(paths.js.app);
+  var js = gulp.src(paths.js.app)
+    .pipe(eslint('./.eslintrc'))
+    // output formatted lint results to console
+    .pipe(eslint.format());
 
   return merge(js, bundledReact)
     .pipe(plumber({errorHandler: notifyError}))
-    .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'))
+
     // Sourcemaps start
     .pipe(sourcemaps.init())
     .pipe(ngAnnotate())
@@ -351,7 +371,10 @@ gulp.task('watch', ['serve'], function(){
 
 gulp.task('lint', function () {
   return gulp.src(paths.js.app)
+
+  // TODO can add a string for path to config file
     .pipe(eslint())
+    // output formatted lint results to console
     .pipe(eslint.format())
     .pipe(eslint.failOnError());
 });

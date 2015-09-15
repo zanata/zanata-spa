@@ -12,13 +12,13 @@
   function DropdownCtrl($scope, $attrs, $parse, dropdownConfig,
     DropdownService, $animate, $timeout) {
     var dropdownCtrl = this,
-        // create a child scope so we are not polluting original one
-        scope = $scope.$new(),
-        openClass = dropdownConfig.openClass,
-        getIsOpen,
-        setIsOpen = angular.noop,
-        toggleInvoker = $attrs.onToggle ?
-          $parse($attrs.onToggle) : angular.noop;
+      // create a child scope so we are not polluting original one
+      scope = $scope.$new(),
+      openClass = dropdownConfig.openClass,
+      getIsOpen,
+      setIsOpen = angular.noop,
+      toggleInvoker = $attrs.onToggle ?
+        $parse($attrs.onToggle) : angular.noop;
 
     this.init = function(element) {
       dropdownCtrl.$element = element;

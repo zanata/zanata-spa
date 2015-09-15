@@ -166,7 +166,7 @@
         } else {
           //if docId is not defined in url, set to first from list
           var selectedDocId = $state.params.docId,
-              context = editorCtrl.context;
+            context = editorCtrl.context;
           if (!selectedDocId) {
             context.docId = editorCtrl.documents[0].name;
             transitionToEditorSelectedView();

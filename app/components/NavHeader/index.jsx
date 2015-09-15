@@ -1,5 +1,3 @@
-/* global React, _ */
-
 import DashboardLink from 'DashboardLink'
 import DocsDropdown from 'DocsDropdown'
 import Icon from 'Icon'
@@ -56,34 +54,34 @@ let NavHeader = React.createClass({
   },
 
   render: function () {
-    let ctx = this.props.editorContext;
+    let ctx = this.props.editorContext
 
     let projectVersionLinkProps = _.pick(this.props,
-      ['projectName', 'versionPageUrl']);
+      ['projectName', 'versionPageUrl'])
     if (ctx) {
-      projectVersionLinkProps.versionSlug = ctx.versionSlug;
+      projectVersionLinkProps.versionSlug = ctx.versionSlug
     }
 
     let docsDropdownProps = _.pick(this.props,
-      ['editorContext', 'encodeDocId', 'allDocs']);
+      ['editorContext', 'encodeDocId', 'allDocs'])
     docsDropdownProps.isOpen = this.props.openDropdown ===
-      this.props.docsDropdownKey;
+      this.props.docsDropdownKey
     docsDropdownProps.toggleDropdown =
-      this.props.toggleDropdown(this.props.docsDropdownKey);
+      this.props.toggleDropdown(this.props.docsDropdownKey)
 
     let langsDropdownProps = _.pick(this.props,
-      ['editorContext', 'localeName', 'locales', 'encodedDocId']);
+      ['editorContext', 'localeName', 'locales', 'encodedDocId'])
     langsDropdownProps.isOpen = this.props.openDropdown ===
-      this.props.localeDropdownKey;
+      this.props.localeDropdownKey
     langsDropdownProps.toggleDropdown =
-      this.props.toggleDropdown(this.props.localeDropdownKey);
+      this.props.toggleDropdown(this.props.localeDropdownKey)
 
     let uiLangDropdownProps = _.pick(this.props,
-      ['changeUiLocale', 'uiLocaleName', 'uiLocales']);
+      ['changeUiLocale', 'uiLocaleName', 'uiLocales'])
     uiLangDropdownProps.isOpen = this.props.openDropdown ===
-      this.props.uiLocaleDropdownKey;
+      this.props.uiLocaleDropdownKey
     uiLangDropdownProps.toggleDropdown =
-      this.props.toggleDropdown(this.props.uiLocaleDropdownKey);
+      this.props.toggleDropdown(this.props.uiLocaleDropdownKey)
 
     return (
       <nav role="navigation"
@@ -91,7 +89,8 @@ let NavHeader = React.createClass({
         <div className="u-posAbsoluteLeft">
           <ProjectVersionLink {...projectVersionLinkProps}/>
           <Icon name="chevron-right"
-             className="Icon--sm u-sMH-1-4 u-textInvert u-textMuted u-sm-hidden"/>
+             className="Icon--sm u-sMH-1-4 u-textInvert
+                        u-textMuted u-sm-hidden"/>
           <ul className="u-listInline u-inlineBlock">
             <li>
               <DocsDropdown {...docsDropdownProps}/>
@@ -124,8 +123,8 @@ let NavHeader = React.createClass({
           </li>
         </ul>
       </nav>
-    );
+    )
   }
-});
+})
 
 export default NavHeader

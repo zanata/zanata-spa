@@ -12,7 +12,7 @@
 
     //TODO: move pager to directives/convert to infinite scroll
     var COUNT_PER_PAGE = 50,
-        editorContentCtrl = this, status, filter;
+      editorContentCtrl = this, status, filter;
     refreshFilterQueryFromUrl();
 
     editorContentCtrl.phrases = [];
@@ -119,21 +119,21 @@
 
       if (nextId !== data.currentId) {
         EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-                               {
-                                 'id': nextId,
-                                 'updateURL': true,
-                                 'focus': true
-                               }, null);
+          {
+            'id': nextId,
+            'updateURL': true,
+            'focus': true
+          }, null);
       } else {
         // we have reach the end
         phrase = phrases[currentIndex];
         EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-           {
-             'phrase': phrase,
-             'status': PhraseUtil.getSaveButtonStatus(phrase),
-             'locale': $stateParams.localeId,
-             'docId': $stateParams.docId
-           });
+          {
+            'phrase': phrase,
+            'status': PhraseUtil.getSaveButtonStatus(phrase),
+            'locale': $stateParams.localeId,
+            'docId': $stateParams.docId
+          });
       }
     }
 
@@ -152,21 +152,21 @@
 
       if (prevId !== data.currentId) {
         EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-                               {
-                                 'id': prevId,
-                                 'updateURL': true,
-                                 'focus': true
-                               }, null);
+          {
+            'id': prevId,
+            'updateURL': true,
+            'focus': true
+          }, null);
       } else {
         phrase = phrases[currentIndex];
         // have reach the start
         EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
-           {
-             'phrase': phrase,
-             'status': PhraseUtil.getSaveButtonStatus(phrase),
-             'locale': $stateParams.localeId,
-             'docId': $stateParams.docId
-           });
+          {
+            'phrase': phrase,
+            'status': PhraseUtil.getSaveButtonStatus(phrase),
+            'locale': $stateParams.localeId,
+            'docId': $stateParams.docId
+          });
       }
     }
 
@@ -185,11 +185,11 @@
           phrases[i].state);
         if (nextStatusInfo.ID === requestStatus.ID) {
           EventService.emitEvent(EventService.EVENT.SELECT_TRANS_UNIT,
-                                 {
-                                   'id': phrases[i].id,
-                                   'updateURL': true,
-                                   'focus': true
-                                 }, null);
+            {
+              'id': phrases[i].id,
+              'updateURL': true,
+              'focus': true
+            }, null);
           return;
         }
       }

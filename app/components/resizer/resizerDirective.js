@@ -102,14 +102,14 @@
 
       function adjustVerticalPanel(resizerPositionX) {
         var x = resizerPositionX,
-            leftPanel = angular.element(document
-              .querySelector(attrs.resizerLeft)),
-            rightPanel = angular.element(document
-              .querySelector(attrs.resizerRight)),
-            maximumPanelSize =
-              normalisePercentage(attrs.resizerMax, $window.innerHeight),
-            minimumPanelSize = attrs.resizerMin ||
-              parseInt(attrs.resizerWidth);
+          leftPanel = angular.element(document
+            .querySelector(attrs.resizerLeft)),
+          rightPanel = angular.element(document
+            .querySelector(attrs.resizerRight)),
+          maximumPanelSize =
+            normalisePercentage(attrs.resizerMax, $window.innerHeight),
+          minimumPanelSize = attrs.resizerMin ||
+            parseInt(attrs.resizerWidth);
 
         scope.actualPosition = x;
         x = restrictMinOrMax(x, maximumPanelSize, minimumPanelSize);
@@ -129,13 +129,13 @@
 
       function adjustHorizontalPanel(resizerPositionY) {
         var y = resizerPositionY,
-            topPanel = angular.element(document
-              .querySelector(attrs.resizerTop)),
-            bottomPanel = angular.element(document
-              .querySelector(attrs.resizerBottom)),
-            maximumPanelSize =
-              normalisePercentage(attrs.resizerMax, $window.innerHeight),
-            minimumPanelSize = attrs.resizerMin || scope.actualHeight;
+          topPanel = angular.element(document
+            .querySelector(attrs.resizerTop)),
+          bottomPanel = angular.element(document
+            .querySelector(attrs.resizerBottom)),
+          maximumPanelSize =
+            normalisePercentage(attrs.resizerMax, $window.innerHeight),
+          minimumPanelSize = attrs.resizerMin || scope.actualHeight;
 
         scope.actualPosition = y;
         y = restrictMinOrMax(y, maximumPanelSize, minimumPanelSize);
