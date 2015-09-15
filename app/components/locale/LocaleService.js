@@ -7,7 +7,8 @@
    * LocaleService.js
    * @ngInject
    */
-  function LocaleService(UrlService, StringUtil, FilterUtil, $rootScope, $resource, _) {
+  function LocaleService(UrlService, StringUtil, FilterUtil, $rootScope,
+    $resource, _) {
 
     var locales = [];
 
