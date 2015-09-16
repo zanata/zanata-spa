@@ -1,27 +1,21 @@
-
+# Shared config used for all JavaScript (es5, es6, Angular, React)
+#
+# This is just JavaScript Standard Style with a few extra restrictions
+# to match our environment and team. These rules should still leave code
+# compliant with Standard.
+#
+# see standardjs.com
 extends: standard
-
-ecmaFeatures:
-  jsx: true
 
 env:
   browser: true  # assume all browser APIs are available
-  node: false
+
 
 plugins:
-  - react
   - no-console-log
 
-# Use the babel parser to handle es6 and jsx properly
-parser: babel-eslint
-
-# Pairs global variable name, and whether to allow writing to it.
-# See:
-# http://eslint.org/docs/user-guide/configuring.html#specifying-globals
 globals:
   React: false  # React is a global, and should never be written to
-  # TODO import lodash npm module instead
-  _: false
 
 
 # Rule details at http://eslint.org/docs/rules/
@@ -45,6 +39,7 @@ rules:
     - 2   # error to enforce compliance, disable when needed
     - 80  # line length
     - 2   # count tabs as 2 characters (required, but we don't allow tabs)
+
 
   # No logging to console, so debugging lines are not left in by mistake.
   no-console-log/no-console-log:

@@ -106,12 +106,12 @@ gulp.task('lint-jsx', function () {
   // lint jsx before it is compiled by webpack
   return gulp.src(paths.jsx)
     .pipe(plumber({errorHandler: notifyError}))
-    .pipe(eslint('./es6.eslintrc.json'))
+    .pipe(eslint('./react.eslintrc'))
     .pipe(eslint.format());
 });
 gulp.task('lint-jsx-watch', ['lint-jsx'], function () {
   gulp.watch(paths.jsx, ['lint-jsx']);
-  gulp.watch('./es6.eslintrc.json', ['lint-jsx']);
+  gulp.watch('./react.eslintrc', ['lint-jsx']);
 });
 
 
@@ -369,21 +369,6 @@ gulp.task('watch', ['serve'], function(){
   gulp.watch(paths.images.bower, ['imagesBower']);
   gulp.watch(paths.fonts.bower, ['fontsBower']);
   gulp.watch(paths.app + '/index.html', ['copyIndex']);
-});
-
-gulp.task('lint', function () {
-  return gulp.src(paths.js.app)
-
-  // TODO can add a string for path to config file
-    .pipe(eslint())
-    // output formatted lint results to console
-    .pipe(eslint.format())
-    .pipe(eslint.failOnError());
-});
-
-gulp.task('lint-watch', function () {
-  gulp.watch(paths.js.app, ['lint']);
-  gulp.watch('.eslintrc', ['lint']);
 });
 
 gulp.task('default', ['build']);
