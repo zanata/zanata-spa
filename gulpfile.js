@@ -151,7 +151,9 @@ gulp.task('js', ['lint-jsx'], function(){
     // Sourcemaps start
     .pipe(sourcemaps.init())
     .pipe(ngAnnotate())
-    .pipe(concat('app.js'))
+    // insert a semicolon between each file to prevent iife being interpreted
+    // as function call
+    .pipe(concat('app.js', { newLine: ';\n' }))
     .pipe(gulpif(env === 'production', uglify()))
     // Sourcemaps end
     .pipe(sourcemaps.write('../maps'))
