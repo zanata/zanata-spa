@@ -100,7 +100,9 @@
         $scope.showSuggestions = show;
       });
     editorCtrl.toggleSuggestionPanel = function () {
-      SettingsService.update(SHOW_SUGGESTIONS, !$scope.showSuggestions);
+      $scope.$apply(function () {
+        SettingsService.update(SHOW_SUGGESTIONS, !$scope.showSuggestions);
+      });
     };
 
 
