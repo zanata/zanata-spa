@@ -12,8 +12,8 @@ let ProjectVersionLink = React.createClass({
 
   getDefaultProps: () => {
     return {
-      projectName: 'Loading ',
-      versionSlug: 'Loading '
+      projectName: 'Loading... ',
+      versionSlug: 'Loading... '
     }
   },
 
