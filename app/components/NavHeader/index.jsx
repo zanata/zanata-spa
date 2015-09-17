@@ -1,3 +1,4 @@
+import { pick } from 'lodash'
 import DashboardLink from 'DashboardLink'
 import DocsDropdown from 'DocsDropdown'
 import Icon from 'Icon'
@@ -56,27 +57,27 @@ let NavHeader = React.createClass({
   render: function () {
     let ctx = this.props.editorContext
 
-    let projectVersionLinkProps = _.pick(this.props,
+    let projectVersionLinkProps = pick(this.props,
       ['projectName', 'versionPageUrl'])
     if (ctx) {
       projectVersionLinkProps.versionSlug = ctx.versionSlug
     }
 
-    let docsDropdownProps = _.pick(this.props,
+    let docsDropdownProps = pick(this.props,
       ['editorContext', 'encodeDocId', 'allDocs'])
     docsDropdownProps.isOpen = this.props.openDropdown ===
       this.props.docsDropdownKey
     docsDropdownProps.toggleDropdown =
       this.props.toggleDropdown(this.props.docsDropdownKey)
 
-    let langsDropdownProps = _.pick(this.props,
+    let langsDropdownProps = pick(this.props,
       ['editorContext', 'localeName', 'locales', 'encodedDocId'])
     langsDropdownProps.isOpen = this.props.openDropdown ===
       this.props.localeDropdownKey
     langsDropdownProps.toggleDropdown =
       this.props.toggleDropdown(this.props.localeDropdownKey)
 
-    let uiLangDropdownProps = _.pick(this.props,
+    let uiLangDropdownProps = pick(this.props,
       ['changeUiLocale', 'uiLocaleName', 'uiLocales'])
     uiLangDropdownProps.isOpen = this.props.openDropdown ===
       this.props.uiLocaleDropdownKey

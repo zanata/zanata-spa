@@ -14,8 +14,11 @@
     editorCtrl.showCheatsheet = false
     editorCtrl.shortcuts = _.mapValues(
       _.values(EditorShortcuts.SHORTCUTS), function (shortcutInfo) {
-        // second combo (secondary keys) is an array. We have to flatten it
-        var keyCombos = _.flatten(shortcutInfo.keyCombos, 'combo')
+        var keyCombos = _.chain(shortcutInfo.keyCombos)
+          .pluck('combo')
+          // second combo (secondary keys) is an array. We have to flatten it
+          .flatten()
+          .value()
         return {
           combos: _.map(keyCombos, function (key) {
             return EditorShortcuts.symbolizeKey(key)

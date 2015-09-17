@@ -13,10 +13,3 @@ plugins:
 
 # Use the babel parser to handle es6 and jsx properly
 parser: babel-eslint
-
-# Pairs global variable name, and whether to allow writing to it.
-# See:
-# http://eslint.org/docs/user-guide/configuring.html#specifying-globals
-globals:
-  # TODO import lodash npm module instead
-  _: false

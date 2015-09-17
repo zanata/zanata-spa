@@ -1,3 +1,4 @@
+import { chain } from 'lodash'
 import cx from 'classnames'
 
 /**
@@ -66,7 +67,7 @@ let ProgressBar = React.createClass({
     let stats = this.props.stats
 
     let total = parseFloat(stats.total)
-    let widths = _.chain(stats)
+    let widths = chain(stats)
       .pick(['approved', 'translated', 'needswork', 'untranslated'])
       .mapValues((count) => {
         return count ? 100 * parseFloat(count) / total : 0

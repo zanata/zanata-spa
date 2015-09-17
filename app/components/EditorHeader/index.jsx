@@ -1,3 +1,4 @@
+import { pick } from 'lodash'
 import cx from 'classnames'
 import ControlsHeader from 'ControlsHeader'
 import NavHeader from 'NavHeader'
@@ -107,13 +108,13 @@ let EditorHeader = React.createClass({
     let className = cx('Header', 'Editor-header',
       { 'is-minimised': this.props.mainNavHidden })
 
-    let navHeaderProps = _.pick(this.props, ['user', 'editorContext',
+    let navHeaderProps = pick(this.props, ['user', 'editorContext',
       'projectName', 'versionPageUrl', 'encodeDocId', 'encodedDocId',
       'allDocs', 'localeName', 'locales', 'uiLocaleName', 'uiLocales',
       'changeUiLocale', 'toggleDropdown', 'openDropdown', 'docsDropdownKey',
       'localeDropdownKey', 'uiLocaleDropdownKey'])
 
-    let controlsHeaderProps = _.pick(this.props, ['filterStatus',
+    let controlsHeaderProps = pick(this.props, ['filterStatus',
       'counts', 'resetFilter', 'onFilterChange', 'pageNumber', 'pageCount',
       'firstPage', 'previousPage', 'nextPage', 'lastPage',
       'toggleSuggestionPanel', 'suggestionsVisible',

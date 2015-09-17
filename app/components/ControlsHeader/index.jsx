@@ -1,3 +1,4 @@
+import { pick } from 'lodash'
 import cx from 'classnames'
 import IconButton from 'IconButton'
 import Pager from 'Pager'
@@ -65,10 +66,10 @@ let ControlsHeader = React.createClass({
 
   render: function () {
     let gettextCatalog = this.props.gettextCatalog
-    let transFilterProps = _.pick(this.props, ['filterStatus', 'counts',
+    let transFilterProps = pick(this.props, ['filterStatus', 'counts',
       'resetFilter', 'onFilterChange', 'gettextCatalog'])
 
-    let pagerProps = _.pick(this.props, ['pageNumber', 'pageCount',
+    let pagerProps = pick(this.props, ['pageNumber', 'pageCount',
       'firstPage', 'previousPage', 'nextPage', 'lastPage', 'gettextCatalog'])
     return (
       <nav className="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
