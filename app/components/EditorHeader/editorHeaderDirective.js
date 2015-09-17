@@ -1,64 +1,59 @@
-/* global require, React */
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
-  var EditorHeader = require('EditorHeader');
+  var EditorHeader = require('EditorHeader')
 
   /**
    * @name editor-header
    * @description Header for navigation and control of the editor
    * @ngInject
    */
-  function editorHeader($rootScope, DropdownService, gettextCatalog,
+  function editorHeader ($rootScope, DropdownService, gettextCatalog,
     SettingsService, UrlService, _) {
     return {
       restrict: 'E',
       required: ['app', 'editor'],
       link: function (scope, element) {
-        scope.$watch('app.myInfo.gravatarUrl', render);
-        scope.$watch('app.myInfo.locale', render);
-        scope.$watch('app.myInfo.name', render);
-        scope.$watch('app.uiLocaleList', render);
-        scope.$watch('editor.context', render);
-        scope.$watch('editor.documents', render);
-        scope.$watch('editor.filter.status', render, true);
-        scope.$watch('editor.locales', render);
-        scope.$watch('editor.messageStatistic', render, true);
-        scope.$watch('editor.pageCount()', render);
-        scope.$watch('editor.pageNumber()', render);
-        scope.$watch('editor.projectInfo', render);
-        scope.$watch('editor.settings.hideMainNav', render);
-        scope.$watch('editor.showSuggestions', render);
+        scope.$watch('app.myInfo.gravatarUrl', render)
+        scope.$watch('app.myInfo.locale', render)
+        scope.$watch('app.myInfo.name', render)
+        scope.$watch('app.uiLocaleList', render)
+        scope.$watch('editor.context', render)
+        scope.$watch('editor.documents', render)
+        scope.$watch('editor.filter.status', render, true)
+        scope.$watch('editor.locales', render)
+        scope.$watch('editor.messageStatistic', render, true)
+        scope.$watch('editor.pageCount()', render)
+        scope.$watch('editor.pageNumber()', render)
+        scope.$watch('editor.projectInfo', render)
+        scope.$watch('editor.settings.hideMainNav', render)
+        scope.$watch('editor.showSuggestions', render)
 
         SettingsService.subscribe(SettingsService.SETTING.SHOW_SUGGESTIONS,
-          render);
+          render)
 
-        var cancelDropdownListener = $rootScope.$on('dropdown-changed', render);
-        var cancelLocalesListener = $rootScope.$on('locales-updated', render);
+        var cancelDropdownListener = $rootScope.$on('dropdown-changed', render)
+        var cancelLocalesListener = $rootScope.$on('locales-updated', render)
         var cancelLanguageListener = $rootScope.$on('gettextLanguageChanged',
-                                                    render);
+                                                    render)
 
-        scope.$on('$destroy', cancelDropdownListener);
-        scope.$on('$destroy', cancelLocalesListener);
-        scope.$on('$destroy', cancelLanguageListener);
+        scope.$on('$destroy', cancelDropdownListener)
+        scope.$on('$destroy', cancelLocalesListener)
+        scope.$on('$destroy', cancelLanguageListener)
 
         // used for object identity, so do not inline
-        var docsDropdownKey = {};
-        var localeDropdownKey = {};
-        var uiLocaleDropdownKey = {};
+        var docsDropdownKey = {}
+        var localeDropdownKey = {}
+        var uiLocaleDropdownKey = {}
 
-
-
-        render();
-
-
+        render()
 
         /**
          * To create a plain callback that already has an associated key,
          * use onFilterChange.bind(undefined, key).
          */
         function onFilterChange (statusKey) {
-          var status = scope.editor.filter.status;
+          var status = scope.editor.filter.status
           switch (statusKey) {
             case 'approved':
             case 'translated':
@@ -66,24 +61,23 @@
             case 'untranslated':
               scope.$apply(function () {
                 // TODO use a dispatched event instead of this function
-                status[statusKey] = !status[statusKey];
+                status[statusKey] = !status[statusKey]
                 // this checks that new values are compatible and corrects them
-                scope.editor.updateFilter();
-              });
-              break;
+                scope.editor.updateFilter()
+              })
+              break
             default:
-              console.error('Invalid filter status key', statusKey);
-              break;
+              console.error('Invalid filter status key', statusKey)
+              break
           }
         }
 
-        function render() {
-          var app = scope.app;
-          var editor = scope.editor;
+        function render () {
+          var app = scope.app
+          var editor = scope.editor
 
           var suggestionsVisible = SettingsService.get(
-            SettingsService.SETTING.SHOW_SUGGESTIONS);
-
+            SettingsService.SETTING.SHOW_SUGGESTIONS)
 
           var props = {
             user: {},
@@ -97,8 +91,8 @@
             allDocs: _.pluck(editor.documents || [], 'name'),
             toggleDropdown: function (key) {
               return function (button) {
-                DropdownService.toggleDropdown(key, button);
-              };
+                DropdownService.toggleDropdown(key, button)
+              }
             },
             locales: editor.locales || [],
 
@@ -118,17 +112,17 @@
             mainNavHidden: editor.settings.hideMainNav,
             toggleMainNav: editor.toggleMainNav,
             gettextCatalog: gettextCatalog
-          };
+          }
 
           if (editor.projectInfo) {
-            props.projectName = editor.projectInfo.name;
+            props.projectName = editor.projectInfo.name
           }
 
           if (editor.context) {
             props.versionPageUrl = UrlService.projectPage(
-              props.projectSlug, props.versionSlug);
-            props.encodedDocId = editor.encodeDocId(editor.context.docId);
-            props.localeName = editor.getLocaleName(editor.context.localeId);
+              props.projectSlug, props.versionSlug)
+            props.encodedDocId = editor.encodeDocId(editor.context.docId)
+            props.localeName = editor.getLocaleName(editor.context.localeId)
           }
 
           if (app) {
@@ -136,29 +130,29 @@
               return {
                 localeId: locale.localeId,
                 name: editor.getLocaleName(locale.localeId)
-              };
-            });
-            props.changeUiLocale = app.onChangeUILocale;
-            props.user.dashboardUrl = app.dashboardPage();
+              }
+            })
+            props.changeUiLocale = app.onChangeUILocale
+            props.user.dashboardUrl = app.dashboardPage()
 
             if (app.myInfo) {
               props.uiLocaleName =
-                editor.getLocaleName(app.myInfo.locale.localeId);
-              props.user.name = app.myInfo.name;
-              props.user.gravatarUrl = app.myInfo.gravatarUrl;
+                editor.getLocaleName(app.myInfo.locale.localeId)
+              props.user.name = app.myInfo.name
+              props.user.gravatarUrl = app.myInfo.gravatarUrl
             }
           }
 
           React.render(
             React.createElement(EditorHeader, props),
             element[0]
-          );
+          )
         }
       }
-    };
+    }
   }
 
   angular
     .module('app')
-    .directive('editorHeader', editorHeader);
-})();
+    .directive('editorHeader', editorHeader)
+})()

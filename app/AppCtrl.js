@@ -1,117 +1,114 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * @name AppCtrl
    * @description Main controler for the entire app
    * @ngInject
    */
-  function AppCtrl($scope, UserService, UrlService, LocaleService,
+  function AppCtrl ($scope, UserService, UrlService, LocaleService,
                    MessageHandler, gettextCatalog, StringUtil, PRODUCTION) {
-    var appCtrl = this;
+    var appCtrl = this
 
     // See AppConstants.js
-    appCtrl.PRODUCTION = PRODUCTION;
-    appCtrl.settings = UserService.settings;
-    appCtrl.uiLocaleList = [ LocaleService.DEFAULT_LOCALE ];
+    appCtrl.PRODUCTION = PRODUCTION
+    appCtrl.settings = UserService.settings
+    appCtrl.uiLocaleList = [ LocaleService.DEFAULT_LOCALE ]
 
     /*
       Not used for the time being. But should show loading when change state
-      $scope.$on('$stateChangeStart', function(event, toState) {
+      $scope.$on('$stateChangeStart', function (event, toState) {
         if (toState.resolve) {
         }
-      });
+      })
 
-      $scope.$on('$stateChangeSuccess', function(event, toState) {
+      $scope.$on('$stateChangeSuccess', function (event, toState) {
         if (toState.resolve) {
         }
-      });
+      })
     */
 
-    UrlService.init().then(loadLocales).
-      then(loadUserInformation).
-      then(loadUILocale);
+    UrlService.init()
+      .then(loadLocales)
+      .then(loadUserInformation)
+      .then(loadUILocale)
 
     // On UI locale changes listener
-    appCtrl.onChangeUILocale = function(locale) {
-      appCtrl.myInfo.locale = locale;
-      var uiLocaleId = appCtrl.myInfo.locale.localeId;
+    appCtrl.onChangeUILocale = function (locale) {
+      appCtrl.myInfo.locale = locale
+      var uiLocaleId = appCtrl.myInfo.locale.localeId
       if (!StringUtil.startsWith(uiLocaleId,
         LocaleService.DEFAULT_LOCALE.localeId, true)) {
         gettextCatalog.loadRemote(UrlService.uiTranslationURL(uiLocaleId))
             .then(
-                function() {
-                  gettextCatalog.setCurrentLanguage(uiLocaleId);
+                function () {
+                  gettextCatalog.setCurrentLanguage(uiLocaleId)
                 },
-                function(error) {
+                function (error) {
                   MessageHandler.displayInfo('Error loading UI locale. ' +
                     'Default to \'' + LocaleService.DEFAULT_LOCALE.name +
-                    '\': ' + error);
+                    '\': ' + error)
                   gettextCatalog.setCurrentLanguage(
-                    LocaleService.DEFAULT_LOCALE);
-                  appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE;
-                });
+                    LocaleService.DEFAULT_LOCALE)
+                  appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE
+                })
       } else {
         // wrapped in apply because this MUST be run at the appropriate part of
         // the angular cycle, or it does not remove the old strings from the UI
         // (you end up with multiple strings displaying).
         $scope.$apply(function () {
           gettextCatalog.setCurrentLanguage(
-            LocaleService.DEFAULT_LOCALE.localeId);
-        });
+            LocaleService.DEFAULT_LOCALE.localeId)
+        })
       }
-    };
-
-    appCtrl.dashboardPage = function() {
-      return UrlService.DASHBOARD_PAGE;
-    };
-
-    function loadLocales() {
-      return LocaleService.getAllLocales();
     }
 
-    function loadUserInformation() {
+    appCtrl.dashboardPage = function () {
+      return UrlService.DASHBOARD_PAGE
+    }
+
+    function loadLocales () {
+      return LocaleService.getAllLocales()
+    }
+
+    function loadUserInformation () {
       return UserService.getMyInfo().then(
-        function(myInfo) {
-          appCtrl.myInfo = myInfo;
-          appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE;
+        function (myInfo) {
+          appCtrl.myInfo = myInfo
+          appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE
           appCtrl.myInfo.gravatarUrl = UrlService.gravatarUrl(
-            appCtrl.myInfo.gravatarHash, 72);
-        }, function(error) {
-          MessageHandler.displayError('Error loading my info: ' + error);
-        });
+            appCtrl.myInfo.gravatarHash, 72)
+        }, function (error) {
+          MessageHandler.displayError('Error loading my info: ' + error)
+        })
     }
 
-    function loadUILocale() {
+    function loadUILocale () {
       LocaleService.getUILocaleList().then(
-        function(translationList) {
-          for ( var i in translationList.locales) {
+        function (translationList) {
+          for (var i in translationList.locales) {
             var language = {
               'localeId': translationList.locales[i],
               'name': ''
-            };
-            appCtrl.uiLocaleList.push(language);
+            }
+            appCtrl.uiLocaleList.push(language)
           }
           appCtrl.myInfo.locale = LocaleService.getLocaleByLocaleId(
-            appCtrl.uiLocaleList, LocaleService.DEFAULT_LOCALE.localeId);
+            appCtrl.uiLocaleList, LocaleService.DEFAULT_LOCALE.localeId)
           if (!appCtrl.myInfo.locale) {
-            appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE;
+            appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE
           }
         },
-        function(error) {
+        function (error) {
           MessageHandler.displayInfo('Error loading UI locale. ' +
             'Default to \'' + LocaleService.DEFAULT_LOCALE.name +
-            '\': ' + error);
-          appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE;
-        });
+            '\': ' + error)
+          appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE
+        })
     }
   }
 
   angular
     .module('app')
-    .controller('AppCtrl', AppCtrl);
-
-})();
-
-
-
+    .controller('AppCtrl', AppCtrl)
+})()

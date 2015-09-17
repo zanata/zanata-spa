@@ -1,5 +1,3 @@
-/* global React */
-
 import FilterToggle from './FilterToggle.jsx'
 
 /**
@@ -29,7 +27,7 @@ let TransUnitFilter = React.createClass({
       needswork: React.PropTypes.oneOfType(
         [React.PropTypes.number, React.PropTypes.string]),
       untranslated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string ])
+        [React.PropTypes.number, React.PropTypes.string])
     }).isRequired,
 
     // TODO replace with dispatched event
@@ -54,10 +52,10 @@ let TransUnitFilter = React.createClass({
         needswork: 0,
         untranslated: 0
       }
-    };
+    }
   },
 
-  render: function() {
+  render: function () {
     return (
       <ul className="u-listHorizontal u-sizeHeight-1">
         <li className="u-sm-hidden u-sMV-1-4">
@@ -124,8 +122,8 @@ let TransUnitFilter = React.createClass({
   */}
 
       </ul>
-    );
+    )
   }
-});
+})
 
 export default TransUnitFilter

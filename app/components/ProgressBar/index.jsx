@@ -1,5 +1,3 @@
-/* global React, _ */
-
 import cx from 'classnames'
 
 /**
@@ -23,7 +21,7 @@ let ProgressBar = React.createClass({
       needswork: React.PropTypes.oneOfType(
         [React.PropTypes.number, React.PropTypes.string]),
       untranslated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string ])
+        [React.PropTypes.number, React.PropTypes.string])
     }).isRequired
   },
 
@@ -36,7 +34,7 @@ let ProgressBar = React.createClass({
         needswork: 0,
         untranslated: 0
       }
-    };
+    }
   },
 
   ProgressItem: React.createClass({
@@ -46,41 +44,41 @@ let ProgressBar = React.createClass({
       width: React.PropTypes.number.isRequired
     },
     render: function () {
-      let className = cx('Progressbar-item', 'Progressbar-' + this.props.state);
+      let className = cx('Progressbar-item', 'Progressbar-' + this.props.state)
       let style = {
         marginLeft: this.props.start + '%',
         width: this.props.width + '%'
-      };
+      }
       return (
         <span className={className}
           style={style}/>
-      );
+      )
     }
   }),
 
-  render: function() {
-    let ProgressItem = this.ProgressItem;
+  render: function () {
+    let ProgressItem = this.ProgressItem
     let className = cx('Progressbar', {
       'Progressbar--sm': this.props.size === 'small',
       'Progressbar--lg': this.props.size === 'large'
-    });
+    })
 
-    let stats = this.props.stats;
+    let stats = this.props.stats
 
-    let total = parseFloat(stats.total);
+    let total = parseFloat(stats.total)
     let widths = _.chain(stats)
       .pick(['approved', 'translated', 'needswork', 'untranslated'])
       .mapValues((count) => {
-        return count ? 100 * parseFloat(count) / total : 0;
+        return count ? 100 * parseFloat(count) / total : 0
       })
-      .value();
+      .value()
 
     var starts = {
       approved: 0,
       translated: widths.approved
-    };
-    starts.needswork = starts.translated + widths.translated;
-    starts.untranslated = starts.needswork + widths.needswork;
+    }
+    starts.needswork = starts.translated + widths.translated
+    starts.untranslated = starts.needswork + widths.needswork
 
     return (
       <div className={className}>
@@ -101,8 +99,8 @@ let ProgressBar = React.createClass({
           start={starts.untranslated}
           width={widths.untranslated}/>
       </div>
-    );
+    )
   }
-});
+})
 
 export default ProgressBar

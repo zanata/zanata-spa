@@ -1,5 +1,5 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * Handle notification in editor
@@ -7,12 +7,11 @@
    * NotificationService.js
    * @ngInject
    */
-  function NotificationService() {
+  function NotificationService () {
 
   }
 
   angular
     .module('app')
-    .factory('NotificationService', NotificationService);
-
-})();
+    .factory('NotificationService', NotificationService)
+})()

@@ -1,5 +1,3 @@
-/* global React */
-
 /**
  * Link to open the version page.
  * Label is project + version name
@@ -16,10 +14,10 @@ let ProjectVersionLink = React.createClass({
     return {
       projectName: 'Loading ',
       versionSlug: 'Loading '
-    };
+    }
   },
 
-  render: function() {
+  render: function () {
     return (
       <a href={this.props.versionPageUrl}
          className="Link--invert Header-item u-inlineBlock">
@@ -30,8 +28,9 @@ let ProjectVersionLink = React.createClass({
           <span>{this.props.projectName}</span> <span
             className="u-textMuted">{this.props.versionSlug}</span>
         </span>
-      </a>);
+      </a>
+    )
   }
-});
+})
 
 export default ProjectVersionLink

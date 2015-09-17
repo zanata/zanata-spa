@@ -1,79 +1,79 @@
 (function () {
-  'use strict';
+  'use strict'
 
   /**
    * @name EditorShortcuts
    * @description service for editor keyboard shortcuts
    * @ngInject
    */
-  function EditorShortcuts(EventService, $stateParams, _, hotkeys, PhraseUtil,
+  function EditorShortcuts (EventService, $stateParams, _, hotkeys, PhraseUtil,
                            TransStatusService, Mousetrap, str, $window) {
-    var editorShortcuts = this,
-      inSaveAsMode = false;
+    var editorShortcuts = this
+    var inSaveAsMode = false
 
     // this will be set by TransUnitService
     // on EVENT.SELECT_TRANS_UNIT and unset on EVENT.CANCEL_EDIT
-    editorShortcuts.selectedTUCtrl = null;
+    editorShortcuts.selectedTUCtrl = null
 
-    function copySourceCallback(event) {
+    function copySourceCallback (event) {
       if (editorShortcuts.selectedTUCtrl) {
-        event.preventDefault();
+        event.preventDefault()
         EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-          {'phrase': editorShortcuts.selectedTUCtrl.getPhrase()});
+          {'phrase': editorShortcuts.selectedTUCtrl.getPhrase()})
       }
     }
 
-    function gotoNextRowCallback(event) {
+    function gotoNextRowCallback (event) {
       if (editorShortcuts.selectedTUCtrl) {
-        event.preventDefault();
-        event.stopPropagation();
+        event.preventDefault()
+        event.stopPropagation()
         EventService.emitEvent(EventService.EVENT.GOTO_NEXT_ROW,
-          currentContext());
+          currentContext())
       }
     }
 
-    function gotoPreviousRowCallback(event) {
+    function gotoPreviousRowCallback (event) {
       if (editorShortcuts.selectedTUCtrl) {
-        event.preventDefault();
-        event.stopPropagation();
+        event.preventDefault()
+        event.stopPropagation()
         EventService.emitEvent(EventService.EVENT.GOTO_PREVIOUS_ROW,
-          currentContext());
+          currentContext())
       }
     }
 
-    function cancelEditCallback(event) {
-      event.preventDefault();
-      event.stopPropagation();
+    function cancelEditCallback (event) {
+      event.preventDefault()
+      event.stopPropagation()
       if (inSaveAsMode) {
-        editorShortcuts.cancelSaveAsModeIfOn();
+        editorShortcuts.cancelSaveAsModeIfOn()
         if (editorShortcuts.selectedTUCtrl) {
-          editorShortcuts.selectedTUCtrl.focusTranslation();
+          editorShortcuts.selectedTUCtrl.focusTranslation()
         }
       } else if (editorShortcuts.selectedTUCtrl) {
-        var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
+        var phrase = editorShortcuts.selectedTUCtrl.getPhrase()
         if (PhraseUtil.hasTranslationChanged(phrase)) {
           // if it has changed translation, undo edit
           EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
-            phrase);
+            phrase)
         } else {
           // otherwise cancel edit
           EventService.emitEvent(EventService.EVENT.CANCEL_EDIT,
-            phrase);
+            phrase)
         }
       }
     }
 
-    function saveAsCurrentButtonOptionCallback(event) {
+    function saveAsCurrentButtonOptionCallback (event) {
       if (editorShortcuts.selectedTUCtrl) {
-        event.preventDefault();
-        var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
+        event.preventDefault()
+        var phrase = editorShortcuts.selectedTUCtrl.getPhrase()
         EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
           {
             'phrase': phrase,
             'status': PhraseUtil.getSaveButtonStatus(phrase),
             'locale': $stateParams.localeId,
             'docId': $stateParams.docId
-          });
+          })
       }
     }
 
@@ -82,20 +82,20 @@
      * e.g. press ctlr-shift-s then press 'n' to save as
      * 'needs work'.
      */
-    function saveAsModeCallback(event) {
-      event.preventDefault();
-      editorShortcuts.cancelSaveAsModeIfOn();
-      var phrase = editorShortcuts.selectedTUCtrl.getPhrase();
+    function saveAsModeCallback (event) {
+      event.preventDefault()
+      editorShortcuts.cancelSaveAsModeIfOn()
+      var phrase = editorShortcuts.selectedTUCtrl.getPhrase()
       if (phrase) {
         EventService.emitEvent(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
           {
             'id': phrase.id,
             'open': true
-          });
+          })
 
-        addSaveAsModeExtensionKey(phrase, 'n', 'needsWork');
-        addSaveAsModeExtensionKey(phrase, 't', 'translated');
-        addSaveAsModeExtensionKey(phrase, 'a', 'approved');
+        addSaveAsModeExtensionKey(phrase, 'n', 'needsWork')
+        addSaveAsModeExtensionKey(phrase, 't', 'translated')
+        addSaveAsModeExtensionKey(phrase, 'a', 'approved')
       }
     }
 
@@ -106,12 +106,12 @@
      *                               this callback will copy
      * @return {function} callback that will copy the nth suggestion.
      */
-    function copySuggestionCallback(oneBasedIndex) {
+    function copySuggestionCallback (oneBasedIndex) {
       return function (event) {
-        event.preventDefault();
+        event.preventDefault()
         EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION_N,
-          oneBasedIndex - 1);
-      };
+          oneBasedIndex - 1)
+      }
     }
 
     /**
@@ -174,21 +174,21 @@
          GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(
         'tab+u', gotoToNextUntranslatedCallback)
         */
-    };
+    }
 
     /*
      Disable for now until status navigation implementation
 
      function gotoToNextUntranslatedCallback(event) {
-     event.preventDefault();
-     event.stopPropagation();
+     event.preventDefault()
+     event.stopPropagation()
      if (editorShortcuts.selectedTUCtrl) {
      EventService.emitEvent(EventService.EVENT.GOTO_NEXT_UNTRANSLATED,
-     currentContext());
+     currentContext())
      }
      // the shortcut is a tab + u combination
      // we don't want other tab event to trigger
-     tabCombinationPressed = true;
+     tabCombinationPressed = true
      }
      */
 
@@ -204,89 +204,89 @@
      * @returns {EditorShortcuts.ShortcutInfo}
      * @constructor
      */
-    function ShortcutInfo(defaultKey, callback, description, otherKeys, action)
-    {
-      this.defaultKey = defaultKey;
+    function ShortcutInfo (defaultKey, callback, description, otherKeys,
+                           action) {
+      this.defaultKey = defaultKey
       this.keyCombos = [
         singleKeyConfig(defaultKey, description, action, callback)
-      ];
+      ]
       if (otherKeys) {
-        this.otherKeys = otherKeys instanceof Array ? otherKeys : [otherKeys];
+        this.otherKeys = otherKeys instanceof Array ? otherKeys : [otherKeys]
         this.keyCombos.push(
-          singleKeyConfig(this.otherKeys, '', action, callback));
+          singleKeyConfig(this.otherKeys, '', action, callback))
       }
-      return this;
+      return this
     }
 
-    function singleKeyConfig(combo, description, action, callback) {
+    function singleKeyConfig (combo, description, action, callback) {
       var keyConfig = {
         allowIn: ['TEXTAREA'],
         callback: callback
-      };
-      keyConfig.combo = combo;
+      }
+      keyConfig.combo = combo
       if (description) {
-        keyConfig.description = description;
+        keyConfig.description = description
       }
       if (action) {
-        keyConfig.action = action;
+        keyConfig.action = action
       }
-      return keyConfig;
+      return keyConfig
     }
 
     editorShortcuts.enableEditorKeys = function () {
       // here we only check copy source shortcut since we always enable keys in
       // bundle.
       if (!hotkeys.get(editorShortcuts.SHORTCUTS.COPY_SOURCE.defaultKey)) {
-        _.forOwn(editorShortcuts.SHORTCUTS, function(value) {
+        _.forOwn(editorShortcuts.SHORTCUTS, function (value) {
           if (value instanceof ShortcutInfo) { // a hack to handle sequence keys
-            enableShortcut(value);
+            enableShortcut(value)
           }
-        });
+        })
       }
-    };
+    }
 
     editorShortcuts.disableEditorKeys = function () {
-      _.forOwn(editorShortcuts.SHORTCUTS, function(value) {
-        _.forEach(value.keyCombos, function(hotkey) {
-          editorShortcuts.deleteKeys(hotkey.combo, hotkey.action);
-        });
-      });
-    };
+      _.forOwn(editorShortcuts.SHORTCUTS, function (value) {
+        _.forEach(value.keyCombos, function (hotkey) {
+          editorShortcuts.deleteKeys(hotkey.combo, hotkey.action)
+        })
+      })
+    }
 
-    function enableShortcut(shortcutInfo) {
+    function enableShortcut (shortcutInfo) {
       if (!hotkeys.get(shortcutInfo.defaultKey)) {
         _.forEach(shortcutInfo.keyCombos,
-          function(combo) {
-            hotkeys.add(combo);
-          });
+          function (combo) {
+            hotkeys.add(combo)
+          })
       }
     }
 
-    function currentContext() {
+    function currentContext () {
       return {
         'currentId': editorShortcuts.selectedTUCtrl.getPhrase().id
-      };
+      }
     }
 
-    function addSaveAsModeExtensionKey(phrase, combo, status) {
-      var statusInfo = TransStatusService.getStatusInfo(status);
+    function addSaveAsModeExtensionKey (phrase, combo, status) {
+      var statusInfo = TransStatusService.getStatusInfo(status)
       return hotkeys.add({
         combo: combo,
         description: str.sprintf('Save as %s', status),
         allowIn: ['INPUT', 'TEXTAREA'],
         action: 'keydown',
         callback: function (event) {
-          editorShortcuts.saveTranslationCallBack(event, phrase, statusInfo);
+          editorShortcuts.saveTranslationCallBack(event, phrase, statusInfo)
         }
-      });
+      })
     }
 
-    editorShortcuts.saveTranslationCallBack = function(event, phrase,
+    editorShortcuts.saveTranslationCallBack = function (event, phrase,
                                                        statusInfo) {
-      inSaveAsMode = true;
+      inSaveAsMode = true
 
-      event.preventDefault();
-      event.stopPropagation();
+      event.preventDefault()
+      event.stopPropagation()
 
       EventService.emitEvent(EventService.EVENT.SAVE_TRANSLATION,
         {
@@ -294,21 +294,21 @@
           'status': statusInfo,
           'locale': $stateParams.localeId,
           'docId': $stateParams.docId
-        });
-      editorShortcuts.cancelSaveAsModeIfOn();
-    };
+        })
+      editorShortcuts.cancelSaveAsModeIfOn()
+    }
 
-    editorShortcuts.cancelSaveAsModeIfOn = function() {
+    editorShortcuts.cancelSaveAsModeIfOn = function () {
       if (inSaveAsMode && editorShortcuts.selectedTUCtrl) {
-        inSaveAsMode = false;
-        editorShortcuts.deleteKeys(['n', 't', 'a']);
+        inSaveAsMode = false
+        editorShortcuts.deleteKeys(['n', 't', 'a'])
         EventService.emitEvent(EventService.EVENT.TOGGLE_SAVE_OPTIONS,
           {
             'id': editorShortcuts.selectedTUCtrl.getPhrase().id,
             'open': false
-          });
+          })
       }
-    };
+    }
 
     /**
      * This is a workaround for augular-hotkeys not being able to delete hotkey.
@@ -317,14 +317,14 @@
      * @param {(string|string[])} keys single key or array of keys to be deleted
      * @param {string} [action='keydown'] 'keyup' or 'keydown' etc.
      */
-    editorShortcuts.deleteKeys = function(keys, action) {
-      var keysToDelete = keys instanceof Array ? keys : [keys];
-      action = action || 'keydown';
-      _.forEach(keysToDelete, function(key) {
-        hotkeys.del(key);
-        Mousetrap.unbind(key, action);
-      });
-    };
+    editorShortcuts.deleteKeys = function (keys, action) {
+      var keysToDelete = keys instanceof Array ? keys : [keys]
+      action = action || 'keydown'
+      _.forEach(keysToDelete, function (key) {
+        hotkeys.del(key)
+        Mousetrap.unbind(key, action)
+      })
+    }
 
     /**
      * Copied from angular-hotkeys.
@@ -342,31 +342,31 @@
         down: '↓',
         'return': '↩',
         backspace: '⌫'
-      };
-      combo = combo.split('+');
+      }
+      combo = combo.split('+')
 
       for (var i = 0; i < combo.length; i++) {
         // try to resolve command / ctrl based on OS:
         if (combo[i] === 'mod') {
           if ($window.navigator &&
             $window.navigator.platform.indexOf('Mac') >= 0) {
-            combo[i] = 'command';
+            combo[i] = 'command'
           } else {
-            combo[i] = 'ctrl';
+            combo[i] = 'ctrl'
           }
         }
 
-        combo[i] = map[combo[i]] || combo[i];
+        combo[i] = map[combo[i]] || combo[i]
       }
 
-      return combo.join(' + ');
-    };
+      return combo.join(' + ')
+    }
 
-    return editorShortcuts;
+    return editorShortcuts
   }
 
   angular
     .module('app')
-    .factory('EditorShortcuts', EditorShortcuts);
-})();
+    .factory('EditorShortcuts', EditorShortcuts)
+})()
 

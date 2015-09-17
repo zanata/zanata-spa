@@ -1,5 +1,5 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * @name dropdownService
@@ -10,49 +10,49 @@
    * @ngInject
    */
 
-  function DropdownService($document, $rootScope) {
+  function DropdownService ($document, $rootScope) {
         // For Angular components, these will be phased out
-    var openScope = null,
-        // For React components, just an identifier, do not trigger events
-        openDropdown = null,
-        openDropdownButton = null,
-        dropdownService = this;
+    var openScope = null
+      // For React components, just an identifier, do not trigger events
+    var openDropdown = null
+    var openDropdownButton = null
+    var dropdownService = this
 
     dropdownService.getOpenDropdown = function () {
-      return openDropdown;
-    };
+      return openDropdown
+    }
 
     // this informs this service that a dropdown has opened, but will
     // also close the currently open dropdown if it is different from the
     // new one that is opening
-    dropdownService.open = function(dropdownScope) {
+    dropdownService.open = function (dropdownScope) {
       // ensure React dropdowns close
       if (openDropdown) {
-        openDropdown = null;
-        openDropdownButton = null;
-        $rootScope.$broadcast('dropdown-changed');
+        openDropdown = null
+        openDropdownButton = null
+        $rootScope.$broadcast('dropdown-changed')
       }
 
       if (!openScope) {
-        $document.bind('click', closeDropdown);
-        $document.bind('keydown', escapeKeyBind);
+        $document.bind('click', closeDropdown)
+        $document.bind('keydown', escapeKeyBind)
       }
 
       if (openScope && openScope !== dropdownScope) {
-        openScope.isOpen = false;
+        openScope.isOpen = false
       }
 
-      openScope = dropdownScope;
-    };
+      openScope = dropdownScope
+    }
 
     // this just informs this service that a dropdown has closed
-    dropdownService.close = function(dropdownScope) {
+    dropdownService.close = function (dropdownScope) {
       if (openScope === dropdownScope) {
-        openScope = null;
-        $document.unbind('click', closeDropdown);
-        $document.unbind('keydown', escapeKeyBind);
+        openScope = null
+        $document.unbind('click', closeDropdown)
+        $document.unbind('keydown', escapeKeyBind)
       }
-    };
+    }
 
     // replacement for .open and .close
     // Call when a dropdown button is clicked to toggle it open or closed
@@ -60,77 +60,75 @@
       // deal with legacy angular component that is bound
       // (this is not called from legacy code, so must always be closing those)
       if (openScope) {
-        openScope.$apply(function() {
-          openScope.isOpen = false;
-        });
-        openScope = null;
-        openDropdown = id;
-        openDropdownButton = button;
-        $rootScope.$broadcast('dropdown-changed');
-        return;
+        openScope.$apply(function () {
+          openScope.isOpen = false
+        })
+        openScope = null
+        openDropdown = id
+        openDropdownButton = button
+        $rootScope.$broadcast('dropdown-changed')
+        return
       }
 
       if (id === openDropdown) {
         // toggle the currently open dropdown to closed
-        openDropdown = null;
-        openDropdownButton = null;
-        $rootScope.$broadcast('dropdown-changed');
-        $document.unbind('click', closeDropdown);
-        $document.unbind('keydown', escapeKeyBind);
+        openDropdown = null
+        openDropdownButton = null
+        $rootScope.$broadcast('dropdown-changed')
+        $document.unbind('click', closeDropdown)
+        $document.unbind('keydown', escapeKeyBind)
       } else {
         if (openDropdown === null) {
           // nothing was bound, so bind events
-          $document.bind('click', closeDropdown);
-          $document.bind('keydown', escapeKeyBind);
+          $document.bind('click', closeDropdown)
+          $document.bind('keydown', escapeKeyBind)
         }
-        openDropdown = id;
-        openDropdownButton = button;
-        $rootScope.$broadcast('dropdown-changed');
+        openDropdown = id
+        openDropdownButton = button
+        $rootScope.$broadcast('dropdown-changed')
       }
-    };
+    }
 
-    function closeDropdown(evt) {
+    function closeDropdown (evt) {
       if (!openScope && !openDropdown) {
-        return;
+        return
       }
       if (openDropdown) {
         if (evt && openDropdownButton &&
             openDropdownButton.contains(evt.target)) {
           // this is the click that opened the dropdown, so don't close
-          return;
+          return
         }
-        openDropdown = null;
-        openDropdownButton = null;
-        $rootScope.$broadcast('dropdown-changed');
+        openDropdown = null
+        openDropdownButton = null
+        $rootScope.$broadcast('dropdown-changed')
       }
       if (openScope) {
-        var toggleElement = openScope.getToggleElement();
+        var toggleElement = openScope.getToggleElement()
         if (evt && toggleElement && toggleElement[0].contains(evt.target)) {
-          return;
+          return
         }
 
-        openScope.$apply(function() {
-          openScope.isOpen = false;
-        });
+        openScope.$apply(function () {
+          openScope.isOpen = false
+        })
       }
     }
 
-    function escapeKeyBind(evt) {
+    function escapeKeyBind (evt) {
       if (evt.which === 27) {
         if (openScope) {
-          openScope.focusToggleElement();
+          openScope.focusToggleElement()
         }
         if (openDropdownButton) {
-          openDropdownButton.focus();
+          openDropdownButton.focus()
         }
-        closeDropdown();
+        closeDropdown()
       }
     }
   }
 
   angular
     .module('app')
-    .service('DropdownService', DropdownService);
-
-})();
-
+    .service('DropdownService', DropdownService)
+})()

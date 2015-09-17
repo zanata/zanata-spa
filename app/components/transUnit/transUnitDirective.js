@@ -1,12 +1,12 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * @name trans-unit
    * @description transUnit container
    * @ngInject
    */
-  function transUnit() {
+  function transUnit () {
     return {
       restrict: 'E',
       required: ['phrase', 'editorContext'],
@@ -17,14 +17,13 @@
       },
       controller: 'TransUnitCtrl as transUnitCtrl',
       templateUrl: 'components/transUnit/trans-unit.html',
-      link: function(scope, element, attr, TransUnitCtrl) {
-        TransUnitCtrl.init();
+      link: function (scope, element, attr, TransUnitCtrl) {
+        TransUnitCtrl.init()
       }
-    };
+    }
   }
 
   angular
     .module('app')
-    .directive('transUnit', transUnit);
-
-})();
+    .directive('transUnit', transUnit)
+})()

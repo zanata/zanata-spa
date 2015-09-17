@@ -1,14 +1,13 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * UserService.js
    *
    * @ngInject
    */
-  function UserService($resource, UrlService) {
-
-    function getUserInfo(username) {
+  function UserService ($resource, UrlService) {
+    function getUserInfo (username) {
       var UserInfo = $resource(UrlService.USER_INFO_URL, {}, {
         query: {
           method: 'GET',
@@ -16,17 +15,17 @@
             username: username
           }
         }
-      });
-      return UserInfo.query().$promise;
+      })
+      return UserInfo.query().$promise
     }
 
-    function getMyInfo() {
+    function getMyInfo () {
       var MyInfo = $resource(UrlService.MY_INFO_URL, {}, {
         query: {
           method: 'GET'
         }
-      });
-      return MyInfo.query().$promise;
+      })
+      return MyInfo.query().$promise
     }
 
     return {
@@ -37,9 +36,9 @@
       },
       getUserInfo: getUserInfo,
       getMyInfo: getMyInfo
-    };
+    }
   }
   angular
     .module('app')
-    .factory('UserService', UserService);
-})();
+    .factory('UserService', UserService)
+})()

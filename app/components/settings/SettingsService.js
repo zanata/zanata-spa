@@ -1,6 +1,5 @@
-(function() {
-  'use strict';
-
+(function () {
+  'use strict'
 
   /**
    * The name of a setting, used as a unique key for lookup and storage.
@@ -18,8 +17,8 @@
    *
    * @constructor
    */
-  function SettingsService(EventService, $q, $rootScope, _) {
-    var settingsService = this;
+  function SettingsService (EventService, $q, $rootScope, _) {
+    var settingsService = this
 
     /**
      * All valid settings keys.
@@ -33,27 +32,26 @@
       SUGGESTIONS_SHOW_DIFFERENCE: 'suggestionsShowDifference',
       SHOW_SUGGESTIONS: 'showSuggestions',
       SUGGESTIONS_PANEL_HEIGHT: 'suggestionsPanelHeight'
-    };
+    }
 
-    var SETTING = settingsService.SETTING;
+    var SETTING = settingsService.SETTING
 
     /**
      * Settings enum, with default values that indicate the type
      * @enum {SettingValue}
      */
-    var defaultSettings = {};
-    defaultSettings[SETTING.SUGGESTIONS_AUTOFILL_ON_ROW_SELECT] = true;
-    defaultSettings[SETTING.SUGGESTIONS_SHOW_DIFFERENCE] = false;
-    defaultSettings[SETTING.SHOW_SUGGESTIONS] = true;
-    defaultSettings[SETTING.SUGGESTIONS_PANEL_HEIGHT] = '30%';
+    var defaultSettings = {}
+    defaultSettings[SETTING.SUGGESTIONS_AUTOFILL_ON_ROW_SELECT] = true
+    defaultSettings[SETTING.SUGGESTIONS_SHOW_DIFFERENCE] = false
+    defaultSettings[SETTING.SHOW_SUGGESTIONS] = true
+    defaultSettings[SETTING.SUGGESTIONS_PANEL_HEIGHT] = '30%'
 
     /**
      * Local settings cache.
      *
      * @type {Object<SettingKey, SettingValue>}
      */
-    var settings = _.clone(defaultSettings);
-
+    var settings = _.clone(defaultSettings)
 
     /*
 
@@ -72,16 +70,16 @@
      * @param {SettingKey} setting the name of the setting to update
      * @param {SettingValue} value the new value for the setting
      */
-    function update(setting, value) {
-      validateSettingValue(value);
-      var settingObj = {};
-      settingObj[setting] = value;
-      _.extend(settings, settingObj);
+    function update (setting, value) {
+      validateSettingValue(value)
+      var settingObj = {}
+      settingObj[setting] = value
+      _.extend(settings, settingObj)
 
       EventService.emitEvent(EventService.EVENT.USER_SETTING_CHANGED, {
         setting: setting,
         value: value
-      });
+      })
     }
 
     /**
@@ -91,10 +89,10 @@
      *
      * @param {Object<SettingKey, SettingValue>} settings
      */
-    function updateAll(settingsMap) {
+    function updateAll (settingsMap) {
       _.each(settingsMap, function (value, key) {
-        update(key, value);
-      });
+        update(key, value)
+      })
     }
 
     /**
@@ -107,14 +105,14 @@
      *
      * @param {SettingKey} setting name of the setting to look up
      */
-    function get(setting) {
+    function get (setting) {
       if (_.has(settings, setting)) {
-        return settings[setting];
+        return settings[setting]
       }
       // Incorrect key is a programmer error - default should be set for all
       // user settings that are used.
       console.error('Tried to look up setting with unrecognized key: %s',
-        setting);
+        setting)
     }
 
     /**
@@ -125,14 +123,14 @@
      * @param {function<SettingValue>} callback called with the new value
      * @return {SettingValue} the current value of the setting
      */
-    function subscribe(setting, callback) {
+    function subscribe (setting, callback) {
       $rootScope.$on(EventService.EVENT.USER_SETTING_CHANGED,
         function (event, data) {
           if (data.setting === setting) {
-            callback(data.value);
+            callback(data.value)
           }
-        });
-      return get(setting);
+        })
+      return get(setting)
     }
 
     /**
@@ -140,19 +138,17 @@
      *
      * @param {SettingValue} value
      */
-    function validateSettingValue(value) {
+    function validateSettingValue (value) {
       switch (typeof value) {
         case 'boolean':
         case 'number':
         case 'string':
-          break;
+          break
         default:
           throw new Error('Invalid type for setting value: "' + typeof value +
-            '".');
+            '".')
       }
     }
-
-
 
     return {
       SETTING: SETTING,
@@ -160,10 +156,10 @@
       updateAll: updateAll,
       get: get,
       subscribe: subscribe
-    };
+    }
   }
 
   angular
     .module('app')
-    .factory('SettingsService', SettingsService);
-})();
+    .factory('SettingsService', SettingsService)
+})()

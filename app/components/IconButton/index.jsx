@@ -1,5 +1,3 @@
-/* global React */
-
 import cx from 'classnames'
 import Icon from 'Icon'
 
@@ -19,14 +17,14 @@ let IconButton = React.createClass({
   getDefaultProps: () => {
     return {
       active: false
-    };
+    }
   },
 
-  render: function() {
+  render: function () {
     let className = cx('Button Button--snug u-roundish Button--invisible',
-      { 'is-active': this.props.active });
+      { 'is-active': this.props.active })
 
-    let iconClassName = cx('Icon--sm', this.props.className);
+    let iconClassName = cx('Icon--sm', this.props.className)
 
     return (
       <button
@@ -38,8 +36,8 @@ let IconButton = React.createClass({
           title={this.props.title}
           className={iconClassName}/>
       </button>
-    );
+    )
   }
-});
+})
 
 export default IconButton

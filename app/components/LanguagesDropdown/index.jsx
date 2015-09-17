@@ -1,5 +1,3 @@
-/* global React, Dropdown */
-
 import Dropdown from 'Dropdown'
 import Icon from 'Icon'
 
@@ -24,21 +22,21 @@ let LanguagesDropdown = React.createClass({
   },
 
   localeUrl: function (locale) {
-    return '#/' + this.props.projectSlug + '/' + this.props.versionSlug
-        + '/translate/' + this.props.encodedDocId + '/' + locale.localeId;
+    return '#/' + this.props.projectSlug + '/' + this.props.versionSlug +
+      '/translate/' + this.props.encodedDocId + '/' + locale.localeId
   },
 
-  render: function() {
+  render: function () {
     let items = this.props.locales.map(locale => {
-      let url = this.localeUrl(locale);
+      let url = this.localeUrl(locale)
       return (
         <li key={locale.localeId}>
           <a href={url} className="Dropdown-item">
             {locale.name}
           </a>
         </li>
-      );
-    });
+      )
+    })
 
     return (
       <Dropdown onToggle={this.props.toggleDropdown}
@@ -56,8 +54,8 @@ let LanguagesDropdown = React.createClass({
           </ul>
         </Dropdown.Content>
       </Dropdown>
-    );
+    )
   }
-});
+})
 
 export default LanguagesDropdown

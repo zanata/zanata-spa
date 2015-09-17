@@ -1,5 +1,3 @@
-/* global React, _ */
-
 import cx from 'classnames'
 import IconButton from 'IconButton'
 import Pager from 'Pager'
@@ -33,7 +31,7 @@ let ControlsHeader = React.createClass({
       needswork: React.PropTypes.oneOfType(
         [React.PropTypes.number, React.PropTypes.string]),
       untranslated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string ])
+        [React.PropTypes.number, React.PropTypes.string])
     }),
 
     // TODO replace with dispatched event
@@ -65,15 +63,16 @@ let ControlsHeader = React.createClass({
     }).isRequired
   },
 
-  render: function() {
+  render: function () {
+    let gettextCatalog = this.props.gettextCatalog
     let transFilterProps = _.pick(this.props, ['filterStatus', 'counts',
-      'resetFilter', 'onFilterChange', 'gettextCatalog']);
+      'resetFilter', 'onFilterChange', 'gettextCatalog'])
 
     let pagerProps = _.pick(this.props, ['pageNumber', 'pageCount',
-      'firstPage', 'previousPage', 'nextPage', 'lastPage', 'gettextCatalog']);
+      'firstPage', 'previousPage', 'nextPage', 'lastPage', 'gettextCatalog'])
     return (
       <nav className="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
-        <TranslatingIndicator gettextCatalog={this.props.gettextCatalog}/>
+        <TranslatingIndicator gettextCatalog={gettextCatalog}/>
         <div className="u-floatLeft">
           <TransUnitFilter {...transFilterProps}/>
         </div>
@@ -85,37 +84,39 @@ let ControlsHeader = React.createClass({
             <li className="u-sM-1-8">
               <IconButton
                 icon="suggestions"
-                title={this.props.gettextCatalog.getString('Show suggestions panel')}
+                title={gettextCatalog.getString('Show suggestions panel')}
                 onClick={this.props.toggleSuggestionPanel}
                 active={this.props.suggestionsVisible}/>
 
             </li>
-      {/* Some extra items from the angular tempalte that were not being displayed
+      {/* extra items from the angular template that were not being displayed
             <li ng-show="appCtrl.PRODUCTION">
               <button class="Link--neutral u-sizeHeight-1_1-2"
                 title="{{'Details'|translate}}">
-                <icon name="info" title="{{'Details'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+                <icon name="info" title="{{'Details'|translate}}"
+                      class="u-sizeWidth-1_1-2"></icon>
               </button>
             </li>
             <li ng-show="appCtrl.PRODUCTION">
               <button class="Link--neutral u-sizeHeight-1_1-2"
               title="{{'Editor Settings'|translate}}">
-                <icon name="settings" title="{{'Editor Settings'|translate}}" class="u-sizeWidth-1_1-2"></icon>
+                <icon name="settings" title="{{'Editor Settings'|translate}}"
+                      class="u-sizeWidth-1_1-2"></icon>
               </button>
             </li>
       */}
             <li className="u-sm-hidden u-sM-1-8">
               <IconButton
                 icon="keyboard"
-                title={this.props.gettextCatalog.getString('Keyboard Shortcuts')}
+                title={gettextCatalog.getString('Keyboard Shortcuts')}
                 onClick={this.props.toggleKeyboardShortcutsModal}/>
             </li>
             <li className="u-sM-1-8">
               <IconButton
                 icon="chevron-up-double"
                 title={this.props.mainNavHidden
-                  ? this.props.gettextCatalog.getString('Show Menubar')
-                  : this.props.gettextCatalog.getString('Hide Menubar')}
+                  ? gettextCatalog.getString('Show Menubar')
+                  : gettextCatalog.getString('Hide Menubar')}
                 onClick={this.props.toggleMainNav}
                 active={this.props.mainNavHidden}
                 className={cx({'is-rotated': this.props.mainNavHidden})}/>
@@ -123,8 +124,8 @@ let ControlsHeader = React.createClass({
           </ul>
         </div>
       </nav>
-    );
+    )
   }
-});
+})
 
 export default ControlsHeader

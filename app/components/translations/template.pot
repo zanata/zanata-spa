@@ -4,7 +4,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: app/components/transUnitFilter/trans-unit-filter.html
+#: app/components/Pager/index.js
+msgid "{{currentPage}} of {{totalPages}}"
+msgstr ""
+
+#: app/components/TransUnitFilter/index.js
 msgid "Approved"
 msgstr ""
 
@@ -12,37 +16,33 @@ msgstr ""
 msgid "Cancel edit"
 msgstr ""
 
-#: app/editor/editor-header.html
-msgid "Details"
+#: app/components/Pager/index.js
+msgid "First page"
 msgstr ""
 
-#: app/editor/editor-header.html
-msgid "Editor Settings"
-msgstr ""
-
-#: app/editor/editor-header.html
+#: app/components/ControlsHeader/index.js
 msgid "Hide Menubar"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/ControlsHeader/index.js
 #: app/editor/editor.html
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: app/editor/editor-header.html
-msgid "More"
+#: app/components/Pager/index.js
+msgid "Last page"
 msgstr ""
 
-#: app/components/transUnitFilter/trans-unit-filter.html
+#: app/components/TransUnitFilter/index.js
 msgid "Needs Work"
+msgstr ""
+
+#: app/components/Pager/index.js
+msgid "Next page"
 msgstr ""
 
 #: app/editor/editor-content.html
 msgid "No content"
-msgstr ""
-
-#: app/editor/editor-header.html
-msgid "Notifications"
 msgstr ""
 
 #: app/components/suggestions/suggestion.html
@@ -50,11 +50,19 @@ msgstr ""
 msgid "Plural Form"
 msgstr ""
 
+#: app/components/Pager/index.js
+msgid "Previous page"
+msgstr ""
+
 #: app/components/transUnit/translation/footer.html
 msgid "Save as"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/ControlsHeader/index.js
+msgid "Show Menubar"
+msgstr ""
+
+#: app/components/ControlsHeader/index.js
 msgid "Show suggestions panel"
 msgstr ""
 
@@ -63,19 +71,19 @@ msgstr ""
 msgid "Singular Form"
 msgstr ""
 
-#: app/components/transUnitFilter/trans-unit-filter.html
+#: app/components/TransUnitFilter/index.js
 msgid "Total Phrases"
 msgstr ""
 
-#: app/components/transUnitFilter/trans-unit-filter.html
+#: app/components/TransUnitFilter/index.js
 msgid "Translated"
 msgstr ""
 
-#: app/editor/editor-header.html
+#: app/components/TranslatingIndicator/index.js
 msgid "Translating"
 msgstr ""
 
-#: app/components/transUnitFilter/trans-unit-filter.html
+#: app/components/TransUnitFilter/index.js
 msgid "Untranslated"
 msgstr ""
 

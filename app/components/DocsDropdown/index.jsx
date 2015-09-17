@@ -1,5 +1,3 @@
-/* global React */
-
 import Dropdown from 'Dropdown'
 import Icon from 'Icon'
 
@@ -24,25 +22,25 @@ let DocsDropdown = React.createClass({
 
   docUrl: function (docName) {
     if (this.props.editorContext) {
-      let ctx = this.props.editorContext;
-      let encodedId = this.props.encodeDocId(docName);
-      return '#/' + ctx.projectSlug + '/' + ctx.versionSlug
-          + '/translate/' + encodedId + '/' + ctx.localeId;
+      let ctx = this.props.editorContext
+      let encodedId = this.props.encodeDocId(docName)
+      return '#/' + ctx.projectSlug + '/' + ctx.versionSlug + '/translate/' +
+        encodedId + '/' + ctx.localeId
     }
   },
 
-  render: function() {
+  render: function () {
     let items = this.props.allDocs.map(docName => {
-      let url = this.docUrl(docName);
+      let url = this.docUrl(docName)
       return (
         <li key={docName}>
           <a href={url} className="Dropdown-item">{docName}</a>
         </li>
-      );
-    });
+      )
+    })
 
-    let selectedDoc = this.props.editorContext ?
-      this.props.editorContext.docId : undefined;
+    let selectedDoc = this.props.editorContext
+      ? this.props.editorContext.docId : undefined
 
     return (
       <Dropdown onToggle={this.props.toggleDropdown}
@@ -60,8 +58,8 @@ let DocsDropdown = React.createClass({
           </ul>
         </Dropdown.Content>
       </Dropdown>
-    );
+    )
   }
-});
+})
 
 export default DocsDropdown

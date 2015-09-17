@@ -1,5 +1,5 @@
 (function () {
-  'use strict';
+  'use strict'
 
   /**
    * EventService.js
@@ -9,8 +9,8 @@
    *
    * @ngInject
    */
-  function EventService($rootScope) {
-    var eventService = this;
+  function EventService ($rootScope) {
+    var eventService = this
 
     /**
      * @enum {string}
@@ -33,7 +33,7 @@
        */
       SELECT_TRANS_UNIT: 'selectTransUnit',
 
-      //data: {phrase: Phrase, sourceIndex:sourceIndex}
+      // data: {phrase: Phrase, sourceIndex:sourceIndex}
       COPY_FROM_SOURCE: 'copyFromSource',
 
       // data: { suggestion: Suggestion }
@@ -46,13 +46,13 @@
        */
       COPY_FROM_SUGGESTION_N: 'copyFromSuggestionN',
 
-      //data: {phrase: Phrase}
+      // data: {phrase: Phrase}
       UNDO_EDIT: 'undoEdit',
 
-      //data: {phrase: Phrase}
+      // data: {phrase: Phrase}
       CANCEL_EDIT: 'cancelEdit',
 
-      //data:phrase
+      // data:phrase
       FOCUS_TRANSLATION: 'focusTranslation',
 
       /**
@@ -113,7 +113,6 @@
        */
       TOGGLE_SAVE_OPTIONS: 'openSaveOptions',
 
-
       /**
        * data: {filter: refer to editorCtrl.filter}
        */
@@ -156,7 +155,7 @@
        * data: { setting: string, value: boolean|number|string }
        */
       USER_SETTING_CHANGED: 'userSettingChanged'
-    };
+    }
 
     /**
      * Firing an event downwards of scope
@@ -165,10 +164,10 @@
      * @param data - data for the event
      * @param scope - scope of event to to fire, $rootScope if empty
      */
-    eventService.broadcastEvent = function(event, data, scope) {
-      scope = scope || $rootScope;
-      scope.$broadcast(event, data);
-    };
+    eventService.broadcastEvent = function (event, data, scope) {
+      scope = scope || $rootScope
+      scope.$broadcast(event, data)
+    }
 
     /**
      * Firing an event upwards of scope
@@ -177,15 +176,15 @@
      * @param data - data for the event
      * @param scope - scope of event to to fire, $rootScope if empty
      */
-    eventService.emitEvent = function(event, data, scope) {
-      scope = scope || $rootScope;
-      scope.$emit(event, data);
-    };
+    eventService.emitEvent = function (event, data, scope) {
+      scope = scope || $rootScope
+      scope.$emit(event, data)
+    }
 
-    return eventService;
+    return eventService
   }
 
   angular
     .module('app')
-    .factory('EventService', EventService);
-})();
+    .factory('EventService', EventService)
+})()

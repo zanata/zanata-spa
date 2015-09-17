@@ -1,5 +1,5 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * @name Dropdown
@@ -10,10 +10,9 @@
    */
   var dropdownConfig = {
     openClass: 'is-active'
-  };
+  }
 
   angular
     .module('app')
-    .constant('dropdownConfig', dropdownConfig);
-
-})();
+    .constant('dropdownConfig', dropdownConfig)
+})()

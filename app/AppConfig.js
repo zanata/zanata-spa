@@ -1,53 +1,52 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * @name AppConfig
    * @description Main config for the entire app
    * @ngInject
    */
-  function AppConfig($stateProvider, $urlRouterProvider, $httpProvider,
+  function AppConfig ($stateProvider, $urlRouterProvider, $httpProvider,
     hotkeysProvider) {
-
-    //Can't use injection for EventService as this module is out of the scope
-    var interceptor = function($q, $rootScope) {
+    // Can't use injection for EventService as this module is out of the scope
+    var interceptor = function ($q, $rootScope) {
       return {
-        request: function(config) {
+        request: function (config) {
           // See EventService.EVENT.LOADING_START
-          $rootScope.$broadcast('loadingStart');
-          return config;
+          $rootScope.$broadcast('loadingStart')
+          return config
         },
-        requestError: function(rejection) {
+        requestError: function (rejection) {
           // See EventService.EVENT.LOADING_STOP
-          $rootScope.$broadcast('loadingStop');
-          console.error('Request error due to ', rejection);
-          return $q.reject(rejection);
+          $rootScope.$broadcast('loadingStop')
+          console.error('Request error due to ', rejection)
+          return $q.reject(rejection)
         },
-        response: function(response) {
+        response: function (response) {
           // See EventService.EVENT.LOADING_STOP
-          $rootScope.$broadcast('loadingStop');
-          return response || $q.when(response);
+          $rootScope.$broadcast('loadingStop')
+          return response || $q.when(response)
         },
-        responseError: function(rejection) {
+        responseError: function (rejection) {
           // See EventService.EVENT.LOADING_STOP
-          $rootScope.$broadcast('loadingStop');
+          $rootScope.$broadcast('loadingStop')
           if (rejection.status === 401) {
-            console.error('Unauthorized access. Please login');
+            console.error('Unauthorized access. Please login')
           } else if (rejection.status === 404) {
             console.error('Service end point not found- ',
-              rejection.config.url);
+              rejection.config.url)
           } else {
-            console.error('Error in response ', rejection);
+            console.error('Error in response ', rejection)
           }
-          return $q.reject(rejection);
+          return $q.reject(rejection)
         }
-      };
-    };
+      }
+    }
 
-    $httpProvider.interceptors.push(interceptor);
+    $httpProvider.interceptors.push(interceptor)
 
     // For any unmatched url, redirect to /editor
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/')
 
     $stateProvider
       .state('editor', {
@@ -55,8 +54,8 @@
         templateUrl: 'editor/editor.html',
         controller: 'EditorCtrl as editor',
         resolve: {
-          url: function(UrlService) {
-            return UrlService.init();
+          url: function (UrlService) {
+            return UrlService.init()
           }
         }
       }).state('editor.selectedContext', {
@@ -78,19 +77,15 @@
       }).state('editor.selectedContext.tu', {
         url: '/?id&selected?states',
         reloadOnSearch: false
-      });
+      })
 
-    hotkeysProvider.includeCheatSheet = false;
+    hotkeysProvider.includeCheatSheet = false
 
-  //   $locationProvider.html5Mode(true);
-  //     .hashPrefix('!');
+  //   $locationProvider.html5Mode(true)
+  //     .hashPrefix('!')
   }
 
   angular
     .module('app')
-    .config(AppConfig);
-
-})();
-
-
-
+    .config(AppConfig)
+})()

@@ -1,17 +1,17 @@
 (function () {
-  'use strict';
+  'use strict'
 
   /**
    * SuggestionCtrl.js
    * @ngInject
    */
-  function SuggestionCtrl(EventService, $rootScope, $scope, _, $timeout) {
-    var suggestionCtrl = this;
+  function SuggestionCtrl (EventService, $rootScope, $scope, _, $timeout) {
+    var suggestionCtrl = this
 
-    suggestionCtrl.copyButtonText = 'Copy Translation';
+    suggestionCtrl.copyButtonText = 'Copy Translation'
 
     while ($scope.search.length < $scope.suggestion.sourceContents.length) {
-      $scope.search.push('');
+      $scope.search.push('')
     }
 
     /**
@@ -26,30 +26,30 @@
 
     suggestionCtrl.rowDisplayType = function () {
       /* @type {MatchDetail} */
-      var topMatch = suggestionCtrl.topMatch();
+      var topMatch = suggestionCtrl.topMatch()
 
       if (topMatch.type === 'IMPORTED_TM') {
-        return 'secondary';
+        return 'secondary'
       }
       if (topMatch.type === 'LOCAL_PROJECT') {
         if (topMatch.contentState === 'Translated') {
-          return 'success';
+          return 'success'
         }
         if (topMatch.contentState === 'Approved') {
-          return 'highlight';
+          return 'highlight'
         }
       }
-      console.error('Unable to generate row display type for top match');
-    };
+      console.error('Unable to generate row display type for top match')
+    }
 
     /**
      *
      * @returns {string}
      */
     suggestionCtrl.percentDisplayType = function () {
-      var type = suggestionCtrl.rowDisplayType();
-      return type.charAt(0).toUpperCase() + type.substring(1);
-    };
+      var type = suggestionCtrl.rowDisplayType()
+      return type.charAt(0).toUpperCase() + type.substring(1)
+    }
 
     /**
      * Return correct percentage to display.
@@ -60,23 +60,27 @@
      * unless it is exactly 100%.
      */
     suggestionCtrl.percent = function () {
-      var percent = $scope.suggestion.similarityPercent;
+      var percent = parseFloat($scope.suggestion.similarityPercent)
+
+      if (!isFinite(percent)) {
+        return null
+      }
 
       // Prevent very high percentages displaying as 100%
       if (percent > 99.99 && percent < 100) {
-        return '99.99';
+        return '99.99'
       }
       if (percent >= 99.90 && percent < 100) {
-        return '99.9';
+        return '99.9'
       }
 
       // Limit any inexact percentages to a single decimal place
       if (Math.round(percent) !== percent) {
-        return percent.toFixed(1);
+        return percent.toFixed(1)
       }
 
-      return percent;
-    };
+      return percent
+    }
 
     /**
      * Return the details for the best match according to the following
@@ -88,17 +92,17 @@
      * @return {MatchDetail} the best match
      */
     suggestionCtrl.topMatch = function () {
-      return $scope.suggestion.matchDetails[0];
-    };
+      return $scope.suggestion.matchDetails[0]
+    }
 
     suggestionCtrl.showSuggestionCopied = function () {
-      suggestionCtrl.copyButtonText = 'Copied';
-      suggestionCtrl.copyButtonDisabled = true;
-      $timeout(function() {
-        suggestionCtrl.copyButtonDisabled = false;
-        suggestionCtrl.copyButtonText = 'Copy Translation';
-      }, 500);
-    };
+      suggestionCtrl.copyButtonText = 'Copied'
+      suggestionCtrl.copyButtonDisabled = true
+      $timeout(function () {
+        suggestionCtrl.copyButtonDisabled = false
+        suggestionCtrl.copyButtonText = 'Copy Translation'
+      }, 500)
+    }
 
     /**
      * Request this suggestion to be copied to the selected translation field.
@@ -106,29 +110,29 @@
      * Generates a COPY_FROM_SUGGESTION event.
      */
     suggestionCtrl.copySuggestion = function () {
-      suggestionCtrl.showSuggestionCopied();
+      suggestionCtrl.showSuggestionCopied()
       EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION,
-        { suggestion: $scope.suggestion });
-    };
+        { suggestion: $scope.suggestion })
+    }
 
     $scope.$on('EditorSuggestionsCtrl:nth-suggestion-copied',
       function (event, index) {
         if (index === $scope.index) {
-          suggestionCtrl.showSuggestionCopied();
+          suggestionCtrl.showSuggestionCopied()
         }
-      });
+      })
 
-    $scope.detail = suggestionCtrl.topMatch();
+    $scope.detail = suggestionCtrl.topMatch()
     // Will be undefined for imported matches
-    $scope.user = $scope.detail.lastModifiedBy || 'Annoymous';
-    $scope.remaining = $scope.suggestion.matchDetails.length - 1;
-    $scope.isTextFlow = $scope.detail.type === 'LOCAL_PROJECT';
+    $scope.user = $scope.detail.lastModifiedBy || 'Annoymous'
+    $scope.remaining = $scope.suggestion.matchDetails.length - 1
+    $scope.isTextFlow = $scope.detail.type === 'LOCAL_PROJECT'
 
-    return suggestionCtrl;
+    return suggestionCtrl
   }
 
   angular
     .module('app')
-    .controller('SuggestionCtrl', SuggestionCtrl);
-})();
+    .controller('SuggestionCtrl', SuggestionCtrl)
+})()
 

@@ -1,17 +1,17 @@
-(function() {
-  'use strict';
+(function () {
+  'use strict'
 
   /**
    * @name suggestion
    * @description suggestion container
    * @ngInject
    */
-  function suggestion() {
+  function suggestion () {
     return {
       // Only use the template on elements with this name (not on things that
       // have an attribute or class called 'suggestion'.
       restrict: 'E',
-      //required: ['suggestion'],
+      // required: ['suggestion'],
 
       // Specify an isolated scope for the suggestion component.
       scope: {
@@ -29,11 +29,10 @@
       },
       controller: 'SuggestionCtrl as suggestionCtrl',
       templateUrl: 'components/suggestions/suggestion.html'
-    };
+    }
   }
 
   angular
     .module('app')
-    .directive('suggestion', suggestion);
-
-})();
+    .directive('suggestion', suggestion)
+})()
