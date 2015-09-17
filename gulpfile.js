@@ -1,6 +1,8 @@
+/*eslint-env node*/
 'use strict';
 
 var angularTemplatecache = require('gulp-angular-templatecache'),
+    babel = require('gulp-babel'),
     concat = require('gulp-concat'),
     csso = require('gulp-csso'),
     // debug = require('gulp-debug'),
@@ -14,6 +16,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     inject = require('gulp-inject'),
     jshint = require('gulp-jshint'),
     mainBowerFiles = require('main-bower-files'),
+    merge = require('merge-stream'),
     modulizr = require('gulp-modulizr'),
     ngAnnotate = require('gulp-ng-annotate'),
     notify = require('gulp-notify'),
@@ -34,6 +37,7 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     suitconformance = require('rework-suit-conformance'),
     svgSprite = require('gulp-svg-sprite'),
     uglify = require('gulp-uglify'),
+    webpack = require('webpack-stream'),
     webserver = require('gulp-webserver');
 
 function notifyError(err) {
@@ -97,8 +101,30 @@ gulp.task('cssBower', ['bowerMain'], function(){
     .pipe(gulp.dest(paths.build + '/css'));
 });
 
-gulp.task('js',function(){
-  return gulp.src(paths.js.app)
+gulp.task('js', function(){
+  // compile and bundle the tree of React components
+  // to pass in with other js
+  var bundledReact = gulp.src(paths.webpack.entry).pipe(webpack({
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          exclude: /(node_modules|bower_components)/,
+          loader: 'babel'
+        }
+      ]
+    },
+    resolve: {
+      // subdirectories to check while searching up tree for module
+      modulesDirectories: ['node_modules', 'components'],
+      extensions: paths.webpack.moduleExtensions
+    }
+  }));
+
+
+  var js = gulp.src(paths.js.app);
+
+  return merge(js, bundledReact)
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
@@ -213,7 +239,12 @@ gulp.task('config', function() {
 });
 
 gulp.task('generatePot', function () {
-  return gulp.src(paths.translations.src)
+  var plain = gulp.src(paths.translations.src.plain);
+  // angular-gettext does not know how to extract strings from es6/jsx
+  // so this is first compiled to es5
+  var jsx = gulp.src(paths.translations.src.jsx).pipe(babel());
+
+  return merge(plain, jsx)
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(gettext.extract('template.pot', {
       // options to pass to angular-gettext-tools...
@@ -221,6 +252,10 @@ gulp.task('generatePot', function () {
     .pipe(gulp.dest(paths.translations.po));
 });
 
+// angular-gettext puts the absolute path in the pot file, so it changes
+// with a build on someone else's machine with no actual changes.
+// This is a workaround to strip the path. There is probably a way to
+// configure it better, but I have not personally looked.
 gulp.task('filterPotAbsolutePath', ['generatePot'], function () {
   var regex = new RegExp(process.cwd() + '/', 'g');
   gulp.src(paths.translations.po + '/**/*.pot', {base: './'})
@@ -303,6 +338,8 @@ gulp.task('serve', ['webserver']);
 gulp.task('watch', ['serve'], function(){
   gulp.watch(paths.js.bower, ['jsBower']);
   gulp.watch(paths.js.app, ['js']);
+  gulp.watch(paths.jsx, ['js']);
+  gulp.watch(paths.webpack.entry, ['js']);
   gulp.watch(paths.css.bower, ['cssBower']);
   gulp.watch(paths.css.all, ['css']);
   gulp.watch(paths.templates, ['templates', 'translations']);

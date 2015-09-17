@@ -74,7 +74,8 @@
 
     $rootScope.$on(EventService.EVENT.GOTO_NEXT_PAGE,
       function () {
-        if(EditorService.currentPageIndex < EditorService.maxPageIndex) {
+        if(!_.isNull(EditorService.maxPageIndex) &&
+           EditorService.currentPageIndex < EditorService.maxPageIndex) {
           EditorService.currentPageIndex++;
           changePage(EditorService.currentPageIndex);
         }
@@ -82,7 +83,8 @@
 
     $rootScope.$on(EventService.EVENT.GOTO_LAST_PAGE,
       function () {
-        if(EditorService.currentPageIndex < EditorService.maxPageIndex) {
+        if(!_.isNull(EditorService.maxPageIndex) &&
+           EditorService.currentPageIndex < EditorService.maxPageIndex) {
           EditorService.currentPageIndex = EditorService.maxPageIndex;
           changePage(EditorService.currentPageIndex);
         }
@@ -220,14 +222,10 @@
 
       PhraseService.getPhraseCount(EditorService.context, filter)
         .then(function(count) {
-          EditorService.maxPageIndex = parseInt(count / COUNT_PER_PAGE);
-          if(count > COUNT_PER_PAGE) {
-            EditorService.maxPageIndex = count % COUNT_PER_PAGE !== 0 ?
-              EditorService.maxPageIndex++ : EditorService.maxPageIndex;
-          }
+          var maxPage = Math.ceil(count / COUNT_PER_PAGE);
 
-          EditorService.maxPageIndex = EditorService.maxPageIndex < 1 ? 0 :
-            EditorService.maxPageIndex - 1;
+          // page number is 1-based, index is 0-based
+          EditorService.maxPageIndex = maxPage > 0 ? maxPage - 1 : null;
 
           loadPhrase(EditorService.currentPageIndex);
         });

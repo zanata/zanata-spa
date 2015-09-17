@@ -89,7 +89,9 @@
       'READ_WRITE');
 
     editorCtrl.toggleKeyboardShortcutsModal = function() {
-      editorCtrl.showCheatsheet = !editorCtrl.showCheatsheet;
+      $scope.$apply(function () {
+        editorCtrl.showCheatsheet = !editorCtrl.showCheatsheet;
+      });
     };
 
     var SHOW_SUGGESTIONS = SettingsService.SETTING.SHOW_SUGGESTIONS;
@@ -98,7 +100,9 @@
         $scope.showSuggestions = show;
       });
     editorCtrl.toggleSuggestionPanel = function () {
-      SettingsService.update(SHOW_SUGGESTIONS, !$scope.showSuggestions);
+      $scope.$apply(function () {
+        SettingsService.update(SHOW_SUGGESTIONS, !$scope.showSuggestions);
+      });
     };
 
 
@@ -201,12 +205,15 @@
       });
 
     editorCtrl.pageNumber = function() {
-      if(EditorService.maxPageIndex === 0) {
-        return EditorService.currentPageIndex + 1;
-      } else {
-        return (EditorService.currentPageIndex + 1) + ' of ' +
-          (EditorService.maxPageIndex + 1);
-      }
+      return EditorService.currentPageIndex + 1;
+    };
+
+    /**
+     * Page count, or undefined if count is not known
+     */
+    editorCtrl.pageCount = function () {
+      var maxIndex = EditorService.maxPageIndex;
+      return _.isNull(maxIndex) ? undefined : maxIndex + 1;
     };
 
     editorCtrl.getLocaleName = function(localeId) {
@@ -236,6 +243,12 @@
 
     editorCtrl.updateFilter = function() {
       updateFilter(true);
+    };
+
+    editorCtrl.toggleMainNav = function() {
+      $scope.$apply(function () {
+        editorCtrl.settings.hideMainNav = !editorCtrl.settings.hideMainNav;
+      });
     };
 
     function updateFilter(fireEvent) {

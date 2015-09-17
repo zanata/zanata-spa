@@ -116,3 +116,7 @@
   content: '.';
   color: var(--u-text-color-neutral);
 }
+
+.u-textNoSelect {
+  user-select: none;
+}

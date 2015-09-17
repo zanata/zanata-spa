@@ -15,7 +15,8 @@
     editorService.context = {};
 
     editorService.currentPageIndex = 0;
-    editorService.maxPageIndex = 0;
+    // null when max index has not yet been calculated
+    editorService.maxPageIndex = null;
 
     editorService.initContext =
       function (projectSlug, versionSlug, docId, srcLocale, localeId, mode) {
