@@ -27,8 +27,6 @@ let NavHeader = React.createClass({
 
     projectName: React.PropTypes.string,
     versionPageUrl: React.PropTypes.string,
-    encodeDocId: React.PropTypes.func.isRequired,
-    encodedDocId: React.PropTypes.string.isRequired,
     allDocs: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
 
     localeName: React.PropTypes.string.isRequired,
@@ -64,14 +62,14 @@ let NavHeader = React.createClass({
     }
 
     let docsDropdownProps = pick(this.props,
-      ['editorContext', 'encodeDocId', 'allDocs'])
+      ['editorContext', 'allDocs'])
     docsDropdownProps.isOpen = this.props.openDropdown ===
       this.props.docsDropdownKey
     docsDropdownProps.toggleDropdown =
       this.props.toggleDropdown(this.props.docsDropdownKey)
 
     let langsDropdownProps = pick(this.props,
-      ['editorContext', 'localeName', 'locales', 'encodedDocId'])
+      ['editorContext', 'localeName', 'locales'])
     langsDropdownProps.isOpen = this.props.openDropdown ===
       this.props.localeDropdownKey
     langsDropdownProps.toggleDropdown =

@@ -1,3 +1,4 @@
+import { encode } from 'zanata-tools/doc-id'
 import Dropdown from 'Dropdown'
 import Icon from 'Icon'
 
@@ -16,14 +17,13 @@ let DocsDropdown = React.createClass({
 
     toggleDropdown: React.PropTypes.func.isRequired,
     isOpen: React.PropTypes.bool.isRequired,
-    encodeDocId: React.PropTypes.func.isRequired,
     allDocs: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
   },
 
   docUrl: function (docName) {
     if (this.props.editorContext) {
       let ctx = this.props.editorContext
-      let encodedId = this.props.encodeDocId(docName)
+      let encodedId = encode(docName)
       return '#/' + ctx.projectSlug + '/' + ctx.versionSlug + '/translate/' +
         encodedId + '/' + ctx.localeId
     }

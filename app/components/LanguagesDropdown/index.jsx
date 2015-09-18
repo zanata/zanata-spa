@@ -1,3 +1,4 @@
+import { encode } from 'zanata-tools/doc-id'
 import Dropdown from 'Dropdown'
 import Icon from 'Icon'
 
@@ -9,21 +10,22 @@ let LanguagesDropdown = React.createClass({
   propTypes: {
     editorContext: React.PropTypes.shape({
       projectSlug: React.PropTypes.string.isRequired,
-      versionSlug: React.PropTypes.string.isRequired
+      versionSlug: React.PropTypes.string.isRequired,
+      docId: React.PropTypes.string.isRequired
     }),
     locales: React.PropTypes.arrayOf(React.PropTypes.shape({
       localeId: React.PropTypes.string,
       name: React.PropTypes.string
     })),
-    encodedDocId: React.PropTypes.string.isRequired,
     localeName: React.PropTypes.string.isRequired,
     toggleDropdown: React.PropTypes.func.isRequired,
     isOpen: React.PropTypes.bool.isRequired
   },
 
   localeUrl: function (locale) {
+    let docId = encode(this.props.editorContext.docId)
     return '#/' + this.props.projectSlug + '/' + this.props.versionSlug +
-      '/translate/' + this.props.encodedDocId + '/' + locale.localeId
+      '/translate/' + docId + '/' + locale.localeId
   },
 
   render: function () {

@@ -134,7 +134,7 @@ gulp.task('js', ['lint-jsx'], function(){
       },
       resolve: {
         // subdirectories to check while searching up tree for module
-        modulesDirectories: ['node_modules', 'components'],
+        modulesDirectories: ['node_modules', 'components', 'util'],
         extensions: paths.webpack.moduleExtensions
       }
     }));

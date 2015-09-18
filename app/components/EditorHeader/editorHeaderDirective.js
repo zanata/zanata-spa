@@ -82,8 +82,6 @@
           var props = {
             user: {},
             editorContext: editor.context,
-            // TODO docs in as {id:..., encodedId:...} instead
-            encodeDocId: editor.encodeDocId,
             openDropdown: DropdownService.getOpenDropdown(),
             docsDropdownKey: docsDropdownKey,
             localeDropdownKey: localeDropdownKey,
@@ -121,7 +119,6 @@
           if (editor.context) {
             props.versionPageUrl = UrlService.projectPage(
               props.projectSlug, props.versionSlug)
-            props.encodedDocId = editor.encodeDocId(editor.context.docId)
             props.localeName = editor.getLocaleName(editor.context.localeId)
           }
 

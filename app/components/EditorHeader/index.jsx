@@ -25,8 +25,6 @@ let EditorHeader = React.createClass({
 
     projectName: React.PropTypes.string,
     versionPageUrl: React.PropTypes.string,
-    encodeDocId: React.PropTypes.func.isRequired,
-    encodedDocId: React.PropTypes.string.isRequired,
     allDocs: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
 
     localeName: React.PropTypes.string.isRequired,
@@ -109,7 +107,7 @@ let EditorHeader = React.createClass({
       { 'is-minimised': this.props.mainNavHidden })
 
     let navHeaderProps = pick(this.props, ['user', 'editorContext',
-      'projectName', 'versionPageUrl', 'encodeDocId', 'encodedDocId',
+      'projectName', 'versionPageUrl',
       'allDocs', 'localeName', 'locales', 'uiLocaleName', 'uiLocales',
       'changeUiLocale', 'toggleDropdown', 'openDropdown', 'docsDropdownKey',
       'localeDropdownKey', 'uiLocaleDropdownKey'])
