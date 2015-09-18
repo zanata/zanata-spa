@@ -1,4 +1,3 @@
-import { pick } from 'lodash'
 import DashboardLink from 'DashboardLink'
 import DocsDropdown from 'DocsDropdown'
 import Icon from 'Icon'
@@ -12,81 +11,76 @@ import UiLanguageDropdown from 'UiLanguageDropdown'
 let NavHeader = React.createClass({
 
   propTypes: {
-    user: React.PropTypes.shape({
-      name: React.PropTypes.string,
-      gravatarUrl: React.PropTypes.string,
-      dashboardUrl: React.PropTypes.string.isRequired
-    }),
+    actions: React.PropTypes.shape({
+      changeUiLocale: React.PropTypes.func.isRequired,
+      toggleDropdown: React.PropTypes.func.isRequired
+    }).isRequired,
 
-    editorContext: React.PropTypes.shape({
-      projectSlug: React.PropTypes.string.isRequired,
-      versionSlug: React.PropTypes.string.isRequired,
-      docId: React.PropTypes.string.isRequired,
-      localeId: React.PropTypes.string.isRequired
-    }),
+    data: React.PropTypes.shape({
+      user: React.PropTypes.shape({
+        name: React.PropTypes.string,
+        gravatarUrl: React.PropTypes.string,
+        dashboardUrl: React.PropTypes.string.isRequired
+      }),
+      context: React.PropTypes.shape({
+        projectVersion: React.PropTypes.shape({
+          project: React.PropTypes.shape({
+            slug: React.PropTypes.string.isRequired,
+            name: React.PropTypes.string
+          }).isRequired,
+          version: React.PropTypes.string.isRequired,
+          url: React.PropTypes.string,
+          docs: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+          locales: React.PropTypes.object.isRequired
+        }).isRequired,
+        selectedLocale: React.PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired,
 
-    projectName: React.PropTypes.string,
-    versionPageUrl: React.PropTypes.string,
-    allDocs: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-
-    localeName: React.PropTypes.string.isRequired,
-    locales: React.PropTypes.arrayOf(React.PropTypes.shape({
-      localeId: React.PropTypes.string,
-      name: React.PropTypes.string
-    })),
-
-    uiLocaleName: React.PropTypes.string,
-    uiLocales: React.PropTypes.arrayOf(React.PropTypes.shape({
-      localeId: React.PropTypes.string,
-      name: React.PropTypes.string
-    })).isRequired,
-
-    changeUiLocale: React.PropTypes.func.isRequired,
-
-    // takes dropdown key and button
-    toggleDropdown: React.PropTypes.func.isRequired,
-    // The key of the currently open dropdown
-    openDropdown: React.PropTypes.any,
-    docsDropdownKey: React.PropTypes.any.isRequired,
-    localeDropdownKey: React.PropTypes.any.isRequired,
-    uiLocaleDropdownKey: React.PropTypes.any.isRequired
+    ui: React.PropTypes.shape({
+      // locale id for selected locale
+      selectedUiLocale: React.PropTypes.string,
+      // localeId -> { id, name }
+      uiLocales: React.PropTypes.object.isRequired,
+      dropdowns: React.PropTypes.shape({
+        current: React.PropTypes.any,
+        docsKey: React.PropTypes.any.isRequired,
+        localeKey: React.PropTypes.any.isRequired,
+        uiLocaleKey: React.PropTypes.any.isRequired
+      }).isRequired
+    }).isRequired
   },
 
   render: function () {
-    let ctx = this.props.editorContext
+    let props = this.props
+    let ctx = props.data.context
+    let dropdowns = props.ui.dropdowns
 
-    let projectVersionLinkProps = pick(this.props,
-      ['projectName', 'versionPageUrl'])
-    if (ctx) {
-      projectVersionLinkProps.versionSlug = ctx.versionSlug
+    let docsDropdownProps = {
+      context: ctx,
+      isOpen: dropdowns.current === dropdowns.docsKey,
+      toggleDropdown: props.actions.toggleDropdown(dropdowns.docsKey)
     }
 
-    let docsDropdownProps = pick(this.props,
-      ['editorContext', 'allDocs'])
-    docsDropdownProps.isOpen = this.props.openDropdown ===
-      this.props.docsDropdownKey
-    docsDropdownProps.toggleDropdown =
-      this.props.toggleDropdown(this.props.docsDropdownKey)
+    let langsDropdownProps = {
+      context: ctx,
+      isOpen: dropdowns.current === dropdowns.localeKey,
+      toggleDropdown: props.actions.toggleDropdown(dropdowns.localeKey)
+    }
 
-    let langsDropdownProps = pick(this.props,
-      ['editorContext', 'localeName', 'locales'])
-    langsDropdownProps.isOpen = this.props.openDropdown ===
-      this.props.localeDropdownKey
-    langsDropdownProps.toggleDropdown =
-      this.props.toggleDropdown(this.props.localeDropdownKey)
-
-    let uiLangDropdownProps = pick(this.props,
-      ['changeUiLocale', 'uiLocaleName', 'uiLocales'])
-    uiLangDropdownProps.isOpen = this.props.openDropdown ===
-      this.props.uiLocaleDropdownKey
-    uiLangDropdownProps.toggleDropdown =
-      this.props.toggleDropdown(this.props.uiLocaleDropdownKey)
+    let uiLangDropdownProps = {
+      changeUiLocale: props.actions.changeUiLocale,
+      selectedUiLocale: props.ui.selectedUiLocale,
+      uiLocales: props.ui.uiLocales,
+      isOpen: dropdowns.current === dropdowns.uiLocaleKey,
+      toggleDropdown: props.actions.toggleDropdown(dropdowns.uiLocaleKey)
+    }
 
     return (
       <nav role="navigation"
            className="Editor-mainNav u-posRelative u-textCenter">
         <div className="u-posAbsoluteLeft">
-          <ProjectVersionLink {...projectVersionLinkProps}/>
+          <ProjectVersionLink {...ctx.projectVersion}/>
           <Icon name="chevron-right"
              className="Icon--sm u-sMH-1-4 u-textInvert
                         u-textMuted u-sm-hidden"/>
@@ -118,7 +112,7 @@ let NavHeader = React.createClass({
           </li>
           */}
           <li>
-            <DashboardLink {...this.props.user}/>
+            <DashboardLink {...this.props.data.user}/>
           </li>
         </ul>
       </nav>

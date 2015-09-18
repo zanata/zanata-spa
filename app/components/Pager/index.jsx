@@ -6,12 +6,14 @@ import Icon from 'Icon'
 let Pager = React.createClass({
 
   propTypes: {
+    actions: React.PropTypes.shape({
+      firstPage: React.PropTypes.func.isRequired,
+      previousPage: React.PropTypes.func.isRequired,
+      nextPage: React.PropTypes.func.isRequired,
+      lastPage: React.PropTypes.func.isRequired
+    }).isRequired,
     pageNumber: React.PropTypes.number.isRequired,
     pageCount: React.PropTypes.number,
-    firstPage: React.PropTypes.func.isRequired,
-    previousPage: React.PropTypes.func.isRequired,
-    nextPage: React.PropTypes.func.isRequired,
-    lastPage: React.PropTypes.func.isRequired,
 
     // DO NOT RENAME, the translation string extractor looks specifically
     // for gettextCatalog.getString when generating the translation template.
@@ -51,26 +53,27 @@ let Pager = React.createClass({
         })
       : pageNumber
 
+    let actions = this.props.actions
     let buttons = {
       first: {
         icon: 'previous',
         title: gettextCatalog.getString('First page'),
-        action: this.props.firstPage
+        action: actions.firstPage
       },
       prev: {
         icon: 'chevron-left',
         title: gettextCatalog.getString('Previous page'),
-        action: this.props.previousPage
+        action: actions.previousPage
       },
       next: {
         icon: 'chevron-right',
         title: gettextCatalog.getString('Next page'),
-        action: this.props.nextPage
+        action: actions.nextPage
       },
       last: {
         icon: 'next',
         title: gettextCatalog.getString('Last page'),
-        action: this.props.lastPage
+        action: actions.lastPage
       }
     }
 

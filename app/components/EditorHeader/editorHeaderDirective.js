@@ -80,63 +80,110 @@
             SettingsService.SETTING.SHOW_SUGGESTIONS)
 
           var props = {
-            user: {},
-            editorContext: editor.context,
-            openDropdown: DropdownService.getOpenDropdown(),
-            docsDropdownKey: docsDropdownKey,
-            localeDropdownKey: localeDropdownKey,
-            uiLocaleDropdownKey: uiLocaleDropdownKey,
-            allDocs: _.pluck(editor.documents || [], 'name'),
-            toggleDropdown: function (key) {
-              return function (button) {
-                DropdownService.toggleDropdown(key, button)
+            actions: {
+              // changeUiLocale: defined below,
+              toggleDropdown: function (key) {
+                return function (button) {
+                  DropdownService.toggleDropdown(key, button)
+                }
+              },
+              resetFilter: editor.resetFilter,
+              onFilterChange: onFilterChange,
+              firstPage: editor.firstPage,
+              previousPage: editor.previousPage,
+              nextPage: editor.nextPage,
+              lastPage: editor.lastPage,
+              toggleSuggestionPanel: editor.toggleSuggestionPanel,
+              toggleKeyboardShortcutsModal: editor.toggleKeyboardShortcutsModal,
+              toggleMainNav: editor.toggleMainNav
+            },
+            data: {
+              user: {},
+              context: {
+                projectVersion: {
+                  project: {
+                    slug: editor.context.projectSlug
+                    // name: defined below
+                  },
+                  version: editor.context.versionSlug,
+                  // url defined below
+                  docs: _.pluck(editor.documents || [], 'name'),
+                  locales: _.chain(editor.locales || [])
+                    .map(function (locale) {
+                      return {
+                        id: locale.localeId,
+                        name: locale.name
+                      }
+                    })
+                    .indexBy('id')
+                    .value()
+                },
+                selectedDoc: {
+                  // id: defined below
+                  counts: _.mapValues(editor.messageStatistic,
+                    function (numberString) {
+                      return parseInt(numberString, 10)
+                    })
+                }
+                // selectedLocale: defined below
               }
             },
-            locales: editor.locales || [],
-
-            filterStatus: editor.filter.status,
-            counts: editor.messageStatistic,
-            resetFilter: editor.resetFilter,
-            onFilterChange: onFilterChange,
-            pageNumber: editor.pageNumber(),
-            pageCount: editor.pageCount(),
-            firstPage: editor.firstPage,
-            previousPage: editor.previousPage,
-            nextPage: editor.nextPage,
-            lastPage: editor.lastPage,
-            toggleSuggestionPanel: editor.toggleSuggestionPanel,
-            suggestionsVisible: suggestionsVisible,
-            toggleKeyboardShortcutsModal: editor.toggleKeyboardShortcutsModal,
-            mainNavHidden: editor.settings.hideMainNav,
-            toggleMainNav: editor.toggleMainNav,
+            ui: {
+              panels: {
+                suggestions: {
+                  visible: suggestionsVisible
+                },
+                navHeader: {
+                  visible: !editor.settings.hideMainNav
+                }
+              },
+              // selectedUiLocale: set below
+              // uiLocales: set below
+              dropdowns: {
+                current: DropdownService.getOpenDropdown(),
+                docsKey: docsDropdownKey,
+                localeKey: localeDropdownKey,
+                uiLocaleKey: uiLocaleDropdownKey
+              },
+              textFlowDisplay: {
+                filter: editor.filter.status,
+                pageNumber: editor.pageNumber(),
+                pageCount: editor.pageCount()
+              }
+            },
             gettextCatalog: gettextCatalog
           }
 
+          var projectVersion = props.data.context.projectVersion
+
           if (editor.projectInfo) {
-            props.projectName = editor.projectInfo.name
+            projectVersion.project.name = editor.projectInfo.name
           }
 
           if (editor.context) {
-            props.versionPageUrl = UrlService.projectPage(
-              props.projectSlug, props.versionSlug)
-            props.localeName = editor.getLocaleName(editor.context.localeId)
+            projectVersion.url = UrlService.projectPage(
+              projectVersion.project.slug, projectVersion.version)
+            props.data.context.selectedDoc.id = editor.context.docId
+            props.data.context.selectedLocale = editor.context.localeId
           }
 
           if (app) {
-            props.uiLocales = (app.uiLocaleList || []).map(function (locale) {
-              return {
-                localeId: locale.localeId,
-                name: editor.getLocaleName(locale.localeId)
-              }
-            })
-            props.changeUiLocale = app.onChangeUILocale
-            props.user.dashboardUrl = app.dashboardPage()
+            props.ui.uiLocales = _.chain(app.uiLocaleList || [])
+              .map(function (locale) {
+                return {
+                  id: locale.localeId,
+                  name: editor.getLocaleName(locale.localeId)
+                }
+              })
+              .indexBy('id')
+              .value()
+            props.actions.changeUiLocale = app.onChangeUILocale
+            props.data.user.dashboardUrl = app.dashboardPage()
 
             if (app.myInfo) {
-              props.uiLocaleName =
-                editor.getLocaleName(app.myInfo.locale.localeId)
-              props.user.name = app.myInfo.name
-              props.user.gravatarUrl = app.myInfo.gravatarUrl
+              props.ui.selectedUiLocale = app.myInfo.locale.localeId
+              props.data.user.name = app.myInfo.name
+              props.data.user.gravatarUrl = app.myInfo.gravatarUrl
             }
           }
 

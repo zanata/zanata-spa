@@ -1,3 +1,4 @@
+import { values } from 'lodash'
 import Dropdown from 'Dropdown'
 
 /**
@@ -6,31 +7,26 @@ import Dropdown from 'Dropdown'
 let UiLanguageDropdown = React.createClass({
 
   propTypes: {
-    // editor.getLocaleName(app.myInfo.locale.localeId)
-    uiLocaleName: React.PropTypes.string,
-    toggleDropdown: React.PropTypes.func.isRequired,
-    isOpen: React.PropTypes.bool.isRequired,
-    // app.uiLocaleList
-    uiLocales: React.PropTypes.arrayOf(React.PropTypes.shape({
-      localeId: React.PropTypes.string,
-      name: React.PropTypes.string
-    })).isRequired,
-    changeUiLocale: React.PropTypes.func.isRequired
-  },
+    changeUiLocale: React.PropTypes.func.isRequired,
+    selectedUiLocale: React.PropTypes.string,
+    uiLocales: React.PropTypes.object.isRequired,
 
-  localeUrl: function (locale) {
-    return '#/' + this.props.projectSlug + '/' + this.props.versionSlug +
-      '/translate/' + this.props.encodedDocId + '/' + locale.localeId
+    toggleDropdown: React.PropTypes.func.isRequired,
+    isOpen: React.PropTypes.bool.isRequired
   },
 
   changeUiLocale: function (locale) {
-    return () => this.props.changeUiLocale(locale)
+    // AppCtrl expects { localeId, name } rather than { id, name }
+    return () => this.props.changeUiLocale({
+      localeId: locale.id,
+      name: locale.name
+    })
   },
 
   render: function () {
-    let items = this.props.uiLocales.map(locale => {
+    let items = values(this.props.uiLocales).map(locale => {
       return (
-        <li key={locale.localeId}>
+        <li key={locale.id}>
           <a onClick={this.changeUiLocale(locale)}
              className="Dropdown-item">
             {locale.name}
@@ -39,13 +35,17 @@ let UiLanguageDropdown = React.createClass({
       )
     })
 
+    let selectedLocaleId = this.props.selectedUiLocale
+    let selectedLocale = this.props.uiLocales[selectedLocaleId]
+    let uiLocaleName = selectedLocale ? selectedLocale.name : selectedLocaleId
+
     return (
       <Dropdown onToggle={this.props.toggleDropdown}
                 isOpen={this.props.isOpen}
                 className="Dropdown--right u-sMV-1-2">
         <Dropdown.Button>
           <a className="Link--invert u-inlineBlock u-textNoWrap u-sPH-1-4">
-            {this.props.uiLocaleName}
+            {uiLocaleName}
           </a>
         </Dropdown.Button>
         <Dropdown.Content>

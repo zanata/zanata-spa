@@ -8,27 +8,19 @@ let ProgressBar = React.createClass({
 
   propTypes: {
     size: React.PropTypes.string,
-
-    // FIXME stats API gives strings, change those to numbers
-    //       and remove the string option.
-    stats: React.PropTypes.shape({
+    counts: React.PropTypes.shape({
       // TODO better to derive total from the others rather than duplicate
-      total: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      approved: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      translated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      needswork: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      untranslated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string])
+      total: React.PropTypes.number,
+      approved: React.PropTypes.number,
+      translated: React.PropTypes.number,
+      needswork: React.PropTypes.number,
+      untranslated: React.PropTypes.number
     }).isRequired
   },
 
   getDefaultProps: () => {
     return {
-      stats: {
+      counts: {
         total: 0,
         approved: 0,
         translated: 0,
@@ -64,10 +56,10 @@ let ProgressBar = React.createClass({
       'Progressbar--lg': this.props.size === 'large'
     })
 
-    let stats = this.props.stats
+    let counts = this.props.counts
 
-    let total = parseFloat(stats.total)
-    let widths = chain(stats)
+    let total = parseFloat(counts.total)
+    let widths = chain(counts)
       .pick(['approved', 'translated', 'needswork', 'untranslated'])
       .mapValues((count) => {
         return count ? 100 * parseFloat(count) / total : 0

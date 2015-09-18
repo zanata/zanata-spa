@@ -11,51 +11,46 @@ import TransUnitFilter from 'TransUnitFilter'
 let ControlsHeader = React.createClass({
 
   propTypes: {
-    filterStatus: React.PropTypes.shape({
-      all: React.PropTypes.bool.isRequired,
-      approved: React.PropTypes.bool.isRequired,
-      translated: React.PropTypes.bool.isRequired,
-      needsWork: React.PropTypes.bool.isRequired,
-      untranslated: React.PropTypes.bool.isRequired
+    actions: React.PropTypes.shape({
+      resetFilter: React.PropTypes.func.isRequired,
+      onFilterChange: React.PropTypes.func.isRequired,
+      firstPage: React.PropTypes.func.isRequired,
+      previousPage: React.PropTypes.func.isRequired,
+      nextPage: React.PropTypes.func.isRequired,
+      lastPage: React.PropTypes.func.isRequired,
+      toggleSuggestionPanel: React.PropTypes.func.isRequired,
+      toggleKeyboardShortcutsModal: React.PropTypes.func.isRequired,
+      toggleMainNav: React.PropTypes.func.isRequired
     }).isRequired,
 
-    // FIXME stats API gives strings, change those to numbers
-    //       and remove the string option.
+    ui: React.PropTypes.shape({
+      panels: React.PropTypes.shape({
+        suggestions: React.PropTypes.shape({
+          visible: React.PropTypes.bool.isRequired
+        }).isRequired
+      }).isRequired,
+      textFlowDisplay: React.PropTypes.shape({
+        filter: React.PropTypes.shape({
+          // FIXME should be able to derive this from the other 4
+          all: React.PropTypes.bool.isRequired,
+          approved: React.PropTypes.bool.isRequired,
+          translated: React.PropTypes.bool.isRequired,
+          needsWork: React.PropTypes.bool.isRequired,
+          untranslated: React.PropTypes.bool.isRequired
+        }).isRequired,
+        pageNumber: React.PropTypes.number.isRequired,
+        pageCount: React.PropTypes.number
+      }).isRequired
+    }).isRequired,
+
     counts: React.PropTypes.shape({
       // TODO better to derive total from the others rather than duplicate
-      total: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      approved: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      translated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      needswork: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      untranslated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string])
+      total: React.PropTypes.number,
+      approved: React.PropTypes.number,
+      translated: React.PropTypes.number,
+      needswork: React.PropTypes.number,
+      untranslated: React.PropTypes.number
     }),
-
-    // TODO replace with dispatched event
-    resetFilter: React.PropTypes.func.isRequired,
-
-    // TODO replace with dispatched event
-    onFilterChange: React.PropTypes.func.isRequired,
-
-    // FIXME combine these to an object
-    pageNumber: React.PropTypes.number.isRequired,
-    pageCount: React.PropTypes.number,
-    firstPage: React.PropTypes.func.isRequired,
-    previousPage: React.PropTypes.func.isRequired,
-    nextPage: React.PropTypes.func.isRequired,
-    lastPage: React.PropTypes.func.isRequired,
-
-    toggleSuggestionPanel: React.PropTypes.func.isRequired,
-    suggestionsVisible: React.PropTypes.bool.isRequired,
-
-    toggleKeyboardShortcutsModal: React.PropTypes.func.isRequired,
-
-    mainNavHidden: React.PropTypes.bool.isRequired,
-    toggleMainNav: React.PropTypes.func.isRequired,
 
     // DO NOT RENAME, the translation string extractor looks specifically
     // for gettextCatalog.getString when generating the translation template.
@@ -65,12 +60,15 @@ let ControlsHeader = React.createClass({
   },
 
   render: function () {
+    let textFlowDisplay = this.props.ui.textFlowDisplay
     let gettextCatalog = this.props.gettextCatalog
-    let transFilterProps = pick(this.props, ['filterStatus', 'counts',
-      'resetFilter', 'onFilterChange', 'gettextCatalog'])
-
-    let pagerProps = pick(this.props, ['pageNumber', 'pageCount',
-      'firstPage', 'previousPage', 'nextPage', 'lastPage', 'gettextCatalog'])
+    let transFilterProps = pick(this.props, ['actions',
+      'counts', 'gettextCatalog'])
+    transFilterProps.filter = textFlowDisplay.filter
+    let pagerProps = pick(this.props, ['actions', 'gettextCatalog'])
+    pagerProps.pageNumber = textFlowDisplay.pageNumber
+    pagerProps.pageCount = textFlowDisplay.pageCount
+    let navHeaderHidden = !this.props.ui.panels.navHeader.visible
     return (
       <nav className="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
         <TranslatingIndicator gettextCatalog={gettextCatalog}/>
@@ -86,8 +84,8 @@ let ControlsHeader = React.createClass({
               <IconButton
                 icon="suggestions"
                 title={gettextCatalog.getString('Show suggestions panel')}
-                onClick={this.props.toggleSuggestionPanel}
-                active={this.props.suggestionsVisible}/>
+                onClick={this.props.actions.toggleSuggestionPanel}
+                active={this.props.ui.panels.suggestions.visible}/>
 
             </li>
       {/* extra items from the angular template that were not being displayed
@@ -110,17 +108,17 @@ let ControlsHeader = React.createClass({
               <IconButton
                 icon="keyboard"
                 title={gettextCatalog.getString('Keyboard Shortcuts')}
-                onClick={this.props.toggleKeyboardShortcutsModal}/>
+                onClick={this.props.actions.toggleKeyboardShortcutsModal}/>
             </li>
             <li className="u-sM-1-8">
               <IconButton
                 icon="chevron-up-double"
-                title={this.props.mainNavHidden
+                title={navHeaderHidden
                   ? gettextCatalog.getString('Show Menubar')
                   : gettextCatalog.getString('Hide Menubar')}
-                onClick={this.props.toggleMainNav}
-                active={this.props.mainNavHidden}
-                className={cx({'is-rotated': this.props.mainNavHidden})}/>
+                onClick={this.props.actions.toggleMainNav}
+                active={navHeaderHidden}
+                className={cx({'is-rotated': navHeaderHidden})}/>
             </li>
           </ul>
         </div>

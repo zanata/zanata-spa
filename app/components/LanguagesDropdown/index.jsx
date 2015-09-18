@@ -1,3 +1,4 @@
+import { values } from 'lodash'
 import { encode } from 'zanata-tools/doc-id'
 import Dropdown from 'Dropdown'
 import Icon from 'Icon'
@@ -8,31 +9,39 @@ import Icon from 'Icon'
 let LanguagesDropdown = React.createClass({
 
   propTypes: {
-    editorContext: React.PropTypes.shape({
-      projectSlug: React.PropTypes.string.isRequired,
-      versionSlug: React.PropTypes.string.isRequired,
-      docId: React.PropTypes.string.isRequired
-    }),
-    locales: React.PropTypes.arrayOf(React.PropTypes.shape({
-      localeId: React.PropTypes.string,
-      name: React.PropTypes.string
-    })),
-    localeName: React.PropTypes.string.isRequired,
+    context: React.PropTypes.shape({
+      projectVersion: React.PropTypes.shape({
+        project: React.PropTypes.shape({
+          slug: React.PropTypes.string
+        }).isRequired,
+        version: React.PropTypes.string.isRequired,
+        locales: React.PropTypes.object.isRequired
+      }).isRequired,
+      selectedDoc: React.PropTypes.shape({
+        id: React.PropTypes.string.isRequired
+      }).isRequired,
+      selectedLocale: React.PropTypes.string.isRequired
+    }).isRequired,
+
     toggleDropdown: React.PropTypes.func.isRequired,
     isOpen: React.PropTypes.bool.isRequired
   },
 
   localeUrl: function (locale) {
-    let docId = encode(this.props.editorContext.docId)
-    return '#/' + this.props.projectSlug + '/' + this.props.versionSlug +
-      '/translate/' + docId + '/' + locale.localeId
+    let ctx = this.props.context
+    let docId = encode(ctx.selectedDoc.id)
+    let project = ctx.projectVersion.project.slug
+    let version = ctx.projectVersion.version
+    return '#/' + project + '/' + version + '/translate/' +
+           docId + '/' + locale.id
   },
 
   render: function () {
-    let items = this.props.locales.map(locale => {
+    let locales = this.props.context.projectVersion.locales
+    let items = values(locales).map(locale => {
       let url = this.localeUrl(locale)
       return (
-        <li key={locale.localeId}>
+        <li key={locale.id}>
           <a href={url} className="Dropdown-item">
             {locale.name}
           </a>
@@ -40,12 +49,17 @@ let LanguagesDropdown = React.createClass({
       )
     })
 
+    // sometimes name is not yet available, fall back on id
+    let selectedLocaleId = this.props.context.selectedLocale
+    let selectedLocale = locales[selectedLocaleId]
+    let localeName = selectedLocale ? selectedLocale.name : selectedLocaleId
+
     return (
       <Dropdown onToggle={this.props.toggleDropdown}
                 isOpen={this.props.isOpen}>
         <Dropdown.Button>
           <button className="Link--invert">
-            {this.props.localeName}
+            {localeName}
             <Icon name="chevron-down"
                   className="Icon--sm Dropdown-toggleIcon u-sML-1-8"/>
           </button>

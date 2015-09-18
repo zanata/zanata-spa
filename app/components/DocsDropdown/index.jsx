@@ -8,39 +8,43 @@ import Icon from 'Icon'
 let DocsDropdown = React.createClass({
 
   propTypes: {
-    editorContext: React.PropTypes.shape({
-      projectSlug: React.PropTypes.string.isRequired,
-      versionSlug: React.PropTypes.string.isRequired,
-      docId: React.PropTypes.string.isRequired,
-      localeId: React.PropTypes.string.isRequired
-    }),
-
+    context: React.PropTypes.shape({
+      projectVersion: React.PropTypes.shape({
+        project: React.PropTypes.shape({
+          slug: React.PropTypes.string.isRequired
+        }).isRequired,
+        version: React.PropTypes.string.isRequired
+      }).isRequired,
+      selectedDoc: React.PropTypes.shape({
+        id: React.PropTypes.string.isRequired
+      }).isRequired,
+      selectedLocale: React.PropTypes.string.isRequired
+    }).isRequired,
     toggleDropdown: React.PropTypes.func.isRequired,
-    isOpen: React.PropTypes.bool.isRequired,
-    allDocs: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+    isOpen: React.PropTypes.bool.isRequired
   },
 
-  docUrl: function (docName) {
-    if (this.props.editorContext) {
-      let ctx = this.props.editorContext
-      let encodedId = encode(docName)
-      return '#/' + ctx.projectSlug + '/' + ctx.versionSlug + '/translate/' +
-        encodedId + '/' + ctx.localeId
-    }
+  docUrl: function (docId) {
+    let ctx = this.props.context
+    let project = ctx.projectVersion.project.slug
+    let version = ctx.projectVersion.version
+    let encodedId = encode(docId)
+    return '#/' + project + '/' + version + '/translate/' +
+      encodedId + '/' + ctx.selectedLocale
   },
 
   render: function () {
-    let items = this.props.allDocs.map(docName => {
-      let url = this.docUrl(docName)
+    let ctx = this.props.context
+    let selectedDoc = ctx.selectedDoc.id
+    let items = ctx.projectVersion.docs.map(docId => {
+      let url = this.docUrl(docId)
+      // TODO highlight selected
       return (
-        <li key={docName}>
-          <a href={url} className="Dropdown-item">{docName}</a>
+        <li key={docId}>
+          <a href={url} className="Dropdown-item">{docId}</a>
         </li>
       )
     })
-
-    let selectedDoc = this.props.editorContext
-      ? this.props.editorContext.docId : undefined
 
     return (
       <Dropdown onToggle={this.props.toggleDropdown}
