@@ -82,3 +82,113 @@ export const GRAVATAR_URL_UPDATED = 'GRAVATAR_URL_UPDATED'
 export function gravatarUrlUpdated (url) {
   return { type: GRAVATAR_URL_UPDATED, url: url }
 }
+
+export const UI_LOCALE_CHANGED = 'UI_LOCALE_CHANGED'
+
+export function uiLocaleChanged (localeId) {
+  return { type: UI_LOCALE_CHANGED, localeId: localeId }
+}
+
+export const USER_NAME_UPDATED = 'USER_NAME_UPDATED'
+
+export function userNameUpdated (name) {
+  return { type: USER_NAME_UPDATED, name: name }
+}
+
+export const UI_LOCALES_CHANGED = 'UI_LOCALES_CHANGED'
+
+/**
+ * locales: object with localeId as key, locale object as value
+ *          locale object is { id, name }
+ */
+export function uiLocalesChanged (locales) {
+  return { type: UI_LOCALES_CHANGED, locales: locales }
+}
+
+export const PROJECT_SLUG_CHANGED = 'PROJECT_SLUG_CHANGED'
+export const VERSION_SLUG_CHANGED = 'VERSION_SLUG_CHANGED'
+
+export function projectSlugChanged (slug) {
+  return { type: PROJECT_SLUG_CHANGED, slug: slug }
+}
+
+export function versionSlugChanged (slug) {
+  return { type: VERSION_SLUG_CHANGED, slug: slug }
+}
+
+export const SELECTED_DOC_CHANGED = 'SELECTED_DOC_CHANGED'
+
+export function selectedDocChanged (docId) {
+  return { type: SELECTED_DOC_CHANGED, doc: docId }
+}
+
+export const SELECTED_LOCALE_CHANGED = 'SELECTED_LOCALE_CHANGED'
+
+export function selectedLocaleChanged (locale) {
+  return { type: SELECTED_LOCALE_CHANGED, locale: locale }
+}
+
+export const PROJECT_VERSION_DOCS_CHANGED = 'PROJECT_VERSION_DOCS_CHANGED'
+
+export function projectVersionDocsChanged (docs) {
+  return { type: PROJECT_VERSION_DOCS_CHANGED, docs: docs }
+}
+
+export const TEXTFLOW_FILTER_UPDATED = 'TEXTFLOW_FILTER_UPDATED'
+
+/**
+ * filter is { approved, translated, needsWork, untranslated }
+ *             with all values being numbers
+ */
+export function textflowFilterUpdated (filter) {
+  return { type: TEXTFLOW_FILTER_UPDATED, filter: filter }
+}
+
+export const PROJECT_VERSION_LOCALES_CHANGED = 'PROJECT_VERSION_LOCALES_CHANGED'
+
+export function projectVersionLocalesChanged (locales) {
+  return { type: PROJECT_VERSION_LOCALES_CHANGED, locales: locales }
+}
+
+export const PAGE_COUNT_CHANGED = 'PAGE_COUNT_CHANGED'
+
+export function pageCountChanged (count) {
+  return { type: PAGE_COUNT_CHANGED, count: count }
+}
+
+export const PAGE_NUMBER_CHANGED = 'PAGE_NUMBER_CHANGED'
+
+export function pageNumberChanged (num) {
+  return { type: PAGE_NUMBER_CHANGED, num: num }
+}
+
+export const PROJECT_NAME_UPDATED = 'PROJECT_NAME_UPDATED'
+
+export function projectNameUpdated (name) {
+  return { type: PROJECT_NAME_UPDATED, name: name }
+}
+
+export const PANEL_VISIBILITY_CHANGED = 'PANEL_VISIBILITY_CHANGED'
+
+/**
+ * panel: string name of panel
+ * visible: bool true if visible
+ */
+export function panelVisibilityChanged (panel, visible) {
+  return { type: PANEL_VISIBILITY_CHANGED, panel: panel, visible: visible }
+}
+
+export const DROPDOWN_CHANGED = 'DROPDOWN_CHANGED'
+
+/**
+ * dropdown is the key of the currently open dropdown
+ */
+export function dropdownChanged (dropdown) {
+  return { type: DROPDOWN_CHANGED, dropdown: dropdown }
+}
+
+export const GETTEXT_CATALOG_CHANGED = 'GETTEXT_CATALOG_CHANGED'
+
+export function gettextCatalogUpdated (gettextCatalog) {
+  return { type: GETTEXT_CATALOG_CHANGED, catalog: gettextCatalog }
+}

@@ -57,11 +57,11 @@ let EditorHeader = React.createClass({
         selectedDoc: React.PropTypes.shape({
           id: React.PropTypes.string.isRequired,
           counts: React.PropTypes.shape({
-            total: React.PropTypes.number.isRequired,
-            approved: React.PropTypes.number.isRequired,
-            translated: React.PropTypes.number.isRequired,
-            needswork: React.PropTypes.number.isRequired,
-            untranslated: React.PropTypes.number.isRequired
+            total: React.PropTypes.number,
+            approved: React.PropTypes.number,
+            translated: React.PropTypes.number,
+            needswork: React.PropTypes.number,
+            untranslated: React.PropTypes.number
           })
         }),
         selectedLocale: React.PropTypes.string
@@ -103,104 +103,12 @@ let EditorHeader = React.createClass({
         // TODO derive this count per page and selected index
         pageNumber: React.PropTypes.number.isRequired,
         // TODO derive this from count per page and length of filtered textflows
-        pageCount: React.PropTypes.number.isRequired
+        pageCount: React.PropTypes.number
       }).isRequired,
       gettextCatalog: React.PropTypes.shape({
         getString: React.PropTypes.func.isRequired
       }).isRequired
     }).isRequired
-
-    // OLD STATE HERE
-    // user: React.PropTypes.shape({
-    //   name: React.PropTypes.string,
-    //   gravatarUrl: React.PropTypes.string,
-    //   dashboardUrl: React.PropTypes.string.isRequired
-    // }),
-
-    // editorContext: React.PropTypes.shape({
-    //   projectSlug: React.PropTypes.string.isRequired,
-    //   versionSlug: React.PropTypes.string.isRequired,
-    //   docId: React.PropTypes.string.isRequired,
-    //   localeId: React.PropTypes.string.isRequired
-    // }),
-
-    // projectName: React.PropTypes.string,
-    // versionPageUrl: React.PropTypes.string,
-    // allDocs: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-
-    // localeName: React.PropTypes.string.isRequired,
-    // locales: React.PropTypes.arrayOf(React.PropTypes.shape({
-    //   localeId: React.PropTypes.string,
-    //   name: React.PropTypes.string
-    // })),
-
-    // uiLocaleName: React.PropTypes.string,
-    // uiLocales: React.PropTypes.arrayOf(React.PropTypes.shape({
-    //   localeId: React.PropTypes.string,
-    //   name: React.PropTypes.string
-    // })).isRequired,
-
-    // changeUiLocale: React.PropTypes.func.isRequired,
-
-    // // takes dropdown key and button
-    // toggleDropdown: React.PropTypes.func.isRequired,
-    // // The key of the currently open dropdown
-    // openDropdown: React.PropTypes.any,
-    // docsDropdownKey: React.PropTypes.any.isRequired,
-    // localeDropdownKey: React.PropTypes.any.isRequired,
-    // uiLocaleDropdownKey: React.PropTypes.any.isRequired,
-
-    // filterStatus: React.PropTypes.shape({
-    //   all: React.PropTypes.bool.isRequired,
-    //   approved: React.PropTypes.bool.isRequired,
-    //   translated: React.PropTypes.bool.isRequired,
-    //   needsWork: React.PropTypes.bool.isRequired,
-    //   untranslated: React.PropTypes.bool.isRequired
-    // }).isRequired,
-
-    // // FIXME stats API gives strings, change those to numbers
-    // //       and remove the string option.
-    // counts: React.PropTypes.shape({
-    //   // TODO better to derive total from the others rather than duplicate
-    //   total: React.PropTypes.oneOfType(
-    //     [React.PropTypes.number, React.PropTypes.string]),
-    //   approved: React.PropTypes.oneOfType(
-    //     [React.PropTypes.number, React.PropTypes.string]),
-    //   translated: React.PropTypes.oneOfType(
-    //     [React.PropTypes.number, React.PropTypes.string]),
-    //   needswork: React.PropTypes.oneOfType(
-    //     [React.PropTypes.number, React.PropTypes.string]),
-    //   untranslated: React.PropTypes.oneOfType(
-    //     [React.PropTypes.number, React.PropTypes.string])
-    // }),
-
-    // // TODO replace with dispatched event
-    // resetFilter: React.PropTypes.func.isRequired,
-
-    // // TODO replace with dispatched event
-    // onFilterChange: React.PropTypes.func.isRequired,
-
-    // // FIXME combine these to an object
-    // pageNumber: React.PropTypes.number.isRequired,
-    // pageCount: React.PropTypes.number,
-    // firstPage: React.PropTypes.func.isRequired,
-    // previousPage: React.PropTypes.func.isRequired,
-    // nextPage: React.PropTypes.func.isRequired,
-    // lastPage: React.PropTypes.func.isRequired,
-
-    // toggleSuggestionPanel: React.PropTypes.func.isRequired,
-    // suggestionsVisible: React.PropTypes.bool.isRequired,
-
-    // toggleKeyboardShortcutsModal: React.PropTypes.func.isRequired,
-
-    // mainNavHidden: React.PropTypes.bool.isRequired,
-    // toggleMainNav: React.PropTypes.func.isRequired,
-
-    // // DO NOT RENAME, the translation string extractor looks specifically
-    // // for gettextCatalog.getString when generating the translation template.
-    // gettextCatalog: React.PropTypes.shape({
-    //   getString: React.PropTypes.func.isRequired
-    // }).isRequired
   },
 
   render: function () {
@@ -209,8 +117,7 @@ let EditorHeader = React.createClass({
 
     let navHeaderProps = pick(this.props, ['actions', 'data', 'ui'])
 
-    let controlsHeaderProps = pick(this.props, ['actions', 'ui',
-      'gettextCatalog'])
+    let controlsHeaderProps = pick(this.props, ['actions', 'ui'])
     controlsHeaderProps.counts = this.props.data.context.selectedDoc.counts
 
     return (

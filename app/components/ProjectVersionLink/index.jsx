@@ -24,6 +24,7 @@ let ProjectVersionLink = React.createClass({
   },
 
   render: function () {
+    // TODO use project slug if name is not defined
     return (
       <a href={this.props.url}
          className="Link--invert Header-item u-inlineBlock">

@@ -41,6 +41,12 @@ let ControlsHeader = React.createClass({
         }).isRequired,
         pageNumber: React.PropTypes.number.isRequired,
         pageCount: React.PropTypes.number
+      }).isRequired,
+
+      // DO NOT RENAME, the translation string extractor looks specifically
+      // for gettextCatalog.getString when generating the translation template.
+      gettextCatalog: React.PropTypes.shape({
+        getString: React.PropTypes.func.isRequired
       }).isRequired
     }).isRequired,
 
@@ -51,24 +57,20 @@ let ControlsHeader = React.createClass({
       translated: React.PropTypes.number,
       needswork: React.PropTypes.number,
       untranslated: React.PropTypes.number
-    }),
-
-    // DO NOT RENAME, the translation string extractor looks specifically
-    // for gettextCatalog.getString when generating the translation template.
-    gettextCatalog: React.PropTypes.shape({
-      getString: React.PropTypes.func.isRequired
-    }).isRequired
+    })
   },
 
   render: function () {
     let textFlowDisplay = this.props.ui.textFlowDisplay
-    let gettextCatalog = this.props.gettextCatalog
+    let gettextCatalog = this.props.ui.gettextCatalog
     let transFilterProps = pick(this.props, ['actions',
-      'counts', 'gettextCatalog'])
+      'counts'])
     transFilterProps.filter = textFlowDisplay.filter
-    let pagerProps = pick(this.props, ['actions', 'gettextCatalog'])
+    transFilterProps.gettextCatalog = gettextCatalog
+    let pagerProps = pick(this.props, ['actions'])
     pagerProps.pageNumber = textFlowDisplay.pageNumber
     pagerProps.pageCount = textFlowDisplay.pageCount
+    pagerProps.gettextCatalog = gettextCatalog
     let navHeaderHidden = !this.props.ui.panels.navHeader.visible
     return (
       <nav className="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
@@ -84,7 +86,9 @@ let ControlsHeader = React.createClass({
             <li className="u-sM-1-8">
               <IconButton
                 icon="suggestions"
-                title={gettextCatalog.getString('Show suggestions panel')}
+                title={this.props.ui.panels.suggestions.visible
+                  ? gettextCatalog.getString('Hide suggestions panel')
+                  : gettextCatalog.getString('Show suggestions panel')}
                 onClick={this.props.actions.toggleSuggestionPanel}
                 active={this.props.ui.panels.suggestions.visible}/>
 
