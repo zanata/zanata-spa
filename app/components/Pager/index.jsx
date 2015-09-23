@@ -1,4 +1,5 @@
 import Icon from 'Icon'
+import React from 'react'
 
 /**
  * Paging buttons and current-page indicator.

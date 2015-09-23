@@ -1,3 +1,5 @@
+import React from 'react'
+
 /**
  * Gravatar icon that links to the dashboard page
  */

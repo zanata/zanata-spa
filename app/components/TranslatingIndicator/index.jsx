@@ -1,4 +1,5 @@
 import Icon from 'Icon'
+import React from 'react'
 
 /**
  * Indicator that shows 'Translating' when the user is

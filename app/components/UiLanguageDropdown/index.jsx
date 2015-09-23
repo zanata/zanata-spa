@@ -1,5 +1,6 @@
 import { values } from 'lodash'
 import Dropdown from 'Dropdown'
+import React from 'react'
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.

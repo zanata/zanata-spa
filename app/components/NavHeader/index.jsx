@@ -4,6 +4,7 @@ import Icon from 'Icon'
 import LanguagesDropdown from 'LanguagesDropdown'
 import ProjectVersionLink from 'ProjectVersionLink'
 import UiLanguageDropdown from 'UiLanguageDropdown'
+import React from 'react'
 
 /**
  * Hideable navigation header across the top of the app.

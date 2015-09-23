@@ -1,5 +1,6 @@
 import { chain } from 'lodash'
 import cx from 'classnames'
+import React from 'react'
 
 /**
  * Bar showing translation progress

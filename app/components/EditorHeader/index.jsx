@@ -3,6 +3,8 @@ import cx from 'classnames'
 import ControlsHeader from 'ControlsHeader'
 import NavHeader from 'NavHeader'
 import ProgressBar from 'ProgressBar'
+import { connect } from 'react-redux'
+import React from 'react'
 
 /**
  * Header for navigation and control of the editor
@@ -225,4 +227,8 @@ let EditorHeader = React.createClass({
   }
 })
 
-export default EditorHeader
+function selector (state) {
+  return state
+}
+
+export default connect(selector)(EditorHeader)

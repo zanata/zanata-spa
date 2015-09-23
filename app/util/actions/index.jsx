@@ -2,8 +2,6 @@
  * Action creators for redux
  */
 
-// Actions from user interactions
-
 export const CHANGE_UI_LOCALE = 'CHANGE_UI_LOCALE'
 export const TOGGLE_DROPDOWN = 'TOGGLE_DROPDOWN'
 export const RESET_FILTER = 'RESET_FILTER'
@@ -68,4 +66,19 @@ export function toggleKeyboardShortcutsModal () {
 
 export function toggleNavigationHeader () {
   return { type: TOGGLE_NAVIGATION_HEADER }
+}
+
+export const TEXTFLOW_COUNTS_UPDATED = 'TEXTFLOW_COUNTS_UPDATED'
+
+/**
+ * counts: number of textflows keyed against each state
+ */
+export function textflowCountsUpdated (counts) {
+  return { type: TEXTFLOW_COUNTS_UPDATED, counts: counts }
+}
+
+export const GRAVATAR_URL_UPDATED = 'GRAVATAR_URL_UPDATED'
+
+export function gravatarUrlUpdated (url) {
+  return { type: GRAVATAR_URL_UPDATED, url: url }
 }

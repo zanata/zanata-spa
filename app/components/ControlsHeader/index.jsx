@@ -4,6 +4,7 @@ import IconButton from 'IconButton'
 import Pager from 'Pager'
 import TranslatingIndicator from 'TranslatingIndicator'
 import TransUnitFilter from 'TransUnitFilter'
+import React from 'react'
 
 /**
  * Header row with editor controls (filtering, paging, etc.)

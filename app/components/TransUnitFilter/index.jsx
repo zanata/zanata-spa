@@ -1,4 +1,5 @@
 import FilterToggle from './FilterToggle.jsx'
+import React from 'react'
 
 /**
  * Panel with controls to filter the list of trans units

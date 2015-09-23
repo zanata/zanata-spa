@@ -1,7 +1,12 @@
 (function () {
   'use strict'
 
+  var React = require('react')
+  var createStore = require('redux').createStore
+  var Provider = require('react-redux').Provider
   var EditorHeader = require('EditorHeader')
+  var mainReducer = require('reducers')
+  var actions = require('actions')
 
   /**
    * @name editor-header
@@ -14,7 +19,27 @@
       restrict: 'E',
       required: ['app', 'editor'],
       link: function (scope, element) {
-        scope.$watch('app.myInfo.gravatarUrl', render)
+        var app = scope.app
+        var editor = scope.editor
+
+        var store = createStore(mainReducer, getInitialState())
+
+        scope.$watch('editor.messageStatistic', function () {
+          store.dispatch(actions.textflowCountsUpdated(
+            _.mapValues(editor.messageStatistic,
+              function (numberString) {
+                return parseInt(numberString, 10)
+              })))
+        }, true)
+
+        // watch Angular scopes and dispatch actions on the store
+        scope.$watch('app.myInfo.gravatarUrl', function () {
+          if (app && app.myInfo) {
+            store.dispatch(actions.gravatarUrlUpdated(
+              app.myInfo.gravatarUrl))
+          }
+        })
+
         scope.$watch('app.myInfo.locale', render)
         scope.$watch('app.myInfo.name', render)
         scope.$watch('app.uiLocaleList', render)
@@ -22,7 +47,6 @@
         scope.$watch('editor.documents', render)
         scope.$watch('editor.filter.status', render, true)
         scope.$watch('editor.locales', render)
-        scope.$watch('editor.messageStatistic', render, true)
         scope.$watch('editor.pageCount()', render)
         scope.$watch('editor.pageNumber()', render)
         scope.$watch('editor.projectInfo', render)
@@ -72,13 +96,11 @@
           }
         }
 
-        function render () {
+        function getInitialState () {
           var app = scope.app
           var editor = scope.editor
-
           var suggestionsVisible = SettingsService.get(
             SettingsService.SETTING.SHOW_SUGGESTIONS)
-
           var props = {
             actions: {
               // changeUiLocale: defined below,
@@ -187,8 +209,17 @@
             }
           }
 
+          return props
+        }
+
+        function render () {
           React.render(
-            React.createElement(EditorHeader, props),
+            React.createElement(Provider, {
+              store: store
+            }, function () {
+              // has to be wrapped in a function, according to redux docs
+              return React.createElement(EditorHeader)
+            }),
             element[0]
           )
         }

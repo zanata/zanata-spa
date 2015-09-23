@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import React from 'react'
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.

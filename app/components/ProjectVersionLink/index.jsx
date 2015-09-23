@@ -1,3 +1,5 @@
+import React from 'react'
+
 /**
  * Link to open the version page.
  * Label is project + version name

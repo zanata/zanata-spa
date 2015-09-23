@@ -1,5 +1,6 @@
 import cx from 'classnames'
 import Icon from 'Icon'
+import React from 'react'
 
 /**
  * Action button with an icon and title.

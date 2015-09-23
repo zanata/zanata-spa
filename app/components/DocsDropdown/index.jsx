@@ -1,6 +1,7 @@
 import { encode } from 'zanata-tools/doc-id'
 import Dropdown from 'Dropdown'
 import Icon from 'Icon'
+import React from 'react'
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.
