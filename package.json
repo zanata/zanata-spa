@@ -72,6 +72,7 @@
     "react-redux": "^2.1.2",
     "redux": "^3.0.0",
     "redux-devtools": "^2.1.2",
+    "redux-thunk": "^1.0.0",
     "rework-calc": "^1.0.0",
     "rework-color-function": "^1.0.0",
     "rework-custom-media": "^0.1.0",

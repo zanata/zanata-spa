@@ -29,44 +29,49 @@ export const TOGGLE_SUGGESTION_PANEL = 'TOGGLE_SUGGESTION_PANEL'
 export const TOGGLE_KEYBOARD_SHORTCUTS_MODAL = 'TOGGLE_KEYBOARD_SHORTCUTS_MODAL'
 export const TOGGLE_NAVIGATION_HEADER = 'TOGGLE_NAVIGATION_HEADER'
 
-export function changeUiLocale (locale) {
-  return { type: CHANGE_UI_LOCALE, locale: locale }
-}
+// TODO these action creators need access to Angular scope.
+//      when they no longer require it, they should be moved out
+//      of the angular directive and into here or other non-angular
+//      files.
 
-export function toggleDropdown (dropdownKey) {
-  return { type: TOGGLE_DROPDOWN, key: dropdownKey }
-}
+// export function changeUiLocale (locale) {
+//   return { type: CHANGE_UI_LOCALE, locale: locale }
+// }
 
-export function resetFilter () {
-  return { type: RESET_FILTER }
-}
+// export function toggleDropdown (dropdownKey) {
+//   return { type: TOGGLE_DROPDOWN, key: dropdownKey }
+// }
 
-// FIXME at the moment this toggles the state in Angular,
-//       might want to use the boolean from onChange to set
-//       instead.
-export function changeFilter (state) {
-  return { type: CHANGE_FILTER, state: state }
-}
+// export function resetFilter () {
+//   return { type: RESET_FILTER }
+// }
 
-/**
- * page must be one of Pages
- */
-export function changePage (page) {
-  // TODO verify that page is in Pages?
-  return { type: CHANGE_PAGE, page: page }
-}
+// // FIXME at the moment this toggles the state in Angular,
+// //       might want to use the boolean from onChange to set
+// //       instead.
+// export function changeFilter (state) {
+//   return { type: CHANGE_FILTER, state: state }
+// }
 
-export function toggleSuggestionPanel () {
-  return { type: TOGGLE_SUGGESTION_PANEL }
-}
+// /**
+//  * page must be one of Pages
+//  */
+// export function changePage (page) {
+//   // TODO verify that page is in Pages?
+//   return { type: CHANGE_PAGE, page: page }
+// }
 
-export function toggleKeyboardShortcutsModal () {
-  return { type: TOGGLE_KEYBOARD_SHORTCUTS_MODAL }
-}
+// export function toggleSuggestionPanel () {
+//   return { type: TOGGLE_SUGGESTION_PANEL }
+// }
 
-export function toggleNavigationHeader () {
-  return { type: TOGGLE_NAVIGATION_HEADER }
-}
+// export function toggleKeyboardShortcutsModal () {
+//   return { type: TOGGLE_KEYBOARD_SHORTCUTS_MODAL }
+// }
+
+// export function toggleNavigationHeader () {
+//   return { type: TOGGLE_NAVIGATION_HEADER }
+// }
 
 export const TEXTFLOW_COUNTS_UPDATED = 'TEXTFLOW_COUNTS_UPDATED'
 

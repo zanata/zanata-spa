@@ -2,7 +2,10 @@
   'use strict'
 
   var React = require('react')
-  var createStore = require('redux').createStore
+  var redux = require('redux')
+  var createStore = redux.createStore
+  var applyMiddleware = redux.applyMiddleware
+  var thunk = require('redux-thunk')
   var Provider = require('react-redux').Provider
   var EditorHeader = require('EditorHeader')
   var mainReducer = require('reducers')
@@ -42,7 +45,8 @@
         var app = scope.app
         var editor = scope.editor
 
-        var store = createStore(mainReducer, getInitialState())
+        var createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
+        var store = createStoreWithMiddleware(mainReducer, getInitialState())
 
         scope.$watch('editor.messageStatistic', function () {
           store.dispatch(textflowCountsUpdated(
