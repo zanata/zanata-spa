@@ -5,6 +5,7 @@ import LanguagesDropdown from 'LanguagesDropdown'
 import ProjectVersionLink from 'ProjectVersionLink'
 import UiLanguageDropdown from 'UiLanguageDropdown'
 import React from 'react'
+import { connect } from 'react-redux'
 
 /**
  * Hideable navigation header across the top of the app.
@@ -121,4 +122,8 @@ let NavHeader = React.createClass({
   }
 })
 
-export default NavHeader
+function selector (state) {
+  return state
+}
+
+export default connect(selector)(NavHeader)

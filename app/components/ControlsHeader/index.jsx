@@ -5,6 +5,7 @@ import Pager from 'Pager'
 import TranslatingIndicator from 'TranslatingIndicator'
 import TransUnitFilter from 'TransUnitFilter'
 import React from 'react'
+import { connect } from 'react-redux'
 
 /**
  * Header row with editor controls (filtering, paging, etc.)
@@ -132,4 +133,10 @@ let ControlsHeader = React.createClass({
   }
 })
 
-export default ControlsHeader
+function selector (state) {
+  let props = pick(state, ['actions', 'ui'])
+  props.counts = state.data.context.selectedDoc.counts
+  return props
+}
+
+export default connect(selector)(ControlsHeader)
