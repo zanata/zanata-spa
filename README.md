@@ -25,6 +25,11 @@ Build and run server and API server: `npm run fakewatch`.
    [localhost:7878/zanata/rest](http://localhost:7878/zanata/rest)
 
 
+## Running tests
+
+Run tests with `make test` or `npm test` (they do exactly the same thing).
+
+
 ## Code Guidelines
 
 ### Javascript/Angular
