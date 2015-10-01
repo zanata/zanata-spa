@@ -31,6 +31,5 @@ test('ProgressBar markup', function ProgressBarMarkup (t) {
   )
 
   t.isSameMarkup(actual, expected)
-
   t.end()
 })
