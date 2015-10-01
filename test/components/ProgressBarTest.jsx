@@ -11,9 +11,7 @@ test('ProgressBar markup', function ProgressBarMarkup (t) {
     untranslated: 40
   }
 
-  const actual = (
-    <ProgressBar size="small" counts={counts}/>
-  )
+  const actual = <ProgressBar size="small" counts={counts}/>
 
   const expected = (
     <div className="Progressbar Progressbar--sm">
