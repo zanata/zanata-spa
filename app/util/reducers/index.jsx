@@ -1,5 +1,5 @@
 
-import { merge, isArray } from 'lodash'
+import React from 'react/addons'
 import {
   DROPDOWN_CHANGED,
   GETTEXT_CATALOG_CHANGED,
@@ -25,78 +25,64 @@ import {
 export default function (state, action) {
   switch (action.type) {
     case GRAVATAR_URL_UPDATED:
-      return updateState({ data: { user: { gravatarUrl: action.url } } })
+      return update({data: {user: {gravatarUrl: {$set: action.url}}}})
     case USER_NAME_UPDATED:
-      return updateState({ data: { user: { name: action.name } } })
+      return update({data: {user: {name: {$set: action.name}}}})
     case PROJECT_SLUG_CHANGED:
-      return updateState({ data: {
-        context: { projectVersion: { project: { slug: action.slug } } }
-      } })
+      return update({data:
+        {context: {projectVersion: {project: {slug: {$set: action.slug}}}}}
+      })
     case PROJECT_NAME_UPDATED:
-      return updateState({ data: {
-        context: { projectVersion: { project: { name: action.name } } }
-      } })
+      return update({data: {
+        context: {projectVersion: {project: {name: {$set: action.name}}}}
+      }})
     case VERSION_SLUG_CHANGED:
-      return updateState({
-        data: { context: { projectVersion: { version: action.slug } } }
+      return update({
+        data: {context: {projectVersion: {version: {$set: action.slug}}}}
       })
     case PROJECT_VERSION_DOCS_CHANGED:
-      return updateState({
-        data: { context: { projectVersion: { docs: action.docs } } }
+      return update({
+        data: {context: {projectVersion: {docs: {$set: action.docs}}}}
       })
     case PROJECT_VERSION_LOCALES_CHANGED:
-      return updateState({
-        data: { context: { projectVersion: { locales: action.locales } } }
+      return update({
+        data: {context: {projectVersion: {locales: {$set: action.locales}}}}
       })
     case SELECTED_DOC_CHANGED:
-      return updateState({
-        data: { context: { selectedDoc: { id: action.doc } } }
-      })
+      return update({data: {context: {selectedDoc: {id: {$set: action.doc}}}}})
     case TEXTFLOW_COUNTS_UPDATED:
-      return updateState({
-        data: { context: { selectedDoc: { counts: action.counts } } }
+      return update({
+        data: {context: {selectedDoc: {counts: {$set: action.counts}}}}
       })
     case SELECTED_LOCALE_CHANGED:
-      return updateState({
-        data: { context: { selectedLocale: action.locale } }
-      })
+      return update({data: {context: {selectedLocale: {$set: action.locale}}}})
     case UI_LOCALE_CHANGED:
-      return updateState({ ui: { selectedUiLocale: action.localeId } })
+      return update({ui: {selectedUiLocale: {$set: action.localeId}}})
     case UI_LOCALES_CHANGED:
-      return updateState({ ui: { uiLocales: action.locales } })
+      return update({ui: {uiLocales: {$set: action.locales}}})
     case TEXTFLOW_FILTER_UPDATED:
-      return updateState({ ui: { textFlowDisplay: { filter: action.filter } } })
+      return update({ui: {textFlowDisplay: {filter: {$set: action.filter}}}})
     case PAGE_COUNT_CHANGED:
-      return updateState({
-        ui: { textFlowDisplay: { pageCount: action.count } }
-      })
+      return update({ui: {textFlowDisplay: {pageCount: {$set: action.count}}}})
     case PAGE_NUMBER_CHANGED:
-      return updateState({
-        ui: { textFlowDisplay: { pageNumber: action.num } }
-      })
+      return update({ui: {textFlowDisplay: {pageNumber: {$set: action.num}}}})
     case PANEL_VISIBILITY_CHANGED:
       // TODO ensure panel is a known one
-      return updateState({
-        ui: { panels: { [action.panel]: { visible: action.visible } } }
+      return update({
+        ui: {panels: {[action.panel]: {visible: {$set: action.visible}}}}
       })
     case DROPDOWN_CHANGED:
-      return updateState({ ui: { dropdowns: { current: action.dropdown } } })
+      return update({ui: {dropdowns: {current: {$set: action.dropdown}}}})
     case GETTEXT_CATALOG_CHANGED:
-      return updateState({ ui: { gettextCatalog: action.catalog } })
+      return update({ui: {gettextCatalog: {$set: action.catalog}}})
     default:
       return state
   }
 
-  /**
-   * return a copy of the state with the given changes deeply merged into it
-   * arrays will always replace existing arrays, rather than combine them
-   */
-  function updateState (changes) {
-    return merge({}, state, changes, function (oldVal, newVal) {
-      if (isArray(oldVal)) {
-        return newVal
-      }
-      // undefined causes default merge behaviour
-    })
+  function update (commands) {
+    // FIXME update to version that does not lose reference equality when
+    //       setting an identical object
+    //       see: https://github.com/facebook/react/pull/4968
+    return React.addons.update(state, commands)
   }
 }
