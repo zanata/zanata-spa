@@ -1,6 +1,6 @@
-import { encode } from 'zanata-tools/doc-id'
-import Dropdown from 'Dropdown'
-import Icon from 'Icon'
+import { encode } from '../../util/zanata-tools/doc-id'
+import Dropdown from '../Dropdown'
+import Icon from '../Icon'
 import React from 'react'
 
 /**
@@ -14,7 +14,8 @@ let DocsDropdown = React.createClass({
         project: React.PropTypes.shape({
           slug: React.PropTypes.string.isRequired
         }).isRequired,
-        version: React.PropTypes.string.isRequired
+        version: React.PropTypes.string.isRequired,
+        docs: React.PropTypes.arrayOf(React.PropTypes.string)
       }).isRequired,
       selectedDoc: React.PropTypes.shape({
         id: React.PropTypes.string.isRequired
