@@ -97,6 +97,4 @@ Dropdown.Content = React.createClass({
   }
 })
 
-window.dropdownbutton = Dropdown.Button
-
 export default Dropdown
