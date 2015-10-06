@@ -5,7 +5,7 @@ import Icon from '../Icon'
 import React from 'react'
 
 /**
- * Dropdown component that wraps a toggle button and some content to toggle.
+ * Dropdown to select the current language to translate to.
  */
 let LanguagesDropdown = React.createClass({
 

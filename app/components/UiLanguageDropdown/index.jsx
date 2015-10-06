@@ -1,9 +1,9 @@
 import { values } from 'lodash'
-import Dropdown from 'Dropdown'
+import Dropdown from '../Dropdown'
 import React from 'react'
 
 /**
- * Dropdown component that wraps a toggle button and some content to toggle.
+ * Dropdown to select the language to display the user interface in.
  */
 let UiLanguageDropdown = React.createClass({
 

@@ -3,7 +3,6 @@ import LanguagesDropdown from '../../app/components/LanguagesDropdown'
 import Dropdown from '../../app/components/Dropdown'
 import Icon from '../../app/components/Icon'
 import test from 'retap'
-import { map } from 'lodash'
 
 test('LanguagesDropdown markup', function LanguagesDropdownMarkup (t) {
   const awayEreBreakOfDay = () => {}
