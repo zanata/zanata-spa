@@ -1,7 +1,7 @@
 import { values } from 'lodash'
-import { encode } from 'zanata-tools/doc-id'
-import Dropdown from 'Dropdown'
-import Icon from 'Icon'
+import { encode } from '../../util/zanata-tools/doc-id'
+import Dropdown from '../Dropdown'
+import Icon from '../Icon'
 import React from 'react'
 
 /**
