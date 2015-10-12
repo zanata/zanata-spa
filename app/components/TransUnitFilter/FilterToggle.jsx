@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import Icon from 'Icon'
+import Icon from '../Icon'
 import React from 'react'
 
 /**
