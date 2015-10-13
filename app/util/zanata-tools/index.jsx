@@ -1,5 +1,5 @@
 /**
- * Utility functions to help interactions with Zanata a server.
+ * Utility functions to help interactions with a Zanata server.
  *
  * Can access the tool modules in 3 ways
  *
