@@ -1,12 +1,17 @@
 import FilterToggle from './FilterToggle.jsx'
+import React from 'react'
 
 /**
  * Panel with controls to filter the list of trans units
  */
 let TransUnitFilter = React.createClass({
-
   propTypes: {
-    filterStatus: React.PropTypes.shape({
+    actions: React.PropTypes.shape({
+      resetFilter: React.PropTypes.func.isRequired,
+      onFilterChange: React.PropTypes.func.isRequired
+    }).isRequired,
+
+    filter: React.PropTypes.shape({
       all: React.PropTypes.bool.isRequired,
       approved: React.PropTypes.bool.isRequired,
       translated: React.PropTypes.bool.isRequired,
@@ -30,12 +35,6 @@ let TransUnitFilter = React.createClass({
         [React.PropTypes.number, React.PropTypes.string])
     }).isRequired,
 
-    // TODO replace with dispatched event
-    resetFilter: React.PropTypes.func.isRequired,
-
-    // TODO replace with dispatched event
-    onFilterChange: React.PropTypes.func.isRequired,
-
     // DO NOT RENAME, the translation string extractor looks specifically
     // for gettextCatalog.getString when generating the translation template.
     gettextCatalog: React.PropTypes.shape({
@@ -56,15 +55,19 @@ let TransUnitFilter = React.createClass({
   },
 
   render: function () {
+    let actions = this.props.actions
+    let onFilterChange = actions.onFilterChange
+    let gettextCatalog = this.props.gettextCatalog
+
     return (
       <ul className="u-listHorizontal u-sizeHeight-1">
         <li className="u-sm-hidden u-sMV-1-4">
           <FilterToggle
             id="filter-phrases-total"
             className="u-textSecondary"
-            isChecked={this.props.filterStatus.all}
-            onChange={this.props.resetFilter}
-            title={this.props.gettextCatalog.getString('Total Phrases')}
+            isChecked={this.props.filter.all}
+            onChange={actions.resetFilter}
+            title={gettextCatalog.getString('Total Phrases')}
             count={this.props.counts.total}
             withDot={false}/>
         </li>
@@ -72,36 +75,36 @@ let TransUnitFilter = React.createClass({
           <FilterToggle
             id="filter-phrases-approved"
             className="u-textHighlight"
-            isChecked={this.props.filterStatus.approved}
-            onChange={this.props.onFilterChange.bind(undefined, 'approved')}
-            title={this.props.gettextCatalog.getString('Approved')}
+            isChecked={this.props.filter.approved}
+            onChange={onFilterChange.bind(undefined, 'approved')}
+            title={gettextCatalog.getString('Approved')}
             count={this.props.counts.approved}/>
         </li>
         <li className="u-ltemd-hidden u-sMV-1-4">
           <FilterToggle
             id="filter-phrases-translated"
             className="u-textSuccess"
-            isChecked={this.props.filterStatus.translated}
-            onChange={this.props.onFilterChange.bind(undefined, 'translated')}
-            title={this.props.gettextCatalog.getString('Translated')}
+            isChecked={this.props.filter.translated}
+            onChange={onFilterChange.bind(undefined, 'translated')}
+            title={gettextCatalog.getString('Translated')}
             count={this.props.counts.translated}/>
         </li>
         <li className="u-ltemd-hidden u-sMV-1-4">
           <FilterToggle
             id="filter-phrases-needs-work"
             className="u-textUnsure"
-            isChecked={this.props.filterStatus.needsWork}
-            onChange={this.props.onFilterChange.bind(undefined, 'needsWork')}
-            title={this.props.gettextCatalog.getString('Needs Work')}
+            isChecked={this.props.filter.needsWork}
+            onChange={onFilterChange.bind(undefined, 'needsWork')}
+            title={gettextCatalog.getString('Needs Work')}
             count={this.props.counts.needswork}/>
         </li>
         <li className="u-ltemd-hidden u-sMV-1-4">
           <FilterToggle
             id="filter-phrases-untranslated"
             className="u-textNeutral"
-            isChecked={this.props.filterStatus.untranslated}
-            onChange={this.props.onFilterChange.bind(undefined, 'untranslated')}
-            title={this.props.gettextCatalog.getString('Untranslated')}
+            isChecked={this.props.filter.untranslated}
+            onChange={onFilterChange.bind(undefined, 'untranslated')}
+            title={gettextCatalog.getString('Untranslated')}
             count={this.props.counts.untranslated}/>
         </li>
   {/* A couple of parts of the Angular template that were not being used yet

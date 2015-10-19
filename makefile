@@ -27,7 +27,10 @@ fakeserver:
 fakewatch:
 	${MAKE} -j2 watch fakeserver
 
+test:
+	npm test
+
 build:
 	NODE_ENV=production gulp build
 
-.PHONY: build
+.PHONY: test build

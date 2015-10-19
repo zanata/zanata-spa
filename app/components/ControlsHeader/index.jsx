@@ -1,8 +1,11 @@
+import { pick } from 'lodash'
 import cx from 'classnames'
 import IconButton from 'IconButton'
 import Pager from 'Pager'
 import TranslatingIndicator from 'TranslatingIndicator'
 import TransUnitFilter from 'TransUnitFilter'
+import React from 'react'
+import { connect } from 'react-redux'
 
 /**
  * Header row with editor controls (filtering, paging, etc.)
@@ -10,66 +13,66 @@ import TransUnitFilter from 'TransUnitFilter'
 let ControlsHeader = React.createClass({
 
   propTypes: {
-    filterStatus: React.PropTypes.shape({
-      all: React.PropTypes.bool.isRequired,
-      approved: React.PropTypes.bool.isRequired,
-      translated: React.PropTypes.bool.isRequired,
-      needsWork: React.PropTypes.bool.isRequired,
-      untranslated: React.PropTypes.bool.isRequired
+    actions: React.PropTypes.shape({
+      resetFilter: React.PropTypes.func.isRequired,
+      onFilterChange: React.PropTypes.func.isRequired,
+      firstPage: React.PropTypes.func.isRequired,
+      previousPage: React.PropTypes.func.isRequired,
+      nextPage: React.PropTypes.func.isRequired,
+      lastPage: React.PropTypes.func.isRequired,
+      toggleSuggestionPanel: React.PropTypes.func.isRequired,
+      toggleKeyboardShortcutsModal: React.PropTypes.func.isRequired,
+      toggleMainNav: React.PropTypes.func.isRequired
     }).isRequired,
 
-    // FIXME stats API gives strings, change those to numbers
-    //       and remove the string option.
+    ui: React.PropTypes.shape({
+      panels: React.PropTypes.shape({
+        suggestions: React.PropTypes.shape({
+          visible: React.PropTypes.bool.isRequired
+        }).isRequired
+      }).isRequired,
+      textFlowDisplay: React.PropTypes.shape({
+        filter: React.PropTypes.shape({
+          // FIXME should be able to derive this from the other 4
+          all: React.PropTypes.bool.isRequired,
+          approved: React.PropTypes.bool.isRequired,
+          translated: React.PropTypes.bool.isRequired,
+          needsWork: React.PropTypes.bool.isRequired,
+          untranslated: React.PropTypes.bool.isRequired
+        }).isRequired,
+        pageNumber: React.PropTypes.number.isRequired,
+        pageCount: React.PropTypes.number
+      }).isRequired,
+
+      // DO NOT RENAME, the translation string extractor looks specifically
+      // for gettextCatalog.getString when generating the translation template.
+      gettextCatalog: React.PropTypes.shape({
+        getString: React.PropTypes.func.isRequired
+      }).isRequired
+    }).isRequired,
+
     counts: React.PropTypes.shape({
       // TODO better to derive total from the others rather than duplicate
-      total: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      approved: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      translated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      needswork: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      untranslated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string])
-    }),
-
-    // TODO replace with dispatched event
-    resetFilter: React.PropTypes.func.isRequired,
-
-    // TODO replace with dispatched event
-    onFilterChange: React.PropTypes.func.isRequired,
-
-    // FIXME combine these to an object
-    pageNumber: React.PropTypes.number.isRequired,
-    pageCount: React.PropTypes.number,
-    firstPage: React.PropTypes.func.isRequired,
-    previousPage: React.PropTypes.func.isRequired,
-    nextPage: React.PropTypes.func.isRequired,
-    lastPage: React.PropTypes.func.isRequired,
-
-    toggleSuggestionPanel: React.PropTypes.func.isRequired,
-    suggestionsVisible: React.PropTypes.bool.isRequired,
-
-    toggleKeyboardShortcutsModal: React.PropTypes.func.isRequired,
-
-    mainNavHidden: React.PropTypes.bool.isRequired,
-    toggleMainNav: React.PropTypes.func.isRequired,
-
-    // DO NOT RENAME, the translation string extractor looks specifically
-    // for gettextCatalog.getString when generating the translation template.
-    gettextCatalog: React.PropTypes.shape({
-      getString: React.PropTypes.func.isRequired
-    }).isRequired
+      total: React.PropTypes.number,
+      approved: React.PropTypes.number,
+      translated: React.PropTypes.number,
+      needswork: React.PropTypes.number,
+      untranslated: React.PropTypes.number
+    })
   },
 
   render: function () {
-    let gettextCatalog = this.props.gettextCatalog
-    let transFilterProps = _.pick(this.props, ['filterStatus', 'counts',
-      'resetFilter', 'onFilterChange', 'gettextCatalog'])
-
-    let pagerProps = _.pick(this.props, ['pageNumber', 'pageCount',
-      'firstPage', 'previousPage', 'nextPage', 'lastPage', 'gettextCatalog'])
+    let textFlowDisplay = this.props.ui.textFlowDisplay
+    let gettextCatalog = this.props.ui.gettextCatalog
+    let transFilterProps = pick(this.props, ['actions',
+      'counts'])
+    transFilterProps.filter = textFlowDisplay.filter
+    transFilterProps.gettextCatalog = gettextCatalog
+    let pagerProps = pick(this.props, ['actions'])
+    pagerProps.pageNumber = textFlowDisplay.pageNumber
+    pagerProps.pageCount = textFlowDisplay.pageCount
+    pagerProps.gettextCatalog = gettextCatalog
+    let navHeaderHidden = !this.props.ui.panels.navHeader.visible
     return (
       <nav className="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
         <TranslatingIndicator gettextCatalog={gettextCatalog}/>
@@ -84,9 +87,11 @@ let ControlsHeader = React.createClass({
             <li className="u-sM-1-8">
               <IconButton
                 icon="suggestions"
-                title={gettextCatalog.getString('Show suggestions panel')}
-                onClick={this.props.toggleSuggestionPanel}
-                active={this.props.suggestionsVisible}/>
+                title={this.props.ui.panels.suggestions.visible
+                  ? gettextCatalog.getString('Hide suggestions panel')
+                  : gettextCatalog.getString('Show suggestions panel')}
+                onClick={this.props.actions.toggleSuggestionPanel}
+                active={this.props.ui.panels.suggestions.visible}/>
 
             </li>
       {/* extra items from the angular template that were not being displayed
@@ -109,17 +114,17 @@ let ControlsHeader = React.createClass({
               <IconButton
                 icon="keyboard"
                 title={gettextCatalog.getString('Keyboard Shortcuts')}
-                onClick={this.props.toggleKeyboardShortcutsModal}/>
+                onClick={this.props.actions.toggleKeyboardShortcutsModal}/>
             </li>
             <li className="u-sM-1-8">
               <IconButton
                 icon="chevron-up-double"
-                title={this.props.mainNavHidden
+                title={navHeaderHidden
                   ? gettextCatalog.getString('Show Menubar')
                   : gettextCatalog.getString('Hide Menubar')}
-                onClick={this.props.toggleMainNav}
-                active={this.props.mainNavHidden}
-                className={cx({'is-rotated': this.props.mainNavHidden})}/>
+                onClick={this.props.actions.toggleMainNav}
+                active={navHeaderHidden}
+                className={cx({'is-rotated': navHeaderHidden})}/>
             </li>
           </ul>
         </div>
@@ -128,4 +133,10 @@ let ControlsHeader = React.createClass({
   }
 })
 
-export default ControlsHeader
+function selector (state) {
+  let props = pick(state, ['actions', 'ui'])
+  props.counts = state.data.context.selectedDoc.counts
+  return props
+}
+
+export default connect(selector)(ControlsHeader)

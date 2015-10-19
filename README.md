@@ -12,6 +12,9 @@
 Build and run a server: `npm run watch`.
 
  - Editor is available at [localhost:8000](http://localhost:8000)
+   - the editor will be blank at the base URL, include the project-version to
+     show content. The format is
+     localhost:8000/#/{project-slug}/{version-slug}/translate
  - Assumes a server is already serving the Zanata REST API.
 
 
@@ -23,6 +26,11 @@ Build and run server and API server: `npm run fakewatch`.
    - URL for a working document from the default API server [Tiny Project 1, hello.txt to French](http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr)
  - REST API server is available at
    [localhost:7878/zanata/rest](http://localhost:7878/zanata/rest)
+
+
+## Running tests
+
+Run tests with `make test` or `npm test` (they do exactly the same thing).
 
 
 ## Code Guidelines

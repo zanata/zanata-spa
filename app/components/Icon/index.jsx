@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import React from 'react'
 
 /**
  * Icon component, usually renders an svg icon

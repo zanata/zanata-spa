@@ -25,6 +25,10 @@ msgid "Hide Menubar"
 msgstr ""
 
 #: app/components/ControlsHeader/index.js
+msgid "Hide suggestions panel"
+msgstr ""
+
+#: app/components/ControlsHeader/index.js
 #: app/editor/editor.html
 msgid "Keyboard Shortcuts"
 msgstr ""

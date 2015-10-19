@@ -1,5 +1,6 @@
 import cx from 'classnames'
-import Icon from 'Icon'
+import Icon from '../Icon'
+import React from 'react'
 
 /**
  * Styled checkbox to toggle a filter option on and off.
