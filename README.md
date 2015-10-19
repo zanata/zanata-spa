@@ -12,6 +12,9 @@
 Build and run a server: `npm run watch`.
 
  - Editor is available at [localhost:8000](http://localhost:8000)
+   - the editor will be blank at the base URL, include the project-version to
+     show content. The format is
+     localhost:8000/#/{project-slug}/{version-slug}/translate
  - Assumes a server is already serving the Zanata REST API.
 
 
