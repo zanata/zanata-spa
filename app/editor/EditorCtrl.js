@@ -13,19 +13,20 @@
     editorCtrl.pageNumber = 1
     editorCtrl.showCheatsheet = false
     editorCtrl.shortcuts = _.mapValues(
-      _.values(EditorShortcuts.SHORTCUTS), function (shortcutInfo) {
-        var keyCombos = _.chain(shortcutInfo.keyCombos)
-          .pluck('combo')
-          // second combo (secondary keys) is an array. We have to flatten it
-          .flatten()
-          .value()
-        return {
-          combos: _.map(keyCombos, function (key) {
-            return EditorShortcuts.symbolizeKey(key)
-          }),
-          description: shortcutInfo.keyCombos[0].description
-        }
-      })
+      _.values(EditorShortcuts.SHORTCUTS),
+        function (shortcutInfo) {
+          var keyCombos = _.chain(shortcutInfo.keyCombos)
+            .pluck('combo')
+            // second combo (secondary keys) is an array. We have to flatten it
+            .flatten()
+            .value()
+          return {
+            combos: _.map(keyCombos, function (key) {
+              return EditorShortcuts.symbolizeKey(key)
+            }),
+            description: shortcutInfo.keyCombos[0].description
+          }
+        })
 
     // tu status to include for display
     editorCtrl.filter = {
@@ -306,14 +307,14 @@
     function loadStatistic (projectSlug, versionSlug, docId, localeId) {
       DocumentService.getStatistics(projectSlug, versionSlug, docId, localeId)
         .then(function (statistics) {
-            editorCtrl.wordStatistic = StatisticUtil
-              .getWordStatistic(statistics)
-            editorCtrl.messageStatistic = StatisticUtil
-              .getMsgStatistic(statistics)
-          },
-          function (error) {
-            MessageHandler.displayError('Error loading statistic: ' + error)
-          })
+          editorCtrl.wordStatistic = StatisticUtil
+            .getWordStatistic(statistics)
+          editorCtrl.messageStatistic = StatisticUtil
+            .getMsgStatistic(statistics)
+        },
+        function (error) {
+          MessageHandler.displayError('Error loading statistic: ' + error)
+        })
     }
 
     this.settings = UserService.settings.editor

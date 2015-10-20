@@ -78,7 +78,8 @@
           appCtrl.myInfo.locale = LocaleService.DEFAULT_LOCALE
           appCtrl.myInfo.gravatarUrl = UrlService.gravatarUrl(
             appCtrl.myInfo.gravatarHash, 72)
-        }, function (error) {
+        },
+        function (error) {
           MessageHandler.displayError('Error loading my info: ' + error)
         })
     }
