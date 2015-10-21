@@ -1,4 +1,4 @@
-(function () {
+module.exports = function () {
   'use strict'
 
   var React = require('react')
@@ -343,4 +343,4 @@
   angular
     .module('app')
     .directive('editorHeader', editorHeader)
-})()
+}

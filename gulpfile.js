@@ -114,8 +114,9 @@ gulp.task('lint-jsx-watch', ['lint-jsx'], function () {
   gulp.watch('./react.eslintrc', ['lint-jsx']);
 });
 
+gulp.task('js', ['lint-jsx'], function () {
+  // FIXME linting not running on the directives for React
 
-gulp.task('js', ['lint-jsx'], function(){
   // compile and bundle the tree of React components
   // to pass in with other js
   // TODO get this to run through sourcemaps
@@ -137,13 +138,12 @@ gulp.task('js', ['lint-jsx'], function(){
         modulesDirectories: ['node_modules', 'components', 'util'],
         extensions: paths.webpack.moduleExtensions
       }
-    }));
-
+    }))
 
   var js = gulp.src(paths.js.app)
     .pipe(eslint('./.eslintrc'))
     // output formatted lint results to console
-    .pipe(eslint.format());
+    .pipe(eslint.format())
 
   return merge(js, bundledReact)
     .pipe(plumber({errorHandler: notifyError}))
@@ -157,8 +157,8 @@ gulp.task('js', ['lint-jsx'], function(){
     .pipe(gulpif(env === 'production', uglify()))
     // Sourcemaps end
     .pipe(sourcemaps.write('../maps'))
-    .pipe(gulp.dest(paths.build + '/js'));
-});
+    .pipe(gulp.dest(paths.build + '/js'))
+})
 
 gulp.task('modernize', ['bowerMain'], function() {
   return gulp.src(paths.modernizr.src)
@@ -359,9 +359,10 @@ gulp.task('serve', ['webserver']);
 
 gulp.task('watch', ['serve'], function(){
   gulp.watch(paths.js.bower, ['jsBower']);
-  gulp.watch(paths.js.app, ['js']);
-  gulp.watch(paths.jsx, ['js']);
-  gulp.watch(paths.webpack.entry, ['js']);
+  gulp.watch(paths.js.app, ['js'])
+  gulp.watch(paths.jsx, ['js'])
+  gulp.watch(paths.webpack.entry, ['js'])
+  gulp.watch(paths.webpack.topLevel, ['js'])
   gulp.watch(paths.css.bower, ['cssBower']);
   gulp.watch(paths.css.all, ['css']);
   gulp.watch(paths.templates, ['templates', 'translations']);

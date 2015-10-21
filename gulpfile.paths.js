@@ -30,31 +30,37 @@ paths.images = {
   bower: paths.bower + '/**/img/**/*'
 };
 
-
-
 paths.webpack = {
   // entry point(s) for webpack build
-  entry: paths.app + '/**/editorHeaderDirective.js',
+  entry: paths.app + '/**/reactComponentDirectives.js',
+  // top-level directives that are imported and should also be watched
+  topLevel: [
+    paths.app + '/**/editorHeaderDirective.js',
+    paths.app + '/**/suggestionHeaderDirective.js'
+  ],
   // where to search for imported modules, must be absolute path
   modules: __dirname + '/app/components',
   // extensions that are considered modules by webpack
   // (empty string is needed for when the extension is given when importing)
   moduleExtensions: ['', '.js', '.jsx']
-};
+}
 
 paths.js = {
   app: [
     paths.app + '/app.js',
     paths.app + '/**/*.js',
     // compiled to bundle by webpack, so exclude
-    '!' + paths.webpack.entry
+    '!' + paths.webpack.entry,
+    '!' + paths.app + '/**/editorHeaderDirective.js',
+    '!' + paths.app + '/**/suggestionHeaderDirective.js'
   ],
   bower: [
     paths.bower + '/**/angular.js',
     paths.bower + '/**/*.js'
   ]
-};
-paths.jsx = paths.app + '/**/*.jsx';
+}
+
+paths.jsx = paths.app + '/**/*.jsx'
 
 paths.modernizr = {
   src: paths.bower + '/modernizr/modernizr.js',
