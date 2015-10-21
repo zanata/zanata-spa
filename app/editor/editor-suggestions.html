@@ -16,33 +16,7 @@
         Suggestions
     </h2>
     <div class="u-floatRight">
-      <ul class="u-listHorizontal u-textCenter">
-        <!-- <li class="u-smv-1-4">
-          <a class="Link--neutral u-sizeHeight-1_1-2"
-            title="Auto-fill" ng-click="suggestions.toggleAutofill()">
-            (switch icon)
-            Auto-fill
-          </a>
-        </li> -->
-        <li class="u-sM-1-4">
-          <span class="Switch">
-            <suggestion-header>
-          </span>
-        </li>
-        <li class="u-sM-1-8">
-          <button class="Button Button--snug Button--invisible u-roundish" title="Search suggestions"
-            ng-class="{'is-active': search.isVisible, 'is-disabled': !isTransUnitSelected }"
-            ng-click="editorSuggestions.toggleSearch($event)"
-            ng-disabled="!isTransUnitSelected">
-            <icon name="search" title="Search suggestions" class="Icon--sm"></icon>
-          </button>
-        </li>
-        <li>
-          <button class="Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1_1-2" title="Close suggestions" ng-click="editorSuggestions.closeSuggestions()">
-            <icon name="cross" title="Close suggestions" class="Icon--sm"></icon>
-          </button>
-        </li>
-      </ul>
+      <suggestion-header>
     </div>
     <div class="Editor-suggestionsSearch u-sPB-1-4" ng-if="search.isVisible">
       <div class="InputGroup InputGroup--outlined InputGroup--rounded" ng-class="{'is-focused': search.input.focused}">

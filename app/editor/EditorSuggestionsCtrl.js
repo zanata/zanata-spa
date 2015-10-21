@@ -30,6 +30,12 @@
     // TODO initialize with current trans unit selection state.
     $scope.isTransUnitSelected = false
 
+    // may not need the initial value (if the watch calls with initial value)
+    editorSuggestionsCtrl.isTransUnitSelected = $scope.isTransUnitSelected
+    $scope.$watch('isTransUnitSelected', function (selected) {
+      editorSuggestionsCtrl.isTransUnitSelected = selected
+    })
+
     // These must always be opposites. Probably change to an enum.
     $scope.isTextSearch = false
     $scope.isPhraseSearch = true
@@ -47,6 +53,12 @@
         focused: false
       }
     }
+
+    // reference here so that it can be watched for React stuff
+    editorSuggestionsCtrl.search = $scope.search
+    $scope.$watch('search', function (search) {
+      editorSuggestionsCtrl.search = search
+    }, true)
 
     $scope.$watch('search.input.text', function () {
       editorSuggestionsCtrl.searchForText()

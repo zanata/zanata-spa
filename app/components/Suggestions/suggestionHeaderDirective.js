@@ -2,7 +2,7 @@ module.exports = function () {
   'use strict'
 
   var React = require('react')
-  var ToggleSwitch = require('ToggleSwitch')
+  var SuggestionsHeader = require('SuggestionsHeader')
 
   /**
    * @name suggestion-header
@@ -12,19 +12,32 @@ module.exports = function () {
   function suggestionHeader (SettingsService) {
     return {
       restrict: 'E',
-      required: [],
+      required: ['editorSuggestions'],
       link: function (scope, element) {
+        var editorSuggestions = scope.editorSuggestions
         var DIFF_SETTING =
           SettingsService.SETTING.SUGGESTIONS_SHOW_DIFFERENCE
 
         SettingsService.subscribe(DIFF_SETTING, render)
 
+        scope.$watch('editorSuggestions.search.isVisible', render)
+        scope.$watch('editorSuggestions.isTransUnitSelected', render)
+
         render()
 
         function getInitialState () {
           var showDiff = SettingsService.get(DIFF_SETTING)
+          var showSearch = editorSuggestions.search &&
+            editorSuggestions.search.isVisible
+          var transUnitSelected = editorSuggestions.isTransUnitSelected
+
           return {
-            showDiff: showDiff
+            showDiff: showDiff,
+            onDiffChange: handleShowDiffChange,
+            showSearch: showSearch,
+            toggleSearch: handleToggleSearch,
+            transUnitSelected: transUnitSelected,
+            closeSuggestions: handleClose
           }
         }
 
@@ -34,18 +47,25 @@ module.exports = function () {
           })
         }
 
+        function handleToggleSearch () {
+          scope.$apply(function () {
+            editorSuggestions.toggleSearch()
+          })
+        }
+
+        function handleClose () {
+          scope.$apply(function () {
+            editorSuggestions.closeSuggestions()
+          })
+        }
+
         function render () {
           // just re-generate state to keep it simple,
           // until redux takes over handling state
           var state = getInitialState()
 
           React.render(
-            React.createElement(ToggleSwitch, {
-              id: 'difference-toggle',
-              isChecked: state.showDiff,
-              onChange: handleShowDiffChange,
-              label: 'Difference'
-            }),
+            React.createElement(SuggestionsHeader, state),
             element[0])
         }
       }

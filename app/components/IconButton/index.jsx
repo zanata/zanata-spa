@@ -1,5 +1,4 @@
-import cx from 'classnames'
-import Icon from '../Icon'
+import PlainIconButton from './PlainIconButton'
 import React from 'react'
 
 /**
@@ -12,31 +11,23 @@ let IconButton = React.createClass({
     title: React.PropTypes.string.isRequired,
     onClick: React.PropTypes.func.isRequired,
     active: React.PropTypes.bool.isRequired,
+    disabled: React.PropTypes.bool,
     className: React.PropTypes.string
   },
 
   getDefaultProps: () => {
     return {
-      active: false
+      active: false,
+      disabled: false
     }
   },
 
   render: function () {
-    let className = cx('Button Button--snug u-roundish Button--invisible',
-      { 'is-active': this.props.active })
-
-    let iconClassName = cx('Icon--sm', this.props.className)
-
     return (
-      <button
-        className={className}
-        onClick={this.props.onClick}
-        title={this.props.title}>
-        <Icon
-          name={this.props.icon}
-          title={this.props.title}
-          className={iconClassName}/>
-      </button>
+      <PlainIconButton
+        {...this.props}
+        iconClass={this.props.className}
+        buttonClass="Button Button--snug u-roundish Button--invisible"/>
     )
   }
 })
