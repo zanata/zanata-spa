@@ -22,6 +22,10 @@ module.exports = function () {
 
         scope.$watch('editorSuggestions.search.isVisible', render)
         scope.$watch('editorSuggestions.isTransUnitSelected', render)
+        scope.$watch('editorSuggestions.search.input.text', render)
+        scope.$watch('editorSuggestions.search.isLoading', render)
+        scope.$watch('editorSuggestions.hasSearch', render)
+        scope.$watch('editorSuggestions.suggestions.length', render)
 
         render()
 
@@ -30,15 +34,38 @@ module.exports = function () {
           var showSearch = editorSuggestions.search &&
             editorSuggestions.search.isVisible
           var transUnitSelected = editorSuggestions.isTransUnitSelected
-
+          var searchText = editorSuggestions.search
+            ? editorSuggestions.search.input.text
+            : undefined
+          var searchLoading = editorSuggestions.search &&
+            editorSuggestions.search.isLoading
+          var searchExists = editorSuggestions.hasSearch
+          var resultCount = editorSuggestions.suggestions.length
           return {
             showDiff: showDiff,
             onDiffChange: handleShowDiffChange,
-            showSearch: showSearch,
-            toggleSearch: handleToggleSearch,
             transUnitSelected: transUnitSelected,
-            closeSuggestions: handleClose
+            closeSuggestions: handleClose,
+            search: {
+              exists: searchExists,
+              show: showSearch,
+              toggle: handleToggleSearch,
+              text: searchText,
+              loading: searchLoading,
+              resultCount: resultCount,
+              clear: handleClearSearch,
+              changeText: handleSearchTextChange
+            }
           }
+        }
+
+        function handleSearchTextChange (event) {
+          scope.$apply(function () {
+            // setting state in someone else's scope.
+            // probably not good practice, but will take over this
+            // with React stuff soon anyway
+            editorSuggestions.search.input.text = event.target.value
+          })
         }
 
         function handleShowDiffChange (event) {
@@ -56,6 +83,13 @@ module.exports = function () {
         function handleClose () {
           scope.$apply(function () {
             editorSuggestions.closeSuggestions()
+          })
+        }
+
+        function handleClearSearch () {
+          scope.$apply(function () {
+            // important to call with no args, to work ok with the angular code
+            editorSuggestions.clearSearchResults()
           })
         }
 

@@ -20,11 +20,20 @@
       $scope.hasSuggestions = length !== 0
     })
 
+    // for React code to access suggestions
+    editorSuggestionsCtrl.suggestions = $scope.suggestions
+    $scope.$watch('suggestions', function (suggestions) {
+      editorSuggestionsCtrl.suggestions = suggestions
+    })
+
     /* @type {string[]} */
     $scope.searchStrings = []
     $scope.hasSearch = false
+    editorSuggestionsCtrl.hasSearch = false
     $scope.$watch('searchStrings.length', function (length) {
       $scope.hasSearch = length !== 0
+      // for access by React code
+      editorSuggestionsCtrl.hasSearch = $scope.hasSearch
     })
 
     // TODO initialize with current trans unit selection state.

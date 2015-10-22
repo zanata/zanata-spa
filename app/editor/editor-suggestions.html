@@ -8,33 +8,7 @@
 
 <aside ng-if="show" class="Editor-suggestions Editor-panel u-bgHigh" id="editor-suggestions" ng-class="{'is-search-active': search.isVisible}">
 
-  <nav class="Editor-suggestionsHeader u-bgHighest u-sPH-3-4">
-    <suggestion-header></suggestion-header>
-    <div class="Editor-suggestionsSearch u-sPB-1-4" ng-if="search.isVisible">
-      <div class="InputGroup InputGroup--outlined InputGroup--rounded" ng-class="{'is-focused': search.input.focused}">
-        <span class="InputGroup-addon" ng-click="focusSearch($event)"><icon name="search" title="Search suggestions" class="Icon--xsm"></icon></span>
-        <input type="search"
-          placeholder="Search suggestions…"
-          class="InputGroup-input u-sizeLineHeight-1_1-4"
-          ng-model="search.input.text"
-          ng-trim="false"
-          ng-focus="search.input.focused = true"
-          ng-blur="search.input.focused = false"
-          maxlength="1000"
-          focus-on="searchSugInput" />
-        <span ng-switch on="search.isLoading" class="InputGroup-addon">
-          <!-- TODO Add loading indicator -->
-          <span ng-click="focusSearch($event)" ng-switch-when="true" class="Editor-suggestionsSearchLoader">Loading… </span>
-          <span ng-click="focusSearch($event)" ng-switch-default ng-hide="!hasSearch" class="Editor-suggestionsSearchResults" ng-bind="suggestions.length + ' results'"></span>
-        </span>
-        <span class="InputGroup-addon">
-          <button ng-if="hasSearch" ng-click="editorSuggestions.clearSearchResults($event)">
-            <icon name="cross" title="Clear search" class="Icon--xsm"></icon>
-          </button>
-        </span>
-      </div>
-    </div>
-  </nav>
+  <suggestion-header></suggestion-header>
 
   <div class="Editor-suggestionsBody u-bgHigh">
     <div ng-switch on="search.isLoading">
