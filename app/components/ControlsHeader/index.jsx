@@ -1,6 +1,6 @@
 import { pick } from 'lodash'
 import cx from 'classnames'
-import IconButton from 'IconButton'
+import IconButtonToggle from 'IconButtonToggle'
 import Pager from 'Pager'
 import TranslatingIndicator from 'TranslatingIndicator'
 import TransUnitFilter from 'TransUnitFilter'
@@ -85,7 +85,7 @@ let ControlsHeader = React.createClass({
               <Pager {...pagerProps}/>
             </li>
             <li className="u-sM-1-8">
-              <IconButton
+              <IconButtonToggle
                 icon="suggestions"
                 title={this.props.ui.panels.suggestions.visible
                   ? gettextCatalog.getString('Hide suggestions panel')
@@ -111,13 +111,13 @@ let ControlsHeader = React.createClass({
             </li>
       */}
             <li className="u-sm-hidden u-sM-1-8">
-              <IconButton
+              <IconButtonToggle
                 icon="keyboard"
                 title={gettextCatalog.getString('Keyboard Shortcuts')}
                 onClick={this.props.actions.toggleKeyboardShortcutsModal}/>
             </li>
             <li className="u-sM-1-8">
-              <IconButton
+              <IconButtonToggle
                 icon="chevron-up-double"
                 title={navHeaderHidden
                   ? gettextCatalog.getString('Show Menubar')

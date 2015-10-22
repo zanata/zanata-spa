@@ -1,8 +1,9 @@
-import PlainIconButton from './PlainIconButton'
+import cx from 'classnames'
+import Icon from '../Icon'
 import React from 'react'
 
 /**
- * Action button with an icon and title.
+ * Action button with an icon and title, unstyled.
  */
 let IconButton = React.createClass({
 
@@ -10,24 +11,33 @@ let IconButton = React.createClass({
     icon: React.PropTypes.string.isRequired,
     title: React.PropTypes.string.isRequired,
     onClick: React.PropTypes.func.isRequired,
-    active: React.PropTypes.bool.isRequired,
     disabled: React.PropTypes.bool,
-    className: React.PropTypes.string
+    iconClass: React.PropTypes.string,
+    buttonClass: React.PropTypes.string
   },
 
   getDefaultProps: () => {
     return {
-      active: false,
       disabled: false
     }
   },
 
   render: function () {
+    let buttonClass = cx(this.props.buttonClass,
+      { 'is-disabled': this.props.disabled })
+
+    let iconClass = cx('Icon--sm', this.props.iconClass)
+
     return (
-      <PlainIconButton
-        {...this.props}
-        iconClass={this.props.className}
-        buttonClass="Button Button--snug u-roundish Button--invisible"/>
+      <button
+        className={buttonClass}
+        onClick={this.props.disabled ? undefined : this.props.onClick}
+        title={this.props.title}>
+        <Icon
+          name={this.props.icon}
+          title={this.props.title}
+          className={iconClass}/>
+      </button>
     )
   }
 })

@@ -1,7 +1,7 @@
 import React from 'react'
-import ToggleSwitch from '../ToggleSwitch'
 import IconButton from '../IconButton'
-import PlainIconButton from '../IconButton/PlainIconButton'
+import IconButtonToggle from '../IconButtonToggle'
+import ToggleSwitch from '../ToggleSwitch'
 
 /**
  * Header of the suggestions panel, with some controls and
@@ -39,7 +39,7 @@ let SuggestionsHeader = React.createClass({
         </li>
         <li className="u-sM-1-8">
 
-          <IconButton
+          <IconButtonToggle
             icon="search"
             title="Search suggestions"
             onClick={this.props.toggleSearch}
@@ -47,7 +47,7 @@ let SuggestionsHeader = React.createClass({
             disabled={!this.props.transUnitSelected}/>
         </li>
         <li>
-          <PlainIconButton
+          <IconButton
             icon="cross"
             title="Close suggestions"
             onClick={this.props.closeSuggestions}
