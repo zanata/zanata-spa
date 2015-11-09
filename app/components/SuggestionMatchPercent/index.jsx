@@ -39,8 +39,6 @@ let SuggestionMatchPercent = React.createClass({
   },
 
   render: function () {
-    // FIXME output an <li> instead of a <div> when this is not wrapped
-    // by angular
     return (
       <div className={this.displayClass[this.props.matchType]}>
         {this.percentageDisplayString(this.props.percent)}

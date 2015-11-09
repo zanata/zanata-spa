@@ -3,14 +3,14 @@ module.exports = function () {
 
   var React = require('react')
   // TODO change this as more of the component tree is React
-  var SuggestionsBody = require('SuggestionMatchPercent')
+  var SuggestionsBody = require('SuggestionsBody')
 
   /**
    * @name suggestions-body
    * @description content of the suggestion panel
    * @ngInject
    */
-  function suggestionsBody () {
+  function suggestionsBody (EventService) {
     return {
       restrict: 'E',
       // suggestion that is put in the scope in the above directive
@@ -18,16 +18,31 @@ module.exports = function () {
       link: function (scope, element) {
         var suggestion = scope.suggestion
 
+        // becomes true for 0.5 seconds after click
+        var copying = false
+
         // first matchDetails determines display type
         scope.$watch('suggestion.matchDetails[0]', render, true)
         scope.$watch('suggestion.similarityPercent', render)
 
         render()
 
+        function copySuggestion () {
+          EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION,
+            { suggestion: suggestion })
+          copying = true
+          render()
+          setTimeout(function () {
+            copying = false
+            render()
+          }, 500)
+        }
+
         function getInitialState () {
           return {
-            matchType: matchType(suggestion),
-            percent: suggestion.similarityPercent
+            copying: copying,
+            copySuggestion: copySuggestion,
+            suggestion: suggestion
           }
         }
 
@@ -39,26 +54,6 @@ module.exports = function () {
           React.render(
             React.createElement(SuggestionsBody, state),
             element[0])
-        }
-
-        /**
-         * Calculate the match type for the suggestion
-         */
-        function matchType (suggestion) {
-          var topMatch = suggestion.matchDetails[0]
-
-          if (topMatch.type === 'IMPORTED_TM') {
-            return 'imported'
-          }
-          if (topMatch.type === 'LOCAL_PROJECT') {
-            if (topMatch.contentState === 'Translated') {
-              return 'translated'
-            }
-            if (topMatch.contentState === 'Approved') {
-              return 'approved'
-            }
-          }
-          console.error('Unable to generate row display type for top match')
         }
       }
     }

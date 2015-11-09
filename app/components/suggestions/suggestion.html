@@ -41,18 +41,7 @@
         <span ng-switch-when="highlight" class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Approved by {{user}} on {{detail.lastModifiedDate | date: 'mediumDate'}}</span>
         <span ng-switch-when="success" class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Translated by {{user}} on {{detail.lastModifiedDate | date: 'mediumDate'}}</span>
       </div>
-      <div class="u-floatRight u-sm-floatNone">
-        <ul class="u-listInline u-sizeLineHeight-1">
-          <li>
-            <suggestions-body></suggestions-body>
-          </li>
-          <li>
-            <button class="Button Button--small u-rounded Button--primary u-sizeWidth-6"
-            ng-class="{'is-disabled': suggestionCtrl.copyButtonDisabled}"
-            ng-click="suggestionCtrl.copySuggestion()" ng-bind="suggestionCtrl.copyButtonText" ng-disabled="suggestionCtrl.copyButtonDisabled"></button>
-          </li>
-        </ul>
-      </div>
+      <suggestions-body></suggestions-body>
     </div>
   </div>
 </div>
