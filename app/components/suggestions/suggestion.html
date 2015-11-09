@@ -43,9 +43,9 @@
       </div>
       <div class="u-floatRight u-sm-floatNone">
         <ul class="u-listInline u-sizeLineHeight-1">
-          <li class="u-text{{suggestionCtrl.percentDisplayType()}}"
-              ng-show="suggestionCtrl.percent() !== null"
-              ng-bind="suggestionCtrl.percent() + '%'"></li>
+          <li>
+            <suggestions-body></suggestions-body>
+          </li>
           <li>
             <button class="Button Button--small u-rounded Button--primary u-sizeWidth-6"
             ng-class="{'is-disabled': suggestionCtrl.copyButtonDisabled}"

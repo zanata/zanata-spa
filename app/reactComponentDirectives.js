@@ -7,3 +7,4 @@
 
 require('./components/EditorHeader/editorHeaderDirective')()
 require('./components/Suggestions/suggestionHeaderDirective')()
+require('./components/Suggestions/suggestionsBodyDirective')()
