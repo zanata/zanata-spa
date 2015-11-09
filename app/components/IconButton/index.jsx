@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import Button from '../Button'
 import Icon from '../Icon'
 import React from 'react'
 
@@ -16,28 +17,20 @@ let IconButton = React.createClass({
     buttonClass: React.PropTypes.string
   },
 
-  getDefaultProps: () => {
-    return {
-      disabled: false
-    }
-  },
-
   render: function () {
-    let buttonClass = cx(this.props.buttonClass,
-      { 'is-disabled': this.props.disabled })
-
     let iconClass = cx('Icon--sm', this.props.iconClass)
 
     return (
-      <button
-        className={buttonClass}
-        onClick={this.props.disabled ? undefined : this.props.onClick}
+      <Button
+        className={this.props.buttonClass}
+        disabled={this.props.disabled}
+        onClick={this.props.onClick}
         title={this.props.title}>
         <Icon
           name={this.props.icon}
           title={this.props.title}
           className={iconClass}/>
-      </button>
+      </Button>
     )
   }
 })
