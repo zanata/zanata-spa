@@ -124,7 +124,7 @@
 
     $scope.detail = suggestionCtrl.topMatch()
     // Will be undefined for imported matches
-    $scope.user = $scope.detail.lastModifiedBy || 'Annoymous'
+    $scope.user = $scope.detail.lastModifiedBy || 'Anonymous'
     $scope.remaining = $scope.suggestion.matchDetails.length - 1
     $scope.isTextFlow = $scope.detail.type === 'LOCAL_PROJECT'
 

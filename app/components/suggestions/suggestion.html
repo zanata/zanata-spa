@@ -34,14 +34,6 @@
       </div>
       <div ng-bind="::target"></div>
     </div>
-    <div class="TransUnit-details">
-      <div ng-switch="suggestionCtrl.rowDisplayType()" class="u-floatLeft u-sizeLineHeight-1">
-        <!-- TODO open details when any metadata is clicked -->
-        <span ng-switch-when="secondary" class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Last updated {{detail.lastChanged | date: 'mediumDate'}}</span>
-        <span ng-switch-when="highlight" class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Approved by {{user}} on {{detail.lastModifiedDate | date: 'mediumDate'}}</span>
-        <span ng-switch-when="success" class="u-textMeta"><icon name="history" class="Icon--xsm"></icon> Translated by {{user}} on {{detail.lastModifiedDate | date: 'mediumDate'}}</span>
-      </div>
-      <suggestions-body></suggestions-body>
-    </div>
+    <suggestions-body></suggestions-body>
   </div>
 </div>

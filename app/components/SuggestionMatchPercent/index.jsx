@@ -6,8 +6,8 @@ import React from 'react'
 let SuggestionMatchPercent = React.createClass({
 
   propTypes: {
-    // one of: imported, translated, approved
-    matchType: React.PropTypes.string.isRequired,
+    matchType: React.PropTypes.oneOf(['imported', 'translated', 'approved'])
+      .isRequired,
     percent: React.PropTypes.number
   },
 

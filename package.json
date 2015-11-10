@@ -74,6 +74,7 @@
     "main-bower-files": "^1.0.2",
     "merge-stream": "^1.0.0",
     "react": "^0.13.3",
+    "react-intl": "^1.2.1",
     "react-redux": "^2.1.2",
     "redux": "^3.0.0",
     "redux-devtools": "^2.1.2",

@@ -42,7 +42,21 @@ module.exports = function () {
           return {
             copying: copying,
             copySuggestion: copySuggestion,
-            suggestion: suggestion
+            suggestion: suggestion,
+            // FIXME get from AppCtrl when this directive is out of the
+            //       isolated scope of suggestionDirective
+            locales: 'en-US',
+
+            // FIXME move to top of component tree
+            formats: {
+              date: {
+                medium: {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric'
+                }
+              }
+            }
           }
         }
 
