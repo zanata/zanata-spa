@@ -26,14 +26,5 @@
       </ul>
     </div>
   </div>
-  <div class="TransUnit-panel TransUnit-translation u-sPV-1-2">
-    <div class="TransUnit-item" ng-repeat="target in suggestion.targetContents">
-      <div class="TransUnit-itemHeader" ng-if="plural">
-        <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
-        <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
-      </div>
-      <div ng-bind="::target"></div>
-    </div>
-    <suggestions-body></suggestions-body>
-  </div>
+  <suggestions-body class="TransUnit-panel"></suggestions-body>
 </div>
