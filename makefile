@@ -1,16 +1,29 @@
 HASGULP := $(shell which gulp)
 HASBOWER := $(shell which bower)
+HAS_N := $(shell which n)
+NODE_VERSION := $(shell cat '.node-version')
 
-checkgulp:
-ifndef HASGULP
-	$(info Gulp is not installed globally)
-	sudo npm -g install gulp
+
+check_n:
+ifndef HAS_N
+	$(info n is not installed.)
+	$(info n is used to switch to the correct version of node.)
+	curl -L http://git.io/n-install | bash
 endif
 
-checkbower:
+node: check_n
+	n $(NODE_VERSION)
+
+checkgulp: node
+ifndef HASGULP
+	$(info Gulp is not installed globally)
+	npm -g install gulp
+endif
+
+checkbower: node
 ifndef HASBOWER
 	$(info Bower is not installed globally)
-	sudo npm -g install bower
+	npm -g install bower
 endif
 
 setup: checkgulp checkbower
