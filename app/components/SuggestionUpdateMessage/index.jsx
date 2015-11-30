@@ -3,7 +3,7 @@ import { FormattedDate } from 'react-intl'
 import Icon from '../Icon'
 
 /**
- * Show n appropriate message about the source and time of the most
+ * Show an appropriate message about the source and time of the most
  * recent update to the translation of a suggestion.
  */
 let SuggestionUpdateMessage = React.createClass({

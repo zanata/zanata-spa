@@ -5,7 +5,7 @@ import SuggestionMatchPercent from '../SuggestionMatchPercent'
 import SuggestionUpdateMessage from '../SuggestionUpdateMessage'
 
 /**
- * Button that can be disabled.
+ * Display metadata and copy button for the translations of a suggestion.
  */
 let SuggestionTranslationDetails = React.createClass({
   mixins: [IntlMixin],
@@ -15,6 +15,7 @@ let SuggestionTranslationDetails = React.createClass({
     copying: React.PropTypes.bool.isRequired,
     copySuggestion: React.PropTypes.func.isRequired,
     suggestion: React.PropTypes.shape({
+      matchType: React.PropTypes.string.isRequired,
       matchDetails: React.PropTypes.arrayOf(React.PropTypes.shape({
         type: React.PropTypes.string.isRequired,
         contentState: React.PropTypes.string
@@ -27,26 +28,6 @@ let SuggestionTranslationDetails = React.createClass({
     return {
       copying: false
     }
-  },
-
-  /**
-   * Calculate the match type for the suggestion
-   */
-  matchType: function (suggestion) {
-    let topMatch = suggestion.matchDetails[0]
-
-    if (topMatch.type === 'IMPORTED_TM') {
-      return 'imported'
-    }
-    if (topMatch.type === 'LOCAL_PROJECT') {
-      if (topMatch.contentState === 'Translated') {
-        return 'translated'
-      }
-      if (topMatch.contentState === 'Approved') {
-        return 'approved'
-      }
-    }
-    console.error('Unable to generate row display type for top match')
   },
 
   user: function (suggestion) {
@@ -68,7 +49,7 @@ let SuggestionTranslationDetails = React.createClass({
 
   render: function () {
     let label = this.props.copying ? 'Copying' : 'Copy Translation'
-    let matchType = this.matchType(this.props.suggestion)
+    let matchType = this.props.suggestion.matchType
     let user = this.user(this.props.suggestion)
     let lastChanged = this.lastChanged(this.props.suggestion)
 

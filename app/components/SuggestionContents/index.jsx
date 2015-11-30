@@ -1,15 +1,24 @@
+import TextDiff from '../TextDiff'
 import React from 'react'
 import { IntlMixin } from 'react-intl'
+import cx from 'classnames'
 
 /**
  * Display all content strings (singular or plurals) for a suggestion.
+ * May show a diff against a set of provided strings.
  */
 let SuggestionContents = React.createClass({
   mixins: [IntlMixin],
 
   propTypes: {
     plural: React.PropTypes.bool.isRequired,
-    contents: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+    contents: React.PropTypes.arrayOf(
+      React.PropTypes.string
+    ).isRequired,
+    // Include this to display a diff
+    compareTo: React.PropTypes.arrayOf(
+      React.PropTypes.string
+    )
   },
 
   pluralFormLabel: function (index) {
@@ -26,6 +35,28 @@ let SuggestionContents = React.createClass({
     }
   },
 
+  /* Simple or diff content, depending whether props.compareTo
+   * is present.
+   */
+  contentDiv: function (content, index) {
+    const className = cx(
+      'TransUnit-text',
+      {
+        'TransUnit-text--tight': !this.props.plural,
+        'Difference': this.props.compareTo
+      }
+    )
+
+    return this.props.compareTo
+      ? <TextDiff
+          className={className}
+          text1={this.props.compareTo[index]}
+          text2={content}/>
+      : <div className={className}>
+          {content}
+        </div>
+  },
+
   render: function () {
     let contents = this.props.contents.map((content, index) => {
       return (
@@ -33,9 +64,7 @@ let SuggestionContents = React.createClass({
           <div className="TransUnit-itemHeader">
             {this.pluralFormLabel(index)}
           </div>
-          <div>
-            {content}
-          </div>
+          {this.contentDiv(content, index)}
         </div>
       )
     })

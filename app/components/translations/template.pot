@@ -49,7 +49,6 @@ msgstr ""
 msgid "No content"
 msgstr ""
 
-#: app/components/suggestions/suggestion.html
 #: app/components/transUnit/trans-unit.html
 msgid "Plural Form"
 msgstr ""
@@ -70,7 +69,6 @@ msgstr ""
 msgid "Show suggestions panel"
 msgstr ""
 
-#: app/components/suggestions/suggestion.html
 #: app/components/transUnit/trans-unit.html
 msgid "Singular Form"
 msgstr ""
