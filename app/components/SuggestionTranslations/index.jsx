@@ -10,10 +10,10 @@ let SuggestionsTranslations = React.createClass({
   mixins: [IntlMixin],
 
   propTypes: {
-    // true when the translation has just been copied
-    copying: React.PropTypes.bool.isRequired,
-    copySuggestion: React.PropTypes.func.isRequired,
     suggestion: React.PropTypes.shape({
+      copying: React.PropTypes.bool.isRequired,
+      copySuggestion: React.PropTypes.func.isRequired,
+      matchType: React.PropTypes.string.isRequired,
       matchDetails: React.PropTypes.arrayOf(React.PropTypes.shape({
         type: React.PropTypes.string.isRequired,
         contentState: React.PropTypes.string

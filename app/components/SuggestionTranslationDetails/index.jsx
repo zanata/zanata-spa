@@ -11,10 +11,9 @@ let SuggestionTranslationDetails = React.createClass({
   mixins: [IntlMixin],
 
   propTypes: {
-    // true when the translation has just been copied
-    copying: React.PropTypes.bool.isRequired,
-    copySuggestion: React.PropTypes.func.isRequired,
     suggestion: React.PropTypes.shape({
+      copying: React.PropTypes.bool.isRequired,
+      copySuggestion: React.PropTypes.func.isRequired,
       matchType: React.PropTypes.string.isRequired,
       matchDetails: React.PropTypes.arrayOf(React.PropTypes.shape({
         type: React.PropTypes.string.isRequired,
@@ -22,12 +21,6 @@ let SuggestionTranslationDetails = React.createClass({
       })),
       similarityPercent: React.PropTypes.number
     })
-  },
-
-  getDefaultProps: () => {
-    return {
-      copying: false
-    }
   },
 
   user: function (suggestion) {
@@ -48,10 +41,11 @@ let SuggestionTranslationDetails = React.createClass({
   },
 
   render: function () {
-    let label = this.props.copying ? 'Copying' : 'Copy Translation'
-    let matchType = this.props.suggestion.matchType
-    let user = this.user(this.props.suggestion)
-    let lastChanged = this.lastChanged(this.props.suggestion)
+    let suggestion = this.props.suggestion
+    let label = suggestion.copying ? 'Copying' : 'Copy Translation'
+    let matchType = suggestion.matchType
+    let user = this.user(suggestion)
+    let lastChanged = this.lastChanged(suggestion)
 
     return (
       <div className="TransUnit-details">
@@ -72,8 +66,8 @@ let SuggestionTranslationDetails = React.createClass({
               <Button
                 className="Button Button--small u-rounded Button--primary
                            u-sizeWidth-6"
-                disabled={this.props.copying}
-                onClick={this.props.copySuggestion}
+                disabled={suggestion.copying}
+                onClick={suggestion.copySuggestion}
                 title={label}>
                 {label}
               </Button>

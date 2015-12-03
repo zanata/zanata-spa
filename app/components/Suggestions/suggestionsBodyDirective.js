@@ -13,47 +13,50 @@ module.exports = function () {
   function suggestionsBody (EventService, SettingsService) {
     return {
       restrict: 'E',
-      // suggestion that is put in the scope in the above directive
-      required: ['suggestion', 'search', 'index'],
+      required: ['editorSuggestions'],
       link: function (scope, element) {
-        var suggestion = scope.suggestion
-        var search = scope.search
         var DIFF_SETTING =
           SettingsService.SETTING.SUGGESTIONS_SHOW_DIFFERENCE
 
         SettingsService.subscribe(DIFF_SETTING, render)
 
 
-        // becomes true for 0.5 seconds after click
-        var copying = false
+        // whether a suggestion was copied within the last 0.5 seconds
+        // true when copying, false or undefined otherwise
+        var copying = []
 
-        // first matchDetails determines display type
-        scope.$watch('suggestion.matchDetails[0]', render, true)
-        scope.$watch('suggestion.similarityPercent', render)
-        scope.$watch('search', render, true)
+        // these may work without 'editorSuggestions' prefix, but this code
+        // is so temporary that I see no value in checking
+        scope.$watch('editorSuggestions.suggestions', resetSuggestionsCopying, true)
+        scope.$watch('editorSuggestions.searchStrings', render, true)
 
         scope.$on('EditorSuggestionsCtrl:nth-suggestion-copied',
           function (event, index) {
-            if (index === scope.index) {
-              // The actual copy is done in EditorSuggestionsCtrl at the moment
-              // (which is where this event is triggered)
-              showSuggestionCopying()
-            }
+            // The actual copy is done in EditorSuggestionsCtrl at the moment
+            // (which is where this event is triggered)
+            showSuggestionCopying(index)
           })
 
         render()
 
-        function copySuggestion () {
+        // TODO give this index
+        function copySuggestion (index) {
           EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION,
-            { suggestion: suggestion })
-          showSuggestionCopying()
+            { suggestion: scope.editorSuggestions.suggestions[index] })
+          showSuggestionCopying(index)
         }
 
-        function showSuggestionCopying () {
-          copying = true
+        // renders so that this can be put in watch for suggestions changing
+        function resetSuggestionsCopying () {
+          copying = []
+          render()
+        }
+
+        function showSuggestionCopying (index) {
+          copying[index] = true
           render()
           setTimeout(function () {
-            copying = false
+            copying[index] = false
             render()
           }, 500)
         }
@@ -61,14 +64,28 @@ module.exports = function () {
         function getInitialState () {
           var showDiff = SettingsService.get(DIFF_SETTING)
 
+          // these get here by some sort of black magic, presumably
+          // or something to do with being somewhere within the purview
+          // of EditorSuggestionsCtrl
+          var search = scope.searchStrings
+          var suggestions = scope.suggestions
+
+          var suggestionsWithCopy = suggestions.map(function (suggestion, index) {
+            return _.assign({}, suggestion, {
+              // may be true or undefined
+              copying: copying[index] === true,
+              copySuggestion: copySuggestion.bind(undefined, index)
+            })
+          })
+
           return {
-            copying: copying,
-            copySuggestion: copySuggestion,
-            suggestion: suggestion,
+            suggestions: suggestionsWithCopy,
             // FIXME get from AppCtrl when this directive is out of the
             //       isolated scope of suggestionDirective
             locales: 'en-US',
             showDiff: showDiff,
+
+            // FIXME: undefined. Why?
             search: search,
 
             // FIXME move to top of component tree

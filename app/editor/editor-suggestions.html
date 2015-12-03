@@ -31,11 +31,8 @@
           <p ng-if="isTextSearch">No matching suggestions for the current search</p>
           <p ng-if="isPhraseSearch">No matching suggestions for the currently selected phrase</p>
         </div>
-        <div ng-if="hasSearch && hasSuggestions" ng-repeat="suggestion in suggestions">
-          <suggestion suggestion="suggestion"
-            index="$index"
-            search="searchStrings"
-            diff-enabled="diff"></suggestion>
+        <div ng-if="hasSearch && hasSuggestions">
+          <suggestions-body></suggestions-body>
         </div>
       </div>
     </div>
