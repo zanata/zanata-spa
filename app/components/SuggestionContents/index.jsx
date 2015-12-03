@@ -39,18 +39,19 @@ let SuggestionContents = React.createClass({
    * is present.
    */
   contentDiv: function (content, index) {
+    const compareTo = this.props.compareTo
     const className = cx(
       'TransUnit-text',
       {
         'TransUnit-text--tight': !this.props.plural,
-        'Difference': this.props.compareTo
+        'Difference': compareTo
       }
     )
 
-    return this.props.compareTo
+    return compareTo
       ? <TextDiff
           className={className}
-          text1={this.props.compareTo[index]}
+          text1={index >= compareTo.length ? '' : compareTo[index]}
           text2={content}/>
       : <div className={className}>
           {content}

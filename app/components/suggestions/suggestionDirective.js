@@ -27,7 +27,6 @@
         // parent scope instead of this directive's isolated scope. Good for
         // callbacks.
       },
-      controller: 'SuggestionCtrl as suggestionCtrl',
       templateUrl: 'components/suggestions/suggestion.html'
     }
   }

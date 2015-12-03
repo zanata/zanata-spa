@@ -14,7 +14,7 @@ module.exports = function () {
     return {
       restrict: 'E',
       // suggestion that is put in the scope in the above directive
-      required: ['suggestion', 'search'],
+      required: ['suggestion', 'search', 'index'],
       link: function (scope, element) {
         var suggestion = scope.suggestion
         var search = scope.search
@@ -32,11 +32,24 @@ module.exports = function () {
         scope.$watch('suggestion.similarityPercent', render)
         scope.$watch('search', render, true)
 
+        scope.$on('EditorSuggestionsCtrl:nth-suggestion-copied',
+          function (event, index) {
+            if (index === scope.index) {
+              // The actual copy is done in EditorSuggestionsCtrl at the moment
+              // (which is where this event is triggered)
+              showSuggestionCopying()
+            }
+          })
+
         render()
 
         function copySuggestion () {
           EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION,
             { suggestion: suggestion })
+          showSuggestionCopying()
+        }
+
+        function showSuggestionCopying () {
           copying = true
           render()
           setTimeout(function () {
