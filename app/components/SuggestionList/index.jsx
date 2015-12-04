@@ -1,12 +1,12 @@
 import React from 'react'
 import { IntlMixin } from 'react-intl'
-import NoSuggestionsPanel from '../NoSuggestionsPanel'
-import SuggestionList from '../SuggestionList'
+import Suggestion from '../Suggestion'
+import { pick } from 'lodash'
 
 /**
  * Display all suggestions that match the current search.
  */
-let SuggestionsBody = React.createClass({
+let SuggestionList = React.createClass({
   mixins: [IntlMixin],
 
   propTypes: {
@@ -32,10 +32,22 @@ let SuggestionsBody = React.createClass({
   },
 
   render: function () {
+    const sharedProps = pick(this.props,
+      ['search', 'showDiff'])
+
+    const suggestions = this.props.suggestions.map((suggestion, index) => {
+      return <Suggestion key={index}
+               suggestion={suggestion}
+               {...sharedProps}/>
+    })
+
     return (
-      <SuggestionList {...this.props}/>
+      <div>
+        {suggestions}
+      </div>
     )
   }
 })
 
-export default SuggestionsBody
+export default SuggestionList
+
