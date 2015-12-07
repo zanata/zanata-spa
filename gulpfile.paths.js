@@ -36,8 +36,7 @@ paths.webpack = {
   // top-level directives that are imported and should also be watched
   topLevel: [
     paths.app + '/**/editorHeaderDirective.js',
-    paths.app + '/**/suggestionHeaderDirective.js',
-    paths.app + '/**/suggestionsBodyDirective.js'
+    paths.app + '/**/suggestionsPanelDirective.js'
   ],
   // where to search for imported modules, must be absolute path
   modules: __dirname + '/app/components',
@@ -53,8 +52,7 @@ paths.js = {
     // compiled to bundle by webpack, so exclude
     '!' + paths.webpack.entry,
     '!' + paths.app + '/**/editorHeaderDirective.js',
-    '!' + paths.app + '/**/suggestionHeaderDirective.js',
-    '!' + paths.app + '/**/suggestionsBodyDirective.js'
+    '!' + paths.app + '/**/suggestionsPanelDirective.js'
   ],
   bower: [
     paths.bower + '/**/angular.js',

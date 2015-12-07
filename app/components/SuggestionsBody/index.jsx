@@ -14,7 +14,7 @@ let SuggestionsBody = React.createClass({
     showDiff: React.PropTypes.bool.isRequired,
     loading: React.PropTypes.bool.isRequired,
     searchInputFocused: React.PropTypes.bool.isRequired,
-    tuSelected: React.PropTypes.bool.isRequired,
+    transUnitSelected: React.PropTypes.bool.isRequired,
     isTextSearch: React.PropTypes.bool.isRequired,
 
     suggestions: React.PropTypes.arrayOf(React.PropTypes.shape({
@@ -59,7 +59,7 @@ let SuggestionsBody = React.createClass({
         )
       }
     } else {
-      if (this.props.searchInputFocused || this.props.tuSelected) {
+      if (this.props.searchInputFocused || this.props.transUnitSelected) {
         return (
           <NoSuggestionsPanel
             icon="search"

@@ -6,5 +6,4 @@
  */
 
 require('./components/EditorHeader/editorHeaderDirective')()
-require('./components/Suggestions/suggestionHeaderDirective')()
-require('./components/Suggestions/suggestionsBodyDirective')()
+require('./components/SuggestionsPanel/suggestionsPanelDirective.js')()
