@@ -125,6 +125,10 @@
       latestSearchTimestamp = timestamp
       activeRequests++
 
+      loading = true
+      results = []
+      $rootScope.$broadcast('PhraseSuggestionsService:updated')
+
       // Run the search and notify listeners when it is done
       SuggestionsService.getSuggestionsForPhrase(phrase).then(
         function (suggestions) {
@@ -138,6 +142,7 @@
         function (error) {
           console.error('Error searching for phrase ', error)
         }).finally(function () {
+          loading = false
           activeRequests--
           $rootScope.$broadcast('PhraseSuggestionsService:updated')
           if (activeRequests < MAX_ACTIVE_REQUESTS) {
@@ -176,8 +181,6 @@
           return
         }
 
-        results = []
-        $rootScope.$broadcast('PhraseSuggestionsService:updated')
         searchByPhrase(data)
       })
 
