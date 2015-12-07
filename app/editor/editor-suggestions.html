@@ -7,36 +7,6 @@
 </div>
 
 <aside ng-if="show" class="Editor-suggestions Editor-panel u-bgHigh" id="editor-suggestions" ng-class="{'is-search-active': search.isVisible}">
-
   <suggestion-header></suggestion-header>
-
-  <div class="Editor-suggestionsBody u-bgHigh">
-    <div ng-switch on="search.isLoading">
-      <div ng-switch-when="true" class="u-posCenterCenter u-textEmpty u-textCenter">
-        <!-- TODO Add loading indicator -->
-        <icon name="loader" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
-        <p>Loading suggestions</p>
-      </div>
-      <div ng-switch-default>
-        <div ng-if="!hasSearch && !search.input.focused && !isTransUnitSelected" class="u-posCenterCenter u-textEmpty u-textCenter">
-          <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
-          <p>Select a phrase or enter a search term</p>
-        </div>
-        <div ng-if="!hasSearch && (search.input.focused || isTransUnitSelected)" class="u-posCenterCenter u-textEmpty u-textCenter">
-          <icon name="search" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
-          <p>Enter a search term</p>
-        </div>
-        <div ng-if="hasSearch && !hasSuggestions" class="u-posCenterCenter u-textEmpty u-textCenter">
-          <icon name="suggestions" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
-          <p ng-if="isTextSearch">No matching suggestions for the current search</p>
-          <p ng-if="isPhraseSearch">No matching suggestions for the currently selected phrase</p>
-        </div>
-        <div ng-if="hasSearch && hasSuggestions">
-          <suggestions-body></suggestions-body>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
+  <suggestions-body></suggestions-body>
 </aside>

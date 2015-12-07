@@ -15,6 +15,7 @@ module.exports = function () {
       restrict: 'E',
       required: ['editorSuggestions'],
       link: function (scope, element) {
+        var editorSuggestions = scope.editorSuggestions
         var DIFF_SETTING =
           SettingsService.SETTING.SUGGESTIONS_SHOW_DIFFERENCE
 
@@ -29,6 +30,10 @@ module.exports = function () {
         // is so temporary that I see no value in checking
         scope.$watch('editorSuggestions.suggestions', resetSuggestionsCopying, true)
         scope.$watch('editorSuggestions.searchStrings', render, true)
+        scope.$watch('editorSuggestions.search.isLoading', render)
+        scope.$watch('editorSuggestions.search.input.focused', render)
+        scope.$watch('editorSuggestions.isTransUnitSelected', render)
+        scope.$watch('editorSuggestions.isTextSearch', render)
 
         scope.$on('EditorSuggestionsCtrl:nth-suggestion-copied',
           function (event, index) {
@@ -42,7 +47,7 @@ module.exports = function () {
         // TODO give this index
         function copySuggestion (index) {
           EventService.emitEvent(EventService.EVENT.COPY_FROM_SUGGESTION,
-            { suggestion: scope.editorSuggestions.suggestions[index] })
+            { suggestion: editorSuggestions.suggestions[index] })
           showSuggestionCopying(index)
         }
 
@@ -69,6 +74,10 @@ module.exports = function () {
           // of EditorSuggestionsCtrl
           var search = scope.searchStrings
           var suggestions = scope.suggestions
+          var loading = scope.search.isLoading
+          var searchInputFocused = scope.search.input.focused
+          var tuSelected = scope.isTransUnitSelected
+          var isTextSearch = scope.isTextSearch
 
           var suggestionsWithCopy = suggestions.map(function (suggestion, index) {
             return _.assign({}, suggestion, {
@@ -85,8 +94,11 @@ module.exports = function () {
             locales: 'en-US',
             showDiff: showDiff,
 
-            // FIXME: undefined. Why?
             search: search,
+            loading: loading,
+            searchInputFocused: searchInputFocused,
+            tuSelected: tuSelected,
+            isTextSearch: isTextSearch,
 
             // FIXME move to top of component tree
             formats: {

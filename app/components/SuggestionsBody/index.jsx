@@ -12,6 +12,10 @@ let SuggestionsBody = React.createClass({
   propTypes: {
     search: React.PropTypes.arrayOf(React.PropTypes.string),
     showDiff: React.PropTypes.bool.isRequired,
+    loading: React.PropTypes.bool.isRequired,
+    searchInputFocused: React.PropTypes.bool.isRequired,
+    tuSelected: React.PropTypes.bool.isRequired,
+    isTextSearch: React.PropTypes.bool.isRequired,
 
     suggestions: React.PropTypes.arrayOf(React.PropTypes.shape({
       // true when the translation has just been copied
@@ -31,9 +35,55 @@ let SuggestionsBody = React.createClass({
     }))
   },
 
-  render: function () {
+  renderContent: function () {
+    const hasSearch = this.props.search.length !== 0
+    const hasSuggestions = this.props.suggestions.length !== 0
+
+    if (this.props.loading) {
+      return (
+        <NoSuggestionsPanel
+          icon="loader"
+          message="Loading suggestions"/>
+      )
+    }
+
+    if (hasSearch) {
+      if (!hasSuggestions) {
+        const noMatchingSuggestionMessage = this.props.isTextSearch
+          ? 'No matching suggestions for the current search'
+          : 'No matching suggestions for the currently selected phrase'
+        return (
+          <NoSuggestionsPanel
+            icon="suggestions"
+            message={noMatchingSuggestionMessage}/>
+        )
+      }
+    } else {
+      if (this.props.searchInputFocused || this.props.tuSelected) {
+        return (
+          <NoSuggestionsPanel
+            icon="search"
+            message="Enter a search term"/>
+        )
+      } else {
+        return (
+          <NoSuggestionsPanel
+            icon="suggestions"
+            message="Select a phrase or enter a search term"/>
+        )
+      }
+    }
+
     return (
       <SuggestionList {...this.props}/>
+    )
+  },
+
+  render: function () {
+    return (
+      <div className="Editor-suggestionsBody u-bgHigh">
+        {this.renderContent()}
+      </div>
     )
   }
 })
