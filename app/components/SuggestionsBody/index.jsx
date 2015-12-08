@@ -10,12 +10,16 @@ let SuggestionsBody = React.createClass({
   mixins: [IntlMixin],
 
   propTypes: {
-    search: React.PropTypes.arrayOf(React.PropTypes.string),
+    search: React.PropTypes.shape({
+      strings: React.PropTypes.arrayOf(React.PropTypes.string),
+      loading: React.PropTypes.bool.isRequired,
+      isTextSearch: React.PropTypes.bool.isRequired,
+      input: React.PropTypes.shape({
+        focused: React.PropTypes.bool.isRequired
+      }).isRequired
+    }).isRequired,
     showDiff: React.PropTypes.bool.isRequired,
-    loading: React.PropTypes.bool.isRequired,
-    searchInputFocused: React.PropTypes.bool.isRequired,
     transUnitSelected: React.PropTypes.bool.isRequired,
-    isTextSearch: React.PropTypes.bool.isRequired,
 
     suggestions: React.PropTypes.arrayOf(React.PropTypes.shape({
       // true when the translation has just been copied
@@ -36,10 +40,10 @@ let SuggestionsBody = React.createClass({
   },
 
   renderContent: function () {
-    const hasSearch = this.props.search.length !== 0
+    const hasSearch = this.props.search.strings.length !== 0
     const hasSuggestions = this.props.suggestions.length !== 0
 
-    if (this.props.loading) {
+    if (this.props.search.loading) {
       return (
         <NoSuggestionsPanel
           icon="loader"
@@ -49,7 +53,7 @@ let SuggestionsBody = React.createClass({
 
     if (hasSearch) {
       if (!hasSuggestions) {
-        const noMatchingSuggestionMessage = this.props.isTextSearch
+        const noMatchingSuggestionMessage = this.props.search.isTextSearch
           ? 'No matching suggestions for the current search'
           : 'No matching suggestions for the currently selected phrase'
         return (
@@ -59,7 +63,7 @@ let SuggestionsBody = React.createClass({
         )
       }
     } else {
-      if (this.props.searchInputFocused || this.props.transUnitSelected) {
+      if (this.props.search.input.focused || this.props.transUnitSelected) {
         return (
           <NoSuggestionsPanel
             icon="search"
@@ -75,7 +79,10 @@ let SuggestionsBody = React.createClass({
     }
 
     return (
-      <SuggestionList {...this.props}/>
+      <SuggestionList
+        search={this.props.search.strings}
+        showDiff={this.props.showDiff}
+        suggestions={this.props.suggestions}/>
     )
   },
 

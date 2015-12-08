@@ -32,20 +32,14 @@ let SuggestionsPanel = React.createClass({
       'closeSuggestions', 'search', 'transUnitSelected'])
 
     const bodyProps = pick(this.props, ['showDiff', 'transUnitSelected',
-      'suggestions'])
+      'search', 'suggestions'])
 
     return (
       <aside
         id="editor-suggestions"
         className={className}>
-        <SuggestionsHeader
-          {...headerProps}/>
-        <SuggestionsBody
-          {...bodyProps}
-          search={this.props.search.strings}
-          searchInputFocused={this.props.search.input.focused}
-          loading={this.props.search.loading}
-          isTextSearch={this.props.search.isTextSearch}/>
+        <SuggestionsHeader {...headerProps}/>
+        <SuggestionsBody {...bodyProps}/>
       </aside>
     )
   }
