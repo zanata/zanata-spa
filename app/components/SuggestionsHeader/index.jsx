@@ -12,19 +12,20 @@ import ToggleSwitch from '../ToggleSwitch'
 let SuggestionsHeader = React.createClass({
 
   propTypes: {
+    searchType: React.PropTypes.oneOf(['phrase', 'text']).isRequired,
     showDiff: React.PropTypes.bool.isRequired,
     onDiffChange: React.PropTypes.func.isRequired,
     transUnitSelected: React.PropTypes.bool.isRequired,
     closeSuggestions: React.PropTypes.func.isRequired,
     search: React.PropTypes.shape({
-      exists: React.PropTypes.bool.isRequired,
       text: React.PropTypes.string,
       loading: React.PropTypes.bool.isRequired,
-      show: React.PropTypes.bool.isRequired,
       toggle: React.PropTypes.func.isRequired,
-      resultCount: React.PropTypes.number,
       clear: React.PropTypes.func.isRequired,
-      changeText: React.PropTypes.func.isRequired
+      changeText: React.PropTypes.func.isRequired,
+      input: React.PropTypes.shape({
+        text: React.PropTypes.string.isRequired
+      }).isRequired
     }).isRequired
   },
 
@@ -49,14 +50,16 @@ let SuggestionsHeader = React.createClass({
   },
 
   render: function () {
-    const searchInput = this.props.search.show
+    const textSearchSelected = this.props.searchType === 'text'
+    const showSearch = textSearchSelected || !this.props.transUnitSelected
+    const searchInput = showSearch
       ? <div className="Editor-suggestionsSearch u-sPB-1-4">
           <SuggestionSearchInput
             ref="searchInput"
-            text={this.props.search.text}
+            text={this.props.search.input.text}
             loading={this.props.search.loading}
-            hasSearch={this.props.search.exists}
-            resultCount={this.props.search.resultCount}
+            hasSearch={this.props.search.searchStrings.length !== 0}
+            resultCount={this.props.search.suggestions.length}
             clearSearch={this.clearAndFocus}
             onTextChange={this.props.search.changeText}/>
         </div>
@@ -93,7 +96,7 @@ let SuggestionsHeader = React.createClass({
                 icon="search"
                 title="Search suggestions"
                 onClick={this.props.search.toggle}
-                active={this.props.search.show}
+                active={showSearch}
                 disabled={!this.props.transUnitSelected}/>
             </li>
             <li>

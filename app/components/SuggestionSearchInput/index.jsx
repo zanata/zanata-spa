@@ -61,6 +61,10 @@ let SuggestionSearchInput = React.createClass({
     })
   },
 
+  componentDidMount: function () {
+    this.focusInput()
+  },
+
   render: function () {
     const resultCount = this.props.loading
       ? <span onClick={this.focusInput}

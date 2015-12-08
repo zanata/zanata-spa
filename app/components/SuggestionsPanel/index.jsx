@@ -3,7 +3,8 @@ import React from 'react'
 import { IntlMixin } from 'react-intl'
 import SuggestionsHeader from '../SuggestionsHeader'
 import SuggestionsBody from '../SuggestionsBody'
-import { pick } from 'lodash'
+import { assign, pick } from 'lodash'
+import { connect } from 'react-redux'
 
 const DO_NOT_RENDER = null
 
@@ -16,7 +17,7 @@ let SuggestionsPanel = React.createClass({
   propTypes: {
     // likely want to move this switching to a higher level
     showPanel: React.PropTypes.bool.isRequired,
-    showSearch: React.PropTypes.bool.isRequired
+    searchType: React.PropTypes.oneOf(['phrase', 'text']).isRequired
   },
 
   render: function () {
@@ -25,14 +26,14 @@ let SuggestionsPanel = React.createClass({
     }
 
     const className = cx('Editor-suggestions Editor-panel u-bgHigh', {
-      'is-search-active': this.props.showSearch
+      'is-search-active': this.props.searchType === 'text'
     })
 
     const headerProps = pick(this.props, ['showDiff', 'onDiffChange',
-      'closeSuggestions', 'search', 'transUnitSelected'])
+      'closeSuggestions', 'search', 'transUnitSelected', 'searchType'])
 
     const bodyProps = pick(this.props, ['showDiff', 'transUnitSelected',
-      'search', 'suggestions'])
+      'search', 'searchType'])
 
     return (
       <aside
@@ -45,4 +46,28 @@ let SuggestionsPanel = React.createClass({
   }
 })
 
-export default SuggestionsPanel
+function selector (state) {
+  var search = state.search
+  if (state.searchType === 'phrase') {
+    if (state.transUnitSelected) {
+      search = assign({}, search, state.phraseSearch)
+    } else {
+      // show no phrase search if no TU (phrase) is selected
+      search = assign({}, search, {
+        loading: false,
+        searchStrings: [],
+        suggestions: []
+      })
+    }
+  } else if (state.searchType === 'text') {
+    search = assign({}, search, state.textSearch)
+  } else {
+    console.error('invalid state.searchType', state.searchType)
+  }
+
+  return assign({}, state, {
+    search: search
+  })
+}
+
+export default connect(selector)(SuggestionsPanel)
