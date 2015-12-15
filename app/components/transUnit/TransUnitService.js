@@ -119,7 +119,6 @@
         if (selectedTUId) {
           var transUnitCtrl = controllerList[selectedTUId]
           var phrase = transUnitCtrl.getPhrase()
-
           var suggestion = data.suggestion
           var targets = suggestion.targetContents
 
@@ -140,7 +139,7 @@
                 })
             }
             if (targets.length > pluralCount) {
-              targets = _.first(targets, pluralCount)
+              targets = _.take(targets, pluralCount)
             }
 
             setAllTranslations(phrase, targets)
