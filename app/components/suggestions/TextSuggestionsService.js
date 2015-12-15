@@ -120,6 +120,7 @@
       var timestamp = Date.now()
       latestSearchTimestamp = timestamp
       activeRequests++
+      $rootScope.$broadcast('TextSuggestionsService:updated')
 
       // Run the search and notify listeners when it is done
       SuggestionsService.getSuggestionsForText(text).then(
@@ -157,6 +158,10 @@
         // Empty search can update immediately
         if (data === '') {
           searchText = data
+
+          // FIXME the timestamps below will prevent active requests from
+          //       overwriting the empty results, but the search will appear
+          //       to be loading until they finish.
           // loading = false
           results = []
 
@@ -164,7 +169,7 @@
           pendingSearch = null
           $timeout.cancel(pendingSearchHandle)
           pendingSearchHandle = null
-          latestSearchTimestamp = Date.now
+          latestSearchTimestamp = Date.now()
           latestResultsTimestamp = Date.now()
 
           $rootScope.$broadcast('TextSuggestionsService:updated')
@@ -186,7 +191,6 @@
         }
 
         results = []
-        $rootScope.$broadcast('TextSuggestionsService:updated')
         searchByText(data)
       })
 
