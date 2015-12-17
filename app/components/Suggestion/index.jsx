@@ -16,8 +16,9 @@ let Suggestion = React.createClass({
       copying: React.PropTypes.bool.isRequired,
       copySuggestion: React.PropTypes.func.isRequired,
       matchDetails: React.PropTypes.arrayOf(React.PropTypes.shape({
-        type: React.PropTypes.string.isRequired,
-        contentState: React.PropTypes.string
+        type: React.PropTypes.oneOf(
+          ['IMPORTED_TM', 'LOCAL_PROJECT']).isRequired,
+        contentState: React.PropTypes.oneOf(['Translated', 'Approved'])
       })),
       similarityPercent: React.PropTypes.number,
       sourceContents: React.PropTypes.arrayOf(
@@ -72,7 +73,6 @@ let Suggestion = React.createClass({
         <SuggestionSources {...props}/>
         <SuggestionTranslations
           suggestion={suggestion}/>
-        }
       </div>
     )
   }
