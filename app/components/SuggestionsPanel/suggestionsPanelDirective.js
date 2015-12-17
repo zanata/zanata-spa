@@ -9,6 +9,7 @@ module.exports = function () {
   var Provider = require('react-redux').Provider
   var SuggestionsPanel = require('SuggestionsPanel')
   var mainReducer = require('reducers/suggestions')
+  var intl = require('intl')
 
   // TODO combine all these to a single import statement when using es6 imports
   var actions = require('actions')
@@ -225,7 +226,7 @@ module.exports = function () {
         function getInitialState () {
           var uiLocale = app.myInfo && app.myInfo.locale
             ? app.myInfo.locale.localeId
-            : 'en-US'
+            : intl.locales
           return {
             showPanel: SettingsService.get(SHOW_SETTING),
             searchType: 'phrase', // 'phrase' or 'text'
@@ -249,15 +250,7 @@ module.exports = function () {
 
             locales: uiLocale,
             // FIXME move to top of component tree
-            formats: {
-              date: {
-                medium: {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric'
-                }
-              }
-            }
+            formats: intl.formats
           }
         }
 
