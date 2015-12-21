@@ -11,7 +11,14 @@ let SuggestionSourceDetails = React.createClass({
   propTypes: {
     suggestion: React.PropTypes.shape({
       matchDetails: React.PropTypes.arrayOf(React.PropTypes.shape({
-        type: React.PropTypes.string.isRequired
+        type: React.PropTypes.oneOf(
+          ['IMPORTED_TM', 'LOCAL_PROJECT']).isRequired,
+        transMemorySlug: React.PropTypes.string,
+        projectId: React.PropTypes.string,
+        projectName: React.PropTypes.string,
+        version: React.PropTypes.string,
+        documentPath: React.PropTypes.string,
+        documentName: React.PropTypes.string
       }))
     })
   },
