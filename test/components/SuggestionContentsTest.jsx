@@ -84,9 +84,6 @@ test('SuggestionContent markup (with diff)', (t) => {
   t.end()
 })
 
-
-/* FIXME this test passes, but messes up the formatted test results output further down
-
 test('SuggestionContent markup (plural with diff)', (t) => {
   const actual = (
     <SuggestionContents
@@ -126,4 +123,3 @@ test('SuggestionContent markup (plural with diff)', (t) => {
   t.isSameMarkup(actual, expected)
   t.end()
 })
-*/
