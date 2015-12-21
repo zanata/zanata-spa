@@ -16,7 +16,6 @@ let SuggestionSources = React.createClass({
         type: React.PropTypes.string.isRequired,
         contentState: React.PropTypes.string
       })),
-      similarityPercent: React.PropTypes.number,
       sourceContents: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
     }),
     search: React.PropTypes.arrayOf(React.PropTypes.string),
@@ -32,7 +31,8 @@ let SuggestionSources = React.createClass({
           plural={sourceContents.length > 1}
           contents={sourceContents}
           compareTo={diffWith}/>
-        <SuggestionSourceDetails {... this.props}/>
+        <SuggestionSourceDetails
+          suggestion={this.props.suggestion}/>
       </div>
     )
   }
