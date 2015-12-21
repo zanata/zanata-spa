@@ -20,8 +20,9 @@ let SuggestionMatchPercent = React.createClass({
     if (percent > 99.99 && percent < 100) {
       return '99.99%'
     }
+    // show 2 decimal places when near 100%
     if (percent >= 99.90 && percent < 100) {
-      return '99.95'
+      return percent.toFixed(2) + '%'
     }
 
     // Limit any inexact percentages to a single decimal place
