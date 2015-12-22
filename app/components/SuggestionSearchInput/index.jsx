@@ -72,7 +72,7 @@ let SuggestionSearchInput = React.createClass({
         {/* TODO proper loader */}
         Loading…
       </span>
-    }
+    )
   },
 
   resultCountElement: function () {
@@ -84,22 +84,39 @@ let SuggestionSearchInput = React.createClass({
     )
   },
 
-  render: function () {
-    const resultCount = this.props.loading
-      ? this.loadingResultsElement()
-      : this.props.hasSearch
-        ? this.resultCountElement()
-        : undefined
+  resultsElement: function () {
+    if (!this.props.loading && !this.props.hasSearch) {
+      return undefined
+    }
 
+    const innerElement = this.props.loading
+      ? this.loadingResultsElement()
+      : this.resultCountElement()
+
+    return (
+      <span className="InputGroup-addon">
+        {innerElement}
+      </span>
+    )
+  },
+
+  clearButtonElement: function () {
+    if (!this.props.hasSearch) {
+      return undefined
+    }
     // FIXME need to not use Icon--sm style for this one
     //       maybe use a size property with default of small
-    const clearButton = this.props.hasSearch
-      ? <IconButton icon="cross"
+    return (
+      <span className="InputGroup-addon">
+        <IconButton icon="cross"
                     title="Clear search"
                     iconClass="Icon--xsm"
                     onClick={this.clearSearch}/>
-      : undefined
+      </span>
+    )
+  },
 
+  render: function () {
     return (
       <div className={cx('InputGroup InputGroup--outlined InputGroup--rounded',
                          { 'is-focused': this.state.focused })}>
@@ -116,12 +133,8 @@ let SuggestionSearchInput = React.createClass({
                value={this.props.text}
                onChange={this.props.onTextChange}
                className="InputGroup-input u-sizeLineHeight-1_1-4"/>
-        <span className="InputGroup-addon">
-          {resultCount}
-        </span>
-        <span className="InputGroup-addon">
-          {clearButton}
-        </span>
+        {this.resultsElement()}
+        {this.clearButtonElement()}
       </div>
     )
   }
