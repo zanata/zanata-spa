@@ -65,18 +65,30 @@ let SuggestionSearchInput = React.createClass({
     this.focusInput()
   },
 
+  loadingResultsElement: function () {
+    return (
+      <span onClick={this.focusInput}
+            className="Editor-suggestionsSearchLoader">
+        {/* TODO proper loader */}
+        Loading…
+      </span>
+    }
+  },
+
+  resultCountElement: function () {
+    return (
+      <span onClick={this.focusInput}
+            className="Editor-suggestionsSearchResults">
+        {this.props.resultCount} results
+      </span>
+    )
+  },
+
   render: function () {
     const resultCount = this.props.loading
-      ? <span onClick={this.focusInput}
-              className="Editor-suggestionsSearchLoader">
-          {/* TODO proper loader */}
-          Loading…
-        </span>
+      ? this.loadingResultsElement()
       : this.props.hasSearch
-        ? <span onClick={this.focusInput}
-                className="Editor-suggestionsSearchResults">
-            {this.props.resultCount} results
-          </span>
+        ? this.resultCountElement()
         : undefined
 
     // FIXME need to not use Icon--sm style for this one

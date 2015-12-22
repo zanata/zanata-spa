@@ -59,7 +59,7 @@ let SuggestionContents = React.createClass({
   },
 
   render: function () {
-    let contents = this.props.contents.map((content, index) => {
+    const contents = this.props.contents.map((content, index) => {
       return (
         <div key={index} className="TransUnit-item">
           <div className="TransUnit-itemHeader">
