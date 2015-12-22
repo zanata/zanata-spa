@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
 import Suggestion from '../Suggestion'
 import { pick } from 'lodash'
@@ -10,23 +10,23 @@ let SuggestionList = React.createClass({
   mixins: [IntlMixin],
 
   propTypes: {
-    search: React.PropTypes.arrayOf(React.PropTypes.string),
-    showDiff: React.PropTypes.bool.isRequired,
+    search: PropTypes.arrayOf(PropTypes.string),
+    showDiff: PropTypes.bool.isRequired,
 
-    suggestions: React.PropTypes.arrayOf(React.PropTypes.shape({
+    suggestions: PropTypes.arrayOf(PropTypes.shape({
       // true when the translation has just been copied
-      copying: React.PropTypes.bool.isRequired,
-      copySuggestion: React.PropTypes.func.isRequired,
-      suggestion: React.PropTypes.shape({
-        matchDetails: React.PropTypes.arrayOf(React.PropTypes.shape({
-          type: React.PropTypes.string.isRequired,
-          contentState: React.PropTypes.string
+      copying: PropTypes.bool.isRequired,
+      copySuggestion: PropTypes.func.isRequired,
+      suggestion: PropTypes.shape({
+        matchDetails: PropTypes.arrayOf(PropTypes.shape({
+          type: PropTypes.string.isRequired,
+          contentState: PropTypes.string
         })),
-        similarityPercent: React.PropTypes.number,
-        sourceContents: React.PropTypes.arrayOf(
-          React.PropTypes.string).isRequired,
-        targetContents: React.PropTypes.arrayOf(
-          React.PropTypes.string).isRequired
+        similarityPercent: PropTypes.number,
+        sourceContents: PropTypes.arrayOf(
+          PropTypes.string).isRequired,
+        targetContents: PropTypes.arrayOf(
+          PropTypes.string).isRequired
       })
     }))
   },

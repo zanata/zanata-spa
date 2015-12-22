@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import Icon from '../Icon'
 import IconButton from '../IconButton'
 import IconButtonToggle from '../IconButtonToggle'
@@ -12,19 +12,19 @@ import ToggleSwitch from '../ToggleSwitch'
 let SuggestionsHeader = React.createClass({
 
   propTypes: {
-    searchType: React.PropTypes.oneOf(['phrase', 'text']).isRequired,
-    showDiff: React.PropTypes.bool.isRequired,
-    onDiffChange: React.PropTypes.func.isRequired,
-    transUnitSelected: React.PropTypes.bool.isRequired,
-    closeSuggestions: React.PropTypes.func.isRequired,
-    search: React.PropTypes.shape({
-      text: React.PropTypes.string,
-      loading: React.PropTypes.bool.isRequired,
-      toggle: React.PropTypes.func.isRequired,
-      clear: React.PropTypes.func.isRequired,
-      changeText: React.PropTypes.func.isRequired,
-      input: React.PropTypes.shape({
-        text: React.PropTypes.string.isRequired
+    searchType: PropTypes.oneOf(['phrase', 'text']).isRequired,
+    showDiff: PropTypes.bool.isRequired,
+    onDiffChange: PropTypes.func.isRequired,
+    transUnitSelected: PropTypes.bool.isRequired,
+    closeSuggestions: PropTypes.func.isRequired,
+    search: PropTypes.shape({
+      text: PropTypes.string,
+      loading: PropTypes.bool.isRequired,
+      toggle: PropTypes.func.isRequired,
+      clear: PropTypes.func.isRequired,
+      changeText: PropTypes.func.isRequired,
+      input: PropTypes.shape({
+        text: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
   },

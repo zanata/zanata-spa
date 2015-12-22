@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
 import SuggestionSources from '../SuggestionSources'
 import SuggestionTranslations from '../SuggestionTranslations'
@@ -12,21 +12,21 @@ let Suggestion = React.createClass({
 
   propTypes: {
     // true when the translation has just been copied
-    suggestion: React.PropTypes.shape({
-      copying: React.PropTypes.bool.isRequired,
-      copySuggestion: React.PropTypes.func.isRequired,
-      matchDetails: React.PropTypes.arrayOf(React.PropTypes.shape({
-        type: React.PropTypes.oneOf(
+    suggestion: PropTypes.shape({
+      copying: PropTypes.bool.isRequired,
+      copySuggestion: PropTypes.func.isRequired,
+      matchDetails: PropTypes.arrayOf(PropTypes.shape({
+        type: PropTypes.oneOf(
           ['IMPORTED_TM', 'LOCAL_PROJECT']).isRequired,
-        contentState: React.PropTypes.oneOf(['Translated', 'Approved'])
+        contentState: PropTypes.oneOf(['Translated', 'Approved'])
       })),
-      similarityPercent: React.PropTypes.number,
-      sourceContents: React.PropTypes.arrayOf(
-        React.PropTypes.string).isRequired,
-      targetContents: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+      similarityPercent: PropTypes.number,
+      sourceContents: PropTypes.arrayOf(
+        PropTypes.string).isRequired,
+      targetContents: PropTypes.arrayOf(PropTypes.string).isRequired
     }),
-    search: React.PropTypes.arrayOf(React.PropTypes.string),
-    showDiff: React.PropTypes.bool.isRequired
+    search: PropTypes.arrayOf(PropTypes.string),
+    showDiff: PropTypes.bool.isRequired
   },
 
   /**

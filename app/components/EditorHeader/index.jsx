@@ -3,7 +3,7 @@ import ControlsHeader from 'ControlsHeader'
 import NavHeader from 'NavHeader'
 import ProgressBar from 'ProgressBar'
 import { connect } from 'react-redux'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Header for navigation and control of the editor
@@ -11,13 +11,13 @@ import React from 'react'
 let EditorHeader = React.createClass({
 
   propTypes: {
-    navHeaderVisible: React.PropTypes.bool.isRequired,
-    counts: React.PropTypes.shape({
-      total: React.PropTypes.number,
-      approved: React.PropTypes.number,
-      translated: React.PropTypes.number,
-      needswork: React.PropTypes.number,
-      untranslated: React.PropTypes.number
+    navHeaderVisible: PropTypes.bool.isRequired,
+    counts: PropTypes.shape({
+      total: PropTypes.number,
+      approved: PropTypes.number,
+      translated: PropTypes.number,
+      needswork: PropTypes.number,
+      untranslated: PropTypes.number
     })
   },
 

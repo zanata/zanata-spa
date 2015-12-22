@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.
@@ -7,12 +7,12 @@ import React from 'react'
 let Dropdown = React.createClass({
 
   propTypes: {
-    onToggle: React.PropTypes.func.isRequired,
-    isOpen: React.PropTypes.bool.isRequired,
-    enabled: React.PropTypes.bool,
-    className: React.PropTypes.string,
+    onToggle: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    enabled: PropTypes.bool,
+    className: PropTypes.string,
 
-    children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired
+    children: PropTypes.arrayOf(PropTypes.element).isRequired
   },
 
   getDefaultProps: () => {
@@ -79,7 +79,7 @@ let Dropdown = React.createClass({
 
 Dropdown.Button = React.createClass({
   propTypes: {
-    children: React.PropTypes.element.isRequired
+    children: PropTypes.element.isRequired
   },
   render: function () {
     // just unwrap the child and return it

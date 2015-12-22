@@ -1,5 +1,5 @@
 import TextDiff from '../TextDiff'
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
 import cx from 'classnames'
 
@@ -11,13 +11,13 @@ let SuggestionContents = React.createClass({
   mixins: [IntlMixin],
 
   propTypes: {
-    plural: React.PropTypes.bool.isRequired,
-    contents: React.PropTypes.arrayOf(
-      React.PropTypes.string
+    plural: PropTypes.bool.isRequired,
+    contents: PropTypes.arrayOf(
+      PropTypes.string
     ).isRequired,
     // Include this to display a diff
-    compareTo: React.PropTypes.arrayOf(
-      React.PropTypes.string
+    compareTo: PropTypes.arrayOf(
+      PropTypes.string
     )
   },
 

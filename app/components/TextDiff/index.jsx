@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import Diff from 'text-diff'
 
 const diff = new Diff()
@@ -11,9 +11,9 @@ module.exports = React.createClass({
   displayName: 'TextDiff',
 
   propTypes: {
-    text1: React.PropTypes.string.isRequired,
-    text2: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string
+    text1: PropTypes.string.isRequired,
+    text2: PropTypes.string.isRequired,
+    className: PropTypes.string
   },
 
   getDefaultProps: () => {

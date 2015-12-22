@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
 import SuggestionsHeader from '../SuggestionsHeader'
 import SuggestionsBody from '../SuggestionsBody'
@@ -16,8 +16,8 @@ let SuggestionsPanel = React.createClass({
 
   propTypes: {
     // likely want to move this switching to a higher level
-    showPanel: React.PropTypes.bool.isRequired,
-    searchType: React.PropTypes.oneOf(['phrase', 'text']).isRequired
+    showPanel: PropTypes.bool.isRequired,
+    searchType: PropTypes.oneOf(['phrase', 'text']).isRequired
   },
 
   render: function () {

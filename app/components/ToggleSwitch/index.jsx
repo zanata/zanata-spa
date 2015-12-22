@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Checkbox that appears as a slider-style switch
@@ -7,11 +7,11 @@ import React from 'react'
 let ToggleSwitch = React.createClass({
 
   propTypes: {
-    id: React.PropTypes.string,
-    className: React.PropTypes.string,
-    isChecked: React.PropTypes.bool.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    label: React.PropTypes.string.isRequired
+    id: PropTypes.string,
+    className: PropTypes.string,
+    isChecked: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired,
+    label: PropTypes.string.isRequired
   },
 
   render: function () {

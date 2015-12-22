@@ -1,6 +1,6 @@
 import cx from 'classnames'
 import IconButton from '../IconButton'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * An action button with an icon, title and background styling.
@@ -12,12 +12,12 @@ import React from 'react'
 let IconButtonToggle = React.createClass({
 
   propTypes: {
-    icon: React.PropTypes.string.isRequired,
-    title: React.PropTypes.string.isRequired,
-    onClick: React.PropTypes.func.isRequired,
-    active: React.PropTypes.bool.isRequired,
-    disabled: React.PropTypes.bool,
-    className: React.PropTypes.string
+    icon: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool,
+    className: PropTypes.string
   },
 
   getDefaultProps: () => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import Icon from '../Icon'
 import { IntlMixin } from 'react-intl'
 
@@ -10,8 +10,8 @@ let NoSuggestionsPanel = React.createClass({
   mixins: [IntlMixin],
 
   propTypes: {
-    message: React.PropTypes.string.isRequired,
-    icon: React.PropTypes.oneOf(['loader', 'search', 'suggestions']).isRequired
+    message: PropTypes.string.isRequired,
+    icon: PropTypes.oneOf(['loader', 'search', 'suggestions']).isRequired
   },
 
   render: function () {

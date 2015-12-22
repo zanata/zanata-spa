@@ -1,6 +1,6 @@
 import { values } from 'lodash'
 import Dropdown from '../Dropdown'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Dropdown to select the language to display the user interface in.
@@ -8,12 +8,12 @@ import React from 'react'
 let UiLanguageDropdown = React.createClass({
 
   propTypes: {
-    changeUiLocale: React.PropTypes.func.isRequired,
-    selectedUiLocale: React.PropTypes.string,
-    uiLocales: React.PropTypes.object.isRequired,
+    changeUiLocale: PropTypes.func.isRequired,
+    selectedUiLocale: PropTypes.string,
+    uiLocales: PropTypes.object.isRequired,
 
-    toggleDropdown: React.PropTypes.func.isRequired,
-    isOpen: React.PropTypes.bool.isRequired
+    toggleDropdown: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired
   },
 
   changeUiLocale: function (locale) {

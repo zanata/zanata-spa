@@ -4,8 +4,10 @@ import Icon from 'Icon'
 import LanguagesDropdown from 'LanguagesDropdown'
 import ProjectVersionLink from 'ProjectVersionLink'
 import UiLanguageDropdown from 'UiLanguageDropdown'
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+
+const { any, arrayOf, func, object, shape, string } = PropTypes
 
 /**
  * Hideable navigation header across the top of the app.
@@ -13,42 +15,42 @@ import { connect } from 'react-redux'
 let NavHeader = React.createClass({
 
   propTypes: {
-    actions: React.PropTypes.shape({
-      changeUiLocale: React.PropTypes.func.isRequired,
-      toggleDropdown: React.PropTypes.func.isRequired
+    actions: shape({
+      changeUiLocale: func.isRequired,
+      toggleDropdown: func.isRequired
     }).isRequired,
 
-    data: React.PropTypes.shape({
-      user: React.PropTypes.shape({
-        name: React.PropTypes.string,
-        gravatarUrl: React.PropTypes.string,
-        dashboardUrl: React.PropTypes.string.isRequired
+    data: shape({
+      user: shape({
+        name: string,
+        gravatarUrl: string,
+        dashboardUrl: string.isRequired
       }),
-      context: React.PropTypes.shape({
-        projectVersion: React.PropTypes.shape({
-          project: React.PropTypes.shape({
-            slug: React.PropTypes.string.isRequired,
-            name: React.PropTypes.string
+      context: shape({
+        projectVersion: shape({
+          project: shape({
+            slug: string.isRequired,
+            name: string
           }).isRequired,
-          version: React.PropTypes.string.isRequired,
-          url: React.PropTypes.string,
-          docs: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-          locales: React.PropTypes.object.isRequired
+          version: string.isRequired,
+          url: string,
+          docs: arrayOf(string).isRequired,
+          locales: object.isRequired
         }).isRequired,
-        selectedLocale: React.PropTypes.string.isRequired
+        selectedLocale: string.isRequired
       }).isRequired
     }).isRequired,
 
-    ui: React.PropTypes.shape({
+    ui: shape({
       // locale id for selected locale
-      selectedUiLocale: React.PropTypes.string,
+      selectedUiLocale: string,
       // localeId -> { id, name }
-      uiLocales: React.PropTypes.object.isRequired,
-      dropdowns: React.PropTypes.shape({
-        current: React.PropTypes.any,
-        docsKey: React.PropTypes.any.isRequired,
-        localeKey: React.PropTypes.any.isRequired,
-        uiLocaleKey: React.PropTypes.any.isRequired
+      uiLocales: object.isRequired,
+      dropdowns: shape({
+        current: any,
+        docsKey: any.isRequired,
+        localeKey: any.isRequired,
+        uiLocaleKey: any.isRequired
       }).isRequired
     }).isRequired
   },

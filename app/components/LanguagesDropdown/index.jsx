@@ -2,7 +2,7 @@ import { values } from 'lodash'
 import { encode } from '../../util/zanata-tools/doc-id'
 import Dropdown from '../Dropdown'
 import Icon from '../Icon'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Dropdown to select the current language to translate to.
@@ -10,22 +10,22 @@ import React from 'react'
 let LanguagesDropdown = React.createClass({
 
   propTypes: {
-    context: React.PropTypes.shape({
-      projectVersion: React.PropTypes.shape({
-        project: React.PropTypes.shape({
-          slug: React.PropTypes.string
+    context: PropTypes.shape({
+      projectVersion: PropTypes.shape({
+        project: PropTypes.shape({
+          slug: PropTypes.string
         }).isRequired,
-        version: React.PropTypes.string.isRequired,
-        locales: React.PropTypes.object.isRequired
+        version: PropTypes.string.isRequired,
+        locales: PropTypes.object.isRequired
       }).isRequired,
-      selectedDoc: React.PropTypes.shape({
-        id: React.PropTypes.string.isRequired
+      selectedDoc: PropTypes.shape({
+        id: PropTypes.string.isRequired
       }).isRequired,
-      selectedLocale: React.PropTypes.string.isRequired
+      selectedLocale: PropTypes.string.isRequired
     }).isRequired,
 
-    toggleDropdown: React.PropTypes.func.isRequired,
-    isOpen: React.PropTypes.bool.isRequired
+    toggleDropdown: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired
   },
 
   localeUrl: function (locale) {

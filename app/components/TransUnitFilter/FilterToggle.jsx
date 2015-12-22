@@ -1,6 +1,6 @@
 import cx from 'classnames'
 import Icon from '../Icon'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Styled checkbox to toggle a filter option on and off.
@@ -8,18 +8,18 @@ import React from 'react'
 let FilterToggle = React.createClass({
 
   propTypes: {
-    id: React.PropTypes.string,
-    className: React.PropTypes.string,
-    isChecked: React.PropTypes.bool.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    title: React.PropTypes.string.isRequired,
-    count: React.PropTypes.oneOfType([
-      React.PropTypes.number,
+    id: PropTypes.string,
+    className: PropTypes.string,
+    isChecked: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    count: PropTypes.oneOfType([
+      PropTypes.number,
       // FIXME stats API gives a string, change that to a number
       //       and remove this option.
-      React.PropTypes.string
+      PropTypes.string
     ]),
-    withDot: React.PropTypes.bool
+    withDot: PropTypes.bool
   },
 
   getDefaultProps: () => {

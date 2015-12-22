@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Icon component, usually renders an svg icon
@@ -7,9 +7,9 @@ import React from 'react'
 let Icon = React.createClass({
 
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    title: React.PropTypes.node,
-    className: React.PropTypes.string
+    name: PropTypes.string.isRequired,
+    title: PropTypes.node,
+    className: PropTypes.string
   },
 
   /**

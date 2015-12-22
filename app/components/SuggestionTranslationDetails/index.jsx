@@ -1,5 +1,5 @@
 import Button from '../Button'
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
 import SuggestionMatchPercent from '../SuggestionMatchPercent'
 import SuggestionUpdateMessage from '../SuggestionUpdateMessage'
@@ -11,15 +11,15 @@ let SuggestionTranslationDetails = React.createClass({
   mixins: [IntlMixin],
 
   propTypes: {
-    suggestion: React.PropTypes.shape({
-      copying: React.PropTypes.bool.isRequired,
-      copySuggestion: React.PropTypes.func.isRequired,
-      matchType: React.PropTypes.string.isRequired,
-      matchDetails: React.PropTypes.arrayOf(React.PropTypes.shape({
-        type: React.PropTypes.string.isRequired,
-        contentState: React.PropTypes.string
+    suggestion: PropTypes.shape({
+      copying: PropTypes.bool.isRequired,
+      copySuggestion: PropTypes.func.isRequired,
+      matchType: PropTypes.string.isRequired,
+      matchDetails: PropTypes.arrayOf(PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        contentState: PropTypes.string
       })),
-      similarityPercent: React.PropTypes.number
+      similarityPercent: PropTypes.number
     })
   },
 
