@@ -1,6 +1,6 @@
 import { chain } from 'lodash'
 import cx from 'classnames'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Bar showing translation progress
@@ -8,14 +8,14 @@ import React from 'react'
 let ProgressBar = React.createClass({
 
   propTypes: {
-    size: React.PropTypes.string,
-    counts: React.PropTypes.shape({
+    size: PropTypes.string,
+    counts: PropTypes.shape({
       // TODO better to derive total from the others rather than duplicate
-      total: React.PropTypes.number,
-      approved: React.PropTypes.number,
-      translated: React.PropTypes.number,
-      needswork: React.PropTypes.number,
-      untranslated: React.PropTypes.number
+      total: PropTypes.number,
+      approved: PropTypes.number,
+      translated: PropTypes.number,
+      needswork: PropTypes.number,
+      untranslated: PropTypes.number
     }).isRequired
   },
 
@@ -33,9 +33,9 @@ let ProgressBar = React.createClass({
 
   ProgressItem: React.createClass({
     propTypes: {
-      state: React.PropTypes.string.isRequired,
-      start: React.PropTypes.number.isRequired,
-      width: React.PropTypes.number.isRequired
+      state: PropTypes.string.isRequired,
+      start: PropTypes.number.isRequired,
+      width: PropTypes.number.isRequired
     },
     render: function () {
       let className = cx('Progressbar-item', 'Progressbar-' + this.props.state)

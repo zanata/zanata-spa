@@ -1,5 +1,5 @@
 import Icon from '../Icon'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Indicator that shows 'Translating' when the user is
@@ -11,8 +11,8 @@ let TranslatingIndicator = React.createClass({
   propTypes: {
     // DO NOT RENAME, the translation string extractor looks specifically
     // for gettextCatalog.getString when generating the translation template.
-    gettextCatalog: React.PropTypes.shape({
-      getString: React.PropTypes.func.isRequired
+    gettextCatalog: PropTypes.shape({
+      getString: PropTypes.func.isRequired
     }).isRequired
   },
 

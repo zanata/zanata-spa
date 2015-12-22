@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
 import Icon from '../Icon'
 
@@ -9,16 +9,16 @@ let SuggestionSourceDetails = React.createClass({
   mixins: [IntlMixin],
 
   propTypes: {
-    suggestion: React.PropTypes.shape({
-      matchDetails: React.PropTypes.arrayOf(React.PropTypes.shape({
-        type: React.PropTypes.oneOf(
+    suggestion: PropTypes.shape({
+      matchDetails: PropTypes.arrayOf(PropTypes.shape({
+        type: PropTypes.oneOf(
           ['IMPORTED_TM', 'LOCAL_PROJECT']).isRequired,
-        transMemorySlug: React.PropTypes.string,
-        projectId: React.PropTypes.string,
-        projectName: React.PropTypes.string,
-        version: React.PropTypes.string,
-        documentPath: React.PropTypes.string,
-        documentName: React.PropTypes.string
+        transMemorySlug: PropTypes.string,
+        projectId: PropTypes.string,
+        projectName: PropTypes.string,
+        version: PropTypes.string,
+        documentPath: PropTypes.string,
+        documentName: PropTypes.string
       }))
     })
   },

@@ -1,7 +1,7 @@
 import { encode } from '../../util/zanata-tools/doc-id'
 import Dropdown from '../Dropdown'
 import Icon from '../Icon'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Dropdown to select the current document to work on.
@@ -9,21 +9,21 @@ import React from 'react'
 let DocsDropdown = React.createClass({
 
   propTypes: {
-    context: React.PropTypes.shape({
-      projectVersion: React.PropTypes.shape({
-        project: React.PropTypes.shape({
-          slug: React.PropTypes.string.isRequired
+    context: PropTypes.shape({
+      projectVersion: PropTypes.shape({
+        project: PropTypes.shape({
+          slug: PropTypes.string.isRequired
         }).isRequired,
-        version: React.PropTypes.string.isRequired,
-        docs: React.PropTypes.arrayOf(React.PropTypes.string)
+        version: PropTypes.string.isRequired,
+        docs: PropTypes.arrayOf(PropTypes.string)
       }).isRequired,
-      selectedDoc: React.PropTypes.shape({
-        id: React.PropTypes.string.isRequired
+      selectedDoc: PropTypes.shape({
+        id: PropTypes.string.isRequired
       }).isRequired,
-      selectedLocale: React.PropTypes.string.isRequired
+      selectedLocale: PropTypes.string.isRequired
     }).isRequired,
-    toggleDropdown: React.PropTypes.func.isRequired,
-    isOpen: React.PropTypes.bool.isRequired
+    toggleDropdown: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired
   },
 
   docUrl: function (docId) {

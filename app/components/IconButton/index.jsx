@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import Button from '../Button'
 import Icon from '../Icon'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Action button with an icon and title, unstyled.
@@ -9,12 +9,12 @@ import React from 'react'
 let IconButton = React.createClass({
 
   propTypes: {
-    icon: React.PropTypes.string.isRequired,
-    title: React.PropTypes.string.isRequired,
-    onClick: React.PropTypes.func.isRequired,
-    disabled: React.PropTypes.bool,
-    iconClass: React.PropTypes.string,
-    buttonClass: React.PropTypes.string
+    icon: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+    iconClass: PropTypes.string,
+    buttonClass: PropTypes.string
   },
 
   render: function () {

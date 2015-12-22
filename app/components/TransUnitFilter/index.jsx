@@ -1,44 +1,44 @@
 import FilterToggle from './FilterToggle.jsx'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Panel with controls to filter the list of trans units
  */
 let TransUnitFilter = React.createClass({
   propTypes: {
-    actions: React.PropTypes.shape({
-      resetFilter: React.PropTypes.func.isRequired,
-      onFilterChange: React.PropTypes.func.isRequired
+    actions: PropTypes.shape({
+      resetFilter: PropTypes.func.isRequired,
+      onFilterChange: PropTypes.func.isRequired
     }).isRequired,
 
-    filter: React.PropTypes.shape({
-      all: React.PropTypes.bool.isRequired,
-      approved: React.PropTypes.bool.isRequired,
-      translated: React.PropTypes.bool.isRequired,
-      needsWork: React.PropTypes.bool.isRequired,
-      untranslated: React.PropTypes.bool.isRequired
+    filter: PropTypes.shape({
+      all: PropTypes.bool.isRequired,
+      approved: PropTypes.bool.isRequired,
+      translated: PropTypes.bool.isRequired,
+      needsWork: PropTypes.bool.isRequired,
+      untranslated: PropTypes.bool.isRequired
     }).isRequired,
 
     // FIXME stats API gives strings, change those to numbers
     //       and remove the string option.
-    counts: React.PropTypes.shape({
+    counts: PropTypes.shape({
       // TODO better to derive total from the others rather than duplicate
-      total: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      approved: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      translated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      needswork: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string]),
-      untranslated: React.PropTypes.oneOfType(
-        [React.PropTypes.number, React.PropTypes.string])
+      total: PropTypes.oneOfType(
+        [PropTypes.number, PropTypes.string]),
+      approved: PropTypes.oneOfType(
+        [PropTypes.number, PropTypes.string]),
+      translated: PropTypes.oneOfType(
+        [PropTypes.number, PropTypes.string]),
+      needswork: PropTypes.oneOfType(
+        [PropTypes.number, PropTypes.string]),
+      untranslated: PropTypes.oneOfType(
+        [PropTypes.number, PropTypes.string])
     }).isRequired,
 
     // DO NOT RENAME, the translation string extractor looks specifically
     // for gettextCatalog.getString when generating the translation template.
-    gettextCatalog: React.PropTypes.shape({
-      getString: React.PropTypes.func.isRequired
+    gettextCatalog: PropTypes.shape({
+      getString: PropTypes.func.isRequired
     }).isRequired
   },
 

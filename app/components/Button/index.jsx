@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Button that can be disabled.
@@ -7,10 +7,10 @@ import React from 'react'
 let Button = React.createClass({
 
   propTypes: {
-    title: React.PropTypes.string,
-    onClick: React.PropTypes.func,
-    disabled: React.PropTypes.bool,
-    className: React.PropTypes.string
+    title: PropTypes.string,
+    onClick: PropTypes.func,
+    disabled: PropTypes.bool,
+    className: PropTypes.string
   },
 
   getDefaultProps: () => {

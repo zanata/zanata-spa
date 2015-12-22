@@ -1,5 +1,5 @@
 import Icon from '../Icon'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Paging buttons and current-page indicator.
@@ -7,19 +7,19 @@ import React from 'react'
 let Pager = React.createClass({
 
   propTypes: {
-    actions: React.PropTypes.shape({
-      firstPage: React.PropTypes.func.isRequired,
-      previousPage: React.PropTypes.func.isRequired,
-      nextPage: React.PropTypes.func.isRequired,
-      lastPage: React.PropTypes.func.isRequired
+    actions: PropTypes.shape({
+      firstPage: PropTypes.func.isRequired,
+      previousPage: PropTypes.func.isRequired,
+      nextPage: PropTypes.func.isRequired,
+      lastPage: PropTypes.func.isRequired
     }).isRequired,
-    pageNumber: React.PropTypes.number.isRequired,
-    pageCount: React.PropTypes.number,
+    pageNumber: PropTypes.number.isRequired,
+    pageCount: PropTypes.number,
 
     // DO NOT RENAME, the translation string extractor looks specifically
     // for gettextCatalog.getString when generating the translation template.
-    gettextCatalog: React.PropTypes.shape({
-      getString: React.PropTypes.func.isRequired
+    gettextCatalog: PropTypes.shape({
+      getString: PropTypes.func.isRequired
     }).isRequired
   },
 

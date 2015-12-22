@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Gravatar icon that links to the dashboard page
@@ -6,9 +6,9 @@ import React from 'react'
 let DashboardLink = React.createClass({
 
   propTypes: {
-    dashboardUrl: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string,
-    gravatarUrl: React.PropTypes.string
+    dashboardUrl: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    gravatarUrl: PropTypes.string
   },
 
   getDefaultProps: () => {

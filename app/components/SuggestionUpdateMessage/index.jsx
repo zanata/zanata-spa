@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { FormattedDate } from 'react-intl'
 import Icon from '../Icon'
 
@@ -9,10 +9,10 @@ import Icon from '../Icon'
 let SuggestionUpdateMessage = React.createClass({
 
   propTypes: {
-    matchType: React.PropTypes.oneOf(['imported', 'translated', 'approved'])
+    matchType: PropTypes.oneOf(['imported', 'translated', 'approved'])
       .isRequired,
-    user: React.PropTypes.string,
-    lastChanged: React.PropTypes.instanceOf(Date)
+    user: PropTypes.string,
+    lastChanged: PropTypes.instanceOf(Date)
   },
 
   message: function () {

@@ -4,8 +4,10 @@ import IconButtonToggle from 'IconButtonToggle'
 import Pager from 'Pager'
 import TranslatingIndicator from 'TranslatingIndicator'
 import TransUnitFilter from 'TransUnitFilter'
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+
+const { bool, func, number, shape } = PropTypes
 
 /**
  * Header row with editor controls (filtering, paging, etc.)
@@ -13,51 +15,51 @@ import { connect } from 'react-redux'
 let ControlsHeader = React.createClass({
 
   propTypes: {
-    actions: React.PropTypes.shape({
-      resetFilter: React.PropTypes.func.isRequired,
-      onFilterChange: React.PropTypes.func.isRequired,
-      firstPage: React.PropTypes.func.isRequired,
-      previousPage: React.PropTypes.func.isRequired,
-      nextPage: React.PropTypes.func.isRequired,
-      lastPage: React.PropTypes.func.isRequired,
-      toggleSuggestionPanel: React.PropTypes.func.isRequired,
-      toggleKeyboardShortcutsModal: React.PropTypes.func.isRequired,
-      toggleMainNav: React.PropTypes.func.isRequired
+    actions: shape({
+      resetFilter: func.isRequired,
+      onFilterChange: func.isRequired,
+      firstPage: func.isRequired,
+      previousPage: func.isRequired,
+      nextPage: func.isRequired,
+      lastPage: func.isRequired,
+      toggleSuggestionPanel: func.isRequired,
+      toggleKeyboardShortcutsModal: func.isRequired,
+      toggleMainNav: func.isRequired
     }).isRequired,
 
-    ui: React.PropTypes.shape({
-      panels: React.PropTypes.shape({
-        suggestions: React.PropTypes.shape({
-          visible: React.PropTypes.bool.isRequired
+    ui: shape({
+      panels: shape({
+        suggestions: shape({
+          visible: bool.isRequired
         }).isRequired
       }).isRequired,
-      textFlowDisplay: React.PropTypes.shape({
-        filter: React.PropTypes.shape({
+      textFlowDisplay: shape({
+        filter: shape({
           // FIXME should be able to derive this from the other 4
-          all: React.PropTypes.bool.isRequired,
-          approved: React.PropTypes.bool.isRequired,
-          translated: React.PropTypes.bool.isRequired,
-          needsWork: React.PropTypes.bool.isRequired,
-          untranslated: React.PropTypes.bool.isRequired
+          all: bool.isRequired,
+          approved: bool.isRequired,
+          translated: bool.isRequired,
+          needsWork: bool.isRequired,
+          untranslated: bool.isRequired
         }).isRequired,
-        pageNumber: React.PropTypes.number.isRequired,
-        pageCount: React.PropTypes.number
+        pageNumber: number.isRequired,
+        pageCount: number
       }).isRequired,
 
       // DO NOT RENAME, the translation string extractor looks specifically
       // for gettextCatalog.getString when generating the translation template.
-      gettextCatalog: React.PropTypes.shape({
-        getString: React.PropTypes.func.isRequired
+      gettextCatalog: shape({
+        getString: func.isRequired
       }).isRequired
     }).isRequired,
 
-    counts: React.PropTypes.shape({
+    counts: shape({
       // TODO better to derive total from the others rather than duplicate
-      total: React.PropTypes.number,
-      approved: React.PropTypes.number,
-      translated: React.PropTypes.number,
-      needswork: React.PropTypes.number,
-      untranslated: React.PropTypes.number
+      total: number,
+      approved: number,
+      translated: number,
+      needswork: number,
+      untranslated: number
     })
   },
 

@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import Icon from '../Icon'
 import IconButton from '../IconButton'
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Styled text input that displays result count.
@@ -9,12 +9,12 @@ import React from 'react'
 let SuggestionSearchInput = React.createClass({
 
   propTypes: {
-    text: React.PropTypes.string.isRequired,
-    onTextChange: React.PropTypes.func.isRequired,
-    loading: React.PropTypes.bool.isRequired,
-    resultCount: React.PropTypes.number,
-    hasSearch: React.PropTypes.bool.isRequired,
-    clearSearch: React.PropTypes.func.isRequired
+    text: PropTypes.string.isRequired,
+    onTextChange: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    resultCount: PropTypes.number,
+    hasSearch: PropTypes.bool.isRequired,
+    clearSearch: PropTypes.func.isRequired
   },
 
   clearSearch: function () {

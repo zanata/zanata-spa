@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 /**
  * Link to open the version page.
@@ -7,11 +7,11 @@ import React from 'react'
 let ProjectVersionLink = React.createClass({
 
   propTypes: {
-    project: React.PropTypes.shape({
-      name: React.PropTypes.string
+    project: PropTypes.shape({
+      name: PropTypes.string
     }).isRequired,
-    version: React.PropTypes.string,
-    url: React.PropTypes.string
+    version: PropTypes.string,
+    url: PropTypes.string
   },
 
   getDefaultProps: () => {
