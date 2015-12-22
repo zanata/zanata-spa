@@ -76,6 +76,7 @@ export default function (state, action) {
     case GETTEXT_CATALOG_CHANGED:
       return update({ui: {gettextCatalog: {$set: action.catalog}}})
     default:
+      console.warn('action was not handled (index)', action)
       return state
   }
 

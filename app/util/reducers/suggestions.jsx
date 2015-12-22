@@ -70,7 +70,7 @@ export default function (state, action) {
       return update({locales: {$set: action.localeId}})
 
     default:
-      console.warn('action was not handled', action)
+      console.warn('action was not handled (suggestions)', action)
       return state
   }
 
