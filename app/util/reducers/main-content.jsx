@@ -6,13 +6,17 @@
 
 import React from 'react/addons'
 import {
-  SELECTED_LOCALE_CHANGED } from 'actions'
+  SELECTED_LOCALE_CHANGED,
+  SELECTED_TRANS_UNIT_CHANGED } from 'actions'
 
 export default function (state, action) {
   console.log('handling', action, state)
   switch (action.type) {
     case SELECTED_LOCALE_CHANGED:
-      return update({locale: {$set: action.locale}})
+      return update({translationLocale: {$set: action.locale}})
+
+    case SELECTED_TRANS_UNIT_CHANGED:
+      return update({phrase: {$set: action.phrase}})
 
     default:
       console.warn('action was not handled (main-content)', action)

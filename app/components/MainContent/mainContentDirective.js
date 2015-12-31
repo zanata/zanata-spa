@@ -7,20 +7,21 @@ module.exports = function () {
   var applyMiddleware = redux.applyMiddleware
   var thunk = require('redux-thunk')
   var Provider = require('react-redux').Provider
-  var TransUnitLocaleHeading = require('../TransUnitLocaleHeading')
+  var TransUnitTranslationHeader = require('../TransUnitTranslationHeader')
   var mainReducer = require('reducers/main-content')
   var intl = require('intl')
 
   // TODO combine all these to a single import statement when using es6 imports
   var actions = require('actions')
   var selectedLocaleChanged = actions.selectedLocaleChanged
+  var selectedTransUnitChanged = actions.selectedTransUnitChanged
 
   /**
    * @name main-content
    * @description panel to display the main text flow list for editing
    * @ngInject
    */
-  function mainContent (LocaleService) {
+  function mainContent (EventService, LocaleService) {
     return {
       restrict: 'E',
       required: [],
@@ -32,8 +33,36 @@ module.exports = function () {
         //      editor-context in editor-content.html
 
         scope.$watch('editorContext.localeId', function (newValue) {
-          store.dispatch(selectedLocaleChanged(newValue))
+          store.dispatch(selectedLocaleChanged({
+            id: newValue,
+            name: LocaleService.getName(newValue)
+          }))
         })
+
+        // mirror phrase value from Angular
+        // will not be needed when phrase is handled by redux
+        scope.$watch('phrase', function (newValue) {
+          // clone so that the dispatched value is not
+          // one that will mutate. Angular will mutate
+          // the phrase value.
+          var newPhrase = _.clone(newValue)
+          store.dispatch(selectedTransUnitChanged(newPhrase))
+        }, true)
+
+        function cancelEdit () {
+          var phrase = scope.phrase
+          EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase)
+        }
+
+        // This will have to change when React takes over the scope
+        // can use phrase.id
+        //    to look up the controller in TransUnitService
+        //    then getPhrase() on the controller
+        function undoEdit () {
+          // look up the phrase since Angular code mutates it
+          var phrase = scope.phrase
+          EventService.emitEvent(EventService.EVENT.UNDO_EDIT, phrase)
+        }
 
         function getInitialState () {
           const localeId = scope.editorContext
@@ -41,8 +70,13 @@ module.exports = function () {
             : undefined
 
           return {
-            localeId: localeId,
-            localeName: LocaleService.getName(localeId)
+            phrase: scope.phrase,
+            cancelEdit: cancelEdit,
+            undoEdit: undoEdit,
+            translationLocale: {
+              id: localeId,
+              name: LocaleService.getName(localeId)
+            }
           }
         }
 
@@ -52,7 +86,7 @@ module.exports = function () {
               store: store
             }, function () {
               // has to be wrapped in a function, according to redux docs
-              return React.createElement(TransUnitLocaleHeading)
+              return React.createElement(TransUnitTranslationHeader)
             }), element[0])
         }
 

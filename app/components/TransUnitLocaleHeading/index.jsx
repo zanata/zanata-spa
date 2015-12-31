@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
 
 /**
  * Heading that displays locale name and ID
@@ -7,13 +6,13 @@ import { connect } from 'react-redux'
 let TransUnitLocaleHeading = React.createClass({
 
   propTypes: {
-    localeId: PropTypes.string.isRequired,
-    localeName: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
   },
 
   render: function () {
-    const id = this.props.localeId
-    const name = this.props.localeName
+    const id = this.props.id
+    const name = this.props.name
 
     return (
       <h3 className="TransUnit-heading">
@@ -23,8 +22,4 @@ let TransUnitLocaleHeading = React.createClass({
   }
 })
 
-function selector (state) {
-  return state
-}
-
-export default connect(selector)(TransUnitLocaleHeading)
+export default TransUnitLocaleHeading

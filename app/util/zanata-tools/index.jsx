@@ -16,5 +16,6 @@
  */
 
 import * as docId from './doc-id'
+import * as phrase from './phrase'
 
-export { docId }
+export { docId, phrase }

@@ -213,6 +213,13 @@ export function transUnitSelectionChanged (selected) {
   return { type: TRANS_UNIT_SELECTION_CHANGED, selected: selected }
 }
 
+// FIXME make this more fine-grained (when redux handles all
+//       the phrase state)
+export const SELECTED_TRANS_UNIT_CHANGED = 'SELECTED_TRANS_UNIT_CHANGED'
+export function selectedTransUnitChanged (phrase) {
+  return { type: SELECTED_TRANS_UNIT_CHANGED, phrase: phrase }
+}
+
 export const RESET_SUGGESTIONS_COPYING = 'RESET_SUGGESTIONS_COPYING'
 export function resetSuggestionsCopying () {
   return { type: RESET_SUGGESTIONS_COPYING }
