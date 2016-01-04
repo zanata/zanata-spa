@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import TransUnitTranslationHeader from '../TransUnitTranslationHeader'
+import TransUnitTranslationFooter from '../TransUnitTranslationFooter'
 import { connect } from 'react-redux'
 import { pick } from 'lodash'
 
@@ -11,13 +12,19 @@ let TransUnitTranslationPanel = React.createClass({
   propTypes: {
     selected: PropTypes.bool.isRequired,
     phrase: PropTypes.object.isRequired,
+    savePhraseWithStatus: PropTypes.func.isRequired,
     cancelEdit: PropTypes.func.isRequired,
     undoEdit: PropTypes.func.isRequired,
+    toggleDropdown: PropTypes.func.isRequired,
     textChanged: PropTypes.func.isRequired,
     translationLocale: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    suggestionCount: PropTypes.number.isRequired,
+    showSuggestions: PropTypes.bool.isRequired,
+    toggleSuggestionPanel: PropTypes.func.isRequired,
+    suggestionSearchType: PropTypes.oneOf(['phrase', 'text']).isRequired
   },
 
   render: function () {
@@ -25,13 +32,26 @@ let TransUnitTranslationPanel = React.createClass({
     const isPlural = this.props.phrase.plural
 
     if (this.props.selected) {
-      const headerProps = pick(this.props, ['phrase', 'cancelEdit',
-        'undoEdit', 'translationLocale'])
+      const headerProps = pick(this.props, [
+        'cancelEdit',
+        'phrase',
+        'translationLocale',
+        'undoEdit'
+      ])
       header = <TransUnitTranslationHeader {...headerProps}/>
-      
-      /* TODO footer component
-               from transUnit/translation/footer.html */
 
+      const footerProps = pick(this.props, [
+        'openDropdown',
+        'phrase',
+        'saveDropdownKey',
+        'savePhraseWithStatus',
+        'showSuggestions',
+        'suggestionCount',
+        'suggestionSearchType',
+        'toggleDropdown',
+        'toggleSuggestionPanel'
+      ])
+      footer = <TransUnitTranslationFooter {...footerProps}/>
     }
 
     const translations = this.props.phrase.newTranslations.map(
@@ -53,7 +73,7 @@ let TransUnitTranslationPanel = React.createClass({
           .bind(undefined, this.props.phrase.id, index)
 
         return (
-          <div className="TransUnit-item">
+          <div className="TransUnit-item" key={index}>
             {itemHeader}
           {/* TODO replace functionality of monospaced-elastic from
                    angular-elastic library
@@ -81,7 +101,6 @@ let TransUnitTranslationPanel = React.createClass({
         {header}
         {translations}
         {footer}
-
       </div>
     )
   }

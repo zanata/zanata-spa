@@ -139,6 +139,10 @@
       if (_.isEmpty(_.compact(phrase.newTranslations))) {
         return TransStatusService.getStatusInfo('UNTRANSLATED')
       }
+      // FIXME must also check if any plural is empty
+      //       and enforce needs work state. Just use
+      //       the same code used for the save button
+      //       dropdowns.
       return requestStatus
     }
 

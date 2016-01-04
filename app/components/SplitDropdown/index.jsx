@@ -14,7 +14,7 @@ let SplitDropdown = React.createClass({
     // passing as props is much less hassle than trying
     // to identify and work with child elements.
     actionButton: PropTypes.element.isRequired,
-    toggleButton: PropTypes.element.isRequired,
+    toggleButton: PropTypes.element,
     content: PropTypes.element.isRequired
   },
 
@@ -36,15 +36,22 @@ let SplitDropdown = React.createClass({
     const buttonClick = this.props.enabled
         ? { onClick: this.toggleDropdown } : {}
 
-    const toggleButton = (
-      <div ref="button"
-           className="Dropdown-toggle"
-           aria-haspopup={true}
-           aria-expanded={this.props.isOpen}
-           {...buttonClick}>
-        {this.props.toggleButton}
-      </div>
-    )
+    var toggleButtonItem
+
+    if (this.props.toggleButton) {
+      toggleButtonItem = (
+        <div className="ButtonGroup-item">
+          <div ref="button"
+               className="Dropdown-toggle"
+               aria-haspopup={true}
+               aria-expanded={this.props.isOpen}
+               {...buttonClick}>
+            {this.props.toggleButton}
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className={className}>
         <div className="ButtonGroup ButtonGroup--hz
@@ -52,13 +59,9 @@ let SplitDropdown = React.createClass({
           <div className="ButtonGroup-item">
             {this.props.actionButton}
           </div>
-          <div className="ButtonGroup-item">
-            {toggleButton}
-          </div>
+          {toggleButtonItem}
         </div>
-        <div className="Dropdown-content Dropdown-content--bordered">
-          {this.props.content}
-        </div>
+        {this.props.content}
       </div>
     )
   }

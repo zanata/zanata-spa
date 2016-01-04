@@ -17,17 +17,27 @@ module.exports = function () {
   var selectedTransUnitChanged = actions.selectedTransUnitChanged
   var transUnitWithIdSelectionChanged = actions.transUnitWithIdSelectionChanged
   var translationTextInputChanged = actions.translationTextInputChanged
+  var toggleDropdown = actions.toggleDropdown
+  var phraseSuggestionCountUpdated = actions.phraseSuggestionCountUpdated
+  var showSuggestionsChanged = actions.showSuggestionsChanged
+  var setSuggestionSearchType = actions.setSuggestionSearchType
 
   /**
    * @name main-content
    * @description panel to display the main text flow list for editing
    * @ngInject
    */
-  function mainContent (EventService, LocaleService) {
+  function mainContent ($rootScope,
+                        EditorShortcuts,
+                        EventService,
+                        LocaleService,
+                        SettingsService,
+                        TransStatusService) {
     return {
       restrict: 'E',
       required: [],
       link: function (scope, element) {
+        var saveButtonKey = {}
         var transUnitCtrl = scope.transUnitCtrl
         var createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
         var store = createStoreWithMiddleware(mainReducer, getInitialState())
@@ -60,6 +70,26 @@ module.exports = function () {
           store.dispatch(selectedTransUnitChanged(newPhrase))
         }, true)
 
+        $rootScope.$on(EventService.EVENT.PHRASE_SUGGESTION_COUNT,
+          function (event, data) {
+            store.dispatch(phraseSuggestionCountUpdated(
+              data.id, data.count))
+          })
+
+        SettingsService.subscribe(
+          SettingsService.SETTING.SHOW_SUGGESTIONS,
+          function (show) {
+            store.dispatch(showSuggestionsChanged(show))
+          })
+
+        // FIXME copied from suggestionsPanelDirective,
+        //       combine when stores combined
+        $rootScope.$on(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
+          function (event, showTextSearch) {
+            var searchType = showTextSearch ? 'text' : 'phrase'
+            store.dispatch(setSuggestionSearchType(searchType))
+          })
+
         function cancelEdit () {
           var phrase = scope.phrase
           EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase)
@@ -75,6 +105,19 @@ module.exports = function () {
           EventService.emitEvent(EventService.EVENT.UNDO_EDIT, phrase)
         }
 
+        function toggleSaveButtonDropdown () {
+          // FIXME this will change to instead use a unique key per
+          //       row and work with global dropdowns.
+          store.dispatch(toggleDropdown(saveButtonKey))
+        }
+
+        function toggleSuggestionPanel () {
+          // TODO handle all this with redux
+          scope.$apply(function () {
+            transUnitCtrl.toggleSuggestionPanel()
+          })
+        }
+
         function textChanged (phraseId, index, event) {
           var text = event.target.value
           store.dispatch(translationTextInputChanged(phraseId, index, text))
@@ -88,12 +131,25 @@ module.exports = function () {
             EventService.EVENT.TRANSLATION_TEXT_MODIFIED, scope.phrase)
         }
 
+        // event is just temporary to work ok with angular code
+        function savePhraseWithStatus (phrase, status, event) {
+          // close the dropdown (no dropdown should be open after this)
+          store.dispatch(toggleDropdown(undefined))
+
+          const statusInfo = TransStatusService.getStatusInfo(status)
+          EditorShortcuts.saveTranslationCallBack(event, phrase, statusInfo)
+        }
+
         function getInitialState () {
           const localeId = scope.editorContext
             ? scope.editorContext.localeId
             : undefined
 
           return {
+            openDropdown: undefined,
+            toggleDropdown: toggleSaveButtonDropdown,
+            saveDropdownKey: saveButtonKey,
+            savePhraseWithStatus: savePhraseWithStatus,
             selected: transUnitCtrl.selected,
             phrase: scope.phrase,
             cancelEdit: cancelEdit,
@@ -102,7 +158,13 @@ module.exports = function () {
             translationLocale: {
               id: localeId,
               name: LocaleService.getName(localeId)
-            }
+            },
+            suggestionCount: 0,
+            showSuggestions: SettingsService.get(
+              SettingsService.SETTING.SHOW_SUGGESTIONS),
+            toggleSuggestionPanel: toggleSuggestionPanel,
+            // TODO check this default value
+            suggestionSearchType: 'phrase'
           }
         }
 

@@ -38,9 +38,9 @@ export const TOGGLE_NAVIGATION_HEADER = 'TOGGLE_NAVIGATION_HEADER'
 //   return { type: CHANGE_UI_LOCALE, locale: locale }
 // }
 
-// export function toggleDropdown (dropdownKey) {
-//   return { type: TOGGLE_DROPDOWN, key: dropdownKey }
-// }
+export function toggleDropdown (dropdownKey) {
+  return { type: TOGGLE_DROPDOWN, key: dropdownKey }
+}
 
 // export function resetFilter () {
 //   return { type: RESET_FILTER }
@@ -274,6 +274,16 @@ export function phraseSuggestionsUpdated (
     loading: loading,
     searchStrings: searchStrings,
     suggestions: suggestions
+  }
+}
+
+export const PHRASE_SUGGESTION_COUNT_UPDATED =
+  'PHRASE_SUGGESTION_COUNT_UPDATED'
+export function phraseSuggestionCountUpdated (id, count) {
+  return {
+    type: PHRASE_SUGGESTION_COUNT_UPDATED,
+    id: id,
+    count: count
   }
 }
 
