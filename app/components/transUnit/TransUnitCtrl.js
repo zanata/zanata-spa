@@ -39,11 +39,6 @@
       }
     }
 
-    transUnitCtrl.translationTextModified = function (phrase) {
-      EventService.emitEvent(EventService.EVENT.TRANSLATION_TEXT_MODIFIED,
-          phrase)
-    }
-
     transUnitCtrl.getPhrase = function () {
       return $scope.phrase
     }

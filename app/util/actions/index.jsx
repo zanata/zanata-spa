@@ -213,6 +213,24 @@ export function transUnitSelectionChanged (selected) {
   return { type: TRANS_UNIT_SELECTION_CHANGED, selected: selected }
 }
 
+// TODO refactor to a single event for trans-unit selections
+//      (only have multiple of them to interop with Angular)
+export const TRANS_UNIT_WITH_ID_SELECTION_CHANGED =
+  'TRANS_UNIT_WITH_ID_SELECTION_CHANGED'
+export function transUnitWithIdSelectionChanged (id, selected) {
+  return { type: TRANS_UNIT_WITH_ID_SELECTION_CHANGED,
+           id: id, selected: selected }
+}
+
+// User has typed/pasted/etc. text for a translation (not saved yet)
+export const TRANSLATION_TEXT_INPUT_CHANGED = 'TRANSLATION_TEXT_INPUT_CHANGED'
+export function translationTextInputChanged (id, index, text) {
+  return { type: TRANSLATION_TEXT_INPUT_CHANGED,
+           id: id,
+           index: index,
+           text: text }
+}
+
 // FIXME make this more fine-grained (when redux handles all
 //       the phrase state)
 export const SELECTED_TRANS_UNIT_CHANGED = 'SELECTED_TRANS_UNIT_CHANGED'

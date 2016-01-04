@@ -7,7 +7,7 @@ module.exports = function () {
   var applyMiddleware = redux.applyMiddleware
   var thunk = require('redux-thunk')
   var Provider = require('react-redux').Provider
-  var TransUnitTranslationHeader = require('../TransUnitTranslationHeader')
+  var TransUnitTranslationPanel = require('../TransUnitTranslationPanel')
   var mainReducer = require('reducers/main-content')
   var intl = require('intl')
 
@@ -15,6 +15,8 @@ module.exports = function () {
   var actions = require('actions')
   var selectedLocaleChanged = actions.selectedLocaleChanged
   var selectedTransUnitChanged = actions.selectedTransUnitChanged
+  var transUnitWithIdSelectionChanged = actions.transUnitWithIdSelectionChanged
+  var translationTextInputChanged = actions.translationTextInputChanged
 
   /**
    * @name main-content
@@ -26,6 +28,7 @@ module.exports = function () {
       restrict: 'E',
       required: [],
       link: function (scope, element) {
+        var transUnitCtrl = scope.transUnitCtrl
         var createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
         var store = createStoreWithMiddleware(mainReducer, getInitialState())
 
@@ -37,6 +40,14 @@ module.exports = function () {
             id: newValue,
             name: LocaleService.getName(newValue)
           }))
+        })
+
+        // this needs transUnitCtrl prefix because 'selected' is on the
+        // controller object, not on the scope
+        scope.$watch('transUnitCtrl.selected', function (newValue) {
+          var selected = newValue
+          store.dispatch(
+            transUnitWithIdSelectionChanged(scope.phrase.id, selected))
         })
 
         // mirror phrase value from Angular
@@ -64,15 +75,30 @@ module.exports = function () {
           EventService.emitEvent(EventService.EVENT.UNDO_EDIT, phrase)
         }
 
+        function textChanged (phraseId, index, event) {
+          var text = event.target.value
+          store.dispatch(translationTextInputChanged(phraseId, index, text))
+
+          // stateful phrase object in Angular, keep up-to-date until it
+          // can be removed.
+          scope.phrase.newTranslations[index] = text
+          // this may lead to double-update as the modification triggers
+          // a general change event.
+          EventService.emitEvent(
+            EventService.EVENT.TRANSLATION_TEXT_MODIFIED, scope.phrase)
+        }
+
         function getInitialState () {
           const localeId = scope.editorContext
             ? scope.editorContext.localeId
             : undefined
 
           return {
+            selected: transUnitCtrl.selected,
             phrase: scope.phrase,
             cancelEdit: cancelEdit,
             undoEdit: undoEdit,
+            textChanged: textChanged,
             translationLocale: {
               id: localeId,
               name: LocaleService.getName(localeId)
@@ -86,7 +112,7 @@ module.exports = function () {
               store: store
             }, function () {
               // has to be wrapped in a function, according to redux docs
-              return React.createElement(TransUnitTranslationHeader)
+              return React.createElement(TransUnitTranslationPanel)
             }), element[0])
         }
 

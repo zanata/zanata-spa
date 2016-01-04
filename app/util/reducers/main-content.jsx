@@ -7,7 +7,9 @@
 import React from 'react/addons'
 import {
   SELECTED_LOCALE_CHANGED,
-  SELECTED_TRANS_UNIT_CHANGED } from 'actions'
+  SELECTED_TRANS_UNIT_CHANGED,
+  TRANSLATION_TEXT_INPUT_CHANGED,
+  TRANS_UNIT_WITH_ID_SELECTION_CHANGED } from 'actions'
 
 export default function (state, action) {
   console.log('handling', action, state)
@@ -17,6 +19,19 @@ export default function (state, action) {
 
     case SELECTED_TRANS_UNIT_CHANGED:
       return update({phrase: {$set: action.phrase}})
+
+    case TRANSLATION_TEXT_INPUT_CHANGED:
+      return (action.id === state.phrase.id)
+        ? update(
+          {
+            phrase: {newTranslations: {[action.index]: {$set: action.text}}}
+          })
+        : state
+
+    case TRANS_UNIT_WITH_ID_SELECTION_CHANGED:
+      return (action.id === state.phrase.id)
+        ? update({selected: {$set: action.selected}})
+        : state
 
     default:
       console.warn('action was not handled (main-content)', action)

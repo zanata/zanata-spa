@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import IconButton from '../IconButton'
 import TransUnitLocaleHeading from '../TransUnitLocaleHeading'
-import { connect } from 'react-redux'
 import { hasTranslationChanged } from 'zanata-tools/phrase'
 
 /**
@@ -67,8 +66,4 @@ let TransUnitTranslationHeader = React.createClass({
   }
 })
 
-function selector (state) {
-  return state
-}
-
-export default connect(selector)(TransUnitTranslationHeader)
+export default TransUnitTranslationHeader
