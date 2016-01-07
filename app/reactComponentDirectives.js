@@ -8,3 +8,4 @@
 require('./components/EditorHeader/editorHeaderDirective')()
 require('./components/SuggestionsPanel/suggestionsPanelDirective.js')()
 require('./components/MainContent/mainContentDirective.js')()
+require('./components/MainContent/transUnitSourceDirective.js')()

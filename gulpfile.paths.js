@@ -37,7 +37,8 @@ paths.webpack = {
   topLevel: [
     paths.app + '/**/editorHeaderDirective.js',
     paths.app + '/**/suggestionsPanelDirective.js',
-    paths.app + '/**/mainContentDirective.js'
+    paths.app + '/**/mainContentDirective.js',
+    paths.app + '/**/transUnitSourceDirective.js'
   ],
   // where to search for imported modules, must be absolute path
   modules: __dirname + '/app/components',
@@ -54,7 +55,8 @@ paths.js = {
     '!' + paths.webpack.entry,
     '!' + paths.app + '/**/editorHeaderDirective.js',
     '!' + paths.app + '/**/suggestionsPanelDirective.js',
-    '!' + paths.app + '/**/mainContentDirective.js'
+    '!' + paths.app + '/**/mainContentDirective.js',
+    '!' + paths.app + '/**/transUnitSourceDirective.js'
   ],
   bower: [
     paths.bower + '/**/angular.js',

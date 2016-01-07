@@ -4,8 +4,10 @@
 
   <ng-include src="'components/transUnit/trans-unit-status.html'"></ng-include>
 
+
   <div class="TransUnit-panel TransUnit-source">
-    <ng-include src="'components/transUnit/source/header.html'" ng-if="transUnitCtrl.selected"></ng-include>
+
+    <trans-unit-source></trans-unit-source>
 
     <div class="TransUnit-item" ng-repeat="(key, source) in ::phrase.sources">
       <div ng-if="phrase.plural" class="TransUnit-itemHeader">

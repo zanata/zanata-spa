@@ -18,6 +18,8 @@ let TransUnitTranslationHeader = React.createClass({
     }).isRequired
   },
 
+  // TODO this is duplicated between source header and translation header,
+  //      de-duplicate it
   buttonClass:
     'Link Link--neutral u-sizeHeight-1_1-2 u-sizeWidth-1 u-textCenter',
 
