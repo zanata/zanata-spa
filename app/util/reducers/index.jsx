@@ -24,6 +24,9 @@ import {
 // reducer composition
 export default function (state, action) {
   switch (action.type) {
+    case '@@redux/INIT':
+      return state
+
     case GRAVATAR_URL_UPDATED:
       return update({data: {user: {gravatarUrl: {$set: action.url}}}})
     case USER_NAME_UPDATED:

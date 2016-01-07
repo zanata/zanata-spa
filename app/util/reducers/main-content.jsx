@@ -18,12 +18,16 @@ import {
 export default function (state, action) {
   console.log('handling', action, state)
   switch (action.type) {
+    case '@@redux/INIT':
+      return state
+
     case PHRASE_SUGGESTION_COUNT_UPDATED:
       if (action.id === state.phrase.id) {
         return update({suggestionCount: {$set: action.count}})
       }
       // ignore for now since store only handles 1 phrase
       return state
+
     case SELECTED_LOCALE_CHANGED:
       return update({translationLocale: {$set: action.locale}})
 

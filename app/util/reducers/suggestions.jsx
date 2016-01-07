@@ -21,6 +21,9 @@ import { map } from 'lodash'
 
 export default function (state, action) {
   switch (action.type) {
+    case '@@redux/INIT':
+      return state
+
     case DIFF_SETTING_CHANGED:
       return update({showDiff: {$set: action.showDiff}})
 
