@@ -49,10 +49,6 @@ msgstr ""
 msgid "No content"
 msgstr ""
 
-#: app/components/transUnit/trans-unit.html
-msgid "Plural Form"
-msgstr ""
-
 #: app/components/Pager/index.js
 msgid "Previous page"
 msgstr ""
@@ -67,10 +63,6 @@ msgstr ""
 
 #: app/components/ControlsHeader/index.js
 msgid "Show suggestions panel"
-msgstr ""
-
-#: app/components/transUnit/trans-unit.html
-msgid "Singular Form"
 msgstr ""
 
 #: app/components/TransUnitFilter/index.js

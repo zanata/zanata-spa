@@ -4,29 +4,9 @@
 
   <ng-include src="'components/transUnit/trans-unit-status.html'"></ng-include>
 
-
-  <div class="TransUnit-panel TransUnit-source">
-
-    <trans-unit-source></trans-unit-source>
-
-    <div class="TransUnit-item" ng-repeat="(key, source) in ::phrase.sources">
-      <div ng-if="phrase.plural" class="TransUnit-itemHeader">
-        <span class="u-textMeta" ng-if="$first" translate>Singular Form</span>
-        <span class="u-textMeta" ng-if="!$first" translate>Plural Form</span>
-        <ul class="u-floatRight u-listHorizontal" ng-if="transUnitCtrl.selected">
-          <li>
-            <button class="u-floatRight Link Link--neutral u-sizeHeight-1 u-sizeWidth-1 u-textCenter"
-              title="Copy {{::editorContext.srcLocale.name}} ({{::editorContext.srcLocale.localeId}})"
-              ng-click="transUnitCtrl.copySource($event, phrase, key)">
-              <icon name="copy" class="Icon--sm" title="Copy {{::editorContext.srcLocale.name}} ({{::editorContext.srcLocale.localeId}})"></icon>
-            </button>
-          </li>
-        </ul>
-      </div>
-      <pre class="TransUnit-text" ng-bind="::source"></pre>
-    </div>
-    <ng-include src="'components/transUnit/source/footer.html'" ng-if="transUnitCtrl.selected"></ng-include>
-  </div>
+  <!-- TODO classes only needed until this moves up a level
+       (they make it have too much padding, so do remove them) -->
+  <trans-unit-source class="TransUnit-panel TransUnit-source"></trans-unit-source>
 
   <main-content class="TransUnit-panel TransUnit-translation"></main-content>
 
