@@ -1,13 +1,1 @@
-<div class="TransUnit TransUnit--{{ transUnitCtrl.savingStatus.CSSCLASS || phrase.status.CSSCLASS }}"
-  ng-click="transUnitCtrl.selectTransUnit(phrase)"
-  ng-class="{'is-focused': transUnitCtrl.selected, 'is-first': firstPhrase}">
-
-  <ng-include src="'components/transUnit/trans-unit-status.html'"></ng-include>
-
-  <!-- TODO classes only needed until this moves up a level
-       (they make it have too much padding, so do remove them) -->
-  <trans-unit-source class="TransUnit-panel TransUnit-source"></trans-unit-source>
-
-  <main-content class="TransUnit-panel TransUnit-translation"></main-content>
-
-</div>
+<main-content></main-content>

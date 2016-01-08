@@ -309,3 +309,19 @@ export function setSuggestionSearchType (type) {
   }
   return { type: SET_SUGGESTION_SEARCH_TYPE, searchType: type }
 }
+
+export const SAVE_INITATED = 'SAVE_INITATED'
+export function saveInitiated (phraseId, newState) {
+  return { type: SAVE_INITATED,
+           phraseId: phraseId,
+           newState: newState
+         }
+}
+
+// done with saving, regardless whether successful
+export const SAVE_COMPLETED = 'SAVE_COMPLETED'
+export function saveCompleted (phraseId) {
+  return { type: SAVE_COMPLETED,
+           phraseId: phraseId
+         }
+}

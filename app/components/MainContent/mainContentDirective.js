@@ -7,7 +7,7 @@ module.exports = function () {
   var applyMiddleware = redux.applyMiddleware
   var thunk = require('redux-thunk')
   var Provider = require('react-redux').Provider
-  var TransUnitTranslationPanel = require('../TransUnitTranslationPanel')
+  var TransUnit = require('../TransUnit')
   var mainReducer = require('reducers/main-content')
   var intl = require('intl')
 
@@ -21,6 +21,8 @@ module.exports = function () {
   var phraseSuggestionCountUpdated = actions.phraseSuggestionCountUpdated
   var showSuggestionsChanged = actions.showSuggestionsChanged
   var setSuggestionSearchType = actions.setSuggestionSearchType
+  var saveInitiated = actions.saveInitiated
+  var saveCompleted = actions.saveCompleted
 
   /**
    * @name main-content
@@ -90,15 +92,22 @@ module.exports = function () {
             store.dispatch(setSuggestionSearchType(searchType))
           })
 
+        $rootScope.$on(EventService.EVENT.SAVE_INITIATED,
+          function (event, data) {
+            store.dispatch(saveInitiated(data.phrase.id, data.status.ID))
+          })
+
+        $rootScope.$on(EventService.EVENT.SAVE_COMPLETED,
+          function (event, phrase) {
+            store.dispatch(saveCompleted(phrase.id))
+          })
+
         function cancelEdit () {
           var phrase = scope.phrase
           EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase)
         }
 
         // This will have to change when React takes over the scope
-        // can use phrase.id
-        //    to look up the controller in TransUnitService
-        //    then getPhrase() on the controller
         function undoEdit () {
           // look up the phrase since Angular code mutates it
           var phrase = scope.phrase
@@ -140,21 +149,50 @@ module.exports = function () {
           EditorShortcuts.saveTranslationCallBack(event, phrase, statusInfo)
         }
 
+        function selectPhrase (phrase) {
+          transUnitCtrl.selectTransUnit(phrase)
+        }
+
+        function copyFromSource (sourceIndex) {
+          // use the Angular phrase object, I think it needs that
+          var phrase = transUnitCtrl.getPhrase()
+          EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
+            {
+              'phrase': phrase,
+              'sourceIndex': sourceIndex
+            })
+        }
+
         function getInitialState () {
           const localeId = scope.editorContext
             ? scope.editorContext.localeId
             : undefined
 
+          const sourceLocale = scope.editorContext
+            ? scope.editorContext.srcLocale
+            : undefined
+
           return {
+            copyFromSource: copyFromSource,
             openDropdown: undefined,
             toggleDropdown: toggleSaveButtonDropdown,
             saveDropdownKey: saveButtonKey,
             savePhraseWithStatus: savePhraseWithStatus,
             selected: transUnitCtrl.selected,
+            selectPhrase: selectPhrase,
             phrase: scope.phrase,
             cancelEdit: cancelEdit,
             undoEdit: undoEdit,
             textChanged: textChanged,
+            // probably does not need to update?
+            isFirstPhrase: scope.firstPhrase,
+            // this seems a reasonable default
+            isSaving: false,
+            savingStatusId: undefined,
+            sourceLocale: {
+              id: sourceLocale.localeId,
+              name: sourceLocale.name
+            },
             translationLocale: {
               id: localeId,
               name: LocaleService.getName(localeId)
@@ -174,7 +212,7 @@ module.exports = function () {
               store: store
             }, function () {
               // has to be wrapped in a function, according to redux docs
-              return React.createElement(TransUnitTranslationPanel)
+              return React.createElement(TransUnit)
             }), element[0])
         }
 

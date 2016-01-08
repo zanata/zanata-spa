@@ -32,7 +32,7 @@ const TransUnitTranslationFooter = React.createClass({
     approved: 'Button--highlight'
   },
 
-  buttonTextByStatus: {
+  statusNames: {
     untranslated: 'Untranslated',
     needswork: 'Needs Work',
     translated: 'Translated',
@@ -52,7 +52,7 @@ const TransUnitTranslationFooter = React.createClass({
       <Button
         className={className}
         onClick={saveCallback}>
-        {this.buttonTextByStatus[status]}
+        {this.statusNames[status]}
       </Button>
     )
   },
@@ -102,9 +102,9 @@ const TransUnitTranslationFooter = React.createClass({
           className={cx('Button u-sizeHeight-1_1-4 u-textCapitalize',
                         this.buttonClassByStatus[status])}
           disabled={!translationHasChanged}
-          title={this.buttonTextByStatus[status]}
+          title={this.statusNames[status]}
           onClick={saveCallback}>
-          {this.buttonTextByStatus[status]}
+          {this.statusNames[status]}
         </Button>
     )
 

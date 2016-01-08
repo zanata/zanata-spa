@@ -7,6 +7,8 @@
 import React from 'react/addons'
 import {
   PHRASE_SUGGESTION_COUNT_UPDATED,
+  SAVE_INITATED,
+  SAVE_COMPLETED,
   SELECTED_LOCALE_CHANGED,
   SELECTED_TRANS_UNIT_CHANGED,
   SET_SUGGESTION_SEARCH_TYPE,
@@ -26,6 +28,24 @@ export default function (state, action) {
         return update({suggestionCount: {$set: action.count}})
       }
       // ignore for now since store only handles 1 phrase
+      return state
+
+    case SAVE_INITATED:
+      if (state.phrase.id === action.phraseId) {
+        return update({
+          isSaving: {$set: true},
+          savingStatusId: {$set: action.newState}
+        })
+      }
+      return state
+
+    case SAVE_COMPLETED:
+      if (state.phrase.id === action.phraseId) {
+        return update({
+          isSaving: {$set: false},
+          savingStatusId: {$set: undefined}
+        })
+      }
       return state
 
     case SELECTED_LOCALE_CHANGED:

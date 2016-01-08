@@ -9,6 +9,7 @@ const TransUnitSourcePanel = React.createClass({
 
   propTypes: {
     phrase: PropTypes.object.isRequired,
+    selected: PropTypes.bool.isRequired,
     cancelEdit: PropTypes.func.isRequired,
     copyFromSource: PropTypes.func.isRequired,
     sourceLocale: PropTypes.shape({
@@ -57,7 +58,7 @@ const TransUnitSourcePanel = React.createClass({
           : undefined
 
         return (
-          <div className="TransUnit-item">
+          <div className="TransUnit-item" key={index}>
             {itemHeader}
             <pre className="TransUnit-text">{source}</pre>
           </div>
