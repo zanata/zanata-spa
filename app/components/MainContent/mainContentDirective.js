@@ -154,13 +154,15 @@ module.exports = function () {
         }
 
         function copyFromSource (sourceIndex) {
-          // use the Angular phrase object, I think it needs that
-          var phrase = transUnitCtrl.getPhrase()
-          EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-            {
-              'phrase': phrase,
-              'sourceIndex': sourceIndex
-            })
+          scope.$apply(function () {
+            // use the Angular phrase object, I think it needs that
+            var phrase = transUnitCtrl.getPhrase()
+            EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
+              {
+                'phrase': phrase,
+                'sourceIndex': sourceIndex
+              })
+          })
         }
 
         function getInitialState () {

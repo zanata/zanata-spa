@@ -54,32 +54,6 @@
       }
     }
 
-    transUnitCtrl.copySource = function ($event, phrase, sourceIndex) {
-      $event.stopPropagation() // prevent click event of TU
-      EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-        {'phrase': phrase, 'sourceIndex': sourceIndex}, $scope)
-    }
-
-    transUnitCtrl.undoEdit = function ($event, phrase) {
-      $event.stopPropagation() // prevent click event of TU
-      EventService.emitEvent(EventService.EVENT.UNDO_EDIT,
-        phrase, $scope)
-    }
-
-    transUnitCtrl.cancelEdit = function ($event, phrase) {
-      $event.stopPropagation() // prevent click event of TU
-      EventService.emitEvent(EventService.EVENT.CANCEL_EDIT,
-        phrase, $scope)
-    }
-
-    transUnitCtrl.saveAs = function ($event, phrase, status) {
-      EditorShortcuts.saveTranslationCallBack($event, phrase, status)
-    }
-
-    transUnitCtrl.getLocaleName = function (localeId) {
-      return LocaleService.getName(localeId)
-    }
-
     transUnitCtrl.toggleSaveAsOptions = function (open) {
       EventService.broadcastEvent(open ? 'openDropdown' : 'closeDropdown',
         {}, $scope)
@@ -88,12 +62,6 @@
         focus($scope.phrase.id + '-saveAsOption-0')
       }
     }
-
-    var SHOW_SUGGESTIONS = SettingsService.SETTING.SHOW_SUGGESTIONS
-    $scope.showSuggestions = SettingsService.subscribe(SHOW_SUGGESTIONS,
-      function (show) {
-        $scope.showSuggestions = show
-      })
 
     $rootScope.$on(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
       function (event, data) {
@@ -105,20 +73,9 @@
         EventService.emitEvent(EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
           false)
       } else {
-        SettingsService.update(SHOW_SUGGESTIONS, !$scope.showSuggestions)
+        SettingsService.update(SettingsService.SETTING.SHOW_SUGGESTIONS,
+          !$scope.showSuggestions)
       }
-    }
-
-    $scope.suggestionCount = 0
-    $rootScope.$on(EventService.EVENT.PHRASE_SUGGESTION_COUNT,
-      function (event, data) {
-        if (data.id === $scope.phrase.id) {
-          $scope.suggestionCount = data.count
-        }
-      })
-
-    transUnitCtrl.cancelSaveAsMode = function () {
-      EditorShortcuts.cancelSaveAsModeIfOn()
     }
 
     $scope.$on('$destroy', function () {

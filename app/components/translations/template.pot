@@ -12,10 +12,6 @@ msgstr ""
 msgid "Approved"
 msgstr ""
 
-#: app/components/transUnit/source/header.html
-msgid "Cancel edit"
-msgstr ""
-
 #: app/components/Pager/index.js
 msgid "First page"
 msgstr ""
@@ -51,10 +47,6 @@ msgstr ""
 
 #: app/components/Pager/index.js
 msgid "Previous page"
-msgstr ""
-
-#: app/components/transUnit/translation/footer.html
-msgid "Save as"
 msgstr ""
 
 #: app/components/ControlsHeader/index.js
