@@ -7,7 +7,7 @@ module.exports = function () {
   var applyMiddleware = redux.applyMiddleware
   var thunk = require('redux-thunk')
   var Provider = require('react-redux').Provider
-  var TransUnit = require('../TransUnit')
+  var MainContent = require('../MainContent')
   var mainReducer = require('reducers/main-content')
   var intl = require('intl')
 
@@ -23,44 +23,59 @@ module.exports = function () {
   var setSuggestionSearchType = actions.setSuggestionSearchType
   var saveInitiated = actions.saveInitiated
   var saveCompleted = actions.saveCompleted
+  var phrasesToDisplay = actions.phrasesToDisplay
 
   /**
    * @name main-content
    * @description panel to display the main text flow list for editing
    * @ngInject
    */
-  function mainContent ($rootScope,
+  function mainContent ($stateParams,
+                        $rootScope,
+                        EditorService,
                         EditorShortcuts,
                         EventService,
                         LocaleService,
+                        PhraseService,
                         SettingsService,
                         TransStatusService) {
     return {
       restrict: 'E',
       required: [],
       link: function (scope, element) {
-        var saveButtonKey = {}
-        var transUnitCtrl = scope.transUnitCtrl
+        var editorCtrl = scope.editorCtrl
         var createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
         var store = createStoreWithMiddleware(mainReducer, getInitialState())
 
         // NOTE scope.editorContext is defined as attribute
         //      editor-context in editor-content.html
 
-        scope.$watch('editorContext.localeId', function (newValue) {
-          store.dispatch(selectedLocaleChanged({
-            id: newValue,
-            name: LocaleService.getName(newValue)
-          }))
-        })
+
+        // FIXME this watch gives undefined values, but it looks
+        //       like it should be giving real values.
+        //       Just not allowing change of locale for now.
+        // scope.$watch('$stateParams.localeId', function (newValue) {
+        //   store.dispatch(selectedLocaleChanged({
+        //     id: newValue,
+        //     name: LocaleService.getName(newValue)
+        //   }))
+        // })
+
+        // scope.$watch('EditorService.context.localeId', function (newValue) {
+        //   console.log('it is happening', newValue)
+        //   store.dispatch(selectedLocaleChanged({
+        //     id: newValue,
+        //     name: LocaleService.getName(newValue)
+        //   }))
+        // })
 
         // this needs transUnitCtrl prefix because 'selected' is on the
         // controller object, not on the scope
-        scope.$watch('transUnitCtrl.selected', function (newValue) {
-          var selected = newValue
-          store.dispatch(
-            transUnitWithIdSelectionChanged(scope.phrase.id, selected))
-        })
+        // scope.$watch('transUnitCtrl.selected', function (newValue) {
+        //   var selected = newValue
+        //   store.dispatch(
+        //     transUnitWithIdSelectionChanged(scope.phrase.id, selected))
+        // })
 
         // mirror phrase value from Angular
         // will not be needed when phrase is handled by redux
@@ -102,19 +117,21 @@ module.exports = function () {
             store.dispatch(saveCompleted(phrase.id))
           })
 
-        function cancelEdit () {
-          var phrase = scope.phrase
+        function cancelEdit (phrase) {
+          // var phrase = scope.phrase
+          // FIXME just handle this in redux
           EventService.emitEvent(EventService.EVENT.CANCEL_EDIT, phrase)
         }
 
         // This will have to change when React takes over the scope
-        function undoEdit () {
+        function undoEdit (phrase) {
           // look up the phrase since Angular code mutates it
-          var phrase = scope.phrase
+          // var phrase = scope.phrase
+          // FIXME just do this in redux
           EventService.emitEvent(EventService.EVENT.UNDO_EDIT, phrase)
         }
 
-        function toggleSaveButtonDropdown () {
+        function toggleSaveButtonDropdown (saveButtonKey) {
           // FIXME this will change to instead use a unique key per
           //       row and work with global dropdowns.
           store.dispatch(toggleDropdown(saveButtonKey))
@@ -122,22 +139,24 @@ module.exports = function () {
 
         function toggleSuggestionPanel () {
           // TODO handle all this with redux
-          scope.$apply(function () {
-            transUnitCtrl.toggleSuggestionPanel()
-          })
+          // scope.$apply(function () {
+          //   transUnitCtrl.toggleSuggestionPanel()
+          // })
+
+          // FIXME implement this with redux
         }
 
         function textChanged (phraseId, index, event) {
           var text = event.target.value
           store.dispatch(translationTextInputChanged(phraseId, index, text))
 
-          // stateful phrase object in Angular, keep up-to-date until it
-          // can be removed.
-          scope.phrase.newTranslations[index] = text
-          // this may lead to double-update as the modification triggers
-          // a general change event.
-          EventService.emitEvent(
-            EventService.EVENT.TRANSLATION_TEXT_MODIFIED, scope.phrase)
+          // // stateful phrase object in Angular, keep up-to-date until it
+          // // can be removed.
+          // scope.phrase.newTranslations[index] = text
+          // // this may lead to double-update as the modification triggers
+          // // a general change event.
+          // EventService.emitEvent(
+          //   EventService.EVENT.TRANSLATION_TEXT_MODIFIED, scope.phrase)
         }
 
         // event is just temporary to work ok with angular code
@@ -149,54 +168,79 @@ module.exports = function () {
           EditorShortcuts.saveTranslationCallBack(event, phrase, statusInfo)
         }
 
-        function selectPhrase (phrase) {
-          transUnitCtrl.selectTransUnit(phrase)
+        // function selectPhrase (phrase) {
+        //   transUnitCtrl.selectTransUnit(phrase)
+        // }
+
+        // TODO also need the cancel selection thing to set current
+        //      phrase id to false, which will only do something if
+        //      that was already the selected phrase id
+        function selectPhrase (phraseId) {
+          store.dispatch(transUnitWithIdSelectionChanged(phraseId, true))
         }
 
-        function copyFromSource (sourceIndex) {
-          scope.$apply(function () {
-            // use the Angular phrase object, I think it needs that
-            var phrase = transUnitCtrl.getPhrase()
-            EventService.emitEvent(EventService.EVENT.COPY_FROM_SOURCE,
-              {
-                'phrase': phrase,
-                'sourceIndex': sourceIndex
-              })
-          })
+        function copyFromSource (phraseId, sourceIndex) {
+          store.dispatch(actions.copyFromSource(phraseId, sourceIndex))
         }
+
+        // this filter can maybe have an array
+        // of status objects, but I will change it to
+        // use an array of status id strings instead
+        var filter = {}
+        var startIndex = 0
+        var COUNT_PER_PAGE = 50
+
+        PhraseService.fetchAllPhrase(
+          EditorService.context, filter, startIndex, COUNT_PER_PAGE)
+          .then(function (phrases) {
+            store.dispatch(phrasesToDisplay(phrases))
+          })
+
+        scope.$watch('EditorService.context', function () {
+
+        })
 
         function getInitialState () {
-          const localeId = scope.editorContext
-            ? scope.editorContext.localeId
-            : undefined
+          // const localeId = EditorService.context
+          //   ? EditorService.context.localeId
+          //   : undefined
+          const localeId = $stateParams.localeId
 
-          const sourceLocale = scope.editorContext
-            ? scope.editorContext.srcLocale
+          const sourceLocale = EditorService.context
+            ? EditorService.context.srcLocale
             : undefined
 
           return {
+            selectedPhraseId: undefined,
             copyFromSource: copyFromSource,
             openDropdown: undefined,
             toggleDropdown: toggleSaveButtonDropdown,
-            saveDropdownKey: saveButtonKey,
             savePhraseWithStatus: savePhraseWithStatus,
-            selected: transUnitCtrl.selected,
             selectPhrase: selectPhrase,
-            phrase: scope.phrase,
+            // phrase: scope.phrase,
+
+            // TODO may be able to use current phrases if any
+            //      rather than wait for them to be replaced
+            phrases: [],
             cancelEdit: cancelEdit,
             undoEdit: undoEdit,
             textChanged: textChanged,
             // probably does not need to update?
             isFirstPhrase: scope.firstPhrase,
+
             // this seems a reasonable default
-            isSaving: false,
-            savingStatusId: undefined,
+            // isSaving: false,
+            // savingStatusId: undefined,
+
+            // { phraseId: 'statusString' }
+            savingPhraseStatus: {},
+
             sourceLocale: {
               id: sourceLocale.localeId,
               name: sourceLocale.name
             },
             translationLocale: {
-              id: localeId,
+              id: $stateParams.localeId,
               name: LocaleService.getName(localeId)
             },
             suggestionCount: 0,
@@ -214,7 +258,7 @@ module.exports = function () {
               store: store
             }, function () {
               // has to be wrapped in a function, according to redux docs
-              return React.createElement(TransUnit)
+              return React.createElement(MainContent)
             }), element[0])
         }
 

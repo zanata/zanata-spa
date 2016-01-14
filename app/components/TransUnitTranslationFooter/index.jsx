@@ -157,7 +157,8 @@ const TransUnitTranslationFooter = React.createClass({
         <div className="u-floatRight">
           {saveAsLabel}
           <SplitDropdown
-            onToggle={this.props.toggleDropdown}
+            onToggle={this.props.toggleDropdown.bind(undefined,
+                        this.props.saveDropdownKey)}
             isOpen={dropdownIsOpen}
             actionButton={actionButton}
             toggleButton={dropdownToggleButton}

@@ -6,7 +6,9 @@
 
 import React from 'react/addons'
 import {
+  COPY_FROM_SOURCE,
   PHRASE_SUGGESTION_COUNT_UPDATED,
+  PHRASES_TO_DISPLAY,
   SAVE_INITATED,
   SAVE_COMPLETED,
   SELECTED_LOCALE_CHANGED,
@@ -23,6 +25,17 @@ export default function (state, action) {
     case '@@redux/INIT':
       return state
 
+    case COPY_FROM_SOURCE:
+      const { phraseId, sourceIndex } = action
+      return update({phrases: {$apply: (phrases) => {
+        return phrases.map((phrase) => {
+          if (phrase.id !== phraseId) {
+            return phrase
+          }
+          return copyFromSource(phrase, sourceIndex)
+        })
+      }}})
+
     case PHRASE_SUGGESTION_COUNT_UPDATED:
       if (action.id === state.phrase.id) {
         return update({suggestionCount: {$set: action.count}})
@@ -30,23 +43,44 @@ export default function (state, action) {
       // ignore for now since store only handles 1 phrase
       return state
 
+    case PHRASES_TO_DISPLAY:
+      // FIXME maybe need to clear selected phrase
+      // FIXME this is just a page of phrases,
+      //       might want to instead update a cache of
+      //       all the phrases, and have paging done by
+      //       selecting out the appropriate range.
+      //       (fetch based on what is not populated and
+      //        what is stale by timestamp or update event)
+      return update({phrases: {$set: action.phrases}})
+
     case SAVE_INITATED:
-      if (state.phrase.id === action.phraseId) {
-        return update({
-          isSaving: {$set: true},
-          savingStatusId: {$set: action.newState}
-        })
-      }
-      return state
+      return update({
+        savingPhraseStatus: {
+          $merge: {[action.phraseId]: action.newState}
+        }
+      })
+
+      // if (state.phrase.id === action.phraseId) {
+      //   return update({
+      //     isSaving: {$set: true},
+      //     savingStatusId: {$set: action.newState}
+      //   })
+      // }
+      // return state
 
     case SAVE_COMPLETED:
-      if (state.phrase.id === action.phraseId) {
-        return update({
-          isSaving: {$set: false},
-          savingStatusId: {$set: undefined}
-        })
-      }
-      return state
+      return update({
+        savingPhraseStatus: {
+          $merge: {[action.phraseId]: undefined}
+        }
+      })
+      // if (state.phrase.id === action.phraseId) {
+      //   return update({
+      //     isSaving: {$set: false},
+      //     savingStatusId: {$set: undefined}
+      //   })
+      // }
+      // return state
 
     case SELECTED_LOCALE_CHANGED:
       return update({translationLocale: {$set: action.locale}})
@@ -68,17 +102,31 @@ export default function (state, action) {
       return update({openDropdown: {$set: openDropdown}})
 
     case TRANSLATION_TEXT_INPUT_CHANGED:
-      return (action.id === state.phrase.id)
-        ? update(
-          {
-            phrase: {newTranslations: {[action.index]: {$set: action.text}}}
+      // FIXME instead find and update the phrase with that id
+      return update({phrases: {$apply: (phrases) => {
+        return phrases.map((phrase) => {
+          if (action.id !== phrase.id) {
+            return phrase
+          }
+          return React.addons.update(phrase, {
+            newTranslations: {[action.index]: {$set: action.text}}
           })
-        : state
+        })
+      }}})
+      // return (action.id === state.phrase.id)
+      //   ? update(
+      //     {
+      //       phrase: {newTranslations: {[action.index]: {$set: action.text}}}
+      //     })
+      //   : state
 
     case TRANS_UNIT_WITH_ID_SELECTION_CHANGED:
-      return (action.id === state.phrase.id)
-        ? update({selected: {$set: action.selected}})
-        : state
+      if (action.selected) {
+        return update({selectedPhraseId: {$set: action.id}})
+      } else if (state.selectedPhraseId === action.id) {
+        return update({selectedPhraseId: {$set: undefined}})
+      }
+      return state
 
     default:
       console.warn('action was not handled (main-content)', action)
@@ -87,5 +135,26 @@ export default function (state, action) {
 
   function update (commands) {
     return React.addons.update(state, commands)
+  }
+
+  function copyFromSource (phrase, sourceIndex) {
+    // FIXME this data must be added to state, this will only
+    //       ever copy to first until it is
+    const focusedTranslationIndex = 0
+
+    // FIXME use clamp from lodash (when lodash >= 4.0)
+    const sourceIndexToCopy =
+      sourceIndex < phrase.sources.length
+        ? sourceIndex
+        : phrase.sources.length - 1
+    const sourceToCopy = phrase.sources[sourceIndexToCopy]
+
+    return React.addons.update(phrase, {
+      newTranslations: {
+        // $splice represents an array of calls to Array.prototype.splice
+        // with an array of params for each call
+        $splice: [[focusedTranslationIndex, 1, sourceToCopy]]
+      }
+    })
   }
 }

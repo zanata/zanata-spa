@@ -2,16 +2,10 @@
   scrollbar-width-container
   id="editor-content"
   class="Editor-content TransUnit-container"
-  ng-class="{'is-maximised': editor.settings.hideMainNav, 'is-unit-selected': (editor.unitSelected && editor.focused)}">
-  <div scrollbar-width-child class="Editor-translationsWrapper">
-    <ul class="Editor-translations" ng-if="editorContent.phrases.length > 0">
-      <li ng-repeat="phrase in editorContent.phrases track by phrase.id">
-        <trans-unit phrase="phrase" first-phrase="$first" editor-context="editor.context"></trans-unit>
-      </li>
-    </ul>
-    <div class="u-posCenterCenter u-textEmpty u-textCenter" ng-if="editorContent.phrases.length == 0">
-      <icon name="translate" class="Icon--lg Icon--circle u-sMB-1-4"></icon>
-      <p translate>No content</p>
-    </div>
+  ng-class="{'is-maximised': editor.settings.hideMainNav,
+             'is-unit-selected': (editor.unitSelected && editor.focused)}">
+  <div scrollbar-width-child
+       class="Editor-translationsWrapper">
+    <main-content></main-content>
   </div>
 </main>

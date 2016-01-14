@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import TransUnitTranslationHeader from '../TransUnitTranslationHeader'
 import TransUnitTranslationFooter from '../TransUnitTranslationFooter'
-import { connect } from 'react-redux'
 import { pick } from 'lodash'
 
 /**
@@ -10,6 +9,7 @@ import { pick } from 'lodash'
 let TransUnitTranslationPanel = React.createClass({
 
   propTypes: {
+    saveDropdownKey: PropTypes.any.isRequired,
     selected: PropTypes.bool.isRequired,
     phrase: PropTypes.object.isRequired,
     savePhraseWithStatus: PropTypes.func.isRequired,
@@ -106,8 +106,4 @@ let TransUnitTranslationPanel = React.createClass({
   }
 })
 
-function selector (state) {
-  return state
-}
-
-export default connect(selector)(TransUnitTranslationPanel)
+export default TransUnitTranslationPanel

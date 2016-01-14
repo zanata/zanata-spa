@@ -325,3 +325,22 @@ export function saveCompleted (phraseId) {
            phraseId: phraseId
          }
 }
+
+export const PHRASES_TO_DISPLAY = 'PHRASES_TO_DISPLAY'
+export function phrasesToDisplay (phrases) {
+  return { type: PHRASES_TO_DISPLAY,
+           phrases: phrases
+         }
+}
+
+/**
+ * Copy from source text to the focused translation input.
+ * Only change the input text, not the saved translation value.
+ */
+export const COPY_FROM_SOURCE = 'COPY_FROM_SOURCE'
+export function copyFromSource (phraseId, sourceIndex) {
+  return { type: COPY_FROM_SOURCE,
+           phraseId: phraseId,
+           sourceIndex: sourceIndex
+         }
+}

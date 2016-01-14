@@ -24,8 +24,8 @@ msgstr ""
 msgid "Hide suggestions panel"
 msgstr ""
 
-#: app/components/ControlsHeader/index.js
 #: app/editor/editor.html
+#: app/components/ControlsHeader/index.js
 msgid "Keyboard Shortcuts"
 msgstr ""
 
@@ -39,10 +39,6 @@ msgstr ""
 
 #: app/components/Pager/index.js
 msgid "Next page"
-msgstr ""
-
-#: app/editor/editor-content.html
-msgid "No content"
 msgstr ""
 
 #: app/components/Pager/index.js
