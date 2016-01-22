@@ -5,6 +5,7 @@
  */
 
 import React from 'react/addons'
+import { routeReducer } from 'redux-simple-router'
 import {
   COPY_FROM_SOURCE,
   PHRASE_SUGGESTION_COUNT_UPDATED,
@@ -130,7 +131,9 @@ export default function (state, action) {
 
     default:
       console.warn('action was not handled (main-content)', action)
-      return state
+      // FIXME inserting route reducer manually until I split the
+      //       state to distinct state trees
+      return update({routing: {$set: routeReducer(state.routing, action)}})
   }
 
   function update (commands) {

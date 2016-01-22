@@ -7,6 +7,11 @@ module.exports = function () {
   var applyMiddleware = redux.applyMiddleware
   var thunk = require('redux-thunk')
   var Provider = require('react-redux').Provider
+  var reactRouter = require('react-router')
+  var Router = reactRouter.Router
+  var Route = reactRouter.Route
+  var createHistory = require('history').createHistory
+  var syncHistory = require('redux-simple-router').syncHistory
   var MainContent = require('../MainContent')
   var mainReducer = require('reducers/main-content')
   var intl = require('intl')
@@ -44,8 +49,17 @@ module.exports = function () {
       required: [],
       link: function (scope, element) {
         var editorCtrl = scope.editorCtrl
-        var createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
+
+        var history = createHistory()
+        var reduxRouterMiddleware = syncHistory(history)
+        var createStoreWithMiddleware =
+          applyMiddleware(thunk, reduxRouterMiddleware)(createStore)
         var store = createStoreWithMiddleware(mainReducer, getInitialState())
+
+        // sync store to history (from example readme)
+        // I think this generates actions when the history changes
+        // is the comment a typo?
+        reduxRouterMiddleware.syncHistoryToStore(store)
 
         // NOTE scope.editorContext is defined as attribute
         //      editor-context in editor-content.html
@@ -248,18 +262,32 @@ module.exports = function () {
               SettingsService.SETTING.SHOW_SUGGESTIONS),
             toggleSuggestionPanel: toggleSuggestionPanel,
             // TODO check this default value
-            suggestionSearchType: 'phrase'
+            suggestionSearchType: 'phrase',
+
+            // Creating default routing object in case needed since I am not
+            // using combineReducers yet.
+            routing: undefined
           }
         }
 
         function render () {
           React.render(
-            React.createElement(Provider, {
-              store: store
-            }, function () {
-              // has to be wrapped in a function, according to redux docs
-              return React.createElement(MainContent)
-            }), element[0])
+            React.createElement(
+              Provider,
+              { store: store},
+              function () {
+                // has to be wrapped in a function, according to redux docs
+                return React.createElement(
+                  Router,
+                  { history: history },
+                  React.createElement(
+                    Route,
+                    { path: '/', component: MainContent }
+                  )
+                )
+              }
+            ),
+            element[0])
         }
 
         render()
