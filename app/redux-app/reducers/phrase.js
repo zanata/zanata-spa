@@ -10,8 +10,12 @@ const phraseReducer = (state, action) => {
       return update({
         inDoc: {[action.docId]: {$set: action.phraseList}}})
     case PHRASE_DETAIL_FETCHED:
-      // add/merge/replace each phrase detail in phrases based on id
-      return state // FIXME
+      // TODO this shallow merge will lose data from other locales
+      //      ideally replace source and locale that was looked up, leaving
+      //      others unchanged (depending on caching policy)
+      return update({
+        detail: {$merge: action.phrases}
+      })
   }
 
   return state || {

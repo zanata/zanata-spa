@@ -22,3 +22,17 @@ export function fetchPhraseList (projectSlug, versionSlug, localeId, docId) {
     mode: 'cors'
   })
 }
+
+export function fetchPhraseDetail (localeId, phraseIds) {
+  const phraseDetailUrl =
+    `${baseUrl}/source+trans/${localeId}?ids=${phraseIds.join(',')}`
+
+  return fetch(phraseDetailUrl, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors'
+  })
+}

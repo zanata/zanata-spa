@@ -1,18 +1,18 @@
-import { fetchPhraseList } from '../api'
+import { fetchPhraseList, fetchPhraseDetail } from '../api'
 
 // a few actions just to coordinate api fetching
 
-// API lookup of the list of phrase id + phrase status for the current document
 export const FETCHING_PHRASE_LIST = 'FETCHING_PHRASE_LIST'
-// FIXME maybe not even use an event type, just do the request with thunk and
-//       dispatch the other actions as it goes.
+
+// API lookup of the list of phrase id + phrase status for the current document
 export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({ type: FETCHING_PHRASE_LIST })
 
     fetchPhraseList(projectSlug, versionSlug, lang, docId)
       .then(response => {
         if (response.status >= 400) {
+          // TODO error detail from actual response object
           dispatch(phraseListFetchFailed(new Error("Failed to fetch phrase list")))
         }
         return response.json()
@@ -38,14 +38,38 @@ export function phraseListFetchFailed (error) {
   return { type: PHRASE_LIST_FETCH_FAILED, error: error }
 }
 
-// API lookup of the detail for a set of phrases by id
-export const FETCH_PHRASE_DETAIL = 'FETCH_PHRASE_DETAIL'
-export function fetchPhraseDetail (phraseIds) {
-  return { type: FETCH_PHRASE_DETAIL, phraseIds: phraseIds }
+export const FETCHING_PHRASE_DETAIL = 'FETCHING_PHRASE_DETAIL'
+// API lookup of the detail for a given set of phrases (by id)
+export function requestPhraseDetail (localeId, phraseIds) {
+  return (dispatch) => {
+    dispatch({ type: FETCHING_PHRASE_DETAIL })
+    fetchPhraseDetail(localeId, phraseIds)
+      .then(response => {
+        if (response.status >= 400) {
+          // TODO error info from actual response object
+          dispatch(phraseDetailFetchFailed(new Error("Failed to fetch phrase detail")))
+        }
+        return response.json()
+      })
+      .then(phraseDetail => {
+        dispatch(phraseDetailFetched(phraseDetail))
+      })
+  }
 }
+
+// // API lookup of the detail for a set of phrases by id
+// export const FETCH_PHRASE_DETAIL = 'FETCH_PHRASE_DETAIL'
+// export function fetchPhraseDetail (phraseIds) {
+//   return { type: FETCH_PHRASE_DETAIL, phraseIds: phraseIds }
+// }
 
 // detail for phrases has been fetched from API
 export const PHRASE_DETAIL_FETCHED = 'PHRASE_DETAIL_FETCHED'
 export function phraseDetailFetched (phrases) {
   return { type: PHRASE_DETAIL_FETCHED, phrases: phrases }
+}
+
+export const PHRASE_DETAIL_FETCH_FAILED = 'PHRASE_DETAIL_FETCH_FAILED'
+export function phraseDetailFetchFailed (error) {
+  return { type: PHRASE_DETAIL_FETCH_FAILED, error: error }
 }

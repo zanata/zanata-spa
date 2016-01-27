@@ -2,7 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 // FIXME should probably get these actions imported from elsewhere instead
-import { requestPhraseList } from './actions'
+import {
+  requestPhraseList,
+  requestPhraseDetail
+} from './actions'
 
 /**
  * Top level of Zanata view hierarchy.
@@ -11,15 +14,16 @@ class Zanata extends React.Component {
   render () {
     // console.dir(this.props)
     const phrases = this.props.phrases || []
-    const phraseElements = phrases.map(({id, resId, status}, index) => {
+    const phraseElements = phrases.map(({id, resId, status, detail}, index) => {
       return <div key={index}>
-        <table style={{border: '1px solid light gray'}}>
+        <table>
           <tbody>
             <tr>
-              <td>index</td><td>{index}</td>
-              <td>id</td><td>{id}</td>
-              <td>resId</td><td>{resId}</td>
-              <td>status</td><td>{status}</td>
+              <td>index: {index}</td>
+              <td onClick={this.props.requestPhraseDetail.bind(undefined, id)}>id: {id}</td>
+              <td>resId: {resId}</td>
+              <td>status: {status}</td>
+              <td>detail: {detail ? detail.source.content : 'bupkis'}</td>
             </tr>
           </tbody>
         </table>
@@ -37,8 +41,12 @@ class Zanata extends React.Component {
 }
 
 function mapStateToProps (state, ownProps) {
+  const flyweights = state.phrases.inDoc[ownProps.params.docId] || []
+  const withDetail = flyweights.map(phrase => {
+    return {...phrase, detail: state.phrases.detail[phrase.id]}
+  })
   return {
-    phrases: state.phrases.inDoc[ownProps.params.docId]
+    phrases: withDetail
   }
 }
 
@@ -47,6 +55,9 @@ function mapDispatchToProps (dispatch, ownProps) {
   return {
     requestPhraseList: () => {
       dispatch(requestPhraseList(projectSlug, versionSlug, lang, docId))
+    },
+    requestPhraseDetail: (id) => {
+      dispatch(requestPhraseDetail(lang, [id]))
     }
   }
 }
