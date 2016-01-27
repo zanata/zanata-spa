@@ -5,18 +5,14 @@
 // docs say this needs a promise polyfill?
 import fetch from 'isomorphic-fetch'
 
+const baseUrl = 'http://localhost:7878/zanata/rest'
+
 export function fetchPhraseList (projectSlug, versionSlug, localeId, docId) {
 
-  const baseUrl = 'http://localhost:7878/zanata/rest'
+  const statusListUrl =
+    `${baseUrl}/project/${projectSlug}/version/${versionSlug}/doc/${docId}/status/${localeId}`
 
-  // from UrlService.status
-  // '/project/:projectSlug/version/:versionSlug/doc/:docId/status/:localeId'
-  const fullUrl = baseUrl + '/project/' + projectSlug +
-                            '/version/' + versionSlug +
-                            '/doc/' + docId + // FIXME encode
-                            '/status/' + localeId
-
-  return fetch(fullUrl, {
+  return fetch(statusListUrl, {
     // options
     method: 'GET',
     headers: {
@@ -25,5 +21,4 @@ export function fetchPhraseList (projectSlug, versionSlug, localeId, docId) {
     },
     mode: 'cors'
   })
-  // .then handle errors here or elsewhere?
 }

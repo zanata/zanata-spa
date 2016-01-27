@@ -80,6 +80,7 @@
     "main-bower-files": "^1.0.2",
     "merge-stream": "^1.0.0",
     "react": "^0.14.6",
+    "react-addons-update": "^0.14.6",
     "react-dom": "^0.14.6",
     "react-intl": "^1.2.1",
     "react-redux": "^2.1.2",

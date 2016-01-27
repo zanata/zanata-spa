@@ -8,55 +8,34 @@ export const FETCHING_PHRASE_LIST = 'FETCHING_PHRASE_LIST'
 //       dispatch the other actions as it goes.
 export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
   return (dispatch, getState) => {
-    // dispatch an action to indicate fetch is happening
-    //  (phrase panel for the doc should show that it is fetching)
     dispatch({ type: FETCHING_PHRASE_LIST })
 
-    // get project+version+doc+locale from getState()
-    // FIXME params is passed as props, not available in state
-    //       how am I supposed to access it?
-    // debugger
-    // const state = getState()
-    // const location = state.routing.location
-    // const query = location.query
-    // const projectSlug = query.projectSlug
-    // const versionSlug = query.versionSlug
-    //
-    // console.log(projectSlug, versionSlug)
-
-    // ({ projectSlug, versionSlug, lang, docId } = getState().location.query)
-
-    // start the API call using an imported function
     fetchPhraseList(projectSlug, versionSlug, lang, docId)
       .then(response => {
         if (response.status >= 400) {
-          throw new Error("Failed to fetch phrase list")
+          dispatch(phraseListFetchFailed(new Error("Failed to fetch phrase list")))
         }
         return response.json()
       })
       .then(statusList => {
-        dispatch(phraseListFetched(statusList))
+        dispatch(phraseListFetched(docId, statusList))
       })
-        // I think this line would be redundant, since the keys are
-        // already present in an object.
-        // .then(json => ({ json, response })))
-      // .then(({ json, response }) => {
-      //   if (!response.ok) {
-      //     // FIXME error condition, dispatch something to indicate failure
-      //     //       (or at least completion, inverse of FETCHING_PHRASE_LIST)
-      //     console.error('failed to fetch phrase list', json)
-      //   }
-      //   // assuming this is already in the correct form
-      //   dispatch(phraseListFetched(json))
-      // })
   }
-  return { type: FETCH_PHRASE_LIST }
 }
 
 // new phrase list has been fetched from API
 export const PHRASE_LIST_FETCHED = 'PHRASE_LIST_FETCHED'
-export function phraseListFetched (phraseList) {
-  return { type: PHRASE_LIST_FETCHED, phraseList: phraseList }
+export function phraseListFetched (docId, phraseList) {
+  return {
+    type: PHRASE_LIST_FETCHED,
+    docId: docId,
+    phraseList: phraseList
+  }
+}
+
+export const PHRASE_LIST_FETCH_FAILED = 'PHRASE_LIST_FETCH_FAILED'
+export function phraseListFetchFailed (error) {
+  return { type: PHRASE_LIST_FETCH_FAILED, error: error }
 }
 
 // API lookup of the detail for a set of phrases by id
