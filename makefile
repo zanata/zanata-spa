@@ -27,6 +27,12 @@ fakeserver:
 fakewatch:
 	${MAKE} -j2 watch fakeserver
 
+devserver:
+	cd app/redux-app && webpack-dev-server -d --progress --inline --hot
+
+fakeredux:
+	${MAKE} -j2 devserver fakeserver
+
 test:
 	npm test
 

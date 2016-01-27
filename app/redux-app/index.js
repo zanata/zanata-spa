@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom'
 import { compose, createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { hashHistory, Router, Route } from 'react-router'
-import { syncHistory, routeReducer } from 'redux-simple-router'
+import { syncHistory } from 'redux-simple-router'
+import thunk from 'redux-thunk'
+import createLogger from 'redux-logger'
+import rootReducer from './reducers'
 
 import Zanata from './Zanata.jsx'
-import Project from './Project.jsx'
+import NeedSlugMessage from './NeedSlugMessage.jsx'
 
 /**
  * Top level of the Zanata editor app.
@@ -17,17 +20,6 @@ import Project from './Project.jsx'
  *  - rendering the React component tree to the page
  */
 
-const phraseReducer = (state, action) => {
-  // FIXME does nothing so far
-  return state || "seriously dude"
-}
-
-// FIXME why is there no 'phrases'
-const reducer = combineReducers({
-  routing: routeReducer,
-  phrases: phraseReducer
-})
-
 // example uses createHistory, but the latest bundles history with react-router
 // and has some defaults, so now I am just using one of those.
 // const history = createHistory()
@@ -35,13 +27,17 @@ const history = hashHistory
 
 const reduxRouterMiddleware = syncHistory(history)
 const createStoreWithMiddleware =
-  applyMiddleware(reduxRouterMiddleware)(createStore)
+  applyMiddleware(
+    reduxRouterMiddleware,
+    thunk,
+    createLogger()
+  )(createStore)
 
-const store = createStoreWithMiddleware(reducer)
+const store = createStoreWithMiddleware(rootReducer)
 
 // this is shown in the example, but listenForReplays is undefined here so
 // I will leave it out for now
-// reduxRouterMiddleware.listenForReplays(store)
+reduxRouterMiddleware.listenForReplays(store)
 
 const rootElement = document.getElementById('appRoot')
 
@@ -54,19 +50,9 @@ const rootElement = document.getElementById('appRoot')
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={Zanata}>
-        {/* FIXME use different components when not enough info for editor is
-                  shown, for now just indicate what is missing but later they
-                  should fetch lists of projects/versions/whatever */}
-        <Route path=":projectSlug" component={Project}>
-        {/*
-          <Route path=":versionSlug" component={Zanata}>
-            <Route path="translate" component={Zanata}>
-              <Route path=":docId/:lang" component={Zanata}/>
-            </Route>
-          </Route>
-        */}
-        </Route>
-      </Route>
+      <Route
+        path="/:projectSlug/:versionSlug/translate(/:docId/:lang)"
+        component={Zanata}/>
+      <Route path="/*" component={NeedSlugMessage}/>
     </Router>
   </Provider>, rootElement)
