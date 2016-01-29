@@ -16,6 +16,11 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    // subdirectories to check while searching up tree for module
+    // TODO remove when components migrated to use .js
+    extensions: ['', '.js', '.jsx']
+  },
   devServer: {
     historyApiFallback: true
   }

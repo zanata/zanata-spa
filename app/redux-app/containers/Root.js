@@ -1,40 +1,47 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import MainContent from './MainContent'
+import ParamPropDispatcher from './ParamPropDispatcher'
 
 // FIXME should probably get these actions imported from elsewhere instead
 import {
   requestPhraseList,
   requestPhraseDetail
-} from './actions'
+} from '../actions'
 
 /**
  * Top level of Zanata view hierarchy.
  */
-class Zanata extends React.Component {
+class Root extends React.Component {
   render () {
-    // console.dir(this.props)
+    console.dir(this.props)
     const phrases = this.props.phrases || []
     const phraseElements = phrases.map(({id, resId, status, detail}, index) => {
-      return <div key={index}>
-        <table>
-          <tbody>
-            <tr>
-              <td>index: {index}</td>
-              <td onClick={this.props.requestPhraseDetail.bind(undefined, id)}>id: {id}</td>
-              <td>resId: {resId}</td>
-              <td>status: {status}</td>
-              <td>detail: {detail ? detail.source.content : 'bupkis'}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      return (
+        <div key={index}>
+          <table>
+            <tbody>
+              <tr>
+                <td>index: {index}</td>
+                <td onClick={this.props.requestPhraseDetail.bind(undefined, id)}>id: {id}</td>
+                <td>resId: {resId}</td>
+                <td>status: {status}</td>
+                <td>detail: {detail ? detail.source.content : 'bupkis'}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )
     })
 
     return (
-      <div>
-        <div onClick={this.props.requestPhraseList}>"Click to get phrases"</div>
-        {phraseElements}
-      </div>
+      <ParamPropDispatcher {...this.props}>
+        <div>
+          <div onClick={this.props.requestPhraseList}>"Click to get phrases"</div>
+          {phraseElements}
+          <MainContent/>
+        </div>
+      </ParamPropDispatcher>
 
     )
   }
@@ -62,4 +69,4 @@ function mapDispatchToProps (dispatch, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Zanata)
+export default connect(mapStateToProps, mapDispatchToProps)(Root)

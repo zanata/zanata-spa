@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react'
 import cx from 'classnames'
-import TransUnitStatus from '../TransUnitStatus'
-import TransUnitSourcePanel from '../TransUnitSourcePanel'
-import TransUnitTranslationPanel from '../TransUnitTranslationPanel'
+import TransUnitStatus from './TransUnitStatus'
+import TransUnitSourcePanel from './TransUnitSourcePanel'
+import TransUnitTranslationPanel from './TransUnitTranslationPanel'
 import { connect } from 'react-redux'
 import { isUndefined, pick } from 'lodash'
-import { copyFromSource } from '../../redux-app/actions'
+import { copyFromSource } from '../actions'
 
 /**
  * Single row in the editor displaying a whole phrase.
@@ -14,7 +14,6 @@ import { copyFromSource } from '../../redux-app/actions'
  */
 const TransUnit = React.createClass({
   propTypes: {
-    copyFromSource: PropTypes.func.isRequired,
     phrase: PropTypes.object.isRequired,
     selectPhrase: PropTypes.func.isRequired,
     isSaving: PropTypes.bool.isRequired,
@@ -100,7 +99,10 @@ const TransUnit = React.createClass({
 
 function mapStateToProps (state, ownProps) {
   const index = ownProps.index
-  const phrase = state.phrases[index]
+
+  // this now contains an ordered list of phrases, and a map of detail for phrases
+  console.dir(state.phrases)
+  const phrase = state.phrases.inDoc[ownProps.docId][index]
 
   // FIXME need to track isSaving and savingStatusId
   //       per-phrase
@@ -121,7 +123,7 @@ function mapStateToProps (state, ownProps) {
 
   return {
     ...passThroughProps,
-    copyFromSource: state.copyFromSource.bind(undefined, phrase.id),
+    copyFromSource: copyFromSource.bind(undefined, phrase.id),
     phrase,
     isFirstPhrase: index === 0,
     selected: state.selectedPhraseId === phrase.id,

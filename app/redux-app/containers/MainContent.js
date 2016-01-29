@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
-import Icon from '../Icon'
-import TransUnit from '../TransUnit'
+import Icon from '../components/Icon'
+import TransUnit from '../components/TransUnit'
 import { connect } from 'react-redux'
 
 /**
@@ -16,6 +16,9 @@ const MainContent = React.createClass({
   },
 
   render: function () {
+    console.log('MainContent')
+    console.dir(this.props)
+
     const phrases = this.props.phrases
 
     if (phrases.length === 0) {
@@ -50,6 +53,7 @@ const MainContent = React.createClass({
 
 function mapStateToProps (state, ownProps) {
   return {
+    context: state.context,
     phrases: state.phrases.inDoc[ownProps.docId] || []
   }
 }

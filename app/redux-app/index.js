@@ -8,7 +8,7 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import rootReducer from './reducers'
 
-import Zanata from './Zanata.jsx'
+import Root from './containers/Root'
 import NeedSlugMessage from './NeedSlugMessage.jsx'
 
 /**
@@ -52,7 +52,7 @@ ReactDOM.render(
     <Router history={history}>
       <Route
         path="/:projectSlug/:versionSlug/translate(/:docId/:lang)"
-        component={Zanata}/>
+        component={Root}/>
       <Route path="/*" component={NeedSlugMessage}/>
     </Router>
   </Provider>, rootElement)

@@ -1,5 +1,13 @@
 import { fetchPhraseList, fetchPhraseDetail } from '../api'
 
+export const ROUTING_PARAMS_CHANGED = 'ROUTING_PARAMS_CHANGED'
+export function routingParamsChanged (newParams) {
+  return {
+    type: ROUTING_PARAMS_CHANGED,
+    params: newParams
+  }
+}
+
 // a few actions just to coordinate api fetching
 
 export const FETCHING_PHRASE_LIST = 'FETCHING_PHRASE_LIST'
@@ -72,4 +80,17 @@ export function phraseDetailFetched (phrases) {
 export const PHRASE_DETAIL_FETCH_FAILED = 'PHRASE_DETAIL_FETCH_FAILED'
 export function phraseDetailFetchFailed (error) {
   return { type: PHRASE_DETAIL_FETCH_FAILED, error: error }
+}
+
+
+/**
+ * Copy from source text to the focused translation input.
+ * Only change the input text, not the saved translation value.
+ */
+export const COPY_FROM_SOURCE = 'COPY_FROM_SOURCE'
+export function copyFromSource (phraseId, sourceIndex) {
+  return { type: COPY_FROM_SOURCE,
+           phraseId: phraseId,
+           sourceIndex: sourceIndex
+         }
 }
