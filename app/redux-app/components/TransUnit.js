@@ -102,7 +102,7 @@ function mapStateToProps (state, ownProps) {
 
   // this now contains an ordered list of phrases, and a map of detail for phrases
   console.dir(state.phrases)
-  const phrase = state.phrases.inDoc[ownProps.docId][index]
+  const phrase = state.phrases.inDoc[state.context.docId][index]
 
   // FIXME need to track isSaving and savingStatusId
   //       per-phrase

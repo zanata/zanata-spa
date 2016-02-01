@@ -54,7 +54,7 @@ const MainContent = React.createClass({
 function mapStateToProps (state, ownProps) {
   return {
     context: state.context,
-    phrases: state.phrases.inDoc[ownProps.docId] || []
+    phrases: state.phrases.inDoc[state.context.docId] || []
   }
 }
 

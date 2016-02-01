@@ -7,7 +7,7 @@ import ParamPropDispatcher from './ParamPropDispatcher'
 import {
   requestPhraseList,
   requestPhraseDetail
-} from '../actions'
+} from '../actions/phrases'
 
 /**
  * Top level of Zanata view hierarchy.

@@ -39,10 +39,6 @@ class ParamPropDispatcher extends React.Component {
   }
 }
 
-function mapStateToProps () {
-  return {}
-}
-
 // this is where the action should be dispatched
 function mapDispatchToProps (dispatch) {
   return {
@@ -52,4 +48,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ParamPropDispatcher)
+export default connect(null, mapDispatchToProps)(ParamPropDispatcher)
