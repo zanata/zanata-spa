@@ -1,36 +1,63 @@
-import updateState from 'react-addons-update'
+import updateObject from 'react-addons-update'
 import {
+  CANCEL_EDIT,
   PHRASE_LIST_FETCHED,
-  PHRASE_DETAIL_FETCHED
+  PHRASE_DETAIL_FETCHED,
+  SELECT_PHRASE,
+  UNDO_EDIT
 } from '../actions/phrases'
 
 const defaultState = {
   // docId -> list of phrases (id and state)
   inDoc: {},
   // phraseId -> detail
-  detail: {}
+  detail: {},
+  selectedPhraseId: undefined
 }
 
 const phraseReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case CANCEL_EDIT:
+      // Discard any newTranslations that were entered.
+      return update({
+        selectedPhraseId: {$set: undefined},
+        detail: {$merge: revertEnteredTranslationsToDefault(state.detail)}
+      })
     case PHRASE_LIST_FETCHED:
-      const newState = update({
-        inDoc: {[action.docId]: {$set: action.phraseList}}})
-      console.dir(newState)
-      return newState
-      // return update({
-      //   inDoc: {[action.docId]: {$set: action.phraseList}}})
+    // select the first phrase if there is one
+      const selectedPhraseId = action.phraseList.length
+        ? action.phraseList[0].id
+        : undefined
+      return update({
+        inDoc: {[action.docId]: {$set: action.phraseList}},
+        selectedPhraseId: {$set: selectedPhraseId}
+      })
+
     case PHRASE_DETAIL_FETCHED:
-      // FIXME need to add some runtime state to the static data
-      //  - entered text
-      //  - save in progress?
-      //      - saving status
+      const phrasesWithUiState = action.phrases.map(phrase => {
+        return updateObject(phrase, {
+          isSaving: {$set: false},
+          // FIXME check that phrase.translations is the right thing
+          newTranslations: {$set: [...phrase.translations]}
+        })
+      })
 
       // TODO this shallow merge will lose data from other locales
       //      ideally replace source and locale that was looked up, leaving
       //      others unchanged (depending on caching policy)
       return update({
-        detail: {$merge: action.phrases}
+        detail: {$merge: phrasesWithUiState}
+      })
+
+    case SELECT_PHRASE:
+      return update({
+        selectedPhraseId: {$set: action.phraseId}
+      })
+
+    case UNDO_EDIT:
+      // Discard any newTranslations that were entered.
+      return update({
+        detail: {$merge: revertEnteredTranslationsToDefault(state.detail)}
       })
   }
 
@@ -40,9 +67,16 @@ const phraseReducer = (state = defaultState, action) => {
     // FIXME update to version that does not lose reference equality when
     //       setting an identical object
     //       see: https://github.com/facebook/react/pull/4968
-    return updateState(state, commands)
+    return updateObject(state, commands)
   }
 }
 
+function revertEnteredTranslationsToDefault (phraseDetails) {
+  return phraseDetails.map(phrase => {
+    return updateObject(phrase, {
+      newTranslations: {$set: [...phrase.translations]}
+    })
+  })
+}
 
 export default phraseReducer

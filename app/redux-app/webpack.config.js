@@ -21,6 +21,7 @@ module.exports = {
     // TODO remove when components migrated to use .js
     extensions: ['', '.js', '.jsx']
   },
+  devtool: 'source-map',
   devServer: {
     historyApiFallback: true
   }

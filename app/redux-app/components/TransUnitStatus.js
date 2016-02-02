@@ -8,9 +8,7 @@ import cx from 'classnames'
 const TransUnitStatus = React.createClass({
 
   propTypes: {
-    phrase: PropTypes.object.isRequired,
-    // whether the current phrase is currently saving
-    isSaving: PropTypes.bool.isRequired
+    phrase: PropTypes.object.isRequired
   },
 
   statusNames: {
@@ -23,7 +21,7 @@ const TransUnitStatus = React.createClass({
   render: function () {
     const phrase = this.props.phrase
     const className = cx('TransUnit-status', {
-      'is-loading': this.props.isSaving
+      'is-loading': phrase.isSaving
     })
 
     const comments = phrase.comments

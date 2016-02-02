@@ -36,9 +36,12 @@ const MainContent = React.createClass({
       // FIXME maybe use phrase id, next page will have
       //       same index for different id. Not sure if
       //       that will matter though.
+
+      // phrase is passed as a prop to avoid complexity of trying to get at
+      // the phrase from state in mapDispatchToProps
       return (
         <li key={index}>
-          <TransUnit index={index}/>
+          <TransUnit index={index} phrase={phrase}/>
         </li>
       )
     })
@@ -52,9 +55,17 @@ const MainContent = React.createClass({
 })
 
 function mapStateToProps (state, ownProps) {
+  // TODO replace each phrase with the detail if the detail is available
+
+  const minimalPhrases = state.phrases.inDoc[state.context.docId] || []
+  const detailPhrases = minimalPhrases.map(phrase => {
+    const detail = state.phrases.detail[phrase.id]
+    return detail || phrase
+  })
+
   return {
     context: state.context,
-    phrases: state.phrases.inDoc[state.context.docId] || []
+    phrases: detailPhrases
   }
 }
 

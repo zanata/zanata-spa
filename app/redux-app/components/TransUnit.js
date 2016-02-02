@@ -5,7 +5,8 @@ import TransUnitSourcePanel from './TransUnitSourcePanel'
 import TransUnitTranslationPanel from './TransUnitTranslationPanel'
 import { connect } from 'react-redux'
 import { isUndefined, pick } from 'lodash'
-import { copyFromSource } from '../actions'
+import { cancelEdit, copyFromSource, selectPhrase, undoEdit }
+  from '../actions/phrases'
 
 /**
  * Single row in the editor displaying a whole phrase.
@@ -16,7 +17,6 @@ const TransUnit = React.createClass({
   propTypes: {
     phrase: PropTypes.object.isRequired,
     selectPhrase: PropTypes.func.isRequired,
-    isSaving: PropTypes.bool.isRequired,
     isFirstPhrase: PropTypes.bool.isRequired,
     translationLocale: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -44,7 +44,7 @@ const TransUnit = React.createClass({
   },
 
   render: function () {
-    const displayStatus = this.props.isSaving
+    const displayStatus = this.props.phrase.isSaving
       ? this.props.savingStatusId
       : this.props.phrase.status.ID
 
@@ -56,7 +56,6 @@ const TransUnit = React.createClass({
       })
 
     const phraseStatusProps = pick(this.props, [
-      'isSaving',
       'phrase'
     ])
 
@@ -88,7 +87,7 @@ const TransUnit = React.createClass({
       <div className={className}
            onClick={this.props.selectPhrase.bind(undefined,
                       this.props.phrase.id)}>
-        <TransUnitStatus {...phraseStatusProps}/>
+        <TransUnitStatus phrase={this.props.phrase}/>
         <TransUnitSourcePanel {...phraseSourcePanelProps}/>
         <TransUnitTranslationPanel {...phraseTranslationPanelProps}
           saveDropdownKey={this.state.saveDropdownKey}/>
@@ -99,20 +98,13 @@ const TransUnit = React.createClass({
 
 function mapStateToProps (state, ownProps) {
   const index = ownProps.index
-
-  // this now contains an ordered list of phrases, and a map of detail for phrases
-  console.dir(state.phrases)
-  const phrase = state.phrases.inDoc[state.context.docId][index]
-
-  // FIXME need to track isSaving and savingStatusId
-  //       per-phrase
+  const phrase = ownProps.phrase
+  const sourceLocale = state.context.sourceLocale
 
   const passThroughProps = pick(state, [
     'openDropdown',
     'savePhraseWithStatus',
-    'selectPhrase',
     'showSuggestions',
-    'sourceLocale',
     'suggestionCount',
     'suggestionSearchType',
     'textChanged',
@@ -123,15 +115,29 @@ function mapStateToProps (state, ownProps) {
 
   return {
     ...passThroughProps,
-    copyFromSource: copyFromSource.bind(undefined, phrase.id),
     phrase,
+    sourceLocale,
     isFirstPhrase: index === 0,
-    selected: state.selectedPhraseId === phrase.id,
-    isSaving: !isUndefined(state.savingPhraseStatus[phrase.id]),
-    savingStatusId: state.savingPhraseStatus[phrase.id],
-    cancelEdit: state.cancelEdit.bind(undefined, phrase),
-    undoEdit: state.undoEdit.bind(undefined, phrase)
+    selected: state.phrases.selectedPhraseId === phrase.id,
+    savingStatusId: phrase.isSaving ? phrase.savingStatusId : undefined
   }
 }
 
-export default connect(mapStateToProps)(TransUnit)
+function mapDispatchToProps (dispatch, ownProps) {
+  return {
+    cancelEdit: () => {
+      dispatch(cancelEdit())
+    },
+    copyFromSource: () => {
+      dispatch(copyFromSource(ownProps.phrase.id))
+    },
+    selectPhrase: () => {
+      dispatch(selectPhrase(ownProps.phrase.id))
+    },
+    undoEdit: () => {
+      dispatch(undoEdit())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransUnit)

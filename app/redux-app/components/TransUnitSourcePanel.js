@@ -25,7 +25,12 @@ const TransUnitSourcePanel = React.createClass({
       ? <TransUnitSourceHeader {...this.props}/>
       : undefined
 
-    const sources = this.props.phrase.sources.map(
+    // TODO show loading indicator if sources are not available
+    const sourceTexts = this.props.phrase.sources
+      ? this.props.phrase.sources
+      : ['NO CONTENT!!!!!! FIXME REMOVE THIS']
+
+    const sources = sourceTexts.map(
       (source, index) => {
         // TODO make this translatable
         const headerLabel = index === 0

@@ -17,6 +17,10 @@ export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
       })
       .then(statusList => {
         dispatch(phraseListFetched(docId, statusList))
+
+        dispatch(requestPhraseDetail(lang, statusList.map(phrase => {
+          return phrase.id
+        })))
       })
   }
 }
@@ -83,4 +87,45 @@ export function copyFromSource (phraseId, sourceIndex) {
            phraseId: phraseId,
            sourceIndex: sourceIndex
          }
+}
+
+/**
+ * Stop editing the currently focused phrase and discard all entered text.
+ * After this action, no phrase should be in editing state.
+ */
+export const CANCEL_EDIT = 'CANCEL_EDIT'
+export function cancelEdit () {
+  return {
+    type: CANCEL_EDIT
+  }
+}
+
+/**
+ * Discard all entered text for the currently selected phrase, reverting to
+ * whatever translations are currently saved.
+ * After this action, a phrase may still be in editing state.
+ */
+export const UNDO_EDIT = 'UNDO_EDIT'
+export function undoEdit () {
+  return {
+    type: UNDO_EDIT
+  }
+}
+
+export const SELECT_PHRASE = 'SELECT_PHRASE'
+export function selectPhrase (id) {
+  return {
+    type: SELECT_PHRASE,
+    phraseId: id
+  }
+}
+
+
+// User has typed/pasted/etc. text for a translation (not saved yet)
+export const TRANSLATION_TEXT_INPUT_CHANGED = 'TRANSLATION_TEXT_INPUT_CHANGED'
+export function translationTextInputChanged (id, index, text) {
+  return { type: TRANSLATION_TEXT_INPUT_CHANGED,
+           id: id,
+           index: index,
+           text: text }
 }

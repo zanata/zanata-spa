@@ -54,7 +54,11 @@ let TransUnitTranslationPanel = React.createClass({
       footer = <TransUnitTranslationFooter {...footerProps}/>
     }
 
-    const translations = this.props.phrase.newTranslations.map(
+    const newTranslations = this.props.phrase.newTranslations
+      ? this.props.phrase.newTranslations
+      : ["NO CONTENT YET! AAAARG! REMOVE ME!!!"]
+
+    const translations = newTranslations.map(
       (translation, index) => {
         // TODO make this translatable
         const headerLabel = index === 0
