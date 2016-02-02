@@ -4,6 +4,7 @@ import {
   PHRASE_LIST_FETCHED,
   PHRASE_DETAIL_FETCHED,
   SELECT_PHRASE,
+  TRANSLATION_TEXT_INPUT_CHANGED,
   UNDO_EDIT
 } from '../actions/phrases'
 
@@ -52,6 +53,19 @@ const phraseReducer = (state = defaultState, action) => {
     case SELECT_PHRASE:
       return update({
         selectedPhraseId: {$set: action.phraseId}
+      })
+
+    case TRANSLATION_TEXT_INPUT_CHANGED:
+      return update({
+        phrases: {
+          detail: {
+            [action.id]: {
+              newTranslations: {
+                [action.index]: {$set: action.text}
+              }
+            }
+          }
+        }
       })
 
     case UNDO_EDIT:

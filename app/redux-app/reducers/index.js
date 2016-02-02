@@ -1,13 +1,15 @@
 
 import { combineReducers } from 'redux'
 import { routeReducer } from 'redux-simple-router'
-import phrases from './phrase'
+import phrase from './phrase'
 import context from './context'
+import dropdown from './dropdown'
 
 const rootReducer = combineReducers({
-  routing: routeReducer,
   context,
-  phrases
+  dropdown,
+  phrases: phrase,
+  routing: routeReducer
 })
 
 export default rootReducer

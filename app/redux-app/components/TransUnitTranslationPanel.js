@@ -9,7 +9,6 @@ import { pick } from 'lodash'
 let TransUnitTranslationPanel = React.createClass({
 
   propTypes: {
-    saveDropdownKey: PropTypes.any.isRequired,
     selected: PropTypes.bool.isRequired,
     phrase: PropTypes.object.isRequired,
     savePhraseWithStatus: PropTypes.func.isRequired,
@@ -43,7 +42,6 @@ let TransUnitTranslationPanel = React.createClass({
       const footerProps = pick(this.props, [
         'openDropdown',
         'phrase',
-        'saveDropdownKey',
         'savePhraseWithStatus',
         'showSuggestions',
         'suggestionCount',

@@ -19,8 +19,8 @@ const TransUnitTranslationFooter = React.createClass({
     toggleSuggestionPanel: PropTypes.func.isRequired,
     savePhraseWithStatus: PropTypes.func.isRequired,
     toggleDropdown: PropTypes.func.isRequired,
-    saveDropdownKey: React.PropTypes.any.isRequired,
-    openDropdown: React.PropTypes.any,
+    saveDropdownKey: PropTypes.any.isRequired,
+    openDropdown: PropTypes.any,
     showSuggestions: PropTypes.bool.isRequired,
     suggestionSearchType: PropTypes.oneOf(['phrase', 'text']).isRequired
   },

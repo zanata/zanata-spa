@@ -5,8 +5,14 @@ import TransUnitSourcePanel from './TransUnitSourcePanel'
 import TransUnitTranslationPanel from './TransUnitTranslationPanel'
 import { connect } from 'react-redux'
 import { isUndefined, pick } from 'lodash'
-import { cancelEdit, copyFromSource, selectPhrase, undoEdit }
-  from '../actions/phrases'
+import { toggleDropdown } from '../actions'
+import {
+  cancelEdit,
+  copyFromSource,
+  selectPhrase,
+  translationTextInputChanged,
+  undoEdit
+} from '../actions/phrases'
 
 /**
  * Single row in the editor displaying a whole phrase.
@@ -107,8 +113,6 @@ function mapStateToProps (state, ownProps) {
     'showSuggestions',
     'suggestionCount',
     'suggestionSearchType',
-    'textChanged',
-    'toggleDropdown',
     'toggleSuggestionPanel',
     'translationLocale'
   ])
@@ -133,6 +137,12 @@ function mapDispatchToProps (dispatch, ownProps) {
     },
     selectPhrase: () => {
       dispatch(selectPhrase(ownProps.phrase.id))
+    },
+    textChanged: (id, index, text) => {
+      dispatch(translationTextInputChanged(id, index, text))
+    },
+    toggleDropdown: (key) => {
+      dispatch(toggleDropdown(key))
     },
     undoEdit: () => {
       dispatch(undoEdit())

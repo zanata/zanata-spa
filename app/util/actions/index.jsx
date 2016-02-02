@@ -3,7 +3,6 @@
  */
 
 export const CHANGE_UI_LOCALE = 'CHANGE_UI_LOCALE'
-export const TOGGLE_DROPDOWN = 'TOGGLE_DROPDOWN'
 export const RESET_FILTER = 'RESET_FILTER'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 
@@ -38,6 +37,7 @@ export const TOGGLE_NAVIGATION_HEADER = 'TOGGLE_NAVIGATION_HEADER'
 //   return { type: CHANGE_UI_LOCALE, locale: locale }
 // }
 
+export const TOGGLE_DROPDOWN = 'TOGGLE_DROPDOWN'
 export function toggleDropdown (dropdownKey) {
   return { type: TOGGLE_DROPDOWN, key: dropdownKey }
 }

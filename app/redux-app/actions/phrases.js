@@ -124,8 +124,10 @@ export function selectPhrase (id) {
 // User has typed/pasted/etc. text for a translation (not saved yet)
 export const TRANSLATION_TEXT_INPUT_CHANGED = 'TRANSLATION_TEXT_INPUT_CHANGED'
 export function translationTextInputChanged (id, index, text) {
-  return { type: TRANSLATION_TEXT_INPUT_CHANGED,
-           id: id,
-           index: index,
-           text: text }
+  return {
+    type: TRANSLATION_TEXT_INPUT_CHANGED,
+    id: id,
+    index: index,
+    text: text
+  }
 }
