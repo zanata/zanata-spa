@@ -7,6 +7,7 @@ import {
   TRANSLATION_TEXT_INPUT_CHANGED,
   UNDO_EDIT
 } from '../actions/phrases'
+import { mapValues } from 'lodash'
 
 const defaultState = {
   // docId -> list of phrases (id and state)
@@ -35,7 +36,8 @@ const phraseReducer = (state = defaultState, action) => {
       })
 
     case PHRASE_DETAIL_FETCHED:
-      const phrasesWithUiState = action.phrases.map(phrase => {
+      const phrasesWithUiState = mapValues(action.phrases, phrase => {
+        console.dir(phrase)
         return updateObject(phrase, {
           isSaving: {$set: false},
           // FIXME check that phrase.translations is the right thing

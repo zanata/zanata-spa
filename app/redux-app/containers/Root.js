@@ -37,9 +37,10 @@ class Root extends React.Component {
     return (
       <ParamPropDispatcher {...this.props}>
         <div>
-          <div onClick={this.props.requestPhraseList}>"Click to get phrases"</div>
-          {phraseElements}
+          <EditorHeader/>
+          {/*
           <MainContent/>
+          */}
         </div>
       </ParamPropDispatcher>
 

@@ -1,4 +1,5 @@
 import { fetchPhraseList, fetchPhraseDetail } from '../api'
+import { mapValues } from 'lodash'
 
 export const FETCHING_PHRASE_LIST = 'FETCHING_PHRASE_LIST'
 
@@ -12,6 +13,7 @@ export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
         if (response.status >= 400) {
           // TODO error detail from actual response object
           dispatch(phraseListFetchFailed(new Error("Failed to fetch phrase list")))
+          // FIXME should stop executing promise here
         }
         return response.json()
       })
@@ -54,10 +56,42 @@ export function requestPhraseDetail (localeId, phraseIds) {
         return response.json()
       })
       .then(phraseDetail => {
-        dispatch(phraseDetailFetched(phraseDetail))
+        dispatch(
+          phraseDetailFetched(
+            // phraseDetail
+            transformPhraseDetail(phraseDetail, localeId)
+          )
+        )
       })
   }
 }
+
+// FIXME phrase comes in with shape like:
+// {
+//   source: {
+//     plural: false (or true I guess if it is an actual plural)
+//     content: "Some string is here"
+//     contents: null
+//   }
+// }
+function transformPhraseDetail (phraseDetail, localeId) {
+  return mapValues(phraseDetail, phrase => {
+    const source = phrase.source
+    const trans = phrase[localeId]
+    const plural = phrase.source.plural
+    const translations = plural ? trans.contents : [trans.content]
+    return {
+      resId: source.resId,
+      plural,
+      status: trans.state,
+      source: plural ? source.contents : [source.content],
+      translations: translations,
+      newTranslations: [...translations]
+    }
+  })
+
+}
+
 
 // // API lookup of the detail for a set of phrases by id
 // export const FETCH_PHRASE_DETAIL = 'FETCH_PHRASE_DETAIL'
