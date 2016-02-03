@@ -5,7 +5,6 @@ import TransUnitSourcePanel from '../TransUnitSourcePanel'
 import TransUnitTranslationPanel from '../TransUnitTranslationPanel'
 import { connect } from 'react-redux'
 import { isUndefined, pick } from 'lodash'
-import { copyFromSource } from '../../redux-app/actions'
 
 /**
  * Single row in the editor displaying a whole phrase.

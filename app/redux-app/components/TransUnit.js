@@ -50,6 +50,7 @@ const TransUnit = React.createClass({
   },
 
   render: function () {
+
     const displayStatus = this.props.phrase.isSaving
       ? this.props.savingStatusId
       : this.props.phrase.status.ID
