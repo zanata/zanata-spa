@@ -37,7 +37,7 @@ class Root extends React.Component {
     return (
       // TODO adjust scrollbar width on the div, like in Angular template editor.html
       <ParamPropDispatcher {...this.props}>
-        <div class="Editor is-suggestions-active">
+        <div className="Editor is-suggestions-active">
           {/*
           <div onClick={this.props.requestPhraseList}>"Click to get phrases"</div>
 -          {phraseElements}
