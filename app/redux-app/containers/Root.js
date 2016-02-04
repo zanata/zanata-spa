@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import MainContent from './MainContent'
 import ParamPropDispatcher from './ParamPropDispatcher'
+import EditorHeader from './EditerHeader'
 
 // FIXME should probably get these actions imported from elsewhere instead
 import {
@@ -9,10 +10,16 @@ import {
   requestPhraseDetail
 } from '../actions/phrases'
 
+import {fetchStatisticsAction, fetchUiLocales} from '../actions/headerActions'
+
 /**
  * Top level of Zanata view hierarchy.
  */
 class Root extends React.Component {
+  componentDidMount () {
+    this.props.requestUiLocales()
+  }
+
   render () {
     console.dir(this.props)
     const phrases = this.props.phrases || []
@@ -71,7 +78,11 @@ function mapDispatchToProps (dispatch, ownProps) {
     },
     requestPhraseDetail: (id) => {
       dispatch(requestPhraseDetail(lang, [id]))
+    },
+    requestUiLocales: () => {
+      dispatch(fetchUiLocales())
     }
+
   }
 }
 
