@@ -18,6 +18,7 @@ import {fetchStatisticsAction, fetchUiLocales} from '../actions/headerActions'
 class Root extends React.Component {
   componentDidMount () {
     this.props.requestUiLocales()
+    this.props.requestStatistics()
   }
 
   render () {
@@ -81,6 +82,9 @@ function mapDispatchToProps (dispatch, ownProps) {
     },
     requestUiLocales: () => {
       dispatch(fetchUiLocales())
+    },
+    requestStatistics: () => {
+      dispatch(fetchStatisticsAction(projectSlug, versionSlug, lang, docId))
     }
 
   }

@@ -96,3 +96,16 @@ export function fetchLocales() {
   })
 
 }
+
+export function fetchMyInfo() {
+  const userUrl = `${baseUrl}/user`
+  return fetch(userUrl, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors'
+
+  })
+}

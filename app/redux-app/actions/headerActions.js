@@ -1,4 +1,4 @@
-import {fetchStatistics, fetchLocales} from '../api'
+import {fetchStatistics, fetchLocales, fetchMyInfo} from '../api'
 import _ from 'lodash'
 import {getId} from '../utils/TransStatusService'
 
@@ -12,10 +12,10 @@ export function toggleHeader(currentVisibility) {
 }
 
 export const FETCHED_STATISTICS = 'FETCHED_STATISTICS';
-export function statisticsFetched(statistics) {
+export function statisticsFetched(data) {
   return {
     type: FETCHED_STATISTICS,
-    data: statistics
+    data: data
   }
 }
 
@@ -47,7 +47,13 @@ export function fetchStatisticsAction(projectSlug, versionSlug, docId, localeId)
 
           // TODO local cache
           //statisticMap[key] = statistics
-          dispatch(statisticsFetched(statistics))
+          dispatch(statisticsFetched(
+            {
+              projectSlug: projectSlug,
+              versionSlug: versionSlug,
+              docId: docId,
+              counts: statistics
+            }))
         })
 
   }
@@ -83,7 +89,7 @@ const prepareLocales = (locales) => {
 
 export function fetchUiLocales() {
   return (dispatch) => {
-    dispatch({type: FETCHING_STATISTICS});
+    dispatch({type: FETCHING_UI_LOCALES});
     fetchLocales().then(response => {
       if (response.status >= 400) {
         // TODO duplicate code for handling ajax error
@@ -91,7 +97,7 @@ export function fetchUiLocales() {
       }
       return response.json()
     }).then(locales => {
-      dispatch(fetchedUiLocales(prepareLocales(locales)));
+      dispatch(uiLocaleFetched(prepareLocales(locales)));
     })
   }
 }
@@ -105,4 +111,27 @@ export function changeUiLocale (locale) {
   }
 }
 
+export const FETCHING = 'FETCHING'
 
+export function myInfo() {
+  return (dispatch) => {
+    dispatch({type: FETCHING})
+    fetchMyInfo().then(response => {
+      if (response.status >= 400) {
+        // TODO duplicate code for handling ajax error
+        dispatch(uiLocalesFetchFailed(new Error("Failed to fetch user")))
+      }
+      return response.json()
+    }).then(myInfo => {
+      dispatch(myInfoFetched(myInfo));
+    })
+  }
+}
+
+export const MY_INFO_FETCHED = 'MY_INFO_FETCHED'
+export function myInfoFetched(myInfo) {
+  return {
+    type: MY_INFO_FETCHED,
+    data: myInfo
+  }
+}

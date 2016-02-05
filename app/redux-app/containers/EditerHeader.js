@@ -44,7 +44,7 @@ function mapStateToProps (state) {
   console.log('====' + state);
   return {
     navHeaderVisible: state.ui.panels.navHeader.visible,
-    counts: state.context.selectedDoc.counts,
+    counts: state.data.context.selectedDoc.counts,
     ui: state.ui
   }
 }
