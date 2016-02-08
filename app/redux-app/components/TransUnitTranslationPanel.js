@@ -42,6 +42,7 @@ let TransUnitTranslationPanel = React.createClass({
       const footerProps = pick(this.props, [
         'openDropdown',
         'phrase',
+        'saveDropdownKey',
         'savePhraseWithStatus',
         'showSuggestions',
         'suggestionCount',

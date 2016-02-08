@@ -2,7 +2,9 @@
  * Helper functions to make requests on the REST API to a Zanata server
  */
 
-// docs say this needs a promise polyfill?
+// The relevant docs for this fetch are at
+// https://www.npmjs.com/package/whatwg-fetch
+// (it is just a wrapper around whatwg-fetch)
 import fetch from 'isomorphic-fetch'
 
 const baseUrl = 'http://localhost:7878/zanata/rest'
@@ -13,7 +15,6 @@ export function fetchPhraseList (projectSlug, versionSlug, localeId, docId) {
     `${baseUrl}/project/${projectSlug}/version/${versionSlug}/doc/${docId}/status/${localeId}`
 
   return fetch(statusListUrl, {
-    // options
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -35,4 +36,46 @@ export function fetchPhraseDetail (localeId, phraseIds) {
     },
     mode: 'cors'
   })
+}
+
+
+export function savePhrase ({ id, revision, plural },
+                            { localeId, status, translations }) {
+  const translationUrl = `${baseUrl}/trans/${localeId}`
+  return fetch(translationUrl, {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors',
+    body: JSON.stringify({
+      id,
+      revision, // || 0
+      plural,
+      content: translations[0],
+      contents: translations,
+      // TODO also limit to only valid status
+      status: phraseStatusToTransUnitStatus(status)
+    })
+  })
+}
+
+/**
+ * Convert from lowercase phrase status used in redux app
+ * to the caps-case strings used in the REST interface.
+ */
+function phraseStatusToTransUnitStatus (status) {
+  switch (status) {
+    case 'untranslated':
+      return 'New'
+    case 'needswork':
+      return 'NeedReview'
+    case 'translated':
+      return 'Translated'
+    case 'approved':
+      return 'Approved'
+    default:
+      console.error('Save attempt with invalid status', status)
+  }
 }

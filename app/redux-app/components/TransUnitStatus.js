@@ -21,7 +21,8 @@ const TransUnitStatus = React.createClass({
   render: function () {
     const phrase = this.props.phrase
     const className = cx('TransUnit-status', {
-      'is-loading': phrase.isSaving
+      // loading if there is an in-progress save object
+      'is-loading': !!phrase.inProgressSave
     })
 
     const comments = phrase.comments
@@ -57,7 +58,7 @@ const TransUnitStatus = React.createClass({
     return (
       <div className={className}>
         <span className="u-hiddenVisually">
-          {this.statusNames[phrase.status.id]}
+          {this.statusNames[phrase.status]}
         </span>
         <ul className="TransUnit-metaData">
           {comments}

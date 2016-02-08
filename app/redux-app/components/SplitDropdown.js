@@ -24,17 +24,13 @@ let SplitDropdown = React.createClass({
     }
   },
 
-  toggleDropdown: function () {
-    this.props.onToggle(this.refs.button.getDOMNode())
-  },
-
   render: function () {
     let className = cx('Dropdown', this.props.className, {
       'is-active': this.props.isOpen
     })
 
     const buttonClick = this.props.enabled
-        ? { onClick: this.toggleDropdown } : {}
+        ? { onClick: this.props.onToggle } : {}
 
     var toggleButtonItem
 

@@ -9,6 +9,7 @@ import { toggleDropdown } from '../actions'
 import {
   cancelEdit,
   copyFromSource,
+  savePhraseWithStatus,
   selectPhrase,
   translationTextInputChanged,
   undoEdit
@@ -28,12 +29,12 @@ const TransUnit = React.createClass({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
     }).isRequired,
-    savingStatusId: PropTypes.oneOf([
-      'untranslated',
-      'needswork',
-      'translated',
-      'approved'
-    ])
+    // savingStatusId: PropTypes.oneOf([
+    //   'untranslated',
+    //   'needswork',
+    //   'translated',
+    //   'approved'
+    // ])
   },
 
   getInitialState: () => {
@@ -51,9 +52,17 @@ const TransUnit = React.createClass({
 
   render: function () {
 
-    const displayStatus = this.props.phrase.isSaving
-      ? this.props.savingStatusId
-      : this.props.phrase.status.ID
+    // FIXME phrase.status needs an ID property and whatever.
+    //       that or just use consistent stuff for them all.
+
+    // Make sure all the incoming status have the right structure
+    // should all just be the standard lowercase things.
+
+    // debugger
+
+    const displayStatus = this.props.phrase.inProgressSave
+      ? this.props.phrase.inProgressSave.status
+      : this.props.phrase.status
 
     const className = cx('TransUnit',
       this.transUnitClassByStatus[displayStatus],
@@ -110,21 +119,33 @@ function mapStateToProps (state, ownProps) {
 
   const passThroughProps = pick(state, [
     'openDropdown',
-    'savePhraseWithStatus',
-    'showSuggestions',
-    'suggestionCount',
-    'suggestionSearchType',
-    'toggleSuggestionPanel',
-    'translationLocale'
   ])
 
   return {
     ...passThroughProps,
+    // TODO add something for looking up locale name instead, or check
+    //      whether it comes with the response.
+    translationLocale: {
+      id: state.context.lang,
+      name: state.context.lang
+    },
     phrase,
-    sourceLocale,
+    openDropdown: state.dropdown.openDropdownKey,
+    sourceLocale: {
+      id: sourceLocale.localeId,
+      name: sourceLocale.name
+    },
     isFirstPhrase: index === 0,
     selected: state.phrases.selectedPhraseId === phrase.id,
-    savingStatusId: phrase.isSaving ? phrase.savingStatusId : undefined
+    // savingStatusId: phrase.isSaving ? phrase.savingStatusId : undefined,
+
+    // FIXME get from state when suggestions are in there
+    suggestionCount: 0,
+    suggestionSearchType: 'phrase',
+    showSuggestions: false,
+    toggleSuggestionPanel: () => {
+      console.warn('TODO implement toggleSuggestionPanel')
+    }
   }
 }
 
@@ -136,10 +157,14 @@ function mapDispatchToProps (dispatch, ownProps) {
     copyFromSource: () => {
       dispatch(copyFromSource(ownProps.phrase.id))
     },
+    savePhraseWithStatus: (phrase, status) => {
+      dispatch(savePhraseWithStatus(phrase, status))
+    },
     selectPhrase: () => {
       dispatch(selectPhrase(ownProps.phrase.id))
     },
-    textChanged: (id, index, text) => {
+    textChanged: (id, index, event) => {
+      const text = event.target.value
       dispatch(translationTextInputChanged(id, index, text))
     },
     toggleDropdown: (key) => {

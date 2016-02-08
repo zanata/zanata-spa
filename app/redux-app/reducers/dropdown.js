@@ -11,7 +11,7 @@ const defaultState = {
 const dropdownReducer = (state = defaultState, action) => {
   switch (action.type) {
     case TOGGLE_DROPDOWN:
-      const isOpen = action.key === state
+      const isOpen = action.key === state.openDropdownKey
       return {
         openDropdownKey: isOpen ? undefined : action.key
       }

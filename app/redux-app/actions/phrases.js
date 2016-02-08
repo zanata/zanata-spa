@@ -1,4 +1,5 @@
-import { fetchPhraseList, fetchPhraseDetail } from '../api'
+import { fetchPhraseList, fetchPhraseDetail, savePhrase } from '../api'
+import { toggleDropdown } from '.'
 import { mapValues } from 'lodash'
 
 export const FETCHING_PHRASE_LIST = 'FETCHING_PHRASE_LIST'
@@ -55,43 +56,71 @@ export function requestPhraseDetail (localeId, phraseIds) {
         }
         return response.json()
       })
-      .then(phraseDetail => {
+      .then(transUnitDetail => {
         dispatch(
           phraseDetailFetched(
             // phraseDetail
-            transformPhraseDetail(phraseDetail, localeId)
+            transUnitDetailToPhraseDetail(transUnitDetail, localeId)
           )
         )
       })
   }
 }
 
-// FIXME phrase comes in with shape like:
-// {
-//   source: {
-//     plural: false (or true I guess if it is an actual plural)
-//     content: "Some string is here"
-//     contents: null
-//   }
-// }
-function transformPhraseDetail (phraseDetail, localeId) {
-  return mapValues(phraseDetail, phrase => {
-    const source = phrase.source
-    const trans = phrase[localeId]
-    const plural = phrase.source.plural
-    const translations = plural ? trans.contents : [trans.content]
+/**
+ * Convert the TransUnit response objects to the Phrase structure that
+ * is needed for the component tree.
+ */
+function transUnitDetailToPhraseDetail (transUnitDetail, localeId) {
+  return mapValues(transUnitDetail, (transUnit, id) => {
+    const source = transUnit.source
+    const plural = source.plural
+    const trans = transUnit[localeId]
+    const translations = extractTranslations(source, trans)
     return {
-      resId: source.resId,
+      id: parseInt(id, 10),
       plural,
-      status: trans.state,
-      source: plural ? source.contents : [source.content],
-      translations: translations,
-      newTranslations: [...translations]
+      sources: plural ? source.contents : [source.content],
+      translations,
+      newTranslations: [...translations],
+      status: transUnitStatusToPhraseStatus(trans ? trans.state : undefined),
+      revision: trans && trans.revision ? parseInt(trans.revision, 10) : 0,
+      wordCount: parseInt(source.wordCount, 10)
     }
   })
-
 }
 
+/**
+ * Get translations from a TransUnit in a consistent form (array of strings)
+ *
+ * This will always return an Array<String>, but the array may be empty.
+ */
+function extractTranslations (source, trans) {
+  if (source.plural) {
+    return trans && trans.contents ? trans.contents.slice() : []
+  }
+  return trans ? [trans.content] : []
+}
+
+/**
+ * Correct the incoming status keys to match what is expected in
+ * the app. No status is assumed to mean new.
+ *
+ * Expect: untranslated/needswork/translated/approved
+ */
+function transUnitStatusToPhraseStatus (mixedCaseStatus) {
+  const status = mixedCaseStatus
+    ? mixedCaseStatus.toLowerCase()
+    : undefined
+  if (!status || status === 'new') {
+    return 'untranslated'
+  }
+  if (status === 'needreview') {
+    return 'needswork'
+  }
+  // remaining status should be ok just lowercased
+  return status
+}
 
 // // API lookup of the detail for a set of phrases by id
 // export const FETCH_PHRASE_DETAIL = 'FETCH_PHRASE_DETAIL'
@@ -163,5 +192,96 @@ export function translationTextInputChanged (id, index, text) {
     id: id,
     index: index,
     text: text
+  }
+}
+
+export const SAVE_PHRASE_WITH_STATUS = 'SAVE_PHRASE_WITH_STATUS'
+export function savePhraseWithStatus (phrase, status) {
+  return (dispatch, getState) => {
+    // save dropdowns (and others) should always close when save starts.
+    dispatch(toggleDropdown(undefined))
+
+    const stateBefore = getState()
+    const saveInfo = {
+      localeId: stateBefore.context.lang,
+      status,
+      translations: phrase.newTranslations
+    }
+
+    const inProgressSave =
+      stateBefore.phrases.detail[phrase.id].inProgressSave
+
+    if (inProgressSave) {
+      dispatch(queueSave(phrase.id, saveInfo))
+      // done for now, save will initiate when inProgressSave completes
+      return
+    }
+
+    doSave(saveInfo)
+
+    /**
+     * Perform a save with the given info, and recursively start next save if
+     * one has queued when the save finishes.
+     */
+    function doSave (saveInfo) {
+      // fetch a new phrase copy each time so revision and queued saves are
+      // are correct.
+      const currentPhrase = getState().phrases.detail[phrase.id]
+      dispatch(saveInitiated(phrase.id, saveInfo))
+      savePhrase(currentPhrase, saveInfo)
+        .then(response => {
+          if (response.status >= 400) {
+            // TODO dispatch an error about save failure
+            //      this should remove the inProgressSave data
+            dispatch(phraseSaveFailed(currentPhrase, saveInfo))
+          } else {
+            response.json().then(({ revision, status }) => {
+              dispatch(saveFinished(phrase.id, status, revision))
+            })
+          }
+          startPendingSaveIfPresent(currentPhrase)
+        })
+    }
+
+    function startPendingSaveIfPresent (currentPhrase) {
+      const pendingSave = currentPhrase.pendingSave
+      if (pendingSave) {
+        // TODO this action should move pendingSave to inProgressSave
+        // dispatch(initiatedPendingSave(phrase.id))
+        doSave(pendingSave)
+      }
+    }
+  }
+}
+
+export const QUEUE_SAVE = 'QUEUE_SAVE'
+export function queueSave (phraseId, saveInfo) {
+  return {
+    type: QUEUE_SAVE,
+    phraseId,
+    saveInfo
+  }
+}
+
+export const SAVE_INITIATED = 'SAVE_INITIATED'
+export function saveInitiated (phraseId, saveInfo) {
+  return {
+    type: SAVE_INITIATED,
+    phraseId,
+    saveInfo
+  }
+}
+
+// FIXME this needs to get the new state into the phrase so that
+//       it will display properly
+// FIXME should use status and serverStatus to disambiguate
+//       (these would be separate types if there were types.)
+export const SAVE_FINISHED = 'SAVE_FINISHED'
+export function saveFinished (phraseId, transUnitStatus, revision) {
+  return {
+    type: SAVE_FINISHED,
+    phraseId,
+    status: transUnitStatusToPhraseStatus(transUnitStatus),
+    revision
   }
 }
