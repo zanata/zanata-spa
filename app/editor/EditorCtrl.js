@@ -169,12 +169,12 @@
         } else {
           // if docId is not defined in url, set to first from list
           var selectedDocId = $state.params.docId
-          var context = editorCtrl.context
+          //var context = editorCtrl.context
           if (!selectedDocId) {
-            context.docId = editorCtrl.documents[0].name
-            transitionToEditorSelectedView()
+            //context.docId = editorCtrl.documents[0].name
+            //transitionToEditorSelectedView()
           } else {
-            context.docId = DocumentService.decodeDocId(selectedDocId)
+            //context.docId = DocumentService.decodeDocId(selectedDocId)
             if (!DocumentService.containsDoc(editorCtrl.documents,
               context.docId)) {
               context.docId = editorCtrl.documents[0].name

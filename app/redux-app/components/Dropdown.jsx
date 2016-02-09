@@ -1,5 +1,6 @@
 import cx from 'classnames'
 import React, { PropTypes } from 'react'
+import {findDOMNode} from 'react-dom'
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.
@@ -22,7 +23,8 @@ let Dropdown = React.createClass({
   },
 
   toggleDropdown: function () {
-    this.props.onToggle(this.refs.button.getDOMNode())
+    let node = findDOMNode(this.refs.button);
+    this.props.onToggle(node)
   },
 
   render: function () {

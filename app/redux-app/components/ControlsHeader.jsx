@@ -1,11 +1,12 @@
 import { pick } from 'lodash'
 import cx from 'classnames'
-import IconButtonToggle from '../IconButtonToggle'
-import Pager from '../Pager'
-import TranslatingIndicator from '../TranslatingIndicator'
-import TransUnitFilter from '../TransUnitFilter'
+import IconButtonToggle from './IconButtonToggle'
+import Pager from './Pager'
+import TranslatingIndicator from './TranslatingIndicator'
+import TransUnitFilter from './TransUnitFilter'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import {changeUiLocale, toggleHeader, toggleSuggestions} from '../actions/headerActions'
 
 const { bool, func, number, shape } = PropTypes
 
@@ -141,4 +142,42 @@ function selector (state) {
   return props
 }
 
-export default connect(selector)(ControlsHeader)
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      resetFilter: () => {
+        // TODO pahuang this function doesn't seem to be used
+        console.log('======== resetFilter')
+      },
+      onFilterChange: () => {
+        // TODO pahuang this function doesn't seem to be used
+        console.log('======== onFilterChange')
+      },
+      firstPage: () => {
+        // TODO pahuang this function doesn't seem to be used
+        console.log('======== firstPage')
+      },
+      previousPage: () => {
+        // TODO pahuang this function doesn't seem to be used
+        console.log('======== previousPage')
+      },
+      nextPage: () => {
+        // TODO pahuang this function doesn't seem to be used
+        console.log('======== nextPage')
+      },
+      lastPage: () => {
+        // TODO pahuang this function doesn't seem to be used
+        console.log('======== lastPage')
+      },
+      toggleSuggestionPanel: () => dispatch(toggleSuggestions()),
+      toggleKeyboardShortcutsModal: () => {
+        // TODO pahuang implement this
+        console.log('======== toggleKeyboardShortcutsModal')
+      },
+      toggleMainNav: () => dispatch(toggleHeader())
+    }
+  }
+
+}
+
+export default connect(selector, mapDispatchToProps)(ControlsHeader)

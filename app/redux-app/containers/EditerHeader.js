@@ -5,7 +5,7 @@ import ProgressBar from '../components/ProgressBar'
 import { connect } from 'react-redux'
 import React, { PropTypes } from 'react'
 import {toggleDropdown} from '../actions'
-import {changeUiLocale} from '../actions/headerActions'
+import {changeUiLocale, toggleHeader, toggleSuggestions} from '../actions/headerActions'
 
 /**
  * Header for navigation and control of the editor
@@ -30,8 +30,8 @@ let EditorHeader = React.createClass({
         <header role="banner"
                 className={className}
                 focus-on="editor-header">
-          <NavHeader actions={this.props.actions} />
-          <ControlsHeader/>
+          <NavHeader />
+          <ControlsHeader />
           <ProgressBar
               size="small"
               counts={this.props.counts}/>
@@ -41,7 +41,6 @@ let EditorHeader = React.createClass({
 })
 
 function mapStateToProps (state) {
-  console.log('====' + state);
   return {
     navHeaderVisible: state.ui.panels.navHeader.visible,
     counts: state.data.context.selectedDoc.counts,
@@ -49,14 +48,6 @@ function mapStateToProps (state) {
   }
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    actions: {
-      toggleDropdown: toggleDropdown,
-      changeUiLocale: changeUiLocale
-    }
-  }
 
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditorHeader)
+export default connect(mapStateToProps)(EditorHeader)

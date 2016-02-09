@@ -89,7 +89,7 @@ export function fetchStatistics(_projectSlug, _versionSlug,
 
 export function fetchLocales() {
   // TODO pahuang this was using $location to build up the ui locales
-  const uiTranslationsURL = `http://localhost:7878/translations/locales.json`
+  const uiTranslationsURL = `http://localhost:7878/zanata/rest/locales`
 
   return fetch(uiTranslationsURL, {
     method: 'GET'
@@ -107,5 +107,30 @@ export function fetchMyInfo() {
     },
     mode: 'cors'
 
+  })
+}
+
+export function fetchProjectInfo(projectSlug) {
+  const projectUrl = `${baseUrl}/project/${projectSlug}`
+  return fetch(projectUrl, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors'
+
+  })
+}
+
+export function fetchDocuments(projectSlug, versionSlug) {
+  const docListUrl = `${baseUrl}/project/${projectSlug}/version/${versionSlug}/docs`;
+  return fetch(docListUrl, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors'
   })
 }

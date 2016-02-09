@@ -65,7 +65,7 @@ exports.getCSSClass = function (statusKey) {
  * @return {string}        new value to use
  */
 function conformStatus(statusKey) {
-  statusKey = angular.uppercase(statusKey)
+  statusKey = statusKey.toUpperCase()
   if (!statusKey || statusKey === 'NEW') {
     statusKey = 'UNTRANSLATED'
   } else if (statusKey === 'NEEDREVIEW') {

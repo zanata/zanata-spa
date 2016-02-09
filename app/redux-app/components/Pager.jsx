@@ -1,9 +1,26 @@
-import Icon from '../Icon'
+import Icon from './Icon'
 import React, { PropTypes } from 'react'
 
 /**
  * Paging buttons and current-page indicator.
  */
+
+let PagerButton = React.createClass({
+  render: function () {
+    return (
+        <li>
+          <a className="Link--neutral u-sizeHeight-1_1-2 u-textNoSelect"
+             title={this.props.title}
+             onClick={this.props.action}>
+            <Icon name={this.props.icon}
+                  title={this.props.title}
+                  className="u-sizeWidth-1"/>
+          </a>
+        </li>
+    )
+  }
+});
+
 let Pager = React.createClass({
 
   propTypes: {
@@ -23,25 +40,9 @@ let Pager = React.createClass({
     }).isRequired
   },
 
-  PagerButton: React.createClass({
-    render: function () {
-      return (
-        <li>
-          <a className="Link--neutral u-sizeHeight-1_1-2 u-textNoSelect"
-            title={this.props.title}
-            onClick={this.props.action}>
-            <Icon name={this.props.icon}
-                  title={this.props.title}
-                  className="u-sizeWidth-1"/>
-          </a>
-        </li>
-      )
-    }
-  }),
-
   render: function () {
     let gettextCatalog = this.props.gettextCatalog
-    let PagerButton = this.PagerButton
+    //let PagerButton = this.PagerButton
 
     let pageNumber = this.props.pageNumber
     let pageCount = this.props.pageCount

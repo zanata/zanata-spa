@@ -2,6 +2,25 @@ import { chain } from 'lodash'
 import cx from 'classnames'
 import React, { PropTypes } from 'react'
 
+let ProgressItem = React.createClass({
+  propTypes: {
+    state: PropTypes.string.isRequired,
+    start: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired
+  },
+  render: function () {
+    let className = cx('Progressbar-item', 'Progressbar-' + this.props.state)
+    let style = {
+      marginLeft: this.props.start + '%',
+      width: this.props.width + '%'
+    }
+    return (
+        <span className={className}
+              style={style}/>
+    )
+  }
+});
+
 /**
  * Bar showing translation progress
  */
@@ -31,27 +50,7 @@ let ProgressBar = React.createClass({
     }
   },
 
-  ProgressItem: React.createClass({
-    propTypes: {
-      state: PropTypes.string.isRequired,
-      start: PropTypes.number.isRequired,
-      width: PropTypes.number.isRequired
-    },
-    render: function () {
-      let className = cx('Progressbar-item', 'Progressbar-' + this.props.state)
-      let style = {
-        marginLeft: this.props.start + '%',
-        width: this.props.width + '%'
-      }
-      return (
-        <span className={className}
-          style={style}/>
-      )
-    }
-  }),
-
   render: function () {
-    let ProgressItem = this.ProgressItem
     let className = cx('Progressbar', {
       'Progressbar--sm': this.props.size === 'small',
       'Progressbar--lg': this.props.size === 'large'

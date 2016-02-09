@@ -1,11 +1,13 @@
-import DashboardLink from '../DashboardLink'
-import DocsDropdown from '../DocsDropdown'
-import Icon from '../Icon'
-import LanguagesDropdown from '../LanguagesDropdown'
-import ProjectVersionLink from '../ProjectVersionLink'
-import UiLanguageDropdown from '../UiLanguageDropdown'
+import DashboardLink from './DashboardLink'
+import DocsDropdown from './DocsDropdown'
+import Icon from './Icon'
+import LanguagesDropdown from './LanguagesDropdown'
+import ProjectVersionLink from './ProjectVersionLink'
+import UiLanguageDropdown from './UiLanguageDropdown'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import {toggleDropdown} from '../actions'
+import {changeUiLocale} from '../actions/headerActions'
 
 const { any, arrayOf, func, object, shape, string } = PropTypes
 
@@ -124,8 +126,25 @@ let NavHeader = React.createClass({
   }
 })
 
-function selector (state) {
-  return state
+function mapStateToProps (state) {
+  console.log('NavHeader============')
+  return {
+    ui: state.ui,
+    data: state.data
+  }
 }
 
-export default connect(selector)(NavHeader)
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      toggleDropdown: (key) => {
+        return () => dispatch(toggleDropdown(key))
+      },
+      changeUiLocale: (key) => {
+        return () => dispatch(changeUiLocale(key))
+      }
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavHeader)

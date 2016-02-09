@@ -1,4 +1,6 @@
 import { TOGGLE_HEADER, FETCHED_UI_LOCALES, CHANGE_UI_LOCALE } from '../actions/headerActions'
+import { TOGGLE_DROPDOWN } from '../actions'
+
 import updateObject from 'react-addons-update'
 
 const docsDropdownKey = 'DOCS_DROPDOWN'
@@ -9,16 +11,41 @@ const defaultState = {
   panels: {
     navHeader: {
       visible: true
+    },
+    suggestions: {
+      visible: true
     }
+
   },
   uiLocales: {
-    'en-US': 'English'
+    'en-US': {
+      id: 'en-US',
+      name: 'English'
+    }
   },
   dropdowns: {
     current: undefined,
     docsKey: docsDropdownKey,
     localeKey: localeDropdownKey,
     uiLocaleKey: uiLocaleDropdownKey
+  },
+  textFlowDisplay: {
+    filter: {
+      all: true,
+      approved: true,
+      translated: true,
+      needsWork: true,
+      untranslated: true
+    },
+    pageNumber: 0,
+    pageCount: 50
+  },
+  gettextCatalog: {
+    getString: (key) => {
+      // TODO pahuang implement this
+      console.log('gettextCatalog.getString')
+      return key;
+    }
   }
 }
 
@@ -29,7 +56,7 @@ const ui = (state = defaultState, action) => {
       return updateObject(state, {
         panels: {
           navHeader: {
-            visible: {$set: !action.currentVisibility}
+            visible: {$set: !state.panels.navHeader.visible}
           }
         }
       })
@@ -68,7 +95,18 @@ const ui = (state = defaultState, action) => {
        })
        }
        */
-      return state
+      return state;
+
+    case TOGGLE_DROPDOWN:
+        // TODO pahuang this listens to the same action
+      return updateObject(state, {
+        dropdowns: {
+          current: {
+            $set: action.key
+          }
+        }
+      });
+
     default:
       return state
   }
