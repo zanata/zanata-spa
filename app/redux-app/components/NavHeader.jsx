@@ -127,7 +127,6 @@ let NavHeader = React.createClass({
 })
 
 function mapStateToProps (state) {
-  console.log('NavHeader============')
   return {
     ui: state.ui,
     data: state.data

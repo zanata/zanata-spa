@@ -10,19 +10,14 @@ import {
   requestPhraseDetail
 } from '../actions/phrases'
 
-import {fetchStatisticsAction, fetchUiLocales, myInfo, projectInfo, docList, fetchHeaderInfo} from '../actions/headerActions'
+import {fetchHeaderInfo, fetchUiLocales} from '../actions/headerActions'
 
 /**
  * Top level of Zanata view hierarchy.
  */
 class Root extends React.Component {
   componentDidMount () {
-    //this.props.requestMyInfo()
-    //this.props.requestProjectInfo()
-    //this.props.requestUiLocales()
-    //this.props.requestDocList()
-    // TODO pahuang loadDocuments should happen before load statis to make sure docId in url is correct
-    //this.props.requestStatistics()
+    this.props.requestUiLocales();
     this.props.requestHeaderInfo()
   }
 
@@ -85,21 +80,10 @@ function mapDispatchToProps (dispatch, ownProps) {
     requestPhraseDetail: (id) => {
       dispatch(requestPhraseDetail(lang, [id]))
     },
-    //requestUiLocales: () => {
-    //  dispatch(fetchUiLocales())
-    //},
-    //requestStatistics: () => {
-    //  dispatch(fetchStatisticsAction(projectSlug, versionSlug, docId, lang))
-    //},
-    //requestMyInfo: () => {
-    //  dispatch(myInfo())
-    //},
-    //requestProjectInfo: () => {
-    //  dispatch(projectInfo(projectSlug))
-    //},
-    //requestDocList: () => {
-    //  dispatch(docList(projectSlug, versionSlug))
-    //},
+
+    requestUiLocales: () => {
+      dispatch(fetchUiLocales())
+    },
 
     requestHeaderInfo: () => {
       dispatch(fetchHeaderInfo(projectSlug, versionSlug, docId, lang))

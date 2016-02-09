@@ -4,8 +4,6 @@ import NavHeader from '../components/NavHeader'
 import ProgressBar from '../components/ProgressBar'
 import { connect } from 'react-redux'
 import React, { PropTypes } from 'react'
-import {toggleDropdown} from '../actions'
-import {changeUiLocale, toggleHeader, toggleSuggestions} from '../actions/headerActions'
 
 /**
  * Header for navigation and control of the editor

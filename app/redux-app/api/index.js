@@ -134,3 +134,15 @@ export function fetchDocuments(projectSlug, versionSlug) {
     mode: 'cors'
   })
 }
+
+export function fetchVersionLocales(projectSlug, versionSlug) {
+  const localesUrl = `${baseUrl}/project/${projectSlug}/version/${versionSlug}/locales`;
+  return fetch(localesUrl, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors'
+  })
+}
