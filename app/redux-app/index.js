@@ -4,6 +4,7 @@ import { compose, createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { hashHistory, Router, Route } from 'react-router'
 import { syncHistory } from 'redux-simple-router'
+import newContextFetchMiddleware from './middlewares/new-context-fetch'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import rootReducer from './reducers'
@@ -28,6 +29,7 @@ const history = hashHistory
 const reduxRouterMiddleware = syncHistory(history)
 const createStoreWithMiddleware =
   applyMiddleware(
+    newContextFetchMiddleware,
     reduxRouterMiddleware,
     thunk,
     createLogger()

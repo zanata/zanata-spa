@@ -9,6 +9,20 @@ import fetch from 'isomorphic-fetch'
 
 const baseUrl = 'http://localhost:7878/zanata/rest'
 
+export function fetchDocumentList (projectSlug, versionSlug) {
+  const docListUrl =
+    `${baseUrl}/project/${projectSlug}/version/${versionSlug}/docs`
+
+  return fetch(docListUrl, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors'
+  })
+}
+
 export function fetchPhraseList (projectSlug, versionSlug, localeId, docId) {
 
   const statusListUrl =
