@@ -1,4 +1,4 @@
-import { TOGGLE_HEADER, UI_LOCALES_FETCHED, CHANGE_UI_LOCALE } from '../actions/headerActions'
+import { TOGGLE_HEADER, TOGGLE_SUGGESTIONS, UI_LOCALES_FETCHED, CHANGE_UI_LOCALE } from '../actions/headerActions'
 import { RESET_STATUS_FILTERS, UPDATE_STATUS_FILTER, FIRST_PAGE, PREVIOUS_PAGE, NEXT_PAGE, LAST_PAGE } from '../actions/controlsHeaderActions'
 import { TOGGLE_DROPDOWN } from '../actions'
 import {prepareLocales} from '../utils/Util'
@@ -83,6 +83,15 @@ const ui = (state = defaultState, action) => {
         panels: {
           navHeader: {
             visible: {$set: !state.panels.navHeader.visible}
+          }
+        }
+      });
+
+    case TOGGLE_SUGGESTIONS:
+      return updateObject(state, {
+        panels: {
+          suggestions: {
+            visible: {$set: !state.panels.suggestions.visible}
           }
         }
       });
