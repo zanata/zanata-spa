@@ -33,6 +33,7 @@ const stateChangeDispatchMiddleware = (...callbacks) => store => next => action 
   const result = next(action)
   const stateAfter = store.getState()
   callbacks.forEach(callback => {
+    // note: :: is shorthand for foo.fun.bind(foo)
     callback(::store.dispatch, stateBefore, stateAfter)
   })
   return result
