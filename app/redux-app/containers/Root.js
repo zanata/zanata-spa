@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import MainContent from './MainContent'
 import ParamPropDispatcher from './ParamPropDispatcher'
+import EditorHeader from './EditerHeader'
 
 // FIXME should probably get these actions imported from elsewhere instead
 import {
@@ -9,10 +10,17 @@ import {
   requestPhraseDetail
 } from '../actions/phrases'
 
+import {fetchHeaderInfo, fetchUiLocales} from '../actions/headerActions'
+
 /**
  * Top level of Zanata view hierarchy.
  */
 class Root extends React.Component {
+  componentDidMount () {
+    this.props.requestUiLocales();
+    this.props.requestHeaderInfo()
+  }
+
   render () {
     return (
       // TODO adjust scrollbar width on the div, like in Angular template editor.html
@@ -50,7 +58,16 @@ function mapDispatchToProps (dispatch, ownProps) {
     },
     requestPhraseDetail: (id) => {
       dispatch(requestPhraseDetail(lang, [id]))
+    },
+
+    requestUiLocales: () => {
+      dispatch(fetchUiLocales())
+    },
+
+    requestHeaderInfo: () => {
+      dispatch(fetchHeaderInfo(projectSlug, versionSlug, docId, lang))
     }
+
   }
 }
 
