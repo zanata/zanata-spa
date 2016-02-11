@@ -33,7 +33,9 @@ const stateChangeDispatchMiddleware = (...callbacks) => store => next => action 
   const result = next(action)
   const stateAfter = store.getState()
   callbacks.forEach(callback => {
-    // note: :: is shorthand for foo.fun.bind(foo)
+    // Note :: is shorthand for foo.fun.bind(foo)
+    //   it lets you pass an instance function around as a callback
+    //   without messing up the 'this' binding
     callback(::store.dispatch, stateBefore, stateAfter)
   })
   return result
