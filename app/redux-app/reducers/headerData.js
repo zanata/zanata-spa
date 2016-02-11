@@ -43,10 +43,10 @@ export default (state = defaultState, action) => {
   switch (action.type) {
     case HEADER_DATA_FETCHED:
       const docs = prepareDocs(action.data.documents);
-      const uiLocales = prepareLocales(action.data.uiLocales);
       const locales = prepareLocales(action.data.locales);
       const versionSlug = action.data.versionSlug;
       const projectSlug = action.data.projectInfo.id;
+      const projectName = action.data.projectInfo.name;
       const name = action.data.myInfo.name;
       const gravatarHash = action.data.myInfo.gravatarHash;
 
@@ -66,19 +66,26 @@ export default (state = defaultState, action) => {
         },
         context: {
           projectVersion: {
+            project: {
+              slug: {
+                $set: projectSlug
+              },
+              name: {
+                $set: projectName
+              }
+            },
             version: {
               $set: versionSlug
             },
             url: {
               $set: projectPage(projectSlug, versionSlug)
+            },
+            docs: {
+              $set: docs
+            },
+            locales: {
+              $set: locales
             }
-
-          },
-          docs: {
-            $set: docs
-          },
-          locales: {
-            $set: locales
           }
         }
       });

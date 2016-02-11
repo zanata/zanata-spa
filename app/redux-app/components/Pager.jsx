@@ -47,13 +47,15 @@ let Pager = React.createClass({
     let pageNumber = this.props.pageNumber
     let pageCount = this.props.pageCount
 
+    /* FIXME this is using angular gettext
     let pageXofY = pageCount
       ? gettextCatalog.getString(
         '{{currentPage}} of {{totalPages}}', {
           currentPage: pageNumber,
           totalPages: pageCount
         })
-      : pageNumber
+      : pageNumber*/
+    let pageXofY = `${pageNumber} of ${pageCount}`;
 
     let actions = this.props.actions
     let buttons = {

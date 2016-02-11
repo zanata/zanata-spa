@@ -7,6 +7,7 @@ import TransUnitFilter from './TransUnitFilter'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {changeUiLocale, toggleHeader, toggleSuggestions} from '../actions/headerActions'
+import {resetStatusFilter, updateStatusFilter, firstPage, nextPage, previousPage, lastPage} from '../actions/controlsHeaderActions'
 
 const { bool, func, number, shape } = PropTypes
 
@@ -136,7 +137,7 @@ let ControlsHeader = React.createClass({
   }
 })
 
-function selector (state) {
+function mapStateToProps (state) {
   let props = pick(state, ['actions', 'ui'])
   props.counts = state.data.context.selectedDoc.counts
   return props
@@ -146,32 +147,26 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       resetFilter: () => {
-        // TODO pahuang this function doesn't seem to be used
-        console.log('======== resetFilter')
+        dispatch(resetStatusFilter())
       },
-      onFilterChange: () => {
-        // TODO pahuang this function doesn't seem to be used
-        console.log('======== onFilterChange')
+      onFilterChange: (status) => {
+        dispatch(updateStatusFilter(status))
       },
       firstPage: () => {
-        // TODO pahuang this function doesn't seem to be used
-        console.log('======== firstPage')
+        dispatch(firstPage())
       },
       previousPage: () => {
-        // TODO pahuang this function doesn't seem to be used
-        console.log('======== previousPage')
+        dispatch(previousPage())
       },
       nextPage: () => {
-        // TODO pahuang this function doesn't seem to be used
-        console.log('======== nextPage')
+        dispatch(nextPage())
       },
       lastPage: () => {
-        // TODO pahuang this function doesn't seem to be used
-        console.log('======== lastPage')
+        dispatch(lastPage())
       },
       toggleSuggestionPanel: () => dispatch(toggleSuggestions()),
       toggleKeyboardShortcutsModal: () => {
-        // TODO pahuang implement this
+        // TODO pahuang implement toggle keyboard shutcut modal
         console.log('======== toggleKeyboardShortcutsModal')
       },
       toggleMainNav: () => dispatch(toggleHeader())
@@ -180,4 +175,4 @@ function mapDispatchToProps(dispatch) {
 
 }
 
-export default connect(selector, mapDispatchToProps)(ControlsHeader)
+export default connect(mapStateToProps, mapDispatchToProps)(ControlsHeader)

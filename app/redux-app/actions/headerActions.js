@@ -24,7 +24,7 @@ const fetchFailed = (error) => {
   return {type: FETCH_FAILED, error: error}
 };
 
-const unwrapResponse = (errorMsg, response) => {
+const unwrapResponse = (dispatch, errorMsg, response) => {
   if (response.status >= 400) {
     dispatch(fetchFailed(new Error(errorMsg)))
   }
@@ -33,6 +33,7 @@ const unwrapResponse = (errorMsg, response) => {
 
 const catchError = (err) => {
   console.error('!!!!!!!!!!!!!!!! BAD !!!!!!!!!!!!!!' + err)
+  return {type: FETCH_FAILED, error: err}
 }
 
 export const UI_LOCALES_FETCHED = 'UI_LOCALES_FETCHED'
@@ -45,7 +46,7 @@ export function uiLocaleFetched(uiLocales) {
 export function fetchUiLocales() {
   return (dispatch) => {
     fetchLocales()
-        .then(_.curry(unwrapResponse)('fetch UI locales failed'))
+        .then(_.curry(unwrapResponse)(dispatch, 'fetch UI locales failed'))
         .then(uiLocales => dispatch(uiLocaleFetched(uiLocales)))
         .catch(catchError);
 
@@ -66,17 +67,18 @@ const decodeDocId = (docId) => {
   return docId ? docId.replace(/\,/g, '/') : docId
 };
 
-// TODO pahuang generalize these two functions
-const containsDoc = (documents, docId) => {
-  return _.any(documents, (document) => {
-    return equals(document.name, docId, true)
+const hasCaseInsensitiveMatchingProp = (list, prop, matchedValue) => {
+  return _.any(list, (item) => {
+    return equals(item[prop], matchedValue, true)
   })
 }
 
+const containsDoc = (documents, docId) => {
+  return hasCaseInsensitiveMatchingProp(documents, 'name', docId);
+}
+
 const containsLocale = (localeList, localeId) => {
-  return _.any(localeList, (locale) => {
-    return equals(locale.localeId, localeId, true)
-  })
+  return hasCaseInsensitiveMatchingProp(localeList, 'localeId', localeId);
 }
 
 export const DOCUMENT_SELECTED = 'DOCUMENT_SELECTED';
@@ -116,11 +118,13 @@ export function headerDataFetched(data) {
 export function fetchHeaderInfo(projectSlug, versionSlug, docId, localeId) {
 
   return (dispatch, getState) => {
-    let docListPromise = fetchDocuments(projectSlug, versionSlug).then(_.curry(unwrapResponse)('fetch document list failed'));
-    let projectInfoPromise = fetchProjectInfo(projectSlug).then(_.curry(unwrapResponse)('fetch project info failed'));
-    let myInfoPromise = fetchMyInfo().then(_.curry(unwrapResponse)('fetch my INFO failed'));
+    const checkResponse = _.curry(unwrapResponse)(dispatch);
+
+    let docListPromise = fetchDocuments(projectSlug, versionSlug).then(checkResponse('fetch document list failed'));
+    let projectInfoPromise = fetchProjectInfo(projectSlug).then(checkResponse('fetch project info failed'));
+    let myInfoPromise = fetchMyInfo().then(checkResponse('fetch my INFO failed'));
     let versionLocalesPromise = fetchVersionLocales(projectSlug, versionSlug)
-        .then(_.curry(unwrapResponse)('fetch version locales failed'));
+        .then(checkResponse('fetch version locales failed'));
 
     Promise.all([docListPromise, projectInfoPromise, myInfoPromise, versionLocalesPromise])
         .then((all) => {
@@ -177,7 +181,7 @@ export function fetchHeaderInfo(projectSlug, versionSlug, docId, localeId) {
 
           if (getState().data.context.selectedDoc.id !== selectedDocId || getState().data.context.selectedLocale !== selectedLocaleId) {
             fetchStatistics(projectSlug, versionSlug, selectedDocId, selectedLocaleId)
-                .then(_.curry(unwrapResponse)('fetch statistics failed'))
+                .then(checkResponse('fetch statistics failed'))
                 .then(stats => dispatch(statsFetched(stats)));
           }
 
