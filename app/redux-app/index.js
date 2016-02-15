@@ -26,13 +26,26 @@ import NeedSlugMessage from './NeedSlugMessage.jsx'
 // const history = createHistory()
 const history = hashHistory
 
+const loggerMiddleware = createLogger({
+  actionTransformer: (action) => {
+    if (typeof action.type !== 'symbol') {
+      console.warn("You should use a Symbol for this action type: " + String(action.type))
+    }
+    return {
+      ...action,
+      // allow symbol action type to be printed properly in logs
+      type: String(action.type)
+    }
+  }
+})
+
 const reduxRouterMiddleware = syncHistory(history)
 const createStoreWithMiddleware =
   applyMiddleware(
     newContextFetchMiddleware,
     reduxRouterMiddleware,
     thunk,
-    createLogger()
+    loggerMiddleware
   )(createStore)
 
 const store = createStoreWithMiddleware(rootReducer)
