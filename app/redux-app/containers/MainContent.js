@@ -46,10 +46,18 @@ const MainContent = React.createClass({
       )
     })
 
+    // TODO scrollbar width container+child were not brought over
+    //      from the angular code yet.
     return (
-      <ul className="Editor-translations">
-        {transUnits}
-      </ul>
+      <main role="main"
+        id="editor-content"
+        className="Editor-content TransUnit-container">
+        <div class="Editor-translationsWrapper">
+          <ul className="Editor-translations">
+            {transUnits}
+          </ul>
+        </div>
+      </main>
     )
   }
 })
