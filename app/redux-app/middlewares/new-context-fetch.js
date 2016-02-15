@@ -1,4 +1,6 @@
 import stateChangeDispatchMiddleware from './state-change-dispatch'
+import { requestDocumentList } from '../actions'
+import { requestPhraseList } from '../actions/phrases'
 
 /**
  * Middleware to fetch new data when the context changes.
@@ -7,9 +9,6 @@ import stateChangeDispatchMiddleware from './state-change-dispatch'
  *  - when selected doc ID changes, fetch its text flows
  *  - when the project or version change, fetch a new document list
  */
-
-import { requestDocumentList } from '../actions'
-
 const fetchDocsMiddleware = stateChangeDispatchMiddleware(
   (dispatch, oldState, newState) => {
     const pre = oldState.context
@@ -18,6 +17,13 @@ const fetchDocsMiddleware = stateChangeDispatchMiddleware(
                   || pre.versionSlug !== post.versionSlug
     if (needDocs) {
       dispatch(requestDocumentList())
+    }
+  },
+  (dispatch, oldState, newState) => {
+    const needPhrases = oldState.context.docId !== newState.context.docId
+    if (needPhrases) {
+      const { projectSlug, versionSlug, lang, docId } = newState.context
+      dispatch(requestPhraseList(projectSlug, versionSlug, lang, docId))
     }
   }
   // TODO add callback to fetchNewPhrasesIfNeeded (when docId changes)
