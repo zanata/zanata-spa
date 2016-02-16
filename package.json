@@ -113,6 +113,7 @@
     "suitcss-utils-position": "^0.2.1",
     "suitcss-utils-size": "^0.7.1",
     "suitcss-utils-text": "^0.4.1",
-    "text-diff": "^1.0.1"
+    "text-diff": "^1.0.1",
+    "combokeys": "~2.4.4"
   }
 }

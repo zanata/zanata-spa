@@ -6,7 +6,8 @@ import TranslatingIndicator from './TranslatingIndicator'
 import TransUnitFilter from './TransUnitFilter'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {changeUiLocale, toggleHeader, toggleSuggestions} from '../actions/headerActions'
+import {toggleHeader, toggleSuggestions, toggleKeyboardShortcutsModal
+} from '../actions/headerActions'
 import {resetStatusFilter, updateStatusFilter, firstPage, nextPage, previousPage, lastPage} from '../actions/controlsHeaderActions'
 
 const { bool, func, number, shape } = PropTypes
@@ -168,6 +169,7 @@ function mapDispatchToProps(dispatch) {
       toggleKeyboardShortcutsModal: () => {
         // TODO pahuang implement toggle keyboard shutcut modal
         console.log('======== toggleKeyboardShortcutsModal')
+        dispatch(toggleKeyboardShortcutsModal())
       },
       toggleMainNav: () => dispatch(toggleHeader())
     }
