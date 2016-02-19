@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import IconButton from '../IconButton'
+import IconButton from 'IconButton'
 import React, { PropTypes } from 'react'
 
 /**
