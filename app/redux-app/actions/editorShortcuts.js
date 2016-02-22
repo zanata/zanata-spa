@@ -7,6 +7,8 @@ import {copyFromSource,
     savePhraseWithStatus} from './phrases'
 import {toggleDropdown} from './index'
 
+import {moveNext, movePrevious} from './phraseNavigation'
+
 const shortcutInfo = (keys, keyAction, description, eventType) => {
   keys = Array.isArray(keys) ? keys : [keys]
   return {
@@ -134,14 +136,20 @@ const saveAs = (status) => {
   }
 }
 
-// TODO pahuang implment these two
+// TODO pahuang implment these two (first save if unsaved, then move to next, then focus the selected phrase)
 function gotoNextRowCallback (event) {
   return (dispatch, getState) => {
     const selectedPhraseId = getState().phrases.selectedPhraseId
     if (selectedPhraseId) {
       event.preventDefault()
       event.stopPropagation()
-      console.log('GOTO_NEXT_ROW', selectedPhraseId)
+
+      const phrase = getState().phrases.detail[selectedPhraseId]
+      if (hasTranslationChanged(phrase)) {
+        dispatch(saveAsCurrentButtonOptionCallback(event))
+      }
+      const docId = getState().data.context.selectedDoc.id
+      dispatch(moveNext(docId, selectedPhraseId))
     }
   }
 }
@@ -152,7 +160,13 @@ function gotoPreviousRowCallback (event) {
     if (selectedPhraseId) {
       event.preventDefault()
       event.stopPropagation()
-      console.log('GOTO_PREVIOUS_ROW', selectedPhraseId)
+      const phrase = getState().phrases.detail[selectedPhraseId]
+      if (hasTranslationChanged(phrase)) {
+        dispatch(saveAsCurrentButtonOptionCallback(event))
+      }
+      const docId = getState().data.context.selectedDoc.id
+
+      dispatch(movePrevious(docId, selectedPhraseId))
     }
   }
 }
