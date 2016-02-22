@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import TransUnitSourceHeader from './TransUnitSourceHeader'
+import Icon from './Icon'
 import IconButton from './IconButton'
 
 /**
@@ -25,42 +26,46 @@ const TransUnitSourcePanel = React.createClass({
       ? <TransUnitSourceHeader {...this.props}/>
       : undefined
 
-    // TODO show loading indicator if sources are not available
-    const sourceTexts = this.props.phrase.sources
-      ? this.props.phrase.sources
-      : ['NO CONTENT!!!!!! FIXME REMOVE THIS']
+    const isLoading = !this.props.phrase.sources
 
-    const sources = sourceTexts.map(
-      (source, index) => {
-        // TODO make this translatable
-        const headerLabel = index === 0
-          ? 'Singular Form'
-          : 'Plural Form'
+    let sources
 
-        const copySource = this.props.copyFromSource.bind(undefined, index)
+    if (isLoading) {
+      sources = <span className="u-textMeta">
+                  <Icon name="loader"/>
+                </span>
+    } else {
+      sources = this.props.phrase.sources.map(
+        (source, index) => {
+          // TODO make this translatable
+          const headerLabel = index === 0
+            ? 'Singular Form'
+            : 'Plural Form'
 
-        const copyButton = this.props.selected
-          ? <ul className="u-floatRight u-listHorizontal">
-              <li>
-                <IconButton
-                  icon="copy"
-                  title={'Copy ' + this.props.sourceLocale.name +
-                         ' (' + this.props.sourceLocale.id + ')'}
-                  onClick={copySource}
-                  buttonClass="u-floatRight Link Link--neutral u-sizeHeight-1
-                               u-sizeWidth-1 u-textCenter"/>
-              </li>
-            </ul>
-          : undefined
+          const copySource = this.props.copyFromSource.bind(undefined, index)
 
-        const itemHeader = isPlural
-          ? <div className="TransUnit-itemHeader">
-              <span className="u-textMeta">
-                {headerLabel}
-              </span>
-              {copyButton}
-            </div>
-          : undefined
+          const copyButton = this.props.selected
+            ? <ul className="u-floatRight u-listHorizontal">
+                <li>
+                  <IconButton
+                    icon="copy"
+                    title={'Copy ' + this.props.sourceLocale.name +
+                      ' (' + this.props.sourceLocale.id + ')'}
+                    onClick={copySource}
+                    buttonClass="u-floatRight Link Link--neutral u-sizeHeight-1
+                      u-sizeWidth-1 u-textCenter"/>
+                </li>
+              </ul>
+            : undefined
+
+          const itemHeader = isPlural
+            ? <div className="TransUnit-itemHeader">
+                <span className="u-textMeta">
+                  {headerLabel}
+                </span>
+                {copyButton}
+              </div>
+            : undefined
 
         return (
           <div className="TransUnit-item" key={index}>
@@ -69,6 +74,8 @@ const TransUnitSourcePanel = React.createClass({
           </div>
         )
       })
+    }
+
 
     // empty, but this is what is output in the Angular version
     const footer = this.props.selected

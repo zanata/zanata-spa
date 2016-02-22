@@ -2,7 +2,7 @@ import { fetchPhraseList, fetchPhraseDetail, savePhrase } from '../api'
 import { toggleDropdown } from '.'
 import { mapValues } from 'lodash'
 
-export const FETCHING_PHRASE_LIST = 'FETCHING_PHRASE_LIST'
+export const FETCHING_PHRASE_LIST = Symbol('FETCHING_PHRASE_LIST')
 
 // API lookup of the list of phrase id + phrase status for the current document
 export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
@@ -19,7 +19,13 @@ export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
         return response.json()
       })
       .then(statusList => {
-        dispatch(phraseListFetched(docId, statusList))
+        // TODO statusList has status format from server, convert
+        dispatch(phraseListFetched(docId, statusList.map(phrase => {
+          return {
+            ...phrase,
+            status: transUnitStatusToPhraseStatus(phrase.status)
+          }
+        })))
 
         dispatch(requestPhraseDetail(lang, statusList.map(phrase => {
           return phrase.id
@@ -29,7 +35,7 @@ export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
 }
 
 // new phrase list has been fetched from API
-export const PHRASE_LIST_FETCHED = 'PHRASE_LIST_FETCHED'
+export const PHRASE_LIST_FETCHED = Symbol('PHRASE_LIST_FETCHED')
 export function phraseListFetched (docId, phraseList) {
   return {
     type: PHRASE_LIST_FETCHED,
@@ -38,12 +44,12 @@ export function phraseListFetched (docId, phraseList) {
   }
 }
 
-export const PHRASE_LIST_FETCH_FAILED = 'PHRASE_LIST_FETCH_FAILED'
+export const PHRASE_LIST_FETCH_FAILED = Symbol('PHRASE_LIST_FETCH_FAILED')
 export function phraseListFetchFailed (error) {
   return { type: PHRASE_LIST_FETCH_FAILED, error: error }
 }
 
-export const FETCHING_PHRASE_DETAIL = 'FETCHING_PHRASE_DETAIL'
+export const FETCHING_PHRASE_DETAIL = Symbol('FETCHING_PHRASE_DETAIL')
 // API lookup of the detail for a given set of phrases (by id)
 export function requestPhraseDetail (localeId, phraseIds) {
   return (dispatch) => {
@@ -129,12 +135,12 @@ function transUnitStatusToPhraseStatus (mixedCaseStatus) {
 // }
 
 // detail for phrases has been fetched from API
-export const PHRASE_DETAIL_FETCHED = 'PHRASE_DETAIL_FETCHED'
+export const PHRASE_DETAIL_FETCHED = Symbol('PHRASE_DETAIL_FETCHED')
 export function phraseDetailFetched (phrases) {
   return { type: PHRASE_DETAIL_FETCHED, phrases: phrases }
 }
 
-export const PHRASE_DETAIL_FETCH_FAILED = 'PHRASE_DETAIL_FETCH_FAILED'
+export const PHRASE_DETAIL_FETCH_FAILED = Symbol('PHRASE_DETAIL_FETCH_FAILED')
 export function phraseDetailFetchFailed (error) {
   return { type: PHRASE_DETAIL_FETCH_FAILED, error: error }
 }
@@ -144,7 +150,7 @@ export function phraseDetailFetchFailed (error) {
  * Copy from source text to the focused translation input.
  * Only change the input text, not the saved translation value.
  */
-export const COPY_FROM_SOURCE = 'COPY_FROM_SOURCE'
+export const COPY_FROM_SOURCE = Symbol('COPY_FROM_SOURCE')
 export function copyFromSource (phraseId, sourceIndex) {
   return { type: COPY_FROM_SOURCE,
            phraseId: phraseId,
@@ -156,7 +162,7 @@ export function copyFromSource (phraseId, sourceIndex) {
  * Stop editing the currently focused phrase and discard all entered text.
  * After this action, no phrase should be in editing state.
  */
-export const CANCEL_EDIT = 'CANCEL_EDIT'
+export const CANCEL_EDIT = Symbol('CANCEL_EDIT')
 export function cancelEdit () {
   return {
     type: CANCEL_EDIT
@@ -168,14 +174,14 @@ export function cancelEdit () {
  * whatever translations are currently saved.
  * After this action, a phrase may still be in editing state.
  */
-export const UNDO_EDIT = 'UNDO_EDIT'
+export const UNDO_EDIT = Symbol('UNDO_EDIT')
 export function undoEdit () {
   return {
     type: UNDO_EDIT
   }
 }
 
-export const SELECT_PHRASE = 'SELECT_PHRASE'
+export const SELECT_PHRASE = Symbol('SELECT_PHRASE')
 export function selectPhrase (id) {
   return {
     type: SELECT_PHRASE,
@@ -185,7 +191,7 @@ export function selectPhrase (id) {
 
 
 // User has typed/pasted/etc. text for a translation (not saved yet)
-export const TRANSLATION_TEXT_INPUT_CHANGED = 'TRANSLATION_TEXT_INPUT_CHANGED'
+export const TRANSLATION_TEXT_INPUT_CHANGED = Symbol('TRANSLATION_TEXT_INPUT_CHANGED')
 export function translationTextInputChanged (id, index, text) {
   return {
     type: TRANSLATION_TEXT_INPUT_CHANGED,
@@ -195,7 +201,7 @@ export function translationTextInputChanged (id, index, text) {
   }
 }
 
-export const SAVE_PHRASE_WITH_STATUS = 'SAVE_PHRASE_WITH_STATUS'
+export const SAVE_PHRASE_WITH_STATUS = Symbol('SAVE_PHRASE_WITH_STATUS')
 export function savePhraseWithStatus (phrase, status) {
   return (dispatch, getState) => {
     // save dropdowns (and others) should always close when save starts.
@@ -254,7 +260,7 @@ export function savePhraseWithStatus (phrase, status) {
   }
 }
 
-export const QUEUE_SAVE = 'QUEUE_SAVE'
+export const QUEUE_SAVE = Symbol('QUEUE_SAVE')
 export function queueSave (phraseId, saveInfo) {
   return {
     type: QUEUE_SAVE,
@@ -263,7 +269,7 @@ export function queueSave (phraseId, saveInfo) {
   }
 }
 
-export const SAVE_INITIATED = 'SAVE_INITIATED'
+export const SAVE_INITIATED = Symbol('SAVE_INITIATED')
 export function saveInitiated (phraseId, saveInfo) {
   return {
     type: SAVE_INITIATED,
@@ -276,7 +282,7 @@ export function saveInitiated (phraseId, saveInfo) {
 //       it will display properly
 // FIXME should use status and serverStatus to disambiguate
 //       (these would be separate types if there were types.)
-export const SAVE_FINISHED = 'SAVE_FINISHED'
+export const SAVE_FINISHED = Symbol('SAVE_FINISHED')
 export function saveFinished (phraseId, transUnitStatus, revision) {
   return {
     type: SAVE_FINISHED,

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import TransUnitTranslationHeader from './TransUnitTranslationHeader'
 import TransUnitTranslationFooter from './TransUnitTranslationFooter'
+import Icon from './Icon'
 import { pick } from 'lodash'
 
 /**
@@ -53,47 +54,58 @@ let TransUnitTranslationPanel = React.createClass({
       footer = <TransUnitTranslationFooter {...footerProps}/>
     }
 
-    const newTranslations = this.props.phrase.newTranslations
-      ? this.props.phrase.newTranslations
-      : ["NO CONTENT YET! AAAARG! REMOVE ME!!!"]
+    // TODO use dedicated phrase.isLoading variable when available
+    const isLoading = !this.props.phrase.newTranslations
 
-    const translations = newTranslations.map(
-      (translation, index) => {
-        // TODO make this translatable
-        const headerLabel = index === 0
+    let translations
+
+    if (isLoading) {
+      translations = <span className="u-textMeta">
+                       <Icon name="loader"/>
+                     </span>
+    } else {
+      const newTranslations = this.props.phrase.newTranslations
+      ? this.props.phrase.newTranslations
+      : ["Loading..."]
+
+      translations = newTranslations.map(
+        (translation, index) => {
+          // TODO make this translatable
+          const headerLabel = index === 0
           ? 'Singular Form'
           : 'Plural Form'
 
-        const itemHeader = isPlural
+          const itemHeader = isPlural
           ? <div className="TransUnit-itemHeader">
-              <span className="u-textMeta">
-                {headerLabel}
-              </span>
-            </div>
-          : undefined
+          <span className="u-textMeta">
+            {headerLabel}
+          </span>
+        </div>
+        : undefined
 
         const onChange = this.props.textChanged
-          .bind(undefined, this.props.phrase.id, index)
+        .bind(undefined, this.props.phrase.id, index)
 
         return (
           <div className="TransUnit-item" key={index}>
             {itemHeader}
-          {/* TODO replace functionality of monospaced-elastic from
-                   angular-elastic library
-            possibly https://github.com/andreypopp/react-textarea-autosize */}
-            {/* - check that it does not trim strings
+            {/* TODO replace functionality of monospaced-elastic from
+              angular-elastic library
+              possibly https://github.com/andreypopp/react-textarea-autosize */}
+              {/* - check that it does not trim strings
                 - translate "Enter a translation..."
-              */}
-            <textarea
-              style={{border: '1px solid purple'}}
-              className="TransUnit-text"
-              rows="1"
-              value={translation}
-              placeholder="Enter a translation…"
-              onChange={onChange}/>
-          </div>
-        )
-      })
+                */}
+                <textarea
+                  style={{border: '1px solid purple'}}
+                  className="TransUnit-text"
+                  rows="1"
+                  value={translation}
+                  placeholder="Enter a translation…"
+                  onChange={onChange}/>
+              </div>
+            )
+          })
+    }
             // focus-on="phrase-{{phrase.id}}-{{$index}}"
             // ng-focus="transUnitCtrl.onTextAreaFocus(phrase, $index)"
             // ng-blur="transUnitCtrl.focused = false"

@@ -161,11 +161,10 @@ export function savePhrase ({ id, revision, plural },
     mode: 'cors',
     body: JSON.stringify({
       id,
-      revision, // || 0
+      revision,
       plural,
       content: translations[0],
       contents: translations,
-      // TODO also limit to only valid status
       status: phraseStatusToTransUnitStatus(status)
     })
   })

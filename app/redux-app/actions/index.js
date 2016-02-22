@@ -1,8 +1,8 @@
-import { fetchDocumentList } from '../api'
+import { fetchDocuments } from '../api'
 // import { documentListFetched } from ''
 
 
-export const ROUTING_PARAMS_CHANGED = 'ROUTING_PARAMS_CHANGED'
+export const ROUTING_PARAMS_CHANGED = Symbol('ROUTING_PARAMS_CHANGED')
 export function routingParamsChanged (newParams) {
   // TODO pahuang should we start fetching thing here?
 
@@ -16,7 +16,7 @@ export function routingParamsChanged (newParams) {
  * Every dropdown should have a reference-unique key. An empty object is
  * recommended since it is unique with reference equality checks.
  */
-export const TOGGLE_DROPDOWN = 'TOGGLE_DROPDOWN'
+export const TOGGLE_DROPDOWN = Symbol('TOGGLE_DROPDOWN')
 export function toggleDropdown (dropdownKey) {
   return { type: TOGGLE_DROPDOWN, key: dropdownKey }
 }
@@ -28,7 +28,7 @@ export function requestDocumentList () {
   return (dispatch, getState) => {
     const { projectSlug, versionSlug } = getState().context
 
-    fetchDocumentList(projectSlug, versionSlug)
+    fetchDocuments(projectSlug, versionSlug)
     .then(response => {
       if (response.status >= 400) {
         // FIXME dispatch an error saying that document list fetch failed
@@ -81,7 +81,7 @@ export function requestDocumentList () {
 // TODO replace all action type constants with symbols when the logger supports
 //      them. See https://github.com/fcomb/redux-logger/issues/128
 // export const DOCUMENT_LIST_FETCHED = Symbol('DOCUMENT_LIST_FETCHED')
-export const DOCUMENT_LIST_FETCHED = 'DOCUMENT_LIST_FETCHED'
+export const DOCUMENT_LIST_FETCHED = Symbol('DOCUMENT_LIST_FETCHED')
 export function documentListFetched (projectSlug, versionSlug, documents) {
   return {
     type: DOCUMENT_LIST_FETCHED,

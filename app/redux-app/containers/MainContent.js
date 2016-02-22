@@ -52,7 +52,7 @@ const MainContent = React.createClass({
       <main role="main"
         id="editor-content"
         className="Editor-content TransUnit-container">
-        <div class="Editor-translationsWrapper">
+        <div className="Editor-translationsWrapper">
           <ul className="Editor-translations">
             {transUnits}
           </ul>
@@ -63,8 +63,6 @@ const MainContent = React.createClass({
 })
 
 function mapStateToProps (state, ownProps) {
-  // TODO replace each phrase with the detail if the detail is available
-
   const minimalPhrases = state.phrases.inDoc[state.context.docId] || []
   const detailPhrases = minimalPhrases.map(phrase => {
     const detail = state.phrases.detail[phrase.id]

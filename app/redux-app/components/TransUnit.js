@@ -51,14 +51,7 @@ const TransUnit = React.createClass({
   },
 
   render: function () {
-
-    // FIXME phrase.status needs an ID property and whatever.
-    //       that or just use consistent stuff for them all.
-
-    // Make sure all the incoming status have the right structure
-    // should all just be the standard lowercase things.
-
-    // debugger
+    // TODO different display if isLoading (need to add or infer isLoading)
 
     const displayStatus = this.props.phrase.inProgressSave
       ? this.props.phrase.inProgressSave.status
@@ -151,7 +144,8 @@ function mapStateToProps (state, ownProps) {
 
 function mapDispatchToProps (dispatch, ownProps) {
   return {
-    cancelEdit: () => {
+    cancelEdit: (event) => {
+      event.stopPropagation()
       dispatch(cancelEdit())
     },
     copyFromSource: () => {
@@ -170,7 +164,8 @@ function mapDispatchToProps (dispatch, ownProps) {
     toggleDropdown: (key) => {
       dispatch(toggleDropdown(key))
     },
-    undoEdit: () => {
+    undoEdit: (event) => {
+      event.stopPropagation()
       dispatch(undoEdit())
     }
   }

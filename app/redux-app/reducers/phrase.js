@@ -1,6 +1,7 @@
 import updateObject from 'react-addons-update'
 import {
   CANCEL_EDIT,
+  COPY_FROM_SOURCE,
   PHRASE_LIST_FETCHED,
   PHRASE_DETAIL_FETCHED,
   QUEUE_SAVE,
@@ -28,6 +29,13 @@ const phraseReducer = (state = defaultState, action) => {
         selectedPhraseId: {$set: undefined},
         detail: {$merge: revertEnteredTranslationsToDefault(state.detail)}
       })
+
+    case COPY_FROM_SOURCE:
+      const { phraseId, sourceIndex } = action
+      return updatePhrase(phraseId, {$apply: (phrase) => {
+        return copyFromSource(phrase, sourceIndex)
+      }})
+
     case PHRASE_LIST_FETCHED:
     // select the first phrase if there is one
       const selectedPhraseId = action.phraseList.length
@@ -135,12 +143,32 @@ const phraseReducer = (state = defaultState, action) => {
 }
 
 function revertEnteredTranslationsToDefault (phraseDetails) {
-  return phraseDetails.map(phrase => {
+  return mapValues(phraseDetails, phrase => {
     return updateObject(phrase, {
       newTranslations: {$set: [...phrase.translations]}
     })
   })
 }
 
+function copyFromSource (phrase, sourceIndex) {
+  // FIXME this data must be added to state, this will only
+  //       ever copy to first until it is
+  const focusedTranslationIndex = 0
+
+  // FIXME use clamp from lodash (when lodash >= 4.0)
+  const sourceIndexToCopy =
+    sourceIndex < phrase.sources.length
+      ? sourceIndex
+      : phrase.sources.length - 1
+  const sourceToCopy = phrase.sources[sourceIndexToCopy]
+
+  return updateObject(phrase, {
+    newTranslations: {
+      // $splice represents an array of calls to Array.prototype.splice
+      // with an array of params for each call
+      $splice: [[focusedTranslationIndex, 1, sourceToCopy]]
+    }
+  })
+}
 
 export default phraseReducer
