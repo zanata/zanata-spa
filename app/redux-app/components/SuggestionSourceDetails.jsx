@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
-import Icon from 'Icon'
+import Icon from './Icon'
 
 /**
  * Display metadata for suggestion source.

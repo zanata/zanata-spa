@@ -4,6 +4,7 @@ import MainContent from './MainContent'
 import ParamPropDispatcher from './ParamPropDispatcher'
 import EditorHeader from './EditerHeader'
 import KeyShortcutCheatSheet from './KeyShortcutCheatSheet'
+import SuggestionsPanel from './SugguestionsPanel'
 
 // FIXME should probably get these actions imported from elsewhere instead
 import {
@@ -30,6 +31,7 @@ class Root extends React.Component {
           <EditorHeader/>
           <MainContent/>
           <KeyShortcutCheatSheet/>
+          <SuggestionsPanel />
         </div>
       </ParamPropDispatcher>
 

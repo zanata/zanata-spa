@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import Icon from './Icon'
 import IconButton from './IconButton'
 import IconButtonToggle from './IconButtonToggle'
-import SuggestionSearchInput from 'SuggestionSearchInput'
+import SuggestionSearchInput from './SuggestionSearchInput'
 import ToggleSwitch from './ToggleSwitch'
 
 /**
@@ -41,12 +41,13 @@ let SuggestionsHeader = React.createClass({
    * Need to access refs to focus after the clear is complete
    */
   clearAndFocus: function () {
-    this.props.search.clear()
-
-    // FIXME this is racing with the Angular component.
-    //       fix by either stopping that component doing any focus,
-    //       or by making all the focus work on here.
-    this.refs.searchInput.focusInput()
+    if (this.searchInput) {
+      this.searchInput.clearSearch()
+      // FIXME this is racing with the Angular component.
+      //       fix by either stopping that component doing any focus,
+      //       or by making all the focus work on here.
+      this.searchInput.focusInput()
+    }
   },
 
   render: function () {
@@ -55,7 +56,7 @@ let SuggestionsHeader = React.createClass({
     const searchInput = showSearch
       ? <div className="Editor-suggestionsSearch u-sPB-1-4">
           <SuggestionSearchInput
-            ref="searchInput"
+            ref={ref => this.searchInput = ref}
             text={this.props.search.input.text}
             loading={this.props.search.loading}
             hasSearch={this.props.search.searchStrings.length !== 0}

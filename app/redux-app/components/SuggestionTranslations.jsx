@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
-import SuggestionContents from 'SuggestionContents'
-import SuggestionTranslationDetails from 'SuggestionTranslationDetails'
+import SuggestionContents from './SuggestionContents'
+import SuggestionTranslationDetails from './SuggestionTranslationDetails'
 
 /**
  * Show all translations for a suggestion, with translation metadata.

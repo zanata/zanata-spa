@@ -1,4 +1,4 @@
-import TextDiff from 'TextDiff'
+import TextDiff from './TextDiff'
 import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
 import cx from 'classnames'

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
-import Suggestion from 'Suggestion'
+import Suggestion from './Suggestion'
 import { pick } from 'lodash'
 
 /**

@@ -1,8 +1,8 @@
-import Button from 'Button'
+import Button from './Button'
 import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
-import SuggestionMatchPercent from 'SuggestionMatchPercent'
-import SuggestionUpdateMessage from 'SuggestionUpdateMessage'
+import SuggestionMatchPercent from './SuggestionMatchPercent'
+import SuggestionUpdateMessage from './SuggestionUpdateMessage'
 
 /**
  * Display metadata and copy button for the translations of a suggestion.

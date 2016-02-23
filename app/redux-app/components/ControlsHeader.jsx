@@ -144,7 +144,7 @@ function mapStateToProps (state) {
   return props
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return {
     actions: {
       resetFilter: () => {

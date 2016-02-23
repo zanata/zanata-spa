@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import Icon from 'Icon'
+import Icon from './Icon'
 import { IntlMixin } from 'react-intl'
 
 /**
