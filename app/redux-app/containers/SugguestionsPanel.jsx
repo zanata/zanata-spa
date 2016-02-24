@@ -6,6 +6,8 @@ import SuggestionsBody from '../components/SuggestionsBody'
 import { assign, pick } from 'lodash'
 import { connect } from 'react-redux'
 import {toggleSuggestions} from '../actions/headerActions'
+import {diffSettingChanged,
+    toggleSearchType} from '../actions/suggestionsActions'
 
 const DO_NOT_RENDER = null
 
@@ -78,12 +80,6 @@ function mapStateToProps (state) {
 }
 
 // TODO pahuang implement this
-const diffChange = () => {
-  return {type: 'DIFF_CHANGE'}
-}
-const toggleSearchType = () => {
-  return {type: 'TOGGLE_SEARCH_TYPE'}
-}
 const clearSearch = () => {
   return {type: 'CLEAR_SEARCH'}
 }
@@ -93,7 +89,7 @@ const changeSearchText = (text) => {
 
 function mapDispatchToProps (dispatch) {
   return {
-    onDiffChange: () => dispatch(diffChange()),
+    onDiffChange: () => dispatch(diffSettingChanged()),
     closeSuggestions: () => dispatch(toggleSuggestions()),
     searchToggle: () => dispatch(toggleSearchType()),
     clearSearch: () => dispatch(clearSearch()),
@@ -101,4 +97,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps())(SuggestionsPanel)
+export default connect(mapStateToProps, mapDispatchToProps)(SuggestionsPanel)
