@@ -73,9 +73,69 @@ and connecting the redux provider etc. - this should not need any changes for no
 
 # App structure and Function
 
+This app is built with Redux and React. Top level components use `connect()` to
+control how they connect to the store via the Provider component that wraps the
+whole component tree. Simpler components just have their props passed down from
+their parent component in the usual React style.
+
+
+The structure is roughly as follows:
+
+
+    (nest component somewhere under a provider)
+
+                     +----+ see STORE below
+                     v
+     <Provider store={store}>
+       <MyComponent {...ownProps}/>
+     </Provider>
+
+    (connect the component to pick up state from provider)
+
+      connect(mapStateToProps, mapDispatchToProps, [mergeProps])(MyComponent)
+
+
+    (provider will use the merge* functions and inject the result to this.props)
+
+     +-----------------------------------+   (in index.js)
+     |                                   |
+     | STORE                             |    applyMiddleware(
+     |                                   |      middleware1,
+     |                   replaces        |      middleware2,
+     |         state <--------+          |      ...)(createStore)(reducer)+
+     |           +            |          |                                |
+     |           |            |          |                                |
+     |           |            | new      | <------------------------------+
+     |           |            | state    |         a store is born
+     |           v            |          |
+     | reducer(state, action) +          |
+     |                   ^               |   (reducer provides initial state)
+     |                   |               |
+     |              modified by          |      reducer(undefined)+
+     |              middlewares          |                        |
+     |                   |               |                        v
+     |                   +               |                  initial state
+     |        dispatch(action)           +-------+
+     |                                   |       |
+     +----------------+------------------+       |
+                      |                          v
+                      |    mapDispatchToProps(dispatch, ownProps)+
+                      |                                          |
+                      v                                          |
+    mapStateToProps(state, ownProps)+     +----------------------+
+                                    |     |
+                           +--------+     |
+                           v              v
+       +--> mergeProps(stateProps, dispatchProps, ownProps)+
+       |                                                   |
+       +                                                   v
+      (usually leave as default)                     this.props
+                                               (in class MyComponent)
+
+
 ## How stuff gets from the redux store to components
 
-Some components are "connected", meaning they use the `connect` function - it
+Some components are "connected", meaning they use the `connect()` function - it
 works with the `<Provider>` component to link the store to components near the
 top of the component tree.
 
@@ -94,7 +154,8 @@ Google those functions for more info.
 
 The reducer functions are pure functions that take the current state and an
 action object (which just has an action type and some other data). Their job
-is to return a new state object based on the action.
+is to return a new state object based on the action (and a default state when
+no state existed yet).
 
 Our top-level reducer function is made using `combineReducers()`, which separates
 the handling of different slices of state (e.g. state.phrase is handled by the
