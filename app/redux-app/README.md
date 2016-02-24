@@ -71,7 +71,9 @@ and connecting the redux provider etc. - this should not need any changes for no
        `mapDispatchToProps` to generate an action-dispatching function for the
        component.
 
-# How stuff gets from the redux store to components
+# App structure and Function
+
+## How stuff gets from the redux store to components
 
 Some components are "connected", meaning they use the `connect` function - it
 works with the `<Provider>` component to link the store to components near the
@@ -86,3 +88,25 @@ are passed to the component from its parent, to give the final props object the
 component sees.
 
 Google those functions for more info.
+
+
+## What is available to reducer functions
+
+The reducer functions are pure functions that take the current state and an
+action object (which just has an action type and some other data). Their job
+is to return a new state object based on the action.
+
+Our top-level reducer function is made using `combineReducers()`, which separates
+the handling of different slices of state (e.g. state.phrase is handled by the
+phrase reducer, whereas state.context is handled by a different reducer).
+
+This has a limitation - if the phrase reducer needs some context information
+(e.g. the selected document id), it has no access to it.
+
+To work around this limitation, I added `middlewares/getstate-in-action.js`
+which allows reducers to call `action.getState()` to get the full state object
+so they can look up any required reference information.
+
+We could use a custom `combineReducers()` function instead, it is just more work.
+We could also rearrange our state so that reducers never need to look at distant
+state - this is the ideal to aim for, but may not be practical.
