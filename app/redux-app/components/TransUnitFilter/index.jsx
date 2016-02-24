@@ -15,7 +15,7 @@ let TransUnitFilter = React.createClass({
       all: PropTypes.bool.isRequired,
       approved: PropTypes.bool.isRequired,
       translated: PropTypes.bool.isRequired,
-      needsWork: PropTypes.bool.isRequired,
+      needswork: PropTypes.bool.isRequired,
       untranslated: PropTypes.bool.isRequired
     }).isRequired,
 
@@ -93,8 +93,8 @@ let TransUnitFilter = React.createClass({
           <FilterToggle
             id="filter-phrases-needs-work"
             className="u-textUnsure"
-            isChecked={this.props.filter.needsWork}
-            onChange={onFilterChange.bind(undefined, 'needsWork')}
+            isChecked={this.props.filter.needswork}
+            onChange={onFilterChange.bind(undefined, 'needswork')}
             title={gettextCatalog.getString('Needs Work')}
             count={this.props.counts.needswork}/>
         </li>

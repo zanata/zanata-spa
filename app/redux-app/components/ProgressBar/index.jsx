@@ -84,7 +84,7 @@ let ProgressBar = React.createClass({
           start={starts.translated}
           width={widths.translated}/>
         <ProgressItem
-          state="needsWork"
+          state="needswork"
           start={starts.needswork}
           width={widths.needswork}/>
         <ProgressItem

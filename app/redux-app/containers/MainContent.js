@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import Icon from '../components/Icon'
 import TransUnit from '../components/TransUnit'
 import { connect } from 'react-redux'
+import { getCurrentPagePhrasesFromState } from '../utils/filter-paging-util'
 
 /**
  * Single row in the editor displaying a whole phrase.
@@ -63,7 +64,7 @@ const MainContent = React.createClass({
 })
 
 function mapStateToProps (state, ownProps) {
-  const minimalPhrases = state.phrases.inDoc[state.context.docId] || []
+  const minimalPhrases = getCurrentPagePhrasesFromState(state)
   const detailPhrases = minimalPhrases.map(phrase => {
     const detail = state.phrases.detail[phrase.id]
     return detail || phrase

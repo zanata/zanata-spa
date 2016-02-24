@@ -7,7 +7,15 @@ import TransUnitFilter from './TransUnitFilter'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {changeUiLocale, toggleHeader, toggleSuggestions} from '../actions/headerActions'
-import {resetStatusFilter, updateStatusFilter, firstPage, nextPage, previousPage, lastPage} from '../actions/controlsHeaderActions'
+import {
+  resetStatusFilter,
+  updateStatusFilter,
+  firstPage,
+  nextPage,
+  previousPage,
+  lastPage
+} from '../actions/controlsHeaderActions'
+import { calculateMaxPageIndexFromState } from '../utils/filter-paging-util'
 
 const { bool, func, number, shape } = PropTypes
 
@@ -29,6 +37,10 @@ let ControlsHeader = React.createClass({
       toggleMainNav: func.isRequired
     }).isRequired,
 
+    paging: shape({
+
+    }).isRequired,
+
     ui: shape({
       panels: shape({
         suggestions: shape({
@@ -41,11 +53,9 @@ let ControlsHeader = React.createClass({
           all: bool.isRequired,
           approved: bool.isRequired,
           translated: bool.isRequired,
-          needsWork: bool.isRequired,
+          needswork: bool.isRequired,
           untranslated: bool.isRequired
-        }).isRequired,
-        pageNumber: number.isRequired,
-        pageCount: number
+        }).isRequired
       }).isRequired,
 
       // DO NOT RENAME, the translation string extractor looks specifically
@@ -66,17 +76,28 @@ let ControlsHeader = React.createClass({
   },
 
   render: function () {
-    let textFlowDisplay = this.props.ui.textFlowDisplay
-    let gettextCatalog = this.props.ui.gettextCatalog
-    let transFilterProps = pick(this.props, ['actions',
-      'counts'])
-    transFilterProps.filter = textFlowDisplay.filter
-    transFilterProps.gettextCatalog = gettextCatalog
-    let pagerProps = pick(this.props, ['actions'])
-    pagerProps.pageNumber = textFlowDisplay.pageNumber
-    pagerProps.pageCount = textFlowDisplay.pageCount
-    pagerProps.gettextCatalog = gettextCatalog
-    let navHeaderHidden = !this.props.ui.panels.navHeader.visible
+    const { actions, counts, paging, ui } = this.props
+    const { textFlowDisplay, gettextCatalog } = ui
+    const transFilterProps = {
+      actions,
+      counts,
+      filter: textFlowDisplay.filter,
+      gettextCatalog
+    }
+    // let transFilterProps = pick(this.props, ['actions',
+    //   'counts'])
+    // transFilterProps.filter = textFlowDisplay.filter
+    // transFilterProps.gettextCatalog = gettextCatalog
+    const pagerProps = {
+      ...paging,
+      actions,
+      gettextCatalog
+    }
+    // let pagerProps = pick(this.props, ['actions'])
+    // pagerProps.pageNumber = paging.pageNumber
+    // pagerProps.pageCount = paging.pageCount
+    // pagerProps.gettextCatalog = gettextCatalog
+    let navHeaderHidden = !ui.panels.navHeader.visible
     return (
       <nav className="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
         <TranslatingIndicator gettextCatalog={gettextCatalog}/>
@@ -138,9 +159,18 @@ let ControlsHeader = React.createClass({
 })
 
 function mapStateToProps (state) {
-  let props = pick(state, ['actions', 'ui'])
-  props.counts = state.data.context.selectedDoc.counts
-  return props
+  const { actions, context, phrases, ui } = state
+
+  return {
+    actions,
+    counts: state.data.context.selectedDoc.counts,
+    paging: {
+      ...phrases.paging,
+      pageCount: calculateMaxPageIndexFromState(state) + 1,
+      pageNumber: phrases.paging.pageIndex + 1
+    },
+    ui
+  }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -172,7 +202,6 @@ function mapDispatchToProps(dispatch) {
       toggleMainNav: () => dispatch(toggleHeader())
     }
   }
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ControlsHeader)

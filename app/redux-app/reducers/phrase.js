@@ -11,6 +11,13 @@ import {
   TRANSLATION_TEXT_INPUT_CHANGED,
   UNDO_EDIT
 } from '../actions/phrases'
+import {
+  FIRST_PAGE,
+  LAST_PAGE,
+  NEXT_PAGE,
+  PREVIOUS_PAGE,
+} from '../actions/controlsHeaderActions'
+import { calculateMaxPageIndexFromState } from '../utils/filter-paging-util'
 import { mapValues } from 'lodash'
 
 const defaultState = {
@@ -18,11 +25,32 @@ const defaultState = {
   inDoc: {},
   // phraseId -> detail
   detail: {},
-  selectedPhraseId: undefined
+  selectedPhraseId: undefined,
+  paging: {
+    countPerPage: 2,
+    pageIndex: 0
+  }
 }
 
 const phraseReducer = (state = defaultState, action) => {
   switch (action.type) {
+
+    case FIRST_PAGE:
+      return updatePageIndex(0)
+
+    case PREVIOUS_PAGE:
+      return updatePageIndex(
+        Math.max(state.paging.pageIndex - 1, 0)
+      )
+
+    case NEXT_PAGE:
+      return updatePageIndex(
+        Math.min(state.paging.pageIndex + 1, getMaxPageIndex())
+      )
+
+    case LAST_PAGE:
+      return updatePageIndex(getMaxPageIndex())
+
     case CANCEL_EDIT:
       // Discard any newTranslations that were entered.
       return update({
@@ -140,6 +168,26 @@ const phraseReducer = (state = defaultState, action) => {
       }
     })
   }
+
+  function updatePageIndex (newPageIndex) {
+    const oldPageIndex = state.paging.pageIndex
+
+    if (oldPageIndex !== newPageIndex) {
+      return update({
+        paging: {
+          pageIndex: {
+            $set: newPageIndex
+          }
+        }
+      })
+    }
+    return state
+  }
+
+  function getMaxPageIndex () {
+    return calculateMaxPageIndexFromState(action.getState())
+  }
+
 }
 
 function revertEnteredTranslationsToDefault (phraseDetails) {

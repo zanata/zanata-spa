@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { hashHistory, Router, Route } from 'react-router'
 import { syncHistory } from 'redux-simple-router'
 import newContextFetchMiddleware from './middlewares/new-context-fetch'
+import getStateInActions from './middlewares/getstate-in-actions'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import rootReducer from './reducers'
@@ -45,6 +46,8 @@ const createStoreWithMiddleware =
     newContextFetchMiddleware,
     reduxRouterMiddleware,
     thunk,
+    // must run after thunk because it fails with thunks
+    getStateInActions,
     loggerMiddleware
   )(createStore)
 

@@ -1,5 +1,8 @@
 import { TOGGLE_HEADER, TOGGLE_SUGGESTIONS, UI_LOCALES_FETCHED, CHANGE_UI_LOCALE } from '../actions/headerActions'
-import { RESET_STATUS_FILTERS, UPDATE_STATUS_FILTER, FIRST_PAGE, PREVIOUS_PAGE, NEXT_PAGE, LAST_PAGE } from '../actions/controlsHeaderActions'
+import {
+  RESET_STATUS_FILTERS,
+  UPDATE_STATUS_FILTER
+} from '../actions/controlsHeaderActions'
 import { TOGGLE_DROPDOWN } from '../actions'
 import {prepareLocales} from '../utils/Util'
 import updateObject from 'react-addons-update'
@@ -18,7 +21,7 @@ const DEFAULT_FILTER_STATE = {
   all: true,
   approved: false,
   translated: false,
-  needsWork: false,
+  needswork: false,
   untranslated: false
 }
 
@@ -42,8 +45,6 @@ const defaultState = {
   },
   textFlowDisplay: {
     filter: DEFAULT_FILTER_STATE,
-    pageNumber: 1, // TODO pahuang implement this
-    pageCount: 50 // TODO pahuang implement this
   },
   gettextCatalog: {
     getString: (key) => {
@@ -56,27 +57,11 @@ const defaultState = {
 
 const isStatusSame = (statuses) => {
   return statuses.approved === statuses.translated &&
-      statuses.translated === statuses.needsWork &&
-      statuses.needsWork === statuses.untranslated
+      statuses.translated === statuses.needswork &&
+      statuses.needswork === statuses.untranslated
 }
 
 const ui = (state = defaultState, action) => {
-  const currentPageNumber = state.textFlowDisplay.pageNumber;
-
-  const updatePageNumberIfChanged = (newPageNumber) => {
-    if (currentPageNumber !== newPageNumber) {
-      return updateObject(state, {
-        textFlowDisplay: {
-          pageNumber: {
-            $set: newPageNumber
-          }
-        }
-      });
-    } else {
-      return state;
-    }
-  };
-
   switch (action.type) {
     case TOGGLE_HEADER:
       return updateObject(state, {
@@ -182,23 +167,10 @@ const ui = (state = defaultState, action) => {
         })
       }
 
-    case FIRST_PAGE:
-      return updatePageNumberIfChanged(1);
-
-    case PREVIOUS_PAGE:
-      const prevPage = Math.max(currentPageNumber - 1, 1);
-      return updatePageNumberIfChanged(prevPage);
-
-    case NEXT_PAGE:
-      const nextPage = Math.min(currentPageNumber + 1, state.textFlowDisplay.pageCount);
-      return updatePageNumberIfChanged(nextPage);
-
-    case LAST_PAGE:
-      return updatePageNumberIfChanged(state.textFlowDisplay.pageCount);
-
     default:
       return state
   }
-};
+
+}
 
 export default ui
