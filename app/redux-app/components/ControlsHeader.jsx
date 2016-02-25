@@ -6,7 +6,13 @@ import TranslatingIndicator from './TranslatingIndicator'
 import TransUnitFilter from './TransUnitFilter'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {changeUiLocale, toggleHeader, toggleSuggestions} from '../actions/headerActions'
+import {
+  // TODO check if this is used
+  changeUiLocale,
+  toggleHeader,
+  toggleSuggestions,
+  toggleKeyboardShortcutsModal
+} from '../actions/headerActions'
 import {
   resetStatusFilter,
   updateStatusFilter,
@@ -36,9 +42,9 @@ let ControlsHeader = React.createClass({
       toggleKeyboardShortcutsModal: func.isRequired,
       toggleMainNav: func.isRequired
     }).isRequired,
-
     paging: shape({
-
+      pageNumber: number.isRequired,
+      pageCount: number
     }).isRequired,
 
     ui: shape({
@@ -84,19 +90,11 @@ let ControlsHeader = React.createClass({
       filter: textFlowDisplay.filter,
       gettextCatalog
     }
-    // let transFilterProps = pick(this.props, ['actions',
-    //   'counts'])
-    // transFilterProps.filter = textFlowDisplay.filter
-    // transFilterProps.gettextCatalog = gettextCatalog
     const pagerProps = {
       ...paging,
       actions,
       gettextCatalog
     }
-    // let pagerProps = pick(this.props, ['actions'])
-    // pagerProps.pageNumber = paging.pageNumber
-    // pagerProps.pageCount = paging.pageCount
-    // pagerProps.gettextCatalog = gettextCatalog
     let navHeaderHidden = !ui.panels.navHeader.visible
     return (
       <nav className="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
@@ -173,7 +171,7 @@ function mapStateToProps (state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return {
     actions: {
       resetFilter: () => {
@@ -198,10 +196,12 @@ function mapDispatchToProps(dispatch) {
       toggleKeyboardShortcutsModal: () => {
         // TODO pahuang implement toggle keyboard shutcut modal
         console.log('======== toggleKeyboardShortcutsModal')
+        dispatch(toggleKeyboardShortcutsModal())
       },
       toggleMainNav: () => dispatch(toggleHeader())
     }
   }
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ControlsHeader)

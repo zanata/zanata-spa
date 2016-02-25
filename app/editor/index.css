@@ -89,6 +89,7 @@
   bottom: 0;
   left: 0;
   overflow: hidden;
+  min-height: 30%;
   box-shadow: 0 -calc(var(--Editor-rhythm) * .125) var(--Header-rhythm) rgba(0,0,0,.1);
   /*transform: translateY(100%);*/
 }

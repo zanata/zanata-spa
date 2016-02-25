@@ -1,7 +1,13 @@
-import { TOGGLE_HEADER, TOGGLE_SUGGESTIONS, UI_LOCALES_FETCHED, CHANGE_UI_LOCALE } from '../actions/headerActions'
+import {
+  CHANGE_UI_LOCALE,
+  TOGGLE_HEADER,
+  TOGGLE_KEY_SHORTCUTS,
+  TOGGLE_SUGGESTIONS,
+  UI_LOCALES_FETCHED
+} from '../actions/headerActions'
 import {
   RESET_STATUS_FILTERS,
-  UPDATE_STATUS_FILTER
+  UPDATE_STATUS_FILTER,
 } from '../actions/controlsHeaderActions'
 import { TOGGLE_DROPDOWN } from '../actions'
 import {prepareLocales} from '../utils/Util'
@@ -32,8 +38,10 @@ const defaultState = {
     },
     suggestions: {
       visible: true
+    },
+    keyShortcuts: {
+      visible: false
     }
-
   },
   uiLocales: {},
   selectedUiLocale: DEFAULT_LOCALE.localeId,
@@ -49,8 +57,8 @@ const defaultState = {
   gettextCatalog: {
     getString: (key) => {
       // TODO pahuang implement gettextCatalog.getString
-      //console.log('gettextCatalog.getString')
-      return key;
+      // console.log('gettextCatalog.getString')
+      return key
     }
   }
 }
@@ -70,7 +78,7 @@ const ui = (state = defaultState, action) => {
             visible: {$set: !state.panels.navHeader.visible}
           }
         }
-      });
+      })
 
     case TOGGLE_SUGGESTIONS:
       return updateObject(state, {
@@ -79,7 +87,7 @@ const ui = (state = defaultState, action) => {
             visible: {$set: !state.panels.suggestions.visible}
           }
         }
-      });
+      })
 
     case UI_LOCALES_FETCHED:
       const locales = prepareLocales(action.data);
@@ -87,7 +95,16 @@ const ui = (state = defaultState, action) => {
         uiLocales: {
           $set: locales
         }
-      });
+      })
+
+    case TOGGLE_KEY_SHORTCUTS:
+      return updateObject(state, {
+        panels: {
+          keyShortcuts: {
+            visible: {$set: !state.panels.keyShortcuts.visible}
+          }
+        }
+      })
 
     case CHANGE_UI_LOCALE:
       // TODO pahuang implement change ui locale
@@ -123,8 +140,8 @@ const ui = (state = defaultState, action) => {
         selectedUiLocale: {
           $set: action.data
         }
-      });
-      return state;
+      })
+      return state
 
     case TOGGLE_DROPDOWN:
       // TODO pahuang this listens to the same action
@@ -134,7 +151,7 @@ const ui = (state = defaultState, action) => {
             $set: action.key
           }
         }
-      });
+      })
 
     case RESET_STATUS_FILTERS:
       return updateObject(state, {
@@ -143,11 +160,12 @@ const ui = (state = defaultState, action) => {
             $set: DEFAULT_FILTER_STATE
           }
         }
-      });
+      })
 
     case UPDATE_STATUS_FILTER:
-      let newFilter = Object.assign({}, state.textFlowDisplay.filter, {all: false});
-      newFilter[action.data] = !newFilter[action.data];
+      let newFilter = Object.assign({},
+          state.textFlowDisplay.filter, {all: false})
+      newFilter[action.data] = !newFilter[action.data]
 
       if (isStatusSame(newFilter)) {
         return updateObject(state, {
@@ -170,7 +188,6 @@ const ui = (state = defaultState, action) => {
     default:
       return state
   }
-
 }
 
 export default ui

@@ -1,6 +1,5 @@
 import cx from 'classnames'
 import React, { PropTypes } from 'react'
-import {findDOMNode} from 'react-dom'
 
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.
@@ -23,7 +22,7 @@ let Dropdown = React.createClass({
   },
 
   toggleDropdown: function () {
-    let node = findDOMNode(this.refs.button);
+    let node = this.buttonDiv
     this.props.onToggle(node)
   },
 
@@ -43,7 +42,7 @@ let Dropdown = React.createClass({
         let onClick = this.props.enabled
           ? { onClick: this.toggleDropdown } : {}
         return (
-          <div ref="button"
+          <div ref={ref => this.buttonDiv = ref}
                className="Dropdown-toggle"
                aria-haspopup={true}
                aria-expanded={this.props.isOpen}

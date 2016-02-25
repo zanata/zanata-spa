@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import MainContent from './MainContent'
 import ParamPropDispatcher from './ParamPropDispatcher'
 import EditorHeader from './EditerHeader'
+import KeyShortcutCheatSheet from './KeyShortcutCheatSheet'
+import SuggestionsPanel from './SugguestionsPanel'
 
 // FIXME should probably get these actions imported from elsewhere instead
 import {
@@ -17,7 +19,7 @@ import {fetchHeaderInfo, fetchUiLocales} from '../actions/headerActions'
  */
 class Root extends React.Component {
   componentDidMount () {
-    this.props.requestUiLocales();
+    this.props.requestUiLocales()
     this.props.requestHeaderInfo()
   }
 
@@ -28,6 +30,8 @@ class Root extends React.Component {
         <div className="Editor is-suggestions-active">
           <EditorHeader/>
           <MainContent/>
+          <KeyShortcutCheatSheet/>
+          <SuggestionsPanel />
         </div>
       </ParamPropDispatcher>
 

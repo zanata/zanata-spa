@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import Icon from '../components/Icon'
 import TransUnit from '../components/TransUnit'
+import ShortcutEnabledComponent from './ShortcutEnabledComponent'
 import { connect } from 'react-redux'
 import { getCurrentPagePhrasesFromState } from '../utils/filter-paging-util'
 
@@ -50,6 +51,7 @@ const MainContent = React.createClass({
     // TODO scrollbar width container+child were not brought over
     //      from the angular code yet.
     return (
+        <ShortcutEnabledComponent>
       <main role="main"
         id="editor-content"
         className="Editor-content TransUnit-container">
@@ -59,6 +61,7 @@ const MainContent = React.createClass({
           </ul>
         </div>
       </main>
+        </ShortcutEnabledComponent>
     )
   }
 })

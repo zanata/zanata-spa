@@ -6,6 +6,7 @@ import context from './context'
 import dropdown from './dropdown'
 import ui from './ui'
 import headerData from './headerData'
+import suggestions from './suggestions'
 
 const rootReducer = combineReducers({
   context,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   phrases: phrase,
   routing: routeReducer,
   ui: ui,
-  data: headerData
+  data: headerData,
+  suggestions
 })
 
 export default rootReducer

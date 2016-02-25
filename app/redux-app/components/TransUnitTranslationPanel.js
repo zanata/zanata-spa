@@ -27,6 +27,12 @@ let TransUnitTranslationPanel = React.createClass({
     suggestionSearchType: PropTypes.oneOf(['phrase', 'text']).isRequired
   },
 
+  componentDidUpdate () {
+    if (this.textarea && this.props.selected) {
+      this.textarea.focus()
+    }
+  },
+
   render: function () {
     var header, footer
     const isPlural = this.props.phrase.plural
@@ -96,6 +102,7 @@ let TransUnitTranslationPanel = React.createClass({
                 - translate "Enter a translation..."
                 */}
                 <textarea
+                  ref={(ref) => this.textarea = ref}
                   style={{border: '1px solid purple'}}
                   className="TransUnit-text"
                   rows="1"

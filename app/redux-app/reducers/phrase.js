@@ -20,6 +20,8 @@ import {
 import { calculateMaxPageIndexFromState } from '../utils/filter-paging-util'
 import { mapValues } from 'lodash'
 
+import {MOVE_NEXT, MOVE_PREVIOUS} from '../actions/phraseNavigation'
+
 const defaultState = {
   // docId -> list of phrases (id and state)
   inDoc: {},
@@ -138,6 +140,16 @@ const phraseReducer = (state = defaultState, action) => {
       return update({
         detail: {$merge: revertEnteredTranslationsToDefault(state.detail)}
       })
+
+    case MOVE_NEXT:
+      return movePhrase(state, action, (cur) => {
+        return cur + 1
+      })
+
+    case MOVE_PREVIOUS:
+      return movePhrase(state, action, (cur) => {
+        return cur - 1
+      })
   }
 
   return state
@@ -188,6 +200,32 @@ const phraseReducer = (state = defaultState, action) => {
     return calculateMaxPageIndexFromState(action.getState())
   }
 
+}
+
+/**
+ *
+ * @param state
+ * @param action
+ * @param indexOpFunc a function takes current selected phrase index and return
+ *        the new index that it should be moved to
+ * @returns {*}
+ */
+function movePhrase (state, action, indexOpFunc) {
+  const {docId, phraseId} = action.data
+  const phrases = state.inDoc[docId]
+  const currentIndex = phrases.findIndex(x => x.id === phraseId)
+
+  const moveToIndex = indexOpFunc(currentIndex)
+  if (moveToIndex >= 0 &&
+      moveToIndex < phrases.length &&
+      moveToIndex !== currentIndex) {
+    const moveToId = phrases[moveToIndex].id
+    return updateObject(state, {
+      selectedPhraseId: {$set: moveToId}
+    })
+  }
+
+  return state
 }
 
 function revertEnteredTranslationsToDefault (phraseDetails) {
