@@ -1,4 +1,4 @@
-import FilterToggle from './FilterToggle.jsx'
+import FilterToggle from './FilterToggle'
 import React, { PropTypes } from 'react'
 
 /**

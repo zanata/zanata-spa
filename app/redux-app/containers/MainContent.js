@@ -18,9 +18,6 @@ const MainContent = React.createClass({
   },
 
   render: function () {
-    console.log('MainContent')
-    console.dir(this.props)
-
     const phrases = this.props.phrases
 
     if (phrases.length === 0) {

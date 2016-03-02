@@ -2,7 +2,7 @@ import {fetchStatistics, fetchLocales, fetchMyInfo, fetchProjectInfo, fetchDocum
 import _ from 'lodash'
 import {equals} from '../utils/StringUtil'
 
-export const TOGGLE_HEADER = 'TOGGLE_HEADER'
+export const TOGGLE_HEADER = Symbol('TOGGLE_HEADER')
 
 export function toggleHeader () {
   return {
@@ -10,7 +10,7 @@ export function toggleHeader () {
   }
 }
 
-export const TOGGLE_SUGGESTIONS = 'TOGGLE_SUGGESTIONS'
+export const TOGGLE_SUGGESTIONS = Symbol('TOGGLE_SUGGESTIONS')
 
 export function toggleSuggestions () {
   return {
@@ -18,14 +18,14 @@ export function toggleSuggestions () {
   }
 }
 
-export const TOGGLE_KEY_SHORTCUTS = 'TOGGLE_KEY_SHORTCUTS'
+export const TOGGLE_KEY_SHORTCUTS = Symbol('TOGGLE_KEY_SHORTCUTS')
 export function toggleKeyboardShortcutsModal () {
   return {
     type: TOGGLE_KEY_SHORTCUTS
   }
 }
 
-export const FETCH_FAILED = 'FETCH_FAILED'
+export const FETCH_FAILED = Symbol('FETCH_FAILED')
 
 const fetchFailed = (error) => {
   return {type: FETCH_FAILED, error: error}
@@ -39,11 +39,13 @@ const unwrapResponse = (dispatch, errorMsg, response) => {
 }
 
 const catchError = (err) => {
+  // FIXME change this so it reports in a way that makes it easy to
+  //       tell where the actual error happened.
   console.error('!!!!!!!!!!!!!!!! BAD !!!!!!!!!!!!!!' + err)
   return {type: FETCH_FAILED, error: err}
 }
 
-export const UI_LOCALES_FETCHED = 'UI_LOCALES_FETCHED'
+export const UI_LOCALES_FETCHED = Symbol('UI_LOCALES_FETCHED')
 export function uiLocaleFetched (uiLocales) {
   return {
     type: UI_LOCALES_FETCHED,
@@ -59,7 +61,7 @@ export function fetchUiLocales () {
   }
 }
 
-export const CHANGE_UI_LOCALE = 'CHANGE_UI_LOCALE'
+export const CHANGE_UI_LOCALE = Symbol('CHANGE_UI_LOCALE')
 export function changeUiLocale (locale) {
   return {
     type: CHANGE_UI_LOCALE,
@@ -67,6 +69,7 @@ export function changeUiLocale (locale) {
   }
 }
 
+// TODO check if this is needed
 export const FETCHING = 'FETCHING'
 
 const decodeDocId = (docId) => {
@@ -87,7 +90,7 @@ const containsLocale = (localeList, localeId) => {
   return hasCaseInsensitiveMatchingProp(localeList, 'localeId', localeId);
 }
 
-export const DOCUMENT_SELECTED = 'DOCUMENT_SELECTED'
+export const DOCUMENT_SELECTED = Symbol('DOCUMENT_SELECTED')
 export function selectDoc (docId) {
   return {
     type: DOCUMENT_SELECTED,
@@ -97,7 +100,7 @@ export function selectDoc (docId) {
   }
 }
 
-export const LOCALE_SELECTED = 'LOCALE_SELECTED'
+export const LOCALE_SELECTED = Symbol('LOCALE_SELECTED')
 export function selectLocale (localeId) {
   return {
     type: LOCALE_SELECTED,
@@ -107,7 +110,7 @@ export function selectLocale (localeId) {
   }
 }
 
-export const STATS_FETCHED = 'STATS_FETCHED'
+export const STATS_FETCHED = Symbol('STATS_FETCHED')
 export function statsFetched(stats) {
   return {
     type: STATS_FETCHED,
@@ -115,7 +118,7 @@ export function statsFetched(stats) {
   }
 }
 
-export const HEADER_DATA_FETCHED = 'HEADER_DATA_FETCHED'
+export const HEADER_DATA_FETCHED = Symbol('HEADER_DATA_FETCHED')
 export function headerDataFetched(data) {
   return {type: HEADER_DATA_FETCHED, data: data}
 }

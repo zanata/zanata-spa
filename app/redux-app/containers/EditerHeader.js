@@ -1,6 +1,6 @@
 import cx from 'classnames'
-import ControlsHeader from '../components/ControlsHeader'
-import NavHeader from '../components/NavHeader'
+import ControlsHeader from './ControlsHeader'
+import NavHeader from './NavHeader'
 import ProgressBar from '../components/ProgressBar'
 import { connect } from 'react-redux'
 import React, { PropTypes } from 'react'

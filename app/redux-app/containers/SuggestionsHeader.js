@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
-import Icon from './Icon'
-import IconButton from './IconButton'
-import IconButtonToggle from './IconButtonToggle'
-import SuggestionSearchInput from './SuggestionSearchInput'
-import ToggleSwitch from './ToggleSwitch'
+import Icon from '../components/Icon'
+import IconButton from '../components/IconButton'
+import IconButtonToggle from '../components/IconButtonToggle'
+import SuggestionSearchInput from '../components/SuggestionSearchInput'
+import ToggleSwitch from '../components/ToggleSwitch'
 
 /**
  * Header of the suggestions panel, with some controls and

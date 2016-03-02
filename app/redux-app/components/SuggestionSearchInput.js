@@ -57,7 +57,7 @@ let SuggestionSearchInput = React.createClass({
     this.setState({
       focused: true
     }, () => {
-      this.refs.input.getDOMNode().focus()
+      this.refs.input.focus()
     })
   },
 

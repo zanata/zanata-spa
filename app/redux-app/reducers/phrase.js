@@ -78,7 +78,6 @@ const phraseReducer = (state = defaultState, action) => {
 
     case PHRASE_DETAIL_FETCHED:
       const phrasesWithUiState = mapValues(action.phrases, phrase => {
-        console.dir(phrase)
         return updateObject(phrase, {
           // isSaving: {$set: false},
           // FIXME can probably remove this, done elsewhere

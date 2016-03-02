@@ -1,9 +1,9 @@
 import { pick } from 'lodash'
 import cx from 'classnames'
-import IconButtonToggle from './IconButtonToggle'
-import Pager from './Pager'
-import TranslatingIndicator from './TranslatingIndicator'
-import TransUnitFilter from './TransUnitFilter'
+import IconButtonToggle from '../components/IconButtonToggle'
+import Pager from '../components/Pager'
+import TranslatingIndicator from '../components/TranslatingIndicator'
+import TransUnitFilter from '../components/TransUnitFilter'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {

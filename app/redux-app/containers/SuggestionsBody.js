@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { IntlMixin } from 'react-intl'
-import NoSuggestionsPanel from './NoSuggestionsPanel'
-import SuggestionList from './SuggestionList'
+import NoSuggestionsPanel from '../components/NoSuggestionsPanel'
+import SuggestionList from '../components/SuggestionList'
 
 /**
  * Display all suggestions that match the current search.

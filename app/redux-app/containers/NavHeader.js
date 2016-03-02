@@ -1,13 +1,13 @@
-import DashboardLink from './DashboardLink'
-import DocsDropdown from './DocsDropdown'
-import Icon from './Icon'
-import LanguagesDropdown from './LanguagesDropdown'
-import ProjectVersionLink from './ProjectVersionLink'
-import UiLanguageDropdown from './UiLanguageDropdown'
+import DashboardLink from '../components/DashboardLink'
+import DocsDropdown from '../components/DocsDropdown'
+import Icon from '../components/Icon'
+import LanguagesDropdown from '../components/LanguagesDropdown'
+import ProjectVersionLink from '../components/ProjectVersionLink'
+import UiLanguageDropdown from '../components/UiLanguageDropdown'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {toggleDropdown} from '../actions'
-import {changeUiLocale} from '../actions/headerActions'
+import { toggleDropdown } from '../actions'
+import { changeUiLocale } from '../actions/headerActions'
 
 const { any, arrayOf, func, object, shape, string } = PropTypes
 

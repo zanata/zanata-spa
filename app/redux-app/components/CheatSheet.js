@@ -22,9 +22,10 @@ let CheatSheet = React.createClass({
           ' PropTypes.oneOfType([PropTypes.element, PropTypes.string],' +
           ' description: PropTypes.string')
     }
-    // TODO need to add a unique key for the li
+
+    const key = definition.props.keys.join()
     return (
-        <li className="Grid">
+        <li className="Grid" key={key}>
           <div className="Grid-cell u-size1of2 u-sPR-1-4
                     u-sPV-1-4 u-textRight">
             {definition}

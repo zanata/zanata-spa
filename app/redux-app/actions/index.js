@@ -66,8 +66,6 @@ export function requestDocumentList () {
       // Then for phrases, a cache list cache by document id
       // and a detail cache by phrase id
 
-      console.log('got a doc list')
-      console.dir(docList)
       // action includes project+version so that it can be stored in the right
       // cache location, and to avoid possible race conditions if the slugs
       // change quickly - the wrong doc list could be attached to a different
