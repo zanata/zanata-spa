@@ -24,11 +24,11 @@ const STATUSES = {
   }
 }
 
-export function getAll() {
+export function getAll () {
   return STATUSES
 }
 
-export function getAllAsArray() {
+export function getAllAsArray () {
   return _.values(STATUSES)
 }
 
@@ -64,7 +64,7 @@ exports.getCSSClass = function (statusKey) {
  * @param  {string} status
  * @return {string}        new value to use
  */
-function conformStatus(statusKey) {
+function conformStatus (statusKey) {
   statusKey = statusKey.toUpperCase()
   if (!statusKey || statusKey === 'NEW') {
     statusKey = 'UNTRANSLATED'
@@ -81,8 +81,8 @@ function conformStatus(statusKey) {
  * @param  {string} status
  * @return {string}        new value to use
  */
-function serverStatusId(statusId) {
-  statusId = angular.lowercase(statusId)
+function serverStatusId (statusId) {
+  statusId = statusId.toLowerCase()
   if (!statusId || statusId === 'untranslated') {
     return 'New'
   } else if (statusId === 'needswork') {
@@ -90,6 +90,3 @@ function serverStatusId(statusId) {
   }
   return statusId.charAt(0).toUpperCase() + statusId.slice(1).toLowerCase()
 }
-
-
-

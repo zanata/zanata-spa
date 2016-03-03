@@ -2,13 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import MainContent from './MainContent'
 import ParamPropDispatcher from './ParamPropDispatcher'
-import EditorHeader from './EditerHeader'
+import EditorHeader from './EditorHeader'
 import KeyShortcutCheatSheet from './KeyShortcutCheatSheet'
 import SuggestionsPanel from './SugguestionsPanel'
 
 // FIXME should probably get these actions imported from elsewhere instead
 import {
-  requestPhraseList,
   requestPhraseDetail
 } from '../actions/phrases'
 
@@ -25,7 +24,7 @@ class Root extends React.Component {
 
   render () {
     return (
-      // TODO adjust scrollbar width on the div, like in Angular template editor.html
+      // TODO adjust scrollbar width on div like Angular template editor.html
       <ParamPropDispatcher {...this.props}>
         <div className="Editor is-suggestions-active">
           <EditorHeader/>

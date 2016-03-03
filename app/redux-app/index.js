@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { compose, createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { hashHistory, Router, Route } from 'react-router'
 import { syncHistory } from 'redux-simple-router'
@@ -30,7 +30,8 @@ const history = hashHistory
 const loggerMiddleware = createLogger({
   actionTransformer: (action) => {
     if (typeof action.type !== 'symbol') {
-      console.warn("You should use a Symbol for this action type: " + String(action.type))
+      console.warn('You should use a Symbol for this action type: ' +
+        String(action.type))
     }
     return {
       ...action,

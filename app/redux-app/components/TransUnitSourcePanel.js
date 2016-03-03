@@ -67,15 +67,14 @@ const TransUnitSourcePanel = React.createClass({
               </div>
             : undefined
 
-        return (
-          <div className="TransUnit-item" key={index}>
-            {itemHeader}
-            <pre className="TransUnit-text">{source}</pre>
-          </div>
-        )
-      })
+          return (
+            <div className="TransUnit-item" key={index}>
+              {itemHeader}
+              <pre className="TransUnit-text">{source}</pre>
+            </div>
+          )
+        })
     }
-
 
     // empty, but this is what is output in the Angular version
     const footer = this.props.selected

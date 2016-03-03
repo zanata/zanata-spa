@@ -131,4 +131,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShortcutEnabledComponent)
+export default connect(mapStateToProps, mapDispatchToProps
+  )(ShortcutEnabledComponent)

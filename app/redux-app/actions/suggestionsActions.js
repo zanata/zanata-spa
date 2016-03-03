@@ -6,13 +6,8 @@ export function diffSettingChanged () {
 function changeSearchText (searchText) {
   return (dispatch, getState) => {
     dispatch(suggestionSearchTextChange(searchText))
-    dispatch((dispatch, getState) => {
-      // TODO implement api call to request text suggestions
-      // see TextSuggestionsService
-      console.log(
-          'REQUEST_TEXT_SUGGESTIONS',
-          searchText)
-    })
+
+    // FIXME trigger or dispatch an actual search on the API
   }
 }
 
@@ -103,6 +98,3 @@ export const SUGGESTION_SEARCH_TEXT_CHANGE = 'SUGGESTION_SEARCH_TEXT_CHANGE'
 export function suggestionSearchTextChange (text) {
   return { type: SUGGESTION_SEARCH_TEXT_CHANGE, text: text }
 }
-
-
-

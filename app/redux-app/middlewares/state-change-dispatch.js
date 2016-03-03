@@ -28,17 +28,18 @@
  *   -> selected doc changed -> fetch phrase list
  *   -> (end, nothing responding to change in phrase list)
  */
-const stateChangeDispatchMiddleware = (...callbacks) => store => next => action => {
-  const stateBefore = store.getState()
-  const result = next(action)
-  const stateAfter = store.getState()
-  callbacks.forEach(callback => {
-    // Note :: is shorthand for foo.fun.bind(foo)
-    //   it lets you pass an instance function around as a callback
-    //   without messing up the 'this' binding
-    callback(::store.dispatch, stateBefore, stateAfter)
-  })
-  return result
-}
+const stateChangeDispatchMiddleware =
+  (...callbacks) => store => next => action => {
+    const stateBefore = store.getState()
+    const result = next(action)
+    const stateAfter = store.getState()
+    callbacks.forEach(callback => {
+      // Note :: is shorthand for foo.fun.bind(foo)
+      //   it lets you pass an instance function around as a callback
+      //   without messing up the 'this' binding
+      callback(::store.dispatch, stateBefore, stateAfter)
+    })
+    return result
+  }
 
 export default stateChangeDispatchMiddleware

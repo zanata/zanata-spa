@@ -1,4 +1,3 @@
-import { pick } from 'lodash'
 import cx from 'classnames'
 import IconButtonToggle from '../components/IconButtonToggle'
 import Pager from '../components/Pager'
@@ -7,8 +6,6 @@ import TransUnitFilter from '../components/TransUnitFilter'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {
-  // TODO check if this is used
-  changeUiLocale,
   toggleHeader,
   toggleSuggestions,
   toggleKeyboardShortcutsModal
@@ -157,7 +154,7 @@ let ControlsHeader = React.createClass({
 })
 
 function mapStateToProps (state) {
-  const { actions, context, phrases, ui } = state
+  const { actions, phrases, ui } = state
 
   return {
     actions,
@@ -195,13 +192,12 @@ function mapDispatchToProps (dispatch) {
       toggleSuggestionPanel: () => dispatch(toggleSuggestions()),
       toggleKeyboardShortcutsModal: () => {
         // TODO pahuang implement toggle keyboard shutcut modal
-        console.log('======== toggleKeyboardShortcutsModal')
+        // console.log('======== toggleKeyboardShortcutsModal')
         dispatch(toggleKeyboardShortcutsModal())
       },
       toggleMainNav: () => dispatch(toggleHeader())
     }
   }
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ControlsHeader)

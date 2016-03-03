@@ -11,7 +11,7 @@ const baseUrl = 'http://localhost:7878/zanata/rest'
 
 export function fetchPhraseList (projectSlug, versionSlug, localeId, docId) {
   const statusListUrl =
-    `${baseUrl}/project/${projectSlug}/version/${versionSlug}/doc/${docId}/status/${localeId}`
+    `${baseUrl}/project/${projectSlug}/version/${versionSlug}/doc/${docId}/status/${localeId}` // eslint-disable-line max-len
 
   return fetch(statusListUrl, {
     method: 'GET',
@@ -37,11 +37,11 @@ export function fetchPhraseDetail (localeId, phraseIds) {
   })
 }
 
-function encodeDocId(docId) {
+function encodeDocId (docId) {
   return docId ? docId.replace(/\//g, ',') : docId
 }
 
-export function fetchStatistics(_projectSlug, _versionSlug,
+export function fetchStatistics (_projectSlug, _versionSlug,
                                           _docId, _localeId) {
   /*
   if (_docId && _localeId) {
@@ -74,7 +74,8 @@ export function fetchStatistics(_projectSlug, _versionSlug,
       })
     }
   }*/
-  const statsUrl = `${baseUrl}/stats/project/${_projectSlug}/version/${_versionSlug}/doc/${encodeDocId(_docId)}/locale/${_localeId}`;
+  const statsUrl =
+    `${baseUrl}/stats/project/${_projectSlug}/version/${_versionSlug}/doc/${encodeDocId(_docId)}/locale/${_localeId}` // eslint-disable-line max-len
 
   return fetch(statsUrl, {
     method: 'GET',
@@ -87,17 +88,16 @@ export function fetchStatistics(_projectSlug, _versionSlug,
   })
 }
 
-export function fetchLocales() {
+export function fetchLocales () {
   // TODO pahuang this was using $location to build up the ui locales
   const uiTranslationsURL = `http://localhost:7878/zanata/rest/locales`
 
   return fetch(uiTranslationsURL, {
     method: 'GET'
   })
-
 }
 
-export function fetchMyInfo() {
+export function fetchMyInfo () {
   const userUrl = `${baseUrl}/user`
   return fetch(userUrl, {
     method: 'GET',
@@ -110,7 +110,7 @@ export function fetchMyInfo() {
   })
 }
 
-export function fetchProjectInfo(projectSlug) {
+export function fetchProjectInfo (projectSlug) {
   const projectUrl = `${baseUrl}/project/${projectSlug}`
   return fetch(projectUrl, {
     method: 'GET',
@@ -125,8 +125,9 @@ export function fetchProjectInfo(projectSlug) {
 
 // FIXME replace any call to fetchDocumentList with fetchDocuments
 // export function fetchDocumentList (projectSlug, versionSlug) {
-export function fetchDocuments(projectSlug, versionSlug) {
-  const docListUrl = `${baseUrl}/project/${projectSlug}/version/${versionSlug}/docs`;
+export function fetchDocuments (projectSlug, versionSlug) {
+  const docListUrl =
+    `${baseUrl}/project/${projectSlug}/version/${versionSlug}/docs`
   return fetch(docListUrl, {
     method: 'GET',
     headers: {
@@ -137,8 +138,9 @@ export function fetchDocuments(projectSlug, versionSlug) {
   })
 }
 
-export function fetchVersionLocales(projectSlug, versionSlug) {
-  const localesUrl = `${baseUrl}/project/${projectSlug}/version/${versionSlug}/locales`;
+export function fetchVersionLocales (projectSlug, versionSlug) {
+  const localesUrl =
+    `${baseUrl}/project/${projectSlug}/version/${versionSlug}/locales`
   return fetch(localesUrl, {
     method: 'GET',
     headers: {

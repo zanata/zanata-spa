@@ -1,6 +1,4 @@
 import { fetchDocuments } from '../api'
-// import { documentListFetched } from ''
-
 
 export const ROUTING_PARAMS_CHANGED = Symbol('ROUTING_PARAMS_CHANGED')
 export function routingParamsChanged (newParams) {
@@ -32,15 +30,14 @@ export function requestDocumentList () {
     .then(response => {
       if (response.status >= 400) {
         // FIXME dispatch an error saying that document list fetch failed
-        console.error('something broke', response);
-        // FIXME should stop executing promise here
-        dispatch(documentListFetchFailed())
+        console.error('something broke', response)
+        // FIXME make documentListFetchFailed exist
+        // dispatch(documentListFetchFailed())
         return
       }
       return response.json()
     })
     .then(docList => {
-
       // expect docList to be an array of things like:
       // {
       //   contentType: 'text/plain',
@@ -72,7 +69,6 @@ export function requestDocumentList () {
       // version that is selected, for example.
       dispatch(documentListFetched(projectSlug, versionSlug, docList))
     })
-
   }
 }
 

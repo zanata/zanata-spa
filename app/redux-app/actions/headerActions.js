@@ -1,4 +1,11 @@
-import {fetchStatistics, fetchLocales, fetchMyInfo, fetchProjectInfo, fetchDocuments, fetchVersionLocales} from '../api'
+import {
+  fetchStatistics,
+  fetchLocales,
+  fetchMyInfo,
+  fetchProjectInfo,
+  fetchDocuments,
+  fetchVersionLocales
+} from '../api'
 import _ from 'lodash'
 import {equals} from '../utils/StringUtil'
 
@@ -83,11 +90,11 @@ const hasCaseInsensitiveMatchingProp = (list, prop, matchedValue) => {
 }
 
 const containsDoc = (documents, docId) => {
-  return hasCaseInsensitiveMatchingProp(documents, 'name', docId);
+  return hasCaseInsensitiveMatchingProp(documents, 'name', docId)
 }
 
 const containsLocale = (localeList, localeId) => {
-  return hasCaseInsensitiveMatchingProp(localeList, 'localeId', localeId);
+  return hasCaseInsensitiveMatchingProp(localeList, 'localeId', localeId)
 }
 
 export const DOCUMENT_SELECTED = Symbol('DOCUMENT_SELECTED')
@@ -111,7 +118,7 @@ export function selectLocale (localeId) {
 }
 
 export const STATS_FETCHED = Symbol('STATS_FETCHED')
-export function statsFetched(stats) {
+export function statsFetched (stats) {
   return {
     type: STATS_FETCHED,
     data: stats
@@ -119,7 +126,7 @@ export function statsFetched(stats) {
 }
 
 export const HEADER_DATA_FETCHED = Symbol('HEADER_DATA_FETCHED')
-export function headerDataFetched(data) {
+export function headerDataFetched (data) {
   return {type: HEADER_DATA_FETCHED, data: data}
 }
 

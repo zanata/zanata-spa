@@ -19,7 +19,7 @@ let PagerButton = React.createClass({
         </li>
     )
   }
-});
+})
 
 let Pager = React.createClass({
 
@@ -42,7 +42,6 @@ let Pager = React.createClass({
 
   render: function () {
     let gettextCatalog = this.props.gettextCatalog
-    //let PagerButton = this.PagerButton
 
     let pageNumber = this.props.pageNumber
     let pageCount = this.props.pageCount
@@ -55,7 +54,7 @@ let Pager = React.createClass({
           totalPages: pageCount
         })
       : pageNumber*/
-    let pageXofY = `${pageNumber} of ${pageCount}`;
+    let pageXofY = `${pageNumber} of ${pageCount}`
 
     let actions = this.props.actions
     let buttons = {

@@ -15,7 +15,7 @@ import {
   FIRST_PAGE,
   LAST_PAGE,
   NEXT_PAGE,
-  PREVIOUS_PAGE,
+  PREVIOUS_PAGE
 } from '../actions/controlsHeaderActions'
 import { calculateMaxPageIndexFromState } from '../utils/filter-paging-util'
 import { mapValues } from 'lodash'
@@ -198,7 +198,6 @@ const phraseReducer = (state = defaultState, action) => {
   function getMaxPageIndex () {
     return calculateMaxPageIndexFromState(action.getState())
   }
-
 }
 
 /**

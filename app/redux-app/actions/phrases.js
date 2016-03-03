@@ -13,7 +13,8 @@ export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
       .then(response => {
         if (response.status >= 400) {
           // TODO error detail from actual response object
-          dispatch(phraseListFetchFailed(new Error("Failed to fetch phrase list")))
+          dispatch(phraseListFetchFailed(
+            new Error('Failed to fetch phrase list')))
           // FIXME should stop executing promise here
         }
         return response.json()
@@ -58,7 +59,8 @@ export function requestPhraseDetail (localeId, phraseIds) {
       .then(response => {
         if (response.status >= 400) {
           // TODO error info from actual response object
-          dispatch(phraseDetailFetchFailed(new Error("Failed to fetch phrase detail")))
+          dispatch(phraseDetailFetchFailed(
+            new Error('Failed to fetch phrase detail')))
         }
         return response.json()
       })
@@ -145,7 +147,6 @@ export function phraseDetailFetchFailed (error) {
   return { type: PHRASE_DETAIL_FETCH_FAILED, error: error }
 }
 
-
 /**
  * Copy from source text to the focused translation input.
  * Only change the input text, not the saved translation value.
@@ -189,9 +190,9 @@ export function selectPhrase (id) {
   }
 }
 
-
 // User has typed/pasted/etc. text for a translation (not saved yet)
-export const TRANSLATION_TEXT_INPUT_CHANGED = Symbol('TRANSLATION_TEXT_INPUT_CHANGED')
+export const TRANSLATION_TEXT_INPUT_CHANGED =
+  Symbol('TRANSLATION_TEXT_INPUT_CHANGED')
 export function translationTextInputChanged (id, index, text) {
   return {
     type: TRANSLATION_TEXT_INPUT_CHANGED,
@@ -239,7 +240,8 @@ export function savePhraseWithStatus (phrase, status) {
           if (response.status >= 400) {
             // TODO dispatch an error about save failure
             //      this should remove the inProgressSave data
-            dispatch(phraseSaveFailed(currentPhrase, saveInfo))
+            // FIXME make phraseSaveFailed exist
+            // dispatch(phraseSaveFailed(currentPhrase, saveInfo))
           } else {
             response.json().then(({ revision, status }) => {
               dispatch(saveFinished(phrase.id, status, revision))

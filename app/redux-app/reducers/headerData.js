@@ -1,4 +1,9 @@
-import { DOCUMENT_SELECTED, HEADER_DATA_FETCHED, LOCALE_SELECTED, STATS_FETCHED } from '../actions/headerActions'
+import {
+  DOCUMENT_SELECTED,
+  HEADER_DATA_FETCHED,
+  LOCALE_SELECTED,
+  STATS_FETCHED
+} from '../actions/headerActions'
 import updateObject from 'react-addons-update'
 import {prepareLocales, prepareStats, prepareDocs} from '../utils/Util'
 
@@ -31,24 +36,24 @@ const defaultState = {
     },
     selectedLocale: ''
   }
-};
+}
 
 const projectPage = (projectSlug, versionSlug) => {
   // TODO pahuang set server context path
-  const serverContextPath = '';
+  const serverContextPath = ''
   return `${serverContextPath}iteration/view/${projectSlug}/${versionSlug}`
-};
+}
 
 export default (state = defaultState, action) => {
   switch (action.type) {
     case HEADER_DATA_FETCHED:
-      const docs = prepareDocs(action.data.documents);
-      const locales = prepareLocales(action.data.locales);
-      const versionSlug = action.data.versionSlug;
-      const projectSlug = action.data.projectInfo.id;
-      const projectName = action.data.projectInfo.name;
-      const name = action.data.myInfo.name;
-      const gravatarHash = action.data.myInfo.gravatarHash;
+      const docs = prepareDocs(action.data.documents)
+      const locales = prepareLocales(action.data.locales)
+      const versionSlug = action.data.versionSlug
+      const projectSlug = action.data.projectInfo.id
+      const projectName = action.data.projectInfo.name
+      const name = action.data.myInfo.name
+      const gravatarHash = action.data.myInfo.gravatarHash
 
       return updateObject(state, {
         user: {
@@ -56,7 +61,8 @@ export default (state = defaultState, action) => {
             $set: name
           },
           gravatarUrl: {
-            $set: `http://www.gravatar.com/avatar/${gravatarHash}?d=mm&ampr=g&amps=${72}`
+            // FIXME put gravatar URL generation in its own module
+            $set: `http://www.gravatar.com/avatar/${gravatarHash}?d=mm&ampr=g&amps=${72}` // eslint-disable-line max-len
           },
           dashboardUrl: {
             // FIXME pahuang dashboard url
@@ -88,7 +94,7 @@ export default (state = defaultState, action) => {
             }
           }
         }
-      });
+      })
 
     case DOCUMENT_SELECTED:
 
@@ -100,7 +106,7 @@ export default (state = defaultState, action) => {
             }
           }
         }
-      });
+      })
 
     case LOCALE_SELECTED:
       return updateObject(state, {
@@ -109,10 +115,10 @@ export default (state = defaultState, action) => {
             $set: action.data.selectedLocaleId
           }
         }
-      });
+      })
 
     case STATS_FETCHED:
-      const counts = prepareStats(action.data);
+      const counts = prepareStats(action.data)
       return updateObject(state, {
         context: {
           selectedDoc: {
@@ -121,7 +127,7 @@ export default (state = defaultState, action) => {
             }
           }
         }
-      });
+      })
 
     default:
       return state

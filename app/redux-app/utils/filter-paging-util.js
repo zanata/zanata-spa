@@ -38,8 +38,8 @@ export function calculateMaxPageIndexFromState (state) {
 export function calculatMaxPageIndex (phrases, countPerPage) {
   const phraseCount = phrases.length
 
-  const maxPageNumber = Math.ceil(phraseCount / countPerPage);
-  return maxPageNumber - 1;
+  const maxPageNumber = Math.ceil(phraseCount / countPerPage)
+  return maxPageNumber - 1
 }
 
 export function getSelectedDocPhrasesFromState (state) {

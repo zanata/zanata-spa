@@ -19,7 +19,7 @@ let ProgressItem = React.createClass({
               style={style}/>
     )
   }
-});
+})
 
 /**
  * Bar showing translation progress

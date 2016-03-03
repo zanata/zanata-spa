@@ -13,8 +13,8 @@ const fetchDocsMiddleware = stateChangeDispatchMiddleware(
   (dispatch, oldState, newState) => {
     const pre = oldState.context
     const post = newState.context
-    const needDocs = pre.projectSlug !== post.projectSlug
-                  || pre.versionSlug !== post.versionSlug
+    const needDocs = pre.projectSlug !== post.projectSlug ||
+                     pre.versionSlug !== post.versionSlug
     if (needDocs) {
       dispatch(requestDocumentList())
     }
@@ -29,6 +29,5 @@ const fetchDocsMiddleware = stateChangeDispatchMiddleware(
   // TODO add callback to fetchNewPhrasesIfNeeded (when docId changes)
   // TODO add callback to fetchNewTranslationsIfNeeded (when lang changes)
 )
-
 
 export default fetchDocsMiddleware

@@ -1,4 +1,3 @@
-import {getStatusInfo} from '../utils/TransStatusService'
 import {getSaveButtonStatus, hasTranslationChanged} from '../utils/PhraseUtil'
 import _ from 'lodash'
 import {copyFromSource,
@@ -43,8 +42,7 @@ const copySuggestionCallback = (oneBasedIndex, event) => {
   return (dispatch, getState) => {
     if (getState().phrases.selectedPhraseId) {
       event.preventDefault()
-      console.log('COPY_FROM_SUGGESTION_N', oneBasedIndex - 1)
-      // TODO pahuang dispatch the actual action
+      // FIXME dispatch suggestion copy action
     }
   }
 }
@@ -108,10 +106,11 @@ const saveAsCurrentButtonOptionCallback = (event) => {
 const saveAsModeCallback = (event) => {
   return (dispatch, getState) => {
     const selectedPhraseId = getState().phrases.selectedPhraseId
-    const phrase = getState().phrases.detail[selectedPhraseId]
+    // const phrase = getState().phrases.detail[selectedPhraseId]
     if (selectedPhraseId) {
       event.preventDefault()
-      console.log('SAVE AS MODE OPEN', phrase)
+      // FIXME dispatch action for opening "save-as" mode for phrase
+
       // TODO pahuang open the dropdown for selected phrase
       // dispatch(toggleDropdown())
       // addSaveAsModeExtensionKey(phrase, 'n', 'needsWork')
@@ -122,7 +121,6 @@ const saveAsModeCallback = (event) => {
 }
 
 const saveAs = (status) => {
-  // const statusInfo = getStatusInfo(status)
   return (event) => {
     return (dispatch, getState) => {
       const selectedPhraseId = getState().phrases.selectedPhraseId
@@ -136,7 +134,8 @@ const saveAs = (status) => {
   }
 }
 
-// TODO pahuang implment these two (first save if unsaved, then move to next, then focus the selected phrase)
+// TODO pahuang implment these two (first save if unsaved, then move to next,
+// then focus the selected phrase)
 function gotoNextRowCallback (event) {
   return (dispatch, getState) => {
     const selectedPhraseId = getState().phrases.selectedPhraseId

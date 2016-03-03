@@ -7,7 +7,7 @@ import {
 } from '../actions/headerActions'
 import {
   RESET_STATUS_FILTERS,
-  UPDATE_STATUS_FILTER,
+  UPDATE_STATUS_FILTER
 } from '../actions/controlsHeaderActions'
 import { TOGGLE_DROPDOWN } from '../actions'
 import {prepareLocales} from '../utils/Util'
@@ -52,7 +52,7 @@ const defaultState = {
     uiLocaleKey: uiLocaleDropdownKey
   },
   textFlowDisplay: {
-    filter: DEFAULT_FILTER_STATE,
+    filter: DEFAULT_FILTER_STATE
   },
   gettextCatalog: {
     getString: (key) => {
@@ -90,7 +90,7 @@ const ui = (state = defaultState, action) => {
       })
 
     case UI_LOCALES_FETCHED:
-      const locales = prepareLocales(action.data);
+      const locales = prepareLocales(action.data)
       return updateObject(state, {
         uiLocales: {
           $set: locales
@@ -141,7 +141,6 @@ const ui = (state = defaultState, action) => {
           $set: action.data
         }
       })
-      return state
 
     case TOGGLE_DROPDOWN:
       // TODO pahuang this listens to the same action
@@ -162,28 +161,24 @@ const ui = (state = defaultState, action) => {
         }
       })
 
+    // FIXME change action.data to a meaningful name
     case UPDATE_STATUS_FILTER:
-      let newFilter = Object.assign({},
-          state.textFlowDisplay.filter, {all: false})
-      newFilter[action.data] = !newFilter[action.data]
-
-      if (isStatusSame(newFilter)) {
-        return updateObject(state, {
-          textFlowDisplay: {
-            filter: {
-              $set: DEFAULT_FILTER_STATE
-            }
-          }
-        })
-      } else {
-        return updateObject(state, {
-          textFlowDisplay: {
-            filter: {
-              $set: newFilter
-            }
-          }
-        })
+    // let newFilter = Object.assign({},
+    //     state.textFlowDisplay.filter, {all: false})
+    // newFilter[action.data] = !newFilter[action.data]
+      const newFilter = {
+        ...state.textFlowDisplay.filter,
+        all: false,
+        [action.data]: !state.textFlowDisplay.filter[action.data]
       }
+
+      return updateObject(state, {
+        textFlowDisplay: {
+          filter: {
+            $set: isStatusSame(newFilter) ? DEFAULT_FILTER_STATE : newFilter
+          }
+        }
+      })
 
     default:
       return state

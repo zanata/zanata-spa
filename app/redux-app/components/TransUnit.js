@@ -4,7 +4,7 @@ import TransUnitStatus from './TransUnitStatus'
 import TransUnitSourcePanel from './TransUnitSourcePanel'
 import TransUnitTranslationPanel from './TransUnitTranslationPanel'
 import { connect } from 'react-redux'
-import { isUndefined, pick } from 'lodash'
+import { pick } from 'lodash'
 import { toggleDropdown } from '../actions'
 import {
   cancelEdit,
@@ -28,7 +28,7 @@ const TransUnit = React.createClass({
     translationLocale: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
-    }).isRequired,
+    }).isRequired
     // savingStatusId: PropTypes.oneOf([
     //   'untranslated',
     //   'needswork',
@@ -63,10 +63,6 @@ const TransUnit = React.createClass({
         'is-focused': this.props.selected,
         'is-first': this.props.isFirstPhrase
       })
-
-    const phraseStatusProps = pick(this.props, [
-      'phrase'
-    ])
 
     const phraseSourcePanelProps = pick(this.props, [
       'cancelEdit',
@@ -111,7 +107,7 @@ function mapStateToProps (state, ownProps) {
   const sourceLocale = state.context.sourceLocale
 
   const passThroughProps = pick(state, [
-    'openDropdown',
+    'openDropdown'
   ])
 
   return {
