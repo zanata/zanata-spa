@@ -1,10 +1,17 @@
 module.exports = {
-  entry: "./index.js",
+  entry: './index.js',
   output: {
-      path: __dirname,
-      filename: "bundle.js"
+    path: __dirname,
+    filename: 'bundle.js'
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'eslint'
+      }
+    ],
     loaders: [
       {
         test: /\.jsx?$/,
@@ -24,5 +31,9 @@ module.exports = {
   devtool: 'source-map',
   devServer: {
     historyApiFallback: true
+  },
+  eslint: {
+    // FIXME change when redux app moved up a level
+    configFile: '../../.eslintrc'
   }
-};
+}
