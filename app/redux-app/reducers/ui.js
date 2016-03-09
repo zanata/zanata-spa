@@ -161,7 +161,6 @@ const ui = (state = defaultState, action) => {
         }
       })
 
-    // FIXME change action.data to a meaningful name
     case UPDATE_STATUS_FILTER:
     // let newFilter = Object.assign({},
     //     state.textFlowDisplay.filter, {all: false})
@@ -169,7 +168,7 @@ const ui = (state = defaultState, action) => {
       const newFilter = {
         ...state.textFlowDisplay.filter,
         all: false,
-        [action.data]: !state.textFlowDisplay.filter[action.data]
+        [action.status]: !state.textFlowDisplay.filter[action.status]
       }
 
       return updateObject(state, {

@@ -29,7 +29,8 @@ let TransUnitTranslationPanel = React.createClass({
 
   componentDidUpdate () {
     if (this.textarea && this.props.selected) {
-      this.textarea.focus()
+      // FIXME replace focus-on-select without stealing suggestion search focus.
+      // this.textarea.focus()
     }
   },
 

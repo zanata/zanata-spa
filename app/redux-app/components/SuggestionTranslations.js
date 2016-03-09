@@ -1,14 +1,11 @@
 import React, { PropTypes } from 'react'
-import { IntlMixin } from 'react-intl'
 import SuggestionContents from './SuggestionContents'
 import SuggestionTranslationDetails from './SuggestionTranslationDetails'
 
 /**
  * Show all translations for a suggestion, with translation metadata.
  */
-let SuggestionsTranslations = React.createClass({
-  mixins: [IntlMixin],
-
+const SuggestionTranslations = React.createClass({
   propTypes: {
     suggestion: PropTypes.shape({
       copying: PropTypes.bool.isRequired,
@@ -37,4 +34,4 @@ let SuggestionsTranslations = React.createClass({
   }
 })
 
-export default SuggestionsTranslations
+export default SuggestionTranslations

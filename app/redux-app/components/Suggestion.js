@@ -1,14 +1,11 @@
 import React, { PropTypes } from 'react'
-import { IntlMixin } from 'react-intl'
 import SuggestionSources from './SuggestionSources'
 import SuggestionTranslations from './SuggestionTranslations'
-import { assign } from 'lodash'
 
 /**
  * Display a single suggestion source, translation and metadata.
  */
-let Suggestion = React.createClass({
-  mixins: [IntlMixin],
+const Suggestion = React.createClass({
 
   propTypes: {
     // true when the translation has just been copied
@@ -59,13 +56,14 @@ let Suggestion = React.createClass({
     const matchType = this.matchType(this.props.suggestion)
     const className = 'TransUnit TransUnit--suggestion ' +
                         this.matchTypeClass[matchType]
-    const suggestion = assign({}, this.props.suggestion, {
-      matchType: matchType
-    })
-    const props = assign({}, this.props, {
-      suggestion: suggestion
-    })
-
+    const suggestion = {
+      ...this.props.suggestion,
+      matchType
+    }
+    const props = {
+      ...this.props,
+      suggestion
+    }
     return (
       <div
         className={className}>

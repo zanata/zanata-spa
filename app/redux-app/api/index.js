@@ -7,7 +7,7 @@
 // (it is just a wrapper around whatwg-fetch)
 import fetch from 'isomorphic-fetch'
 
-const baseUrl = 'http://localhost:7878/zanata/rest'
+export const baseUrl = 'http://localhost:7878/zanata/rest'
 
 export function fetchPhraseList (projectSlug, versionSlug, localeId, docId) {
   const statusListUrl =

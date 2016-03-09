@@ -1,13 +1,10 @@
 import React, { PropTypes } from 'react'
-import { IntlMixin } from 'react-intl'
 import Icon from './Icon'
 
 /**
  * Display metadata for suggestion source.
  */
 let SuggestionSourceDetails = React.createClass({
-  mixins: [IntlMixin],
-
   propTypes: {
     suggestion: PropTypes.shape({
       matchDetails: PropTypes.arrayOf(PropTypes.shape({

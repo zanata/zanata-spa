@@ -15,7 +15,8 @@ export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
           // TODO error detail from actual response object
           dispatch(phraseListFetchFailed(
             new Error('Failed to fetch phrase list')))
-          // FIXME should stop executing promise here
+          // can also throw to fail the promise
+          return Promise.reject('')
         }
         return response.json()
       })
@@ -28,6 +29,7 @@ export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
           }
         })))
 
+        // TODO change so it only requests detail for current page.
         dispatch(requestPhraseDetail(lang, statusList.map(phrase => {
           return phrase.id
         })))

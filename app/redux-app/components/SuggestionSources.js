@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import { IntlMixin } from 'react-intl'
 import SuggestionContents from './SuggestionContents'
 import SuggestionSourceDetails from './SuggestionSourceDetails'
 
@@ -8,8 +7,6 @@ import SuggestionSourceDetails from './SuggestionSourceDetails'
  * optional diff against a set of search strings.
  */
 let SuggestionSources = React.createClass({
-  mixins: [IntlMixin],
-
   propTypes: {
     suggestion: PropTypes.shape({
       matchDetails: PropTypes.arrayOf(PropTypes.shape({

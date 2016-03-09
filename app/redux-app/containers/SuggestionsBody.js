@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import { IntlMixin } from 'react-intl'
 import NoSuggestionsPanel from '../components/NoSuggestionsPanel'
 import SuggestionList from '../components/SuggestionList'
 
@@ -7,8 +6,6 @@ import SuggestionList from '../components/SuggestionList'
  * Display all suggestions that match the current search.
  */
 let SuggestionsBody = React.createClass({
-  mixins: [IntlMixin],
-
   propTypes: {
     searchType: PropTypes.oneOf(['phrase', 'text']).isRequired,
     search: PropTypes.shape({
@@ -20,7 +17,6 @@ let SuggestionsBody = React.createClass({
       suggestions: PropTypes.arrayOf(PropTypes.shape({
         // true when the translation has just been copied
         copying: PropTypes.bool.isRequired,
-        copySuggestion: PropTypes.func.isRequired,
         suggestion: PropTypes.shape({
           matchDetails: PropTypes.arrayOf(PropTypes.shape({
             type: PropTypes.string.isRequired,
@@ -83,7 +79,8 @@ let SuggestionsBody = React.createClass({
       <SuggestionList
         search={this.props.search.searchStrings}
         showDiff={this.props.showDiff}
-        suggestions={this.props.search.suggestions}/>
+        suggestions={this.props.search.suggestions}
+        copySuggestion={this.props.copySuggestion}/>
     )
   },
 

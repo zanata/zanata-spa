@@ -1,11 +1,17 @@
 import updateObject from 'react-addons-update'
 
-import {DIFF_SETTING_CHANGED,
-    SET_SUGGESTION_SEARCH_TYPE} from '../actions/suggestionsActions'
+import {
+  DIFF_SETTING_CHANGED,
+  SET_SUGGESTION_SEARCH_TYPE,
+  SUGGESTION_SEARCH_TEXT_CHANGE,
+  TEXT_SUGGESTIONS_UPDATED
+} from '../actions/suggestions'
 
 const defaultState = {
-  searchType: 'phrase',
+  // FIXME should be 'phrase' by default
+  searchType: 'text',
   showDiff: true,
+  // TODO rename to phraseSelected
   transUnitSelected: false,
   phraseSearch: {
     loading: false, // service.isLoading(),
@@ -18,9 +24,6 @@ const defaultState = {
     suggestions: [] // suggestionsWithCopy(service.getResults())
   },
   search: {
-    toggle: undefined, // handleToggleSearch,
-    clear: undefined, // handleClearSearch,
-    changeText: undefined, // handleSearchTextChange,
     input: {
       text: '',
       focused: false
@@ -31,19 +34,33 @@ const defaultState = {
 const suggestions = (state = defaultState, action) => {
   switch (action.type) {
     case DIFF_SETTING_CHANGED:
-      return updateObject(state, {
-        showDiff: {
-          $set: !state.showDiff
-        }
-      })
+      return update({showDiff: {$set: !state.showDiff}})
+
     case SET_SUGGESTION_SEARCH_TYPE:
-      return updateObject(state, {
-        searchType: {
-          $set: action.searchType
-        }
-      })
+      return update({searchType: {$set: action.searchType}})
+
+    case SUGGESTION_SEARCH_TEXT_CHANGE:
+      return update({search: {input: {text: {$set: action.text}}}})
+
+    case TEXT_SUGGESTIONS_UPDATED:
+      return update({textSearch: {
+        loading: {$set: action.loading},
+        searchStrings: {$set: action.searchStrings},
+        suggestions: {$set: action.suggestions}
+      }})
+
+    default:
+      return state
   }
-  return state
+
+  /**
+   * Apply the given commands to state.
+   *
+   * Just a shortcut to avoid having to pass state to update over and over.
+   */
+  function update (commands) {
+    return updateObject(state, commands)
+  }
 }
 
 export default suggestions

@@ -21,3 +21,21 @@ export function equals (from, to, ignoreCase) {
   }
   return from === to
 }
+
+/**
+ * Template tag function to allow single-line template strings to be wrapped.
+ *
+ * Removes all newlines and leading whitespace from the template string.
+ */
+export function oneLiner (strings, ...vars) {
+  // interleave strings and vars
+  var output = ''
+  for (let i = 0; i < vars.length; i++) {
+    output += strings[i] + vars[i]
+  }
+  output += strings[vars.length]
+  const lines = output.split(/\n/)
+  return lines.map((line) => {
+    return line.replace(/^\s+/gm, '')
+  }).join(' ').trim()
+}

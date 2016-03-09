@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { locale, formats } from './config/intl'
+import { addLocaleData, IntlProvider } from 'react-intl'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { hashHistory, Router, Route } from 'react-router'
@@ -11,7 +13,7 @@ import createLogger from 'redux-logger'
 import rootReducer from './reducers'
 
 import Root from './containers/Root'
-import NeedSlugMessage from './NeedSlugMessage.jsx'
+import NeedSlugMessage from './containers/NeedSlugMessage'
 
 /**
  * Top level of the Zanata editor app.
@@ -21,6 +23,21 @@ import NeedSlugMessage from './NeedSlugMessage.jsx'
  *  - binding the redux store to a React component tree
  *  - rendering the React component tree to the page
  */
+
+// TODO add all the relevant locale data
+// Something like:
+//  import en from './react-intl/locale-data/en'
+//  import de from './react-intl/locale-data/de'
+//    ... then just addLocaleData(en) etc.
+// See https://github.com/yahoo/react-intl/blob/master/UPGRADE.md
+// if ('ReactIntlLocaleData' in window) {
+//   Object.keys(window.ReactIntlLocaleData).forEach(lang => {
+//     addLocaleData(window.ReactIntlLocaleData[lang])
+//   })
+// }
+addLocaleData({
+  locale: 'en-US'
+})
 
 // example uses createHistory, but the latest bundles history with react-router
 // and has some defaults, so now I am just using one of those.
@@ -67,11 +84,13 @@ const rootElement = document.getElementById('appRoot')
 //   Should be able to do better than that.
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <Route
-        path="/:projectSlug/:versionSlug/translate(/:docId/:lang)"
-        component={Root}/>
-      <Route path="/*" component={NeedSlugMessage}/>
-    </Router>
-  </Provider>, rootElement)
+  <IntlProvider locale={locale} formats={formats}>
+    <Provider store={store}>
+      <Router history={history}>
+        <Route
+          path="/:projectSlug/:versionSlug/translate(/:docId/:lang)"
+          component={Root}/>
+        <Route path="/*" component={NeedSlugMessage}/>
+      </Router>
+    </Provider>
+  </IntlProvider>, rootElement)

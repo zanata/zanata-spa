@@ -5,7 +5,7 @@ export function resetStatusFilter () {
 
 export const UPDATE_STATUS_FILTER = Symbol('UPDATE_STATUS_FILTER')
 export function updateStatusFilter (status) {
-  return {type: UPDATE_STATUS_FILTER, data: status}
+  return {type: UPDATE_STATUS_FILTER, status}
 }
 
 export const FIRST_PAGE = Symbol('FIRST_PAGE')

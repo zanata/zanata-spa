@@ -1,15 +1,12 @@
 import Button from './Button'
 import React, { PropTypes } from 'react'
-import { IntlMixin } from 'react-intl'
 import SuggestionMatchPercent from './SuggestionMatchPercent'
 import SuggestionUpdateMessage from './SuggestionUpdateMessage'
 
 /**
  * Display metadata and copy button for the translations of a suggestion.
  */
-let SuggestionTranslationDetails = React.createClass({
-  mixins: [IntlMixin],
-
+const SuggestionTranslationDetails = React.createClass({
   propTypes: {
     suggestion: PropTypes.shape({
       copying: PropTypes.bool.isRequired,
@@ -41,11 +38,13 @@ let SuggestionTranslationDetails = React.createClass({
   },
 
   render: function () {
-    let suggestion = this.props.suggestion
-    let label = suggestion.copying ? 'Copying' : 'Copy Translation'
-    let matchType = suggestion.matchType
-    let user = this.user(suggestion)
-    let lastChanged = this.lastChanged(suggestion)
+    const suggestion = this.props.suggestion
+    const label = suggestion.copying ? 'Copying' : 'Copy Translation'
+    const matchType = suggestion.matchType
+    const user = this.user(suggestion)
+    // TODO convert these to Date in the api module instead
+    //      (so new date instances are not created every render)
+    const lastChanged = new Date(this.lastChanged(suggestion))
 
     return (
       <div className="TransUnit-details">

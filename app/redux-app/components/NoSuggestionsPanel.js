@@ -1,13 +1,11 @@
 import React, { PropTypes } from 'react'
 import Icon from './Icon'
-import { IntlMixin } from 'react-intl'
 
 /**
  * Generic panel showing an icon and message, to
  * use when there are no suggestions to display.
  */
 let NoSuggestionsPanel = React.createClass({
-  mixins: [IntlMixin],
 
   propTypes: {
     message: PropTypes.string.isRequired,

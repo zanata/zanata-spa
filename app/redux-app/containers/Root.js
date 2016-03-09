@@ -4,14 +4,9 @@ import MainContent from './MainContent'
 import ParamPropDispatcher from './ParamPropDispatcher'
 import EditorHeader from './EditorHeader'
 import KeyShortcutCheatSheet from './KeyShortcutCheatSheet'
-import SuggestionsPanel from './SugguestionsPanel'
-
-// FIXME should probably get these actions imported from elsewhere instead
-import {
-  requestPhraseDetail
-} from '../actions/phrases'
-
-import {fetchHeaderInfo, fetchUiLocales} from '../actions/headerActions'
+import SuggestionsPanel from './SuggestionsPanel'
+import { requestPhraseDetail } from '../actions/phrases'
+import { fetchHeaderInfo, fetchUiLocales } from '../actions/headerActions'
 
 /**
  * Top level of Zanata view hierarchy.
@@ -33,7 +28,6 @@ class Root extends React.Component {
           <SuggestionsPanel />
         </div>
       </ParamPropDispatcher>
-
     )
   }
 }

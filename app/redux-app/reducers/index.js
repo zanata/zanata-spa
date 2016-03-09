@@ -1,7 +1,8 @@
 
 import { combineReducers } from 'redux'
-import { routeReducer } from 'redux-simple-router' // renamed react-router-redux
-import phrase from './phrase'
+// TODO update dependency, it is renamed react-router-redux
+import { routeReducer } from 'redux-simple-router'
+import phrases from './phrase'
 import context from './context'
 import dropdown from './dropdown'
 import ui from './ui'
@@ -10,12 +11,12 @@ import suggestions from './suggestions'
 
 const rootReducer = combineReducers({
   context,
-  dropdown,
-  phrases: phrase,
-  routing: routeReducer,
-  ui: ui,
   data: headerData,
-  suggestions
+  dropdown,
+  phrases,
+  routing: routeReducer,
+  suggestions,
+  ui
 })
 
 export default rootReducer

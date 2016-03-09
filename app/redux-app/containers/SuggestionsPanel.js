@@ -1,13 +1,17 @@
 import cx from 'classnames'
 import React, { PropTypes } from 'react'
-import { IntlMixin } from 'react-intl'
 import SuggestionsHeader from './SuggestionsHeader'
 import SuggestionsBody from './SuggestionsBody'
-import { assign, pick } from 'lodash'
+import { pick } from 'lodash'
 import { connect } from 'react-redux'
-import {toggleSuggestions} from '../actions/headerActions'
-import {diffSettingChanged,
-    toggleSearchType} from '../actions/suggestionsActions'
+import { toggleSuggestions } from '../actions/headerActions'
+import { copySuggestionN } from '../actions/suggestions'
+import {
+  clearSearch,
+  changeSearchText,
+  diffSettingChanged,
+  toggleSearchType
+} from '../actions/suggestions'
 
 const DO_NOT_RENDER = null
 
@@ -15,8 +19,6 @@ const DO_NOT_RENDER = null
  * Panel to search for and display suggestions.
  */
 let SuggestionsPanel = React.createClass({
-  mixins: [IntlMixin],
-
   propTypes: {
     // likely want to move this switching to a higher level
     showPanel: PropTypes.bool.isRequired,
@@ -35,12 +37,13 @@ let SuggestionsPanel = React.createClass({
     const headerProps = pick(this.props, ['showDiff', 'onDiffChange',
       'closeSuggestions', 'search', 'transUnitSelected', 'searchType'])
 
+    // TODO use imported actions for these instead of passing in props
     headerProps.search.toggle = this.props.searchToggle
     headerProps.search.clear = this.props.clearSearch
     headerProps.search.changeText = this.props.changeSearchText
 
-    const bodyProps = pick(this.props, ['showDiff', 'transUnitSelected',
-      'search', 'searchType'])
+    const bodyProps = pick(this.props, ['copySuggestion', 'showDiff',
+      'transUnitSelected', 'search', 'searchType'])
 
     return (
       <aside
@@ -54,37 +57,41 @@ let SuggestionsPanel = React.createClass({
 })
 
 function mapStateToProps (state) {
-  const suggestions = state.suggestions
-  var search = suggestions.search
-  if (suggestions.searchType === 'phrase') {
-    if (suggestions.transUnitSelected) {
-      search = assign({}, search, suggestions.phraseSearch)
+  const { search, searchType, phraseSearch, textSearch,
+          transUnitSelected } = state.suggestions
+  var specificSearch = search
+
+  // FIXME seeing search = undefined here even though it is in default state
+
+  if (searchType === 'phrase') {
+    if (transUnitSelected) {
+      specificSearch = {
+        ...search,
+        ...phraseSearch
+      }
     } else {
       // show no phrase search if no TU (phrase) is selected
-      search = assign({}, search, {
+      specificSearch = {
+        ...search,
         loading: false,
         searchStrings: [],
         suggestions: []
-      })
+      }
     }
-  } else if (suggestions.searchType === 'text') {
-    search = assign({}, search, suggestions.textSearch)
+  } else if (searchType === 'text') {
+    specificSearch = {
+      ...search,
+      ...textSearch
+    }
   } else {
-    console.error('invalid state.searchType', suggestions.searchType)
+    console.error('invalid state.suggestions.searchType', searchType)
   }
 
-  return assign({}, suggestions, {
-    search: search,
+  return {
+    ...state.suggestions,
+    search: specificSearch,
     showPanel: state.ui.panels.suggestions.visible
-  })
-}
-
-// TODO pahuang implement this
-const clearSearch = () => {
-  return {type: 'CLEAR_SEARCH'}
-}
-const changeSearchText = (text) => {
-  return {type: 'CHANGE_SEARCH_TEXT', data: text}
+  }
 }
 
 function mapDispatchToProps (dispatch) {
@@ -93,7 +100,12 @@ function mapDispatchToProps (dispatch) {
     closeSuggestions: () => dispatch(toggleSuggestions()),
     searchToggle: () => dispatch(toggleSearchType()),
     clearSearch: () => dispatch(clearSearch()),
-    changeSearchText: (text) => dispatch(changeSearchText(text))
+    changeSearchText: event => {
+      dispatch(changeSearchText(event.target.value))
+    },
+    copySuggestion: (index) => {
+      dispatch(copySuggestionN(index))
+    }
   }
 }
 

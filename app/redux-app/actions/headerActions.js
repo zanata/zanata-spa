@@ -6,8 +6,8 @@ import {
   fetchDocuments,
   fetchVersionLocales
 } from '../api'
-import _ from 'lodash'
-import {equals} from '../utils/StringUtil'
+import { any, curry } from 'lodash'
+import { equals } from '../utils/string-utils'
 
 export const TOGGLE_HEADER = Symbol('TOGGLE_HEADER')
 
@@ -45,6 +45,7 @@ const unwrapResponse = (dispatch, errorMsg, response) => {
   return response.json()
 }
 
+// FIXME don't handle all the errors in one block, it makes debugging harder
 const catchError = (err) => {
   // FIXME change this so it reports in a way that makes it easy to
   //       tell where the actual error happened.
@@ -62,7 +63,7 @@ export function uiLocaleFetched (uiLocales) {
 export function fetchUiLocales () {
   return (dispatch) => {
     fetchLocales()
-        .then(_.curry(unwrapResponse)(dispatch, 'fetch UI locales failed'))
+        .then(curry(unwrapResponse)(dispatch, 'fetch UI locales failed'))
         .then(uiLocales => dispatch(uiLocaleFetched(uiLocales)))
         .catch(catchError)
   }
@@ -84,7 +85,7 @@ const decodeDocId = (docId) => {
 }
 
 const hasCaseInsensitiveMatchingProp = (list, prop, matchedValue) => {
-  return _.any(list, (item) => {
+  return any(list, (item) => {
     return equals(item[prop], matchedValue, true)
   })
 }
@@ -133,24 +134,43 @@ export function headerDataFetched (data) {
 // this is a get all action that will wait until all promises are resovled
 export function fetchHeaderInfo (projectSlug, versionSlug, docId, localeId) {
   return (dispatch, getState) => {
-    const checkResponse = _.curry(unwrapResponse)(dispatch)
+    const checkResponse = curry(unwrapResponse)(dispatch)
 
-    let docListPromise = fetchDocuments(projectSlug, versionSlug)
+    // FIXME make the checkResponse just reject with the error code
+    //       no need to handle error messages or anything.
+
+    const docListPromise = fetchDocuments(projectSlug, versionSlug)
         .then(checkResponse('fetch document list failed'))
-    let projectInfoPromise = fetchProjectInfo(projectSlug)
+        .catch(e => {
+          e.message = 'document list fetch failed: ' + e.message
+          throw e
+        })
+    const projectInfoPromise = fetchProjectInfo(projectSlug)
         .then(checkResponse('fetch project info failed'))
-    let myInfoPromise = fetchMyInfo()
+        .catch(e => {
+          e.message = 'project info fetch failed: ' + e.message
+          throw e
+        })
+    const myInfoPromise = fetchMyInfo()
         .then(checkResponse('fetch my INFO failed'))
-    let versionLocalesPromise = fetchVersionLocales(projectSlug, versionSlug)
+        .catch(e => {
+          e.message = 'version locales fetch failed: ' + e.message
+          throw e
+        })
+    const versionLocalesPromise = fetchVersionLocales(projectSlug, versionSlug)
         .then(checkResponse('fetch version locales failed'))
+        .catch(e => {
+          e.message = 'version locales fetch failed: ' + e.message
+          throw e
+        })
 
     Promise.all([docListPromise, projectInfoPromise,
       myInfoPromise, versionLocalesPromise])
         .then((all) => {
-          let documents = all[0]
-          let projectInfo = all[1]
-          let myInfo = all[2]
-          let locales = all[3]
+          const documents = all[0]
+          const projectInfo = all[1]
+          const myInfo = all[2]
+          const locales = all[3]
 
           if (!documents || documents.length <= 0) {
             // redirect if no documents in version
@@ -172,7 +192,7 @@ export function fetchHeaderInfo (projectSlug, versionSlug, docId, localeId) {
             return
           }
 
-          let data = {
+          const data = {
             myInfo: myInfo,
             projectInfo: projectInfo,
             versionSlug: versionSlug,
