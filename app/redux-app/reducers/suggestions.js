@@ -9,10 +9,8 @@ import {
 
 const defaultState = {
   // FIXME should be 'phrase' by default
-  searchType: 'text',
+  searchType: 'phrase',
   showDiff: true,
-  // TODO rename to phraseSelected
-  transUnitSelected: false,
   phraseSearch: {
     loading: false, // service.isLoading(),
     searchStrings: [], // service.getSearchStrings(),

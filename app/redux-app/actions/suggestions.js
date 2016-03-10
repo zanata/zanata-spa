@@ -5,6 +5,10 @@ export function diffSettingChanged () {
   return { type: DIFF_SETTING_CHANGED }
 }
 
+export function clearSearch () {
+  return changeSearchText('')
+}
+
 export function changeSearchText (searchText) {
   return (dispatch, getState) => {
     dispatch(suggestionSearchTextChange(searchText))

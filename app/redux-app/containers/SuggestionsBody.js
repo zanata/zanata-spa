@@ -31,12 +31,12 @@ let SuggestionsBody = React.createClass({
       }))
     }).isRequired,
     showDiff: PropTypes.bool.isRequired,
-    transUnitSelected: PropTypes.bool.isRequired
+    phraseSelected: PropTypes.bool.isRequired
   },
 
   renderContent: function () {
     const isTextSearch = this.props.searchType === 'text'
-    const transUnitSelected = this.props.transUnitSelected
+    const phraseSelected = this.props.phraseSelected
     const hasSearch = this.props.search.searchStrings.length !== 0
     const hasSuggestions = this.props.search.suggestions.length !== 0
 
@@ -48,7 +48,7 @@ let SuggestionsBody = React.createClass({
       )
     }
 
-    if (!hasSearch && !transUnitSelected) {
+    if (!hasSearch && !phraseSelected) {
       return (
         <NoSuggestionsPanel
           icon="suggestions"

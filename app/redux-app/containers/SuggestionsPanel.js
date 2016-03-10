@@ -35,7 +35,7 @@ let SuggestionsPanel = React.createClass({
     })
 
     const headerProps = pick(this.props, ['showDiff', 'onDiffChange',
-      'closeSuggestions', 'search', 'transUnitSelected', 'searchType'])
+      'closeSuggestions', 'search', 'phraseSelected', 'searchType'])
 
     // TODO use imported actions for these instead of passing in props
     headerProps.search.toggle = this.props.searchToggle
@@ -43,7 +43,7 @@ let SuggestionsPanel = React.createClass({
     headerProps.search.changeText = this.props.changeSearchText
 
     const bodyProps = pick(this.props, ['copySuggestion', 'showDiff',
-      'transUnitSelected', 'search', 'searchType'])
+      'phraseSelected', 'search', 'searchType'])
 
     return (
       <aside
@@ -58,13 +58,13 @@ let SuggestionsPanel = React.createClass({
 
 function mapStateToProps (state) {
   const { search, searchType, phraseSearch, textSearch,
-          transUnitSelected } = state.suggestions
+          phraseSelected } = state.suggestions
   var specificSearch = search
 
   // FIXME seeing search = undefined here even though it is in default state
 
   if (searchType === 'phrase') {
-    if (transUnitSelected) {
+    if (phraseSelected) {
       specificSearch = {
         ...search,
         ...phraseSearch
@@ -90,7 +90,8 @@ function mapStateToProps (state) {
   return {
     ...state.suggestions,
     search: specificSearch,
-    showPanel: state.ui.panels.suggestions.visible
+    showPanel: state.ui.panels.suggestions.visible,
+    phraseSelected: state.phrases.selectedPhraseId !== undefined
   }
 }
 

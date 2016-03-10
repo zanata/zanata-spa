@@ -15,7 +15,7 @@ let SuggestionsHeader = React.createClass({
     searchType: PropTypes.oneOf(['phrase', 'text']).isRequired,
     showDiff: PropTypes.bool.isRequired,
     onDiffChange: PropTypes.func.isRequired,
-    transUnitSelected: PropTypes.bool.isRequired,
+    phraseSelected: PropTypes.bool.isRequired,
     closeSuggestions: PropTypes.func.isRequired,
     search: PropTypes.shape({
       text: PropTypes.string,
@@ -41,18 +41,19 @@ let SuggestionsHeader = React.createClass({
    * Need to access refs to focus after the clear is complete
    */
   clearAndFocus: function () {
+    // debugger
     if (this.searchInput) {
+      // FIXME getting stack overflow here
+      // Call stack alternates between this line and a line in searchInput
+      // that calls this.props.clearSearch... just a plain old infinite loop
       this.searchInput.clearSearch()
-      // FIXME this is racing with the Angular component.
-      //       fix by either stopping that component doing any focus,
-      //       or by making all the focus work on here.
       this.searchInput.focusInput()
     }
   },
 
   render: function () {
     const textSearchSelected = this.props.searchType === 'text'
-    const showSearch = textSearchSelected || !this.props.transUnitSelected
+    const showSearch = textSearchSelected || !this.props.phraseSelected
     const searchInput = showSearch
       ? <div className="Editor-suggestionsSearch u-sPB-1-4">
           <SuggestionSearchInput
@@ -61,7 +62,7 @@ let SuggestionsHeader = React.createClass({
             loading={this.props.search.loading}
             hasSearch={this.props.search.searchStrings.length !== 0}
             resultCount={this.props.search.suggestions.length}
-            clearSearch={this.clearAndFocus}
+            clearSearch={this.props.search.clear}
             onTextChange={this.props.search.changeText}/>
         </div>
       : undefined
@@ -98,7 +99,7 @@ let SuggestionsHeader = React.createClass({
                 title="Search suggestions"
                 onClick={this.props.search.toggle}
                 active={showSearch}
-                disabled={!this.props.transUnitSelected}/>
+                disabled={!this.props.phraseSelected}/>
             </li>
             <li>
               <IconButton
