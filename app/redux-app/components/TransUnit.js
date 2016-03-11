@@ -163,6 +163,8 @@ function mapDispatchToProps (dispatch, ownProps) {
       dispatch(toggleDropdown(key))
     },
     toggleSuggestionPanel: () => {
+      // TODO may want to also show phrase suggestions when showing, so may need
+      //      a different action creator for that case.
       dispatch(toggleSuggestions())
     },
     undoEdit: (event) => {
