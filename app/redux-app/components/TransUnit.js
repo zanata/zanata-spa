@@ -106,6 +106,11 @@ function mapStateToProps (state, ownProps) {
   const phrase = ownProps.phrase
   const sourceLocale = state.context.sourceLocale
 
+  // FIXME do not want to show 0 while it is loading, maybe show nothing or show
+  //       that the suggestion search is in progress if phraseSearch.loading
+  const phraseSearch = state.suggestions.searchByPhrase[phrase.id]
+  const suggestionCount = phraseSearch ? phraseSearch.suggestions.length : 0
+
   const passThroughProps = pick(state, [
     'openDropdown'
   ])
@@ -128,8 +133,7 @@ function mapStateToProps (state, ownProps) {
     selected: state.phrases.selectedPhraseId === phrase.id,
     // savingStatusId: phrase.isSaving ? phrase.savingStatusId : undefined,
 
-    // FIXME get from state when suggestions are in there
-    suggestionCount: 0,
+    suggestionCount,
     suggestionSearchType: 'phrase',
     showSuggestions: false,
     toggleSuggestionPanel: () => {

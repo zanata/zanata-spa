@@ -90,17 +90,6 @@ export function suggestionFinishedCopying (index) {
   return { type: SUGGESTION_FINISHED_COPYING, index: index }
 }
 
-// TODO check if this is relevant any more
-export const PHRASE_SUGGESTION_COUNT_UPDATED =
-    Symbol('PHRASE_SUGGESTION_COUNT_UPDATED')
-export function phraseSuggestionCountUpdated (id, count) {
-  return {
-    type: PHRASE_SUGGESTION_COUNT_UPDATED,
-    id: id,
-    count: count
-  }
-}
-
 export const TEXT_SUGGESTIONS_UPDATED = Symbol('TEXT_SUGGESTIONS_UPDATED')
 export function textSuggestionsUpdated ({loading, searchStrings, suggestions}) {
   return {
