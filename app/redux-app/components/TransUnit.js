@@ -14,6 +14,7 @@ import {
   translationTextInputChanged,
   undoEdit
 } from '../actions/phrases'
+import { toggleSuggestions } from '../actions/suggestions'
 
 /**
  * Single row in the editor displaying a whole phrase.
@@ -135,10 +136,7 @@ function mapStateToProps (state, ownProps) {
 
     suggestionCount,
     suggestionSearchType: 'phrase',
-    showSuggestions: false,
-    toggleSuggestionPanel: () => {
-      console.warn('TODO implement toggleSuggestionPanel')
-    }
+    showSuggestions: false
   }
 }
 
@@ -163,6 +161,9 @@ function mapDispatchToProps (dispatch, ownProps) {
     },
     toggleDropdown: (key) => {
       dispatch(toggleDropdown(key))
+    },
+    toggleSuggestionPanel: () => {
+      dispatch(toggleSuggestions())
     },
     undoEdit: (event) => {
       event.stopPropagation()

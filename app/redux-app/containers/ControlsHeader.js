@@ -7,7 +7,6 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {
   toggleHeader,
-  toggleSuggestions,
   toggleKeyboardShortcutsModal
 } from '../actions/headerActions'
 import {
@@ -18,6 +17,7 @@ import {
   previousPage,
   lastPage
 } from '../actions/controlsHeaderActions'
+import { toggleSuggestions } from '../actions/suggestions'
 import { calculateMaxPageIndexFromState } from '../utils/filter-paging-util'
 
 const { bool, func, number, shape } = PropTypes

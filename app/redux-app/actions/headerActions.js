@@ -17,14 +17,6 @@ export function toggleHeader () {
   }
 }
 
-export const TOGGLE_SUGGESTIONS = Symbol('TOGGLE_SUGGESTIONS')
-
-export function toggleSuggestions () {
-  return {
-    type: TOGGLE_SUGGESTIONS
-  }
-}
-
 export const TOGGLE_KEY_SHORTCUTS = Symbol('TOGGLE_KEY_SHORTCUTS')
 export function toggleKeyboardShortcutsModal () {
   return {

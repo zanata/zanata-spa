@@ -1,4 +1,12 @@
 import { getSuggestions } from '../api/suggestions'
+import { debounce } from 'lodash'
+
+export const TOGGLE_SUGGESTIONS = Symbol('TOGGLE_SUGGESTIONS')
+export function toggleSuggestions () {
+  return {
+    type: TOGGLE_SUGGESTIONS
+  }
+}
 
 export const DIFF_SETTING_CHANGED = Symbol('DIFF_SETTING_CHANGED')
 export function diffSettingChanged () {
@@ -9,10 +17,21 @@ export function clearSearch () {
   return changeSearchText('')
 }
 
+/**
+ * Start a text search when the search text stops changing for a quarter-second.
+ *
+ * This must not be nested in the action creator function, otherwise each call
+ * uses a separate debounce copy and it doesn't actually work.
+ */
+const dispatchFindTextSuggestionsWhenInactive = debounce(
+  (dispatch, searchText) => {
+    dispatch(findTextSuggestions(searchText))
+  }, 250)
+
 export function changeSearchText (searchText) {
   return (dispatch, getState) => {
     dispatch(suggestionSearchTextChange(searchText))
-    dispatch(findTextSuggestions(searchText))
+    dispatchFindTextSuggestionsWhenInactive(dispatch, searchText)
   }
 }
 
@@ -91,12 +110,14 @@ export function suggestionFinishedCopying (index) {
 }
 
 export const TEXT_SUGGESTIONS_UPDATED = Symbol('TEXT_SUGGESTIONS_UPDATED')
-export function textSuggestionsUpdated ({loading, searchStrings, suggestions}) {
+export function textSuggestionsUpdated (
+  {loading, searchStrings, suggestions, timestamp}) {
   return {
     type: TEXT_SUGGESTIONS_UPDATED,
-    loading: loading,
-    searchStrings: searchStrings,
-    suggestions: suggestions
+    loading,
+    searchStrings,
+    suggestions,
+    timestamp
   }
 }
 
@@ -106,10 +127,13 @@ export function suggestionSearchTextChange (text) {
   return { type: SUGGESTION_SEARCH_TEXT_CHANGE, text: text }
 }
 
-// TODO change text search to have currentSearch and pendingSearch
+// TODO may want to throttle as well to prevent generating too many concurrent
+//      requests on a slow connection (e.g. 5s latency = 20 requests)
 export function findTextSuggestions (searchText) {
   return (dispatch, getState) => {
     // TODO also dispatch search timestamp to state
+    const timestamp = Date.now()
+
     // TODO stop if this is a repeat of the current search
     // TODO use cached search result if there is a recent one
     //      (alternating 'a' and backspace in textbox would only hit server
@@ -120,31 +144,43 @@ export function findTextSuggestions (searchText) {
       dispatch(textSuggestionsUpdated({
         loading: false,
         searchStrings: [],
-        suggestions: []
+        suggestions: [],
+        timestamp
       }))
       return
     }
 
     const searchStrings = [searchText]
 
+    // dispatching this means that any earlier searches will not display their
+    // results (because their timestamp is older than the one for the loading
+    // search)
     dispatch(textSuggestionsUpdated({
       loading: true,
       searchStrings,
-      suggestions: []
+      suggestions: [],
+      timestamp
     }))
 
     getSuggestions(searchStrings)
       .then(suggestions => {
-        dispatch(textSuggestionsUpdated({
-          loading: false,
-          searchStrings,
-          suggestions
-        }))
-
+        // only dispatch results if there is not a newer searches
+        // (but do dispatch when timestamp is the same, as it is an update of
+        // the current search progress)
+        const currentTimestamp = getState().suggestions.textSearch.timestamp
+        if (timestamp >= currentTimestamp) {
+          dispatch(textSuggestionsUpdated({
+            loading: false,
+            searchStrings,
+            suggestions,
+            timestamp
+          }))
+        }
         // TODO trigger pending search if it exists
       })
       .catch(error => {
         // TODO report error visible to user
+        // TODO set the text search to an error state, which can be displayed
         console.error(error)
       })
   }

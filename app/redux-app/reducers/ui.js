@@ -2,7 +2,6 @@ import {
   CHANGE_UI_LOCALE,
   TOGGLE_HEADER,
   TOGGLE_KEY_SHORTCUTS,
-  TOGGLE_SUGGESTIONS,
   UI_LOCALES_FETCHED
 } from '../actions/headerActions'
 import {
@@ -10,6 +9,9 @@ import {
   UPDATE_STATUS_FILTER
 } from '../actions/controlsHeaderActions'
 import { TOGGLE_DROPDOWN } from '../actions'
+import {
+  TOGGLE_SUGGESTIONS
+} from '../actions/suggestions'
 import {prepareLocales} from '../utils/Util'
 import updateObject from 'react-addons-update'
 

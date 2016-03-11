@@ -15,7 +15,8 @@ const defaultState = {
   textSearch: {
     loading: false,
     searchStrings: [],
-    suggestions: []
+    suggestions: [],
+    timestamp: 0
   },
 
   // searchStrings is just the source text that was used for the lookup
@@ -59,7 +60,8 @@ const suggestions = (state = defaultState, action) => {
       return update({textSearch: {
         loading: {$set: action.loading},
         searchStrings: {$set: action.searchStrings},
-        suggestions: {$set: action.suggestions}
+        suggestions: {$set: action.suggestions},
+        timestamp: {$set: action.timestamp}
       }})
 
     default:
