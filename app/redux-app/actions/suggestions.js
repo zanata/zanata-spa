@@ -237,13 +237,25 @@ export function findPhraseSuggestionsById (phraseId) {
   }
 }
 
+const PHRASE_SEARCH_STALE_AGE_MILLIS = 60000
+
 export function findPhraseSuggestions (phrase) {
   return (dispatch, getState) => {
     const phraseId = phrase.id
     const searchStrings = [...phrase.sources]
     const timestamp = Date.now()
 
-    // TODO return cached results if available and not stale
+    const cachedSearch = getState().suggestions.searchByPhrase[phraseId]
+    if (cachedSearch) {
+      const age = timestamp - cachedSearch.timestamp
+      if (age < PHRASE_SEARCH_STALE_AGE_MILLIS) {
+        // existing result is not stale yet, no need to repeat search yet
+        return
+      }
+    }
+
+    // TODO if this is a repeat search, don't set loading since the old
+    //      results are a good placeholder (probably won't change)
 
     // initial state.
     // TODO only set this stuff if it was empty before
