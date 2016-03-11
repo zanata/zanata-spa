@@ -8,6 +8,26 @@ export function toggleSuggestions () {
   }
 }
 
+/**
+ * Make phrase search visible or hidden.
+ *
+ * If the phrase search panel is shown, it will just hide the suggestions
+ * panel. If suggestions are hidden or showing text search suggestions, the
+ * suggestion panel will be visible and will show phrase suggestions.
+ */
+export function togglePhraseSuggestions () {
+  return (dispatch, getState) => {
+    const panelVisible = getState().ui.panels.suggestions.visible
+    const phraseSearchVisible =
+      panelVisible && getState().suggestions.searchType === 'phrase'
+
+    dispatch(setSuggestionSearchType('phrase'))
+    if (phraseSearchVisible || !panelVisible) {
+      dispatch(toggleSuggestions())
+    }
+  }
+}
+
 export const DIFF_SETTING_CHANGED = Symbol('DIFF_SETTING_CHANGED')
 export function diffSettingChanged () {
   return { type: DIFF_SETTING_CHANGED }

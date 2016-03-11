@@ -14,7 +14,7 @@ import {
   translationTextInputChanged,
   undoEdit
 } from '../actions/phrases'
-import { toggleSuggestions } from '../actions/suggestions'
+import { togglePhraseSuggestions } from '../actions/suggestions'
 
 /**
  * Single row in the editor displaying a whole phrase.
@@ -111,6 +111,8 @@ function mapStateToProps (state, ownProps) {
   //       that the suggestion search is in progress if phraseSearch.loading
   const phraseSearch = state.suggestions.searchByPhrase[phrase.id]
   const suggestionCount = phraseSearch ? phraseSearch.suggestions.length : 0
+  const suggestionSearchType = state.suggestions.searchType
+  const showSuggestions = state.ui.panels.suggestions.visible
 
   const passThroughProps = pick(state, [
     'openDropdown'
@@ -133,10 +135,9 @@ function mapStateToProps (state, ownProps) {
     isFirstPhrase: index === 0,
     selected: state.phrases.selectedPhraseId === phrase.id,
     // savingStatusId: phrase.isSaving ? phrase.savingStatusId : undefined,
-
     suggestionCount,
-    suggestionSearchType: 'phrase',
-    showSuggestions: false
+    suggestionSearchType,
+    showSuggestions
   }
 }
 
@@ -163,9 +164,7 @@ function mapDispatchToProps (dispatch, ownProps) {
       dispatch(toggleDropdown(key))
     },
     toggleSuggestionPanel: () => {
-      // TODO may want to also show phrase suggestions when showing, so may need
-      //      a different action creator for that case.
-      dispatch(toggleSuggestions())
+      dispatch(togglePhraseSuggestions())
     },
     undoEdit: (event) => {
       event.stopPropagation()
