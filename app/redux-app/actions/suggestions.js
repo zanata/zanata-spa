@@ -90,17 +90,6 @@ export function suggestionFinishedCopying (index) {
   return { type: SUGGESTION_FINISHED_COPYING, index: index }
 }
 
-export const PHRASE_SUGGESTIONS_UPDATED = Symbol('PHRASE_SUGGESTIONS_UPDATED')
-export function phraseSuggestionsUpdated (
-    {loading, searchStrings, suggestions}) {
-  return {
-    type: PHRASE_SUGGESTIONS_UPDATED,
-    loading: loading,
-    searchStrings: searchStrings,
-    suggestions: suggestions
-  }
-}
-
 // TODO check if this is relevant any more
 export const PHRASE_SUGGESTION_COUNT_UPDATED =
     Symbol('PHRASE_SUGGESTION_COUNT_UPDATED')
@@ -131,14 +120,24 @@ export function suggestionSearchTextChange (text) {
 // TODO change text search to have currentSearch and pendingSearch
 export function findTextSuggestions (searchText) {
   return (dispatch, getState) => {
-    // const { loading, searchStrings, suggestions, timestamp } =
-    //   getState().suggestions.textSuggestions
+    // TODO also dispatch search timestamp to state
+    // TODO stop if this is a repeat of the current search
+    // TODO use cached search result if there is a recent one
+    //      (alternating 'a' and backspace in textbox would only hit server
+    //       once until the cached result for 'a' is old enough to be stale)
 
-    // TODO check if this is a repeat or cached search
+    // empty search should immediately return no results and no search strings
+    if (!searchText) {
+      dispatch(textSuggestionsUpdated({
+        loading: false,
+        searchStrings: [],
+        suggestions: []
+      }))
+      return
+    }
 
     const searchStrings = [searchText]
 
-    // TODO also dispatch search timestamp to state
     dispatch(textSuggestionsUpdated({
       loading: true,
       searchStrings,
@@ -159,5 +158,84 @@ export function findTextSuggestions (searchText) {
         // TODO report error visible to user
         console.error(error)
       })
+  }
+}
+
+/**
+ * Trigger a phrase search using the detail for the given phrase id.
+ *
+ * When the detail is not available, this will retry evern 0.5 seconds until
+ * the detail is present, and will fail after 20 retries.
+ *
+ * This is needed mainly during document load because phrase selection happens
+ * before the detail is available.
+ */
+export function findPhraseSuggestionsById (phraseId) {
+  return (dispatch, getState) => {
+    waitForPhraseDetail(20)
+
+    function waitForPhraseDetail (times) {
+      const phrase = getState().phrases.detail[phraseId]
+      if (phrase) {
+        dispatch(findPhraseSuggestions(phrase))
+      } else if (times > 0) {
+        // FIXME need a better way than polling to trigger this search as soon
+        //       as the phrase detail is available.
+        setTimeout(() => {
+          waitForPhraseDetail(times - 1)
+        }, 500)
+      } else {
+        console.error('No detail available for phrase search after 20 tries. ' +
+          'phraseId: ' + phraseId)
+      }
+    }
+  }
+}
+
+export function findPhraseSuggestions (phrase) {
+  return (dispatch, getState) => {
+    const phraseId = phrase.id
+    const searchStrings = [...phrase.sources]
+    const timestamp = Date.now()
+
+    // TODO return cached results if available and not stale
+
+    // initial state.
+    // TODO only set this stuff if it was empty before
+    dispatch(phraseSuggestionsUpdated({
+      phraseId,
+      loading: true,
+      searchStrings,
+      suggestions: [],
+      timestamp
+    }))
+
+    getSuggestions(searchStrings)
+      .then(suggestions => {
+        dispatch(phraseSuggestionsUpdated({
+          phraseId,
+          loading: false,
+          searchStrings,
+          suggestions,
+          timestamp
+        }))
+      })
+      .catch(error => {
+        // TODO report error visible to user
+        console.error(error)
+      })
+  }
+}
+
+export const PHRASE_SUGGESTIONS_UPDATED = Symbol('PHRASE_SUGGESTIONS_UPDATED')
+export function phraseSuggestionsUpdated (
+    {phraseId, loading, searchStrings, suggestions, timestamp}) {
+  return {
+    type: PHRASE_SUGGESTIONS_UPDATED,
+    phraseId,
+    loading,
+    searchStrings,
+    suggestions,
+    timestamp
   }
 }

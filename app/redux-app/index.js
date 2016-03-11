@@ -7,6 +7,8 @@ import { Provider } from 'react-redux'
 import { hashHistory, Router, Route } from 'react-router'
 import { syncHistory } from 'redux-simple-router'
 import newContextFetchMiddleware from './middlewares/new-context-fetch'
+import searchSelectedPhraseMiddleware
+  from './middlewares/selected-phrase-suggestion-search'
 import getStateInActions from './middlewares/getstate-in-actions'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
@@ -62,6 +64,7 @@ const reduxRouterMiddleware = syncHistory(history)
 const createStoreWithMiddleware =
   applyMiddleware(
     newContextFetchMiddleware,
+    searchSelectedPhraseMiddleware,
     reduxRouterMiddleware,
     thunk,
     // must run after thunk because it fails with thunks

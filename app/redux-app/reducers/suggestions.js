@@ -2,6 +2,7 @@ import updateObject from 'react-addons-update'
 
 import {
   DIFF_SETTING_CHANGED,
+  PHRASE_SUGGESTIONS_UPDATED,
   SET_SUGGESTION_SEARCH_TYPE,
   SUGGESTION_SEARCH_TEXT_CHANGE,
   TEXT_SUGGESTIONS_UPDATED
@@ -11,16 +12,17 @@ const defaultState = {
   // FIXME should be 'phrase' by default
   searchType: 'phrase',
   showDiff: true,
-  phraseSearch: {
-    loading: false, // service.isLoading(),
-    searchStrings: [], // service.getSearchStrings(),
-    suggestions: [] // suggestionsWithCopy(service.getResults())
-  },
   textSearch: {
-    loading: false, // service.isLoading(),
-    searchStrings: [], // service.getSearchStrings(),
-    suggestions: [] // suggestionsWithCopy(service.getResults())
+    loading: false,
+    searchStrings: [],
+    suggestions: []
   },
+
+  // searchStrings is just the source text that was used for the lookup
+  // usually won't change, but could if new source is uploaded
+  // { phraseId: { loading, searchStrings, suggestions, timestamp } }
+  searchByPhrase: {},
+
   search: {
     input: {
       text: '',
@@ -33,6 +35,19 @@ const suggestions = (state = defaultState, action) => {
   switch (action.type) {
     case DIFF_SETTING_CHANGED:
       return update({showDiff: {$set: !state.showDiff}})
+
+    case PHRASE_SUGGESTIONS_UPDATED:
+      return update({
+        searchByPhrase: {
+          // must $set a new object because the key may not yet be defined
+          [action.phraseId]: {$set: {
+            loading: action.loading,
+            searchStrings: action.searchStrings,
+            suggestions: action.suggestions,
+            timestamp: action.timestamp
+          }}
+        }
+      })
 
     case SET_SUGGESTION_SEARCH_TYPE:
       return update({searchType: {$set: action.searchType}})

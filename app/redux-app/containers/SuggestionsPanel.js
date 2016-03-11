@@ -57,17 +57,29 @@ let SuggestionsPanel = React.createClass({
 })
 
 function mapStateToProps (state) {
-  const { search, searchType, phraseSearch, textSearch,
-          phraseSelected } = state.suggestions
+  const { search, searchType, searchByPhrase, textSearch } = state.suggestions
+  const selectedPhraseId = state.phrases.selectedPhraseId
+  const phraseSelected = !!selectedPhraseId
   var specificSearch = search
 
   // FIXME seeing search = undefined here even though it is in default state
 
   if (searchType === 'phrase') {
     if (phraseSelected) {
-      specificSearch = {
-        ...search,
-        ...phraseSearch
+      const phraseSearch = searchByPhrase[selectedPhraseId]
+      if (phraseSearch) {
+        specificSearch = {
+          ...search,
+          ...phraseSearch
+        }
+      } else {
+        // FIXME make it so I don't need to specify suggestions when loading
+        specificSearch = {
+          ...search,
+          loading: true,
+          searchStrings: [],
+          suggestions: []
+        }
       }
     } else {
       // show no phrase search if no TU (phrase) is selected
