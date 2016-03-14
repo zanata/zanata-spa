@@ -22,6 +22,6 @@ export default store => next => action => {
   const getState = :: store.getState
   return next({
     ...action,
-    getState: getState
+    getState
   })
 }
