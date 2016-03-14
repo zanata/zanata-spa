@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import Textarea from 'react-textarea-autosize'
 import TransUnitTranslationHeader from './TransUnitTranslationHeader'
 import TransUnitTranslationFooter from './TransUnitTranslationFooter'
 import Icon from './Icon'
@@ -100,9 +101,9 @@ let TransUnitTranslationPanel = React.createClass({
               angular-elastic library
               possibly https://github.com/andreypopp/react-textarea-autosize */}
               {/* - check that it does not trim strings
-                - translate "Enter a translation..."
+                  - translate "Enter a translation..."
                 */}
-              <textarea
+              <Textarea
                 ref={(ref) => this.textarea = ref}
                 className="TransUnit-text"
                 rows="1"

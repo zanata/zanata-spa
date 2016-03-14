@@ -183,7 +183,6 @@
   margin: 0;
   padding: calc(var(--TransUnit-rhythm) * .75);
   resize: none;
-  transition: height .1s var(--TransUnit-transition-ease:);
   white-space: pre-wrap;
   word-wrap: break-word;
   tab-size: 8;
