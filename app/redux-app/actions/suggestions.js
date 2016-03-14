@@ -209,8 +209,8 @@ export function findTextSuggestions (searchText) {
 /**
  * Trigger a phrase search using the detail for the given phrase id.
  *
- * When the detail is not available, this will retry evern 0.5 seconds until
- * the detail is present, and will fail after 20 retries.
+ * When the detail is not available, this will retry every 0.5 seconds until
+ * the detail object is present, and will fail after 20 retries.
  *
  * This is needed mainly during document load because phrase selection happens
  * before the detail is available.
@@ -245,27 +245,26 @@ export function findPhraseSuggestions (phrase) {
     const searchStrings = [...phrase.sources]
     const timestamp = Date.now()
 
+    // if there are recent results, just leave them as-is and skip this search
     const cachedSearch = getState().suggestions.searchByPhrase[phraseId]
     if (cachedSearch) {
       const age = timestamp - cachedSearch.timestamp
       if (age < PHRASE_SEARCH_STALE_AGE_MILLIS) {
-        // existing result is not stale yet, no need to repeat search yet
         return
       }
     }
 
-    // TODO if this is a repeat search, don't set loading since the old
-    //      results are a good placeholder (probably won't change)
-
-    // initial state.
-    // TODO only set this stuff if it was empty before
-    dispatch(phraseSuggestionsUpdated({
-      phraseId,
-      loading: true,
-      searchStrings,
-      suggestions: [],
-      timestamp
-    }))
+    // set loading state, but only when there are no existing results
+    // (stale results are very likely accurate, so leave them as a placeholder)
+    if (!cachedSearch) {
+      dispatch(phraseSuggestionsUpdated({
+        phraseId,
+        loading: true,
+        searchStrings,
+        suggestions: [],
+        timestamp
+      }))
+    }
 
     getSuggestions(searchStrings)
       .then(suggestions => {
