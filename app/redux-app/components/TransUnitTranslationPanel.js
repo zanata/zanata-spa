@@ -104,7 +104,6 @@ let TransUnitTranslationPanel = React.createClass({
                 */}
               <textarea
                 ref={(ref) => this.textarea = ref}
-                style={{border: '1px solid purple'}}
                 className="TransUnit-text"
                 rows="1"
                 value={translation}
