@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import React, { PropTypes } from 'react'
 import Icon from '../components/Icon'
 import TransUnit from '../components/TransUnit'
@@ -13,7 +14,7 @@ import { getCurrentPagePhrasesFromState } from '../utils/filter-paging-util'
 const MainContent = React.createClass({
 
   propTypes: {
-    // from editorContent.phrases
+    maximised: PropTypes.bool.isRequired,
     phrases: PropTypes.arrayOf(PropTypes.object).isRequired
   },
 
@@ -45,20 +46,28 @@ const MainContent = React.createClass({
       )
     })
 
+    const className = cx('Editor-content TransUnit-container',
+      { 'is-maximised': this.props.maximised })
+
     // TODO scrollbar width container+child were not brought over
     //      from the angular code yet.
+
+    // Note: moved <ShortcutEnabledComponent> deeper in the hierarchy,
+    //       make sure it still works that way
+    // <main> is a top-level layout component, so it is not ok to wrap a div
+    // around it as ShortcutEnabledComponent does.
     return (
-        <ShortcutEnabledComponent>
       <main role="main"
         id="editor-content"
-        className="Editor-content TransUnit-container">
+        className={className}>
         <div className="Editor-translationsWrapper">
-          <ul className="Editor-translations">
-            {transUnits}
-          </ul>
+          <ShortcutEnabledComponent>
+            <ul className="Editor-translations">
+              {transUnits}
+            </ul>
+          </ShortcutEnabledComponent>
         </div>
       </main>
-        </ShortcutEnabledComponent>
     )
   }
 })
@@ -69,8 +78,13 @@ function mapStateToProps (state, ownProps) {
     const detail = state.phrases.detail[phrase.id]
     return detail || phrase
   })
+  const maximised = !state.ui.panels.navHeader.visible
+
+  // FIXME adjust bottom of panel based on pixel size of suggestions panel
+  // will probably also need state.ui.panels.suggestions.visible
 
   return {
+    maximised,
     context: state.context,
     phrases: detailPhrases
   }
