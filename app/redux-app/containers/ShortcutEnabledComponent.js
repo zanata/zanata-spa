@@ -4,6 +4,7 @@ import {SHORTCUTS} from '../actions/editorShortcuts'
 
 import React from 'react'
 import { connect } from 'react-redux'
+// TODO import individual lodash functions that are used
 import _ from 'lodash'
 
 /**
@@ -22,6 +23,8 @@ const enableKeysFor = (combokeys, keyConfig, handler) => {
     throw Error('keyConfig does not contain a "keys" value that is an array')
   }
 
+  // TODO probably the same if undefined eventType is just passed in
+  //      (conditional not needed)
   if (eventType) {
     combokeys.bindGlobal(keys, handler, eventType)
   } else {
@@ -44,9 +47,10 @@ const deleteKeys = (combokeys, keyConfig) => {
 const sequenceKeyTimeout = 1000
 
 /**
+ * FIXME this looks like the wrong docs.
  * Header for navigation and control of the editor
  */
-let ShortcutEnabledComponent = React.createClass({
+const ShortcutEnabledComponent = React.createClass({
   comboKeys: undefined,
 
   sequenceHandler (triggerKeyHandler, sequenceKeys, event) {
@@ -78,6 +82,7 @@ let ShortcutEnabledComponent = React.createClass({
         }
       })
     } else {
+      // FIXME use a real error message
       console.error('==========WRONG')
     }
   },
@@ -93,12 +98,13 @@ let ShortcutEnabledComponent = React.createClass({
     // once mounted.
     return (
       <div tabIndex="0" ref={(c) => this._shortcutContainer = c}>
-        {this.props.children}}
+        {this.props.children}
       </div>
     )
   }
 })
 
+// FIXME this takes the entire state but the component only uses a single part
 const mapStateToProps = (state) => {
   return state
 }

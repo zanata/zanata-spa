@@ -8,7 +8,7 @@ import { pick } from 'lodash'
 /**
  * Panel to display and edit transaltions of a phrase.
  */
-let TransUnitTranslationPanel = React.createClass({
+const TransUnitTranslationPanel = React.createClass({
 
   propTypes: {
     selected: PropTypes.bool.isRequired,
@@ -97,16 +97,12 @@ let TransUnitTranslationPanel = React.createClass({
           return (
             <div className="TransUnit-item" key={index}>
               {itemHeader}
-            {/* TODO replace functionality of monospaced-elastic from
-              angular-elastic library
-              possibly https://github.com/andreypopp/react-textarea-autosize */}
-              {/* - check that it does not trim strings
-                  - translate "Enter a translation..."
-                */}
+              {/* TODO check that this does not trim strings */}
+              {/* TODO translate "Enter a translation..." */}
               <Textarea
                 ref={(ref) => this.textarea = ref}
                 className="TransUnit-text"
-                rows="1"
+                rows={1}
                 value={translation}
                 placeholder="Enter a translation…"
                 onChange={onChange}/>
