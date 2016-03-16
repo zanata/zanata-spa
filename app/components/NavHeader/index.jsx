@@ -1,6 +1,6 @@
 import DashboardLink from 'DashboardLink'
 import DocsDropdown from 'DocsDropdown'
-import Icon from 'Icon'
+import Icon from '../Icon'
 import LanguagesDropdown from 'LanguagesDropdown'
 import ProjectVersionLink from 'ProjectVersionLink'
 import UiLanguageDropdown from 'UiLanguageDropdown'

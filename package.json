@@ -18,7 +18,8 @@
     "build": "make build",
     "test": "babel-tape-runner \"test/**/*.jsx\" | faucet",
     "test-raw": "babel-tape-runner \"test/**/*.jsx\"",
-    "fakewatch": "make fakewatch"
+    "fakewatch": "make fakewatch",
+    "unused": "depcheck"
   },
   "repository": {
     "type": "git",
