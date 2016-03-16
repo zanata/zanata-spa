@@ -91,26 +91,44 @@ export function copySuggestionN (index) {
   //           they should mainly handle merging data
 
   return (dispatch, getState) => {
-    const { phraseSearch, searchType, textSearch } = getState().suggestions
+    const { searchType } = getState().suggestions
+    const { selectedPhraseId } = getState().phrases
     const panelVisible = getState().ui.panels.suggestions.visible
-    // TODO reusable function to get the current suggestions from state
-    //      use here and in component that chooses
 
-    const textSuggestions = panelVisible && searchType === 'text'
-    const suggestions = textSuggestions
-      ? textSearch.suggestions : phraseSearch.suggestions
+    const isTextSuggestions = panelVisible && searchType === 'text'
 
+    if (isTextSuggestions) {
+      dispatch(copyTextSuggestionN(index))
+    } else {
+      dispatch(copyPhraseSuggestionN(selectedPhraseId, index))
+    }
+  }
+}
+
+function copyTextSuggestionN (index) {
+  return (dispatch, getState) => {
+    const { suggestions } = getState().suggestions.textSearch
     if (suggestions && index < suggestions.length) {
-      dispatch(suggestionStartedCopying(index))
+      dispatch(textSuggestionStartedCopying(index))
       dispatch(copySuggestion(suggestions[index]))
       setTimeout(
-        () => dispatch(suggestionFinishedCopying(index)),
+        () => dispatch(textSuggestionFinishedCopying(index)),
         500)
-      suggestions[index]
     }
+  }
+}
 
-    // if suggestions hidden, copy suggestion at index for selected phrase
-    // else copy text or phrase suggestions depending what is visible
+function copyPhraseSuggestionN (phraseId, index) {
+  return (dispatch, getState) => {
+    const { searchByPhrase } = getState().suggestions
+    const { suggestions } = searchByPhrase[phraseId]
+    if (suggestions && index < suggestions.length) {
+      dispatch(phraseSuggestionStartedCopying(phraseId, index))
+      dispatch(copySuggestion(suggestions[index]))
+      setTimeout(
+        () => dispatch(phraseSuggestionFinishedCopying(phraseId, index)),
+        500)
+    }
   }
 }
 
@@ -119,14 +137,28 @@ function copySuggestion (suggestion) {
   return { type: COPY_SUGGESTION, suggestion }
 }
 
-export const SUGGESTION_STARTED_COPYING = Symbol('SUGGESTION_STARTED_COPYING')
-export function suggestionStartedCopying (index) {
-  return { type: SUGGESTION_STARTED_COPYING, index: index }
+export const TEXT_SUGGESTION_STARTED_COPYING =
+  Symbol('TEXT_SUGGESTION_STARTED_COPYING')
+function textSuggestionStartedCopying (index) {
+  return { type: TEXT_SUGGESTION_STARTED_COPYING, index }
 }
 
-export const SUGGESTION_FINISHED_COPYING = Symbol('SUGGESTION_FINISHED_COPYING')
-export function suggestionFinishedCopying (index) {
-  return { type: SUGGESTION_FINISHED_COPYING, index: index }
+export const TEXT_SUGGESTION_FINISHED_COPYING =
+  Symbol('TEXT_SUGGESTION_FINISHED_COPYING')
+function textSuggestionFinishedCopying (index) {
+  return { type: TEXT_SUGGESTION_FINISHED_COPYING, index }
+}
+
+export const PHRASE_SUGGESTION_STARTED_COPYING =
+  Symbol('PHRASE_SUGGESTION_STARTED_COPYING')
+function phraseSuggestionStartedCopying (phraseId, index) {
+  return { type: PHRASE_SUGGESTION_STARTED_COPYING, phraseId, index }
+}
+
+export const PHRASE_SUGGESTION_FINISHED_COPYING =
+  Symbol('PHRASE_SUGGESTION_FINISHED_COPYING')
+function phraseSuggestionFinishedCopying (phraseId, index) {
+  return { type: PHRASE_SUGGESTION_FINISHED_COPYING, phraseId, index }
 }
 
 export const TEXT_SUGGESTIONS_UPDATED = Symbol('TEXT_SUGGESTIONS_UPDATED')

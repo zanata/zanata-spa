@@ -39,7 +39,7 @@ const SuggestionTranslationDetails = React.createClass({
 
   render: function () {
     const suggestion = this.props.suggestion
-    const label = suggestion.copying ? 'Copying' : 'Copy Translation'
+    const label = suggestion.copying ? 'Copied' : 'Copy Translation'
     const matchType = suggestion.matchType
     const user = this.user(suggestion)
     // TODO convert these to Date in the api module instead
