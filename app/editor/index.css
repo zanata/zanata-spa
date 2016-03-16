@@ -51,7 +51,7 @@
   top: calc(var(--Editor-rhythm) * 3.75);
   bottom: 0;
   overflow: auto;
-  overflow-y: scroll;
+  overflow-x: hidden;
   width: 100%;
   -webkit-overlow-scrolling: touch;
 }
