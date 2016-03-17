@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import IconButton from './IconButton'
 import TransUnitLocaleHeading from './TransUnitLocaleHeading'
-import { hasTranslationChanged } from '../../util/zanata-tools/phrase'
+import { hasTranslationChanged } from '../utils/phrase'
 
 /**
  * Heading that displays locale name and ID

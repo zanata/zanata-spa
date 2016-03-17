@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import IconButton from './IconButton'
 import TransUnitLocaleHeading from './TransUnitLocaleHeading'
 import {
-  hasTranslationChanged } from '../../util/zanata-tools/phrase'
+  hasTranslationChanged } from '../utils/phrase'
 
 /**
  * Header for the source of the selected phrase

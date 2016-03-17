@@ -1,5 +1,4 @@
-import {getStatusInfo} from './TransStatusService'
-import _ from 'lodash'
+import { compact, every, isEmpty } from 'lodash'
 
 const nullToEmpty = (value) => {
   return value || ''
@@ -7,11 +6,11 @@ const nullToEmpty = (value) => {
 
 export function getSaveButtonStatus (phrase) {
   if (hasNoTranslation(phrase)) {
-    return getStatusInfo('untranslated')
+    return 'untranslated'
   } else if (hasEmptyTranslation(phrase)) {
-    return getStatusInfo('needswork')
+    return 'needswork'
   } else if (hasTranslationChanged(phrase)) {
-    return getStatusInfo('translated')
+    return 'translated'
   } else {
     return phrase.status
   }
@@ -20,7 +19,7 @@ export function getSaveButtonStatus (phrase) {
 export function hasTranslationChanged (phrase) {
   // on Firefox with input method turned on,
   // when hitting tab it seems to turn undefined value into ''
-  var allSame = _.every(phrase.translations,
+  var allSame = every(phrase.translations,
       function (translation, index) {
         return nullToEmpty(translation) ===
             nullToEmpty(phrase.newTranslations[index])
@@ -29,10 +28,10 @@ export function hasTranslationChanged (phrase) {
 }
 
 export function hasNoTranslation (phrase) {
-  return _.isEmpty(_.compact(phrase.newTranslations))
+  return isEmpty(compact(phrase.newTranslations))
 }
 
 export function hasEmptyTranslation (phrase) {
-  return _.compact(phrase.newTranslations).length !==
+  return compact(phrase.newTranslations).length !==
       phrase.newTranslations.length
 }

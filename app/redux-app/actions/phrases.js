@@ -204,6 +204,7 @@ export function translationTextInputChanged (id, index, text) {
   }
 }
 
+// TODO check if this type label is ever actually used
 export const SAVE_PHRASE_WITH_STATUS = Symbol('SAVE_PHRASE_WITH_STATUS')
 export function savePhraseWithStatus (phrase, status) {
   return (dispatch, getState) => {

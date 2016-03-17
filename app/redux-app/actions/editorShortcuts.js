@@ -1,4 +1,4 @@
-import {getSaveButtonStatus, hasTranslationChanged} from '../utils/PhraseUtil'
+import { getSaveButtonStatus, hasTranslationChanged } from '../utils/phrase'
 import _ from 'lodash'
 import {copyFromSource,
     undoEdit,
@@ -90,7 +90,7 @@ const saveAsCurrentButtonOptionCallback = (event) => {
   return (dispatch, getState) => {
     const selectedPhraseId = getState().phrases.selectedPhraseId
     const phrase = getState().phrases.detail[selectedPhraseId]
-    const status = getSaveButtonStatus(phrase).ID
+    const status = getSaveButtonStatus(phrase)
     if (selectedPhraseId) {
       event.preventDefault()
       dispatch(savePhraseWithStatus(phrase, status))

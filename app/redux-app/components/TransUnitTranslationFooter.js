@@ -3,10 +3,8 @@ import cx from 'classnames'
 import Button from './Button'
 import SplitDropdown from './SplitDropdown'
 import Icon from './Icon'
-import {
-  defaultSaveStatus,
-  hasTranslationChanged,
-  nonDefaultValidSaveStatuses } from '../../util/zanata-tools/phrase'
+import { defaultSaveStatus, nonDefaultValidSaveStatuses } from '../utils/status'
+import { hasTranslationChanged } from '../utils/phrase'
 
 /**
  * Footer for translation with save buttons and other action widgets.
@@ -58,14 +56,26 @@ const TransUnitTranslationFooter = React.createClass({
   },
 
   render: function () {
-    const dropdownIsOpen =
-      this.props.openDropdown === this.props.saveDropdownKey
-    const translationHasChanged = hasTranslationChanged(this.props.phrase)
+    const { openDropdown, phrase, saveDropdownKey, savePhraseWithStatus,
+      showSuggestions, suggestionCount, suggestionSearchType, toggleDropdown,
+      toggleSuggestionPanel } = this.props
+
+    const dropdownIsOpen = openDropdown === saveDropdownKey
+    const translationHasChanged = hasTranslationChanged(phrase)
+    const isSaving = !!phrase.inProgressSave
+    const selectedButtonStatus =
+      isSaving ? phrase.inProgressSave.status : defaultSaveStatus(phrase)
+    // TODO translate "Saving..."
+    const selectedButtonTitle =
+      isSaving ? 'Saving...' : this.statusNames[selectedButtonStatus]
+    const saveCallback = isSaving ? undefined : (event) => {
+      savePhraseWithStatus(phrase, selectedButtonStatus, event)
+    }
 
     var suggestionsIcon
-    if (this.props.suggestionCount > 0) {
-      const isPhraseSearchActive = this.props.showSuggestions &&
-        this.props.suggestionSearchType === 'phrase'
+    if (suggestionCount > 0) {
+      const isPhraseSearchActive = showSuggestions &&
+        suggestionSearchType === 'phrase'
       const iconClasses = cx('Button Button--snug Button--invisible u-roundish',
        { 'is-active': isPhraseSearchActive })
 
@@ -74,10 +84,10 @@ const TransUnitTranslationFooter = React.createClass({
           <Button
             className={iconClasses}
             title="Suggestions available"
-            onClick={this.props.toggleSuggestionPanel}>
+            onClick={toggleSuggestionPanel}>
             <Icon name="suggestions"/>
             <span className="u-textMini">
-              {this.props.suggestionCount}
+              {suggestionCount}
             </span>
           </Button>
         </li>
@@ -92,23 +102,18 @@ const TransUnitTranslationFooter = React.createClass({
         </span>
       : undefined
 
-    const status = defaultSaveStatus(this.props.phrase)
-
-    const saveCallback = (event) => {
-      this.props.savePhraseWithStatus(this.props.phrase, status, event)
-    }
     const actionButton = (
         <Button
           className={cx('Button u-sizeHeight-1_1-4 u-textCapitalize',
-                        this.buttonClassByStatus[status])}
-          disabled={!translationHasChanged}
-          title={this.statusNames[status]}
+                        this.buttonClassByStatus[selectedButtonStatus])}
+          disabled={isSaving || !translationHasChanged}
+          title={selectedButtonTitle}
           onClick={saveCallback}>
-          {this.statusNames[status]}
+          {selectedButtonTitle}
         </Button>
     )
 
-    const otherStatuses = nonDefaultValidSaveStatuses(this.props.phrase)
+    const otherStatuses = nonDefaultValidSaveStatuses(phrase)
     const otherActionButtons = otherStatuses.map((status, index) => {
       return (
         <li key={index}>
@@ -121,7 +126,7 @@ const TransUnitTranslationFooter = React.createClass({
       ? <Button
           className={cx('Button Button--snug u-sizeHeight-1_1-4',
                         'Dropdown-toggle',
-                        this.buttonClassByStatus[status])}
+                        this.buttonClassByStatus[selectedButtonStatus])}
           title="Save as…">
           <Icon name="chevron-down"
                 title="Save as…"
@@ -157,8 +162,8 @@ const TransUnitTranslationFooter = React.createClass({
         <div className="u-floatRight">
           {saveAsLabel}
           <SplitDropdown
-            onToggle={this.props.toggleDropdown.bind(undefined,
-                        this.props.saveDropdownKey)}
+            onToggle={toggleDropdown.bind(undefined,
+                        saveDropdownKey)}
             isOpen={dropdownIsOpen}
             actionButton={actionButton}
             toggleButton={dropdownToggleButton}

@@ -1,5 +1,5 @@
 import { values } from 'lodash'
-import { encode } from '../../util/zanata-tools/doc-id'
+import { encode } from '../utils/doc-id'
 import Dropdown from './Dropdown'
 import Icon from './Icon'
 import React, { PropTypes } from 'react'
