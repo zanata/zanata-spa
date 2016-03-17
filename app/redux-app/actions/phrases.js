@@ -184,12 +184,25 @@ export function undoEdit () {
   }
 }
 
+/**
+ * Set the selected phrase to the given ID.
+ * Only one phrase is selected at a time.
+ */
 export const SELECT_PHRASE = Symbol('SELECT_PHRASE')
-export function selectPhrase (id) {
-  return {
-    type: SELECT_PHRASE,
-    phraseId: id
-  }
+export function selectPhrase (phraseId) {
+  return { type: SELECT_PHRASE, phraseId }
+}
+
+/**
+ * Select a phrase and set which of its plurals is selected.
+ * The selected plural index should persist even when the phrase loses focus
+ * and gains it back again (unless it gains focus from a different plural form
+ * being specifically targeted).
+ */
+export const SELECT_PHRASE_SPECIFIC_PLURAL =
+  Symbol('SELECT_PHRASE_SPECIFIC_PLURAL')
+export function selectPhrasePluralIndex (phraseId, index) {
+  return { type: SELECT_PHRASE_SPECIFIC_PLURAL, phraseId, index }
 }
 
 // User has typed/pasted/etc. text for a translation (not saved yet)

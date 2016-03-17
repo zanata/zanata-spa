@@ -10,6 +10,7 @@ import {
   COPY_FROM_SOURCE,
   PHRASE_LIST_FETCHED,
   PHRASE_DETAIL_FETCHED,
+  SELECT_PHRASE_SPECIFIC_PLURAL,
   QUEUE_SAVE,
   SAVE_FINISHED,
   SAVE_INITIATED,
@@ -115,6 +116,15 @@ const phraseReducer = (state = defaultState, action) => {
 
     case SELECT_PHRASE:
       return update({
+        selectedPhraseId: {$set: action.phraseId}
+      })
+
+    case SELECT_PHRASE_SPECIFIC_PLURAL:
+      // TODO do in a single step to make it more efficient
+      const withNewPluralIndex = updatePhrase(action.phraseId, {
+        selectedPluralIndex: {$set: action.index}
+      })
+      return updateObject(withNewPluralIndex, {
         selectedPhraseId: {$set: action.phraseId}
       })
 

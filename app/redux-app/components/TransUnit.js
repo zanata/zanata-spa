@@ -11,6 +11,7 @@ import {
   copyFromSource,
   savePhraseWithStatus,
   selectPhrase,
+  selectPhrasePluralIndex,
   translationTextInputChanged,
   undoEdit
 } from '../actions/phrases'
@@ -79,6 +80,7 @@ const TransUnit = React.createClass({
       'phrase',
       'savePhraseWithStatus',
       'selected',
+      'selectPhrasePluralIndex',
       'showSuggestions',
       'suggestionCount',
       'suggestionSearchType',
@@ -155,6 +157,9 @@ function mapDispatchToProps (dispatch, ownProps) {
     },
     selectPhrase: () => {
       dispatch(selectPhrase(ownProps.phrase.id))
+    },
+    selectPhrasePluralIndex: (phraseId, index) => {
+      dispatch(selectPhrasePluralIndex(phraseId, index))
     },
     textChanged: (id, index, event) => {
       const text = event.target.value

@@ -22,6 +22,7 @@ const TransUnitTranslationPanel = React.createClass({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
     }).isRequired,
+    selectPhrasePluralIndex: PropTypes.func.isRequired,
     suggestionCount: PropTypes.number.isRequired,
     showSuggestions: PropTypes.bool.isRequired,
     toggleSuggestionPanel: PropTypes.func.isRequired,
@@ -36,10 +37,11 @@ const TransUnitTranslationPanel = React.createClass({
   },
 
   render: function () {
+    const { phrase, selected } = this.props
     var header, footer
     const isPlural = this.props.phrase.plural
 
-    if (this.props.selected) {
+    if (selected) {
       const headerProps = pick(this.props, [
         'cancelEdit',
         'phrase',
@@ -63,7 +65,8 @@ const TransUnitTranslationPanel = React.createClass({
     }
 
     // TODO use dedicated phrase.isLoading variable when available
-    const isLoading = !this.props.phrase.newTranslations
+    const isLoading = !phrase.newTranslations
+    const selectedPluralIndex = phrase.selectedPluralIndex || 0
 
     let translations
 
@@ -72,8 +75,8 @@ const TransUnitTranslationPanel = React.createClass({
                        <Icon name="loader"/>
                      </span>
     } else {
-      const newTranslations = this.props.phrase.newTranslations
-      ? this.props.phrase.newTranslations
+      const newTranslations = phrase.newTranslations
+      ? phrase.newTranslations
       : ['Loading...']
 
       translations = newTranslations.map(
@@ -83,16 +86,24 @@ const TransUnitTranslationPanel = React.createClass({
            ? 'Singular Form'
            : 'Plural Form'
 
+          const highlightHeader = selected && index === selectedPluralIndex
+          const headerClass = highlightHeader
+            ? 'u-textMini u-textPrimary'
+            : 'u-textMeta'
+
           const itemHeader = isPlural
           ? <div className="TransUnit-itemHeader">
-              <span className="u-textMeta">
+              <span className={headerClass}>
                 {headerLabel}
               </span>
             </div>
           : undefined
 
           const onChange = this.props.textChanged
-            .bind(undefined, this.props.phrase.id, index)
+            .bind(undefined, phrase.id, index)
+
+          const setFocusedPlural = this.props.selectPhrasePluralIndex
+            .bind(undefined, phrase.id, index)
 
           return (
             <div className="TransUnit-item" key={index}>
@@ -105,6 +116,7 @@ const TransUnitTranslationPanel = React.createClass({
                 rows={1}
                 value={translation}
                 placeholder="Enter a translation…"
+                onFocus={setFocusedPlural}
                 onChange={onChange}/>
             </div>
           )
