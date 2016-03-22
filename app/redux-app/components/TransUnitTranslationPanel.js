@@ -29,10 +29,42 @@ const TransUnitTranslationPanel = React.createClass({
     suggestionSearchType: PropTypes.oneOf(['phrase', 'text']).isRequired
   },
 
-  componentDidUpdate () {
-    if (this.textarea && this.props.selected) {
-      // FIXME replace focus-on-select without stealing suggestion search focus.
-      // this.textarea.focus()
+  componentWillMount () {
+    // will be set by refs, initialize here to avoid need for null checks
+    this.textareas = []
+    // indicates when a textarea should be focused but was not rendered yet
+    // so should focus as soon as the rendered textarea is available
+    this.shouldFocus = false
+  },
+
+  componentDidMount () {
+    const { selected, phrase } = this.props
+    if (selected) {
+      // this is the selected row, focus if the textarea is available
+      // (should be available but in practice the ref is not set until later)
+      const selectedIndex = phrase.selectedPluralIndex || 0
+      const textarea = this.textareas[selectedIndex]
+      if (textarea) {
+        textarea.focus()
+      } else {
+        this.shouldFocus = true
+      }
+    }
+  },
+
+  componentDidUpdate (prevProps) {
+    const becameSelected = this.props.selected && !prevProps.selected
+
+    if (becameSelected || this.shouldFocus) {
+      const selectedIndex = this.props.phrase.selectedPluralIndex || 0
+      const textarea = this.textareas[selectedIndex]
+
+      if (textarea) {
+        textarea.focus()
+        this.shouldFocus = false
+      } else {
+        this.shouldFocus = true
+      }
     }
   },
 
@@ -111,7 +143,7 @@ const TransUnitTranslationPanel = React.createClass({
               {/* TODO check that this does not trim strings */}
               {/* TODO translate "Enter a translation..." */}
               <Textarea
-                ref={(ref) => this.textarea = ref}
+                ref={(ref) => this.textareas[index] = ref}
                 className="TransUnit-text"
                 rows={1}
                 value={translation}
