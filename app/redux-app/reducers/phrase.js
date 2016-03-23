@@ -246,16 +246,15 @@ function revertEnteredTranslationsToDefault (phraseDetails) {
 }
 
 function copyFromSource (phrase, sourceIndex) {
-  // FIXME this data must be added to state, this will only
-  //       ever copy to first until it is
-  const focusedTranslationIndex = 0
+  const { selectedPluralIndex, sources } = phrase
+  const focusedTranslationIndex = selectedPluralIndex || 0
 
   // FIXME use clamp from lodash (when lodash >= 4.0)
   const sourceIndexToCopy =
-    sourceIndex < phrase.sources.length
+    sourceIndex < sources.length
       ? sourceIndex
-      : phrase.sources.length - 1
-  const sourceToCopy = phrase.sources[sourceIndexToCopy]
+      : sources.length - 1
+  const sourceToCopy = sources[sourceIndexToCopy]
 
   return updateObject(phrase, {
     newTranslations: {
