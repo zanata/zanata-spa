@@ -149,8 +149,8 @@ function mapDispatchToProps (dispatch, ownProps) {
       event.stopPropagation()
       dispatch(cancelEdit())
     },
-    copyFromSource: () => {
-      dispatch(copyFromSource(ownProps.phrase.id))
+    copyFromSource: (sourceIndex) => {
+      dispatch(copyFromSource(ownProps.phrase.id, sourceIndex))
     },
     savePhraseWithStatus: (phrase, status) => {
       dispatch(savePhraseWithStatus(phrase, status))

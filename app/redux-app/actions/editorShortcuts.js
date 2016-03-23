@@ -26,6 +26,7 @@ export const copyFromSourceAction = (event) => {
     const selectedPhraseId = getState().phrases.selectedPhraseId
     if (selectedPhraseId) {
       event.preventDefault()
+      // FIXME needs source index for which source to copy from
       dispatch(copyFromSource(selectedPhraseId))
     }
   }
