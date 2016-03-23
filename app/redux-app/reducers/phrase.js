@@ -67,7 +67,13 @@ const phraseReducer = (state = defaultState, action) => {
     case COPY_FROM_SOURCE:
       const { phraseId, sourceIndex } = action
       return updatePhrase(phraseId, {$apply: (phrase) => {
-        return copyFromSource(phrase, sourceIndex)
+        // increment focus id to allow component to only focus once per
+        // focus request
+        const focusId = (phrase.shouldGainFocus || 0) + 1
+        const phraseWithFocusInstruction = updateObject(phrase, {
+          shouldGainFocus: {$set: focusId}
+        })
+        return copyFromSource(phraseWithFocusInstruction, sourceIndex)
       }})
 
     case COPY_SUGGESTION:

@@ -53,10 +53,16 @@ const TransUnitTranslationPanel = React.createClass({
   },
 
   componentDidUpdate (prevProps) {
+    const { phrase } = this.props
     const becameSelected = this.props.selected && !prevProps.selected
+    // protective check to prevent repeatedly gaining focus
+    // phrase.shouldGainFocus has a different truthy value if it has been set
+    // again
+    const shouldGainFocus = phrase.shouldGainFocus &&
+      phrase.shouldGainFocus !== prevProps.phrase.shouldGainFocus
 
-    if (becameSelected || this.shouldFocus) {
-      const selectedIndex = this.props.phrase.selectedPluralIndex || 0
+    if (becameSelected || shouldGainFocus || this.shouldFocus) {
+      const selectedIndex = phrase.selectedPluralIndex || 0
       const textarea = this.textareas[selectedIndex]
 
       if (textarea) {
