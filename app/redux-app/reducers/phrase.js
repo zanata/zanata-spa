@@ -22,8 +22,7 @@ import {
   COPY_SUGGESTION
 } from '../actions/suggestions'
 import { calculateMaxPageIndexFromState } from '../utils/filter-paging-util'
-import { assign, last, mapValues, take } from 'lodash'
-
+import { mapValues } from 'lodash'
 import {MOVE_NEXT, MOVE_PREVIOUS} from '../actions/phraseNavigation'
 
 const defaultState = {
@@ -272,52 +271,24 @@ function copyFromSource (phrase, sourceIndex) {
 }
 
 function copyFromSuggestion (phrase, suggestion) {
-  // TODO this should use newTranslations
-
+  const { selectedPluralIndex, shouldGainFocus } = phrase
   var targets = suggestion.targetContents
-  const copyAsPlurals = phrase.plural && targets.length > 1
 
-  if (copyAsPlurals) {
-    const pluralCount = phrase.translations.length
-    if (targets.length > pluralCount) {
-      targets = take(targets, pluralCount)
+  // TODO ensure selectedPluralIndex is always set (in phrase reducer),
+  //      so the default of 0 is only sepecified in one place.
+  const focusedTranslationIndex = selectedPluralIndex || 0
+  const targetIndexToCopy = focusedTranslationIndex < targets.length
+    ? focusedTranslationIndex : targets.length - 1
+
+  const focusId = (shouldGainFocus || 0) + 1
+  return updateObject(phrase, {
+    shouldGainFocus: {$set: focusId},
+    newTranslations: {
+      // $splice represents an array of calls to Array.prototype.splice
+      // with an array of params for each call
+      $splice: [[focusedTranslationIndex, 1, targets[targetIndexToCopy]]]
     }
-    if (targets.length < pluralCount) {
-      // pad suggestions with last suggestion
-      const lastSuggestion = last(targets)
-      // pad suggestions up to correct length using last suggestion,
-      // but don't overwrite higher plural forms
-      targets = assign(phrase.newTranslations.slice(), targets,
-        function (current, suggested) {
-          if (suggested) return suggested
-          if (current) return current
-          return lastSuggestion
-        })
-    }
-    // just replace, since adjustment is already done for lengths
-    return updateObject(phrase, {
-      newTranslations: {$set: targets}
-    })
-  } else {
-    // FIXME use real focused index
-    const focusedTranslationIndex = 0
-    return updateObject(phrase, {
-      newTranslations: {
-        // $splice represents an array of calls to Array.prototype.splice
-        // with an array of params for each call
-        $splice: [[focusedTranslationIndex, 1, targets[0]]]
-      }
-    })
-  }
-
-  // TODO look up how the actual copy is done with plural forms
-
-  // return updateObject(phrase, {
-  //   newTranslations: {
-  //     // TODO splice like in copyFromSource
-  //   }
-  // })
-  return phrase
+  })
 }
 
 export default phraseReducer
