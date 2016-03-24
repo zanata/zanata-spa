@@ -66,13 +66,7 @@ const phraseReducer = (state = defaultState, action) => {
     case COPY_FROM_SOURCE:
       const { phraseId, sourceIndex } = action
       return updatePhrase(phraseId, {$apply: (phrase) => {
-        // increment focus id to allow component to only focus once per
-        // focus request
-        const focusId = (phrase.shouldGainFocus || 0) + 1
-        const phraseWithFocusInstruction = updateObject(phrase, {
-          shouldGainFocus: {$set: focusId}
-        })
-        return copyFromSource(phraseWithFocusInstruction, sourceIndex)
+        return copyFromSource(phrase, sourceIndex)
       }})
 
     case COPY_SUGGESTION:
@@ -251,7 +245,7 @@ function revertEnteredTranslationsToDefault (phraseDetails) {
 }
 
 function copyFromSource (phrase, sourceIndex) {
-  const { selectedPluralIndex, sources } = phrase
+  const { selectedPluralIndex, sources, shouldGainFocus } = phrase
   const focusedTranslationIndex = selectedPluralIndex || 0
 
   // FIXME use clamp from lodash (when lodash >= 4.0)
@@ -261,7 +255,9 @@ function copyFromSource (phrase, sourceIndex) {
       : sources.length - 1
   const sourceToCopy = sources[sourceIndexToCopy]
 
+  const focusId = (shouldGainFocus || 0) + 1
   return updateObject(phrase, {
+    shouldGainFocus: {$set: focusId},
     newTranslations: {
       // $splice represents an array of calls to Array.prototype.splice
       // with an array of params for each call
