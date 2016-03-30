@@ -66,15 +66,9 @@ export function setSuggestionSearchType (type) {
 export function toggleSearchType () {
   return (dispatch, getState) => {
     const wasTypeText = getState().suggestions.searchType === 'text'
-
     if (!wasTypeText) {
-      changeSearchText('')
+      dispatch(changeSearchText(''))
     }
-
-    // FIXME transUnitCtrl and mainContentDirective used to listen to this event
-    // EventService.emitEvent(
-    //    EventService.EVENT.SUGGESTIONS_SEARCH_TOGGLE,
-    //    !wasTypeText)
     dispatch(setSuggestionSearchType(wasTypeText ? 'phrase' : 'text'))
   }
 }
