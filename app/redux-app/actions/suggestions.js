@@ -321,3 +321,12 @@ export function phraseSuggestionsUpdated (
     timestamp
   }
 }
+
+export const SUGGESTION_PANEL_HEIGHT_CHANGE =
+  Symbol('SUGGESTION_PANEL_HEIGHT_CHANGE')
+export function saveSuggestionPanelHeight (percentageHeight) {
+  return {
+    type: SUGGESTION_PANEL_HEIGHT_CHANGE,
+    percentageHeight
+  }
+}

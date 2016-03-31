@@ -10,6 +10,7 @@ import {
 } from '../actions/controlsHeaderActions'
 import { TOGGLE_DROPDOWN } from '../actions'
 import {
+  SUGGESTION_PANEL_HEIGHT_CHANGE,
   TOGGLE_SUGGESTIONS
 } from '../actions/suggestions'
 import {prepareLocales} from '../utils/Util'
@@ -39,7 +40,8 @@ const defaultState = {
       visible: true
     },
     suggestions: {
-      visible: true
+      visible: true,
+      heightPercent: 0.3
     },
     keyShortcuts: {
       visible: false
@@ -73,8 +75,17 @@ const isStatusSame = (statuses) => {
 
 const ui = (state = defaultState, action) => {
   switch (action.type) {
+    case SUGGESTION_PANEL_HEIGHT_CHANGE:
+      return update({
+        panels: {
+          suggestions: {
+            heightPercent: {$set: action.percentageHeight}
+          }
+        }
+      })
+
     case TOGGLE_HEADER:
-      return updateObject(state, {
+      return update({
         panels: {
           navHeader: {
             visible: {$set: !state.panels.navHeader.visible}
@@ -83,7 +94,7 @@ const ui = (state = defaultState, action) => {
       })
 
     case TOGGLE_SUGGESTIONS:
-      return updateObject(state, {
+      return update({
         panels: {
           suggestions: {
             visible: {$set: !state.panels.suggestions.visible}
@@ -93,14 +104,14 @@ const ui = (state = defaultState, action) => {
 
     case UI_LOCALES_FETCHED:
       const locales = prepareLocales(action.data)
-      return updateObject(state, {
+      return update({
         uiLocales: {
           $set: locales
         }
       })
 
     case TOGGLE_KEY_SHORTCUTS:
-      return updateObject(state, {
+      return update({
         panels: {
           keyShortcuts: {
             visible: {$set: !state.panels.keyShortcuts.visible}
@@ -138,7 +149,7 @@ const ui = (state = defaultState, action) => {
        })
        }
        */
-      return updateObject(state, {
+      return update({
         selectedUiLocale: {
           $set: action.data
         }
@@ -146,7 +157,7 @@ const ui = (state = defaultState, action) => {
 
     case TOGGLE_DROPDOWN:
       // TODO pahuang this listens to the same action
-      return updateObject(state, {
+      return update({
         dropdowns: {
           current: {
             $set: action.key
@@ -155,7 +166,7 @@ const ui = (state = defaultState, action) => {
       })
 
     case RESET_STATUS_FILTERS:
-      return updateObject(state, {
+      return update({
         textFlowDisplay: {
           filter: {
             $set: DEFAULT_FILTER_STATE
@@ -173,7 +184,7 @@ const ui = (state = defaultState, action) => {
         [action.status]: !state.textFlowDisplay.filter[action.status]
       }
 
-      return updateObject(state, {
+      return update({
         textFlowDisplay: {
           filter: {
             $set: isStatusSame(newFilter) ? DEFAULT_FILTER_STATE : newFilter
@@ -183,6 +194,18 @@ const ui = (state = defaultState, action) => {
 
     default:
       return state
+  }
+
+  /**
+   * Apply the given commands to state.
+   *
+   * Just a shortcut to avoid having to pass state to update over and over.
+   */
+  function update (commands) {
+    // FIXME update to version that does not lose reference equality when
+    //       setting an identical object
+    //       see: https://github.com/facebook/react/pull/4968
+    return updateObject(state, commands)
   }
 }
 

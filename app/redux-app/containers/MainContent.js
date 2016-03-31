@@ -15,12 +15,11 @@ const MainContent = React.createClass({
 
   propTypes: {
     maximised: PropTypes.bool.isRequired,
-    phrases: PropTypes.arrayOf(PropTypes.object).isRequired,
-    suggestionsOpen: PropTypes.bool.isRequired
+    phrases: PropTypes.arrayOf(PropTypes.object).isRequired
   },
 
   render: function () {
-    const { maximised, phrases, suggestionsOpen } = this.props
+    const { maximised, phrases } = this.props
 
     if (phrases.length === 0) {
       // TODO translate "No content"
@@ -50,12 +49,6 @@ const MainContent = React.createClass({
     const className = cx('Editor-content TransUnit-container',
       { 'is-maximised': maximised })
 
-      // FIXME use adjustable value of suggestion panel height instead of
-      //       hard-coded value (when that is in state)
-    const style = {
-      bottom: suggestionsOpen ? '30%' : '0'
-    }
-
     // TODO scrollbar width container+child were not brought over
     //      from the angular code yet.
 
@@ -66,8 +59,7 @@ const MainContent = React.createClass({
     return (
       <main role="main"
         id="editor-content"
-        className={className}
-        style={style}>
+        className={className}>
         <div className="Editor-translationsWrapper">
           <ShortcutEnabledComponent>
             <ul className="Editor-translations">
@@ -87,13 +79,11 @@ function mapStateToProps (state, ownProps) {
     return detail || phrase
   })
   const maximised = !state.ui.panels.navHeader.visible
-  const suggestionsOpen = state.ui.panels.suggestions.visible
 
   return {
     context: state.context,
     maximised,
-    phrases: detailPhrases,
-    suggestionsOpen
+    phrases: detailPhrases
   }
 }
 
