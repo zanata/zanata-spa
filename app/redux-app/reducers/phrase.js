@@ -8,6 +8,8 @@ import {
 import {
   CANCEL_EDIT,
   COPY_FROM_SOURCE,
+  FETCHING_PHRASE_DETAIL,
+  FETCHING_PHRASE_LIST,
   PHRASE_LIST_FETCHED,
   PHRASE_DETAIL_FETCHED,
   SELECT_PHRASE_SPECIFIC_PLURAL,
@@ -26,6 +28,8 @@ import { mapValues } from 'lodash'
 import {MOVE_NEXT, MOVE_PREVIOUS} from '../actions/phraseNavigation'
 
 const defaultState = {
+  fetchingList: false,
+  fetchingDetail: false,
   // docId -> list of phrases (id and state)
   inDoc: {},
   // phraseId -> detail
@@ -75,12 +79,23 @@ const phraseReducer = (state = defaultState, action) => {
         return copyFromSuggestion(phrase, suggestion)
       }})
 
+    case FETCHING_PHRASE_DETAIL:
+      return update({
+        fetchingDetail: {$set: true}
+      })
+
+    case FETCHING_PHRASE_LIST:
+      return update({
+        fetchingList: {$set: true}
+      })
+
     case PHRASE_LIST_FETCHED:
     // select the first phrase if there is one
       const selectedPhraseId = action.phraseList.length
         ? action.phraseList[0].id
         : undefined
       return update({
+        fetchingList: {$set: false},
         inDoc: {[action.docId]: {$set: action.phraseList}},
         selectedPhraseId: {$set: selectedPhraseId}
       })
@@ -90,6 +105,7 @@ const phraseReducer = (state = defaultState, action) => {
       //      ideally replace source and locale that was looked up, leaving
       //      others unchanged (depending on caching policy)
       return update({
+        fetchingDetail: {$set: false},
         detail: {$merge: action.phrases}
       })
 

@@ -4,6 +4,7 @@ import NavHeader from './NavHeader'
 import ProgressBar from '../components/ProgressBar'
 import { connect } from 'react-redux'
 import React, { PropTypes } from 'react'
+import ZanataLogoLoader from './ZanataLogoLoader'
 
 /**
  * Header for navigation and control of the editor
@@ -25,15 +26,18 @@ let EditorHeader = React.createClass({
     let className = cx('Header', 'Editor-header',
         { 'is-minimised': !this.props.navHeaderVisible })
     return (
+      <div id="editor-header">
+        <ZanataLogoLoader/>
         <header role="banner"
-                className={className}
-                focus-on="editor-header">
+          className={className}
+          focus-on="editor-header">
           <NavHeader />
           <ControlsHeader />
           <ProgressBar
-              size="small"
-              counts={this.props.counts}/>
+            size="small"
+            counts={this.props.counts}/>
         </header>
+      </div>
     )
   }
 })
