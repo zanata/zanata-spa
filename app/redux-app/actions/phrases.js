@@ -162,6 +162,15 @@ export function copyFromSource (phraseId, sourceIndex) {
 }
 
 /**
+ * Copy the source that is at the same plural index to the focused translation
+ * plural. If there are not enough source plural forms, the highest one is used.
+ */
+export const COPY_FROM_ALIGNED_SOURCE = Symbol('COPY_FROM_ALIGNED_SOURCE')
+export function copyFromAlignedSource () {
+  return { type: COPY_FROM_ALIGNED_SOURCE }
+}
+
+/**
  * Stop editing the currently focused phrase and discard all entered text.
  * After this action, no phrase should be in editing state.
  */

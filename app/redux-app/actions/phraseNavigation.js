@@ -1,5 +1,5 @@
 
-export const MOVE_NEXT = Symbol('MOVE TO NEXT PHRASE')
+export const MOVE_NEXT = Symbol('MOVE_NEXT')
 export function moveNext (docId, phraseId) {
   return {
     type: MOVE_NEXT,
@@ -10,7 +10,7 @@ export function moveNext (docId, phraseId) {
   }
 }
 
-export const MOVE_PREVIOUS = Symbol('MOVE TO PREVIOUS PHRASE')
+export const MOVE_PREVIOUS = Symbol('MOVE_PREVIOUS')
 export function movePrevious (docId, phraseId) {
   return {
     type: MOVE_PREVIOUS,

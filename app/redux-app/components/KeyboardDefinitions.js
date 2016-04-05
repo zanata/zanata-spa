@@ -6,10 +6,10 @@ let KeyboardDefinition = React.createClass({
   },
 
   render () {
-    const keysDef = this.props.keys.map((key, index) => {
+    const keyDefs = this.props.keys.map((key, index) => {
       return <kbd key={index}>{key}</kbd>
     })
-    return (<span>{keysDef}</span>)
+    return (<span>{keyDefs}</span>)
   }
 })
 

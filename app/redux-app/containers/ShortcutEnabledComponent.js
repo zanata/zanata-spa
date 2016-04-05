@@ -1,11 +1,10 @@
 import Combokeys from 'combokeys'
 import globalBind from 'combokeys/plugins/global-bind'
-import {SHORTCUTS} from '../actions/editorShortcuts'
-
+import { SHORTCUTS } from '../actions/editorShortcuts'
 import React from 'react'
 import { connect } from 'react-redux'
 // TODO import individual lodash functions that are used
-import _ from 'lodash'
+import { curry } from 'lodash'
 
 /**
  *
@@ -14,26 +13,21 @@ import _ from 'lodash'
  *        of shortcut keys. Optionally contain 'eventType' e.g. 'keyup'
  * @param handler key event handler
  */
-const enableKeysFor = (combokeys, keyConfig, handler) => {
+function enableKeysFor (combokeys, { keys, eventType }, handler) {
   // since our keys right now always works in textarea，
   // we always bind using global bind
-  const {keys, eventType} = keyConfig
 
   if (!Array.isArray(keys)) {
     throw Error('keyConfig does not contain a "keys" value that is an array')
   }
 
-  // TODO probably the same if undefined eventType is just passed in
+  // Note: eventType may be undefined
+  combokeys.bindGlobal(keys, handler, eventType)
+  // TODO this is probably the same if undefined eventType is just passed in
   //      (conditional not needed)
-  if (eventType) {
-    combokeys.bindGlobal(keys, handler, eventType)
-  } else {
-    combokeys.bindGlobal(keys, handler)
-  }
 }
 
-const deleteKeys = (combokeys, keyConfig) => {
-  let {keys, eventType} = keyConfig
+function deleteKeys (combokeys, { keys, eventType }) {
   combokeys.unbind(keys, eventType)
 }
 
@@ -46,17 +40,13 @@ const deleteKeys = (combokeys, keyConfig) => {
  */
 const sequenceKeyTimeout = 1000
 
-/**
- * FIXME this looks like the wrong docs.
- * Header for navigation and control of the editor
- */
 const ShortcutEnabledComponent = React.createClass({
   comboKeys: undefined,
 
   sequenceHandler (triggerKeyHandler, sequenceKeys, event) {
     triggerKeyHandler(event)
     sequenceKeys.forEach(sequenceKey => {
-      const {keyConfig, handler} = sequenceKey
+      const { keyConfig, handler } = sequenceKey
       const sequenceHandler = (event) => {
         deleteKeys(this.comboKeys, keyConfig)
         handler(event)
@@ -68,15 +58,16 @@ const ShortcutEnabledComponent = React.createClass({
   },
 
   componentDidMount () {
-    const elem = this._shortcutContainer
+    const elem = this.shortcutContainer
     this.comboKeys = globalBind(new Combokeys(elem))
     if (elem) {
       this.props.shortcutInfoList.forEach(shortcutInfo => {
-        const {keyConfig, handler} = shortcutInfo
+        const { keyConfig, handler } = shortcutInfo
         const sequenceKeys = keyConfig.sequenceKeys
         if (sequenceKeys) {
+          // FIXME does this even work? Passing a pair of args to a curried func
           enableKeysFor(this.comboKeys, keyConfig,
-              _.curry(this.sequenceHandler)(handler, sequenceKeys))
+              curry(this.sequenceHandler)(handler, sequenceKeys))
         } else {
           enableKeysFor(this.comboKeys, keyConfig, handler)
         }
@@ -97,7 +88,7 @@ const ShortcutEnabledComponent = React.createClass({
     // ref and the function is to set the element so that it can be referenced
     // once mounted.
     return (
-      <div tabIndex="0" ref={(c) => this._shortcutContainer = c}>
+      <div tabIndex="0" ref={(c) => this.shortcutContainer = c}>
         {this.props.children}
       </div>
     )
@@ -115,6 +106,7 @@ const mapDispatchToProps = (dispatch) => {
         // shortcut key starts with _ means it's not a real key definition
         // this is a hack to make sequence key work
         return !key.startsWith('_')
+        // FIXME use a bool to store that info instead.
       })
       .map(key => {
         const keyConfig = SHORTCUTS[key].keyConfig

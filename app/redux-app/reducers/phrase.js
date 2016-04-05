@@ -7,6 +7,7 @@ import {
 } from '../actions/controlsHeaderActions'
 import {
   CANCEL_EDIT,
+  COPY_FROM_ALIGNED_SOURCE,
   COPY_FROM_SOURCE,
   FETCHING_PHRASE_DETAIL,
   FETCHING_PHRASE_LIST,
@@ -25,7 +26,7 @@ import {
 } from '../actions/suggestions'
 import { calculateMaxPageIndexFromState } from '../utils/filter-paging-util'
 import { mapValues } from 'lodash'
-import {MOVE_NEXT, MOVE_PREVIOUS} from '../actions/phraseNavigation'
+import { MOVE_NEXT, MOVE_PREVIOUS } from '../actions/phraseNavigation'
 
 const defaultState = {
   fetchingList: false,
@@ -66,6 +67,11 @@ const phraseReducer = (state = defaultState, action) => {
         selectedPhraseId: {$set: undefined},
         detail: {$merge: revertEnteredTranslationsToDefault(state.detail)}
       })
+
+    case COPY_FROM_ALIGNED_SOURCE:
+      return updatePhrase(state.selectedPhraseId, {$apply: (phrase) => {
+        return copyFromSource(phrase, phrase.selectedPluralIndex)
+      }})
 
     case COPY_FROM_SOURCE:
       const { phraseId, sourceIndex } = action

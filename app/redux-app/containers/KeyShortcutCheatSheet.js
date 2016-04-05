@@ -2,8 +2,8 @@ import { connect } from 'react-redux'
 import CheatSheet from '../components/CheatSheet'
 import React from 'react'
 import KeyboardDefinition from '../components/KeyboardDefinitions'
-import {toggleKeyboardShortcutsModal} from '../actions/headerActions'
-import {SHORTCUTS, symbolizeKey} from '../actions/editorShortcuts'
+import { toggleKeyboardShortcutsModal } from '../actions/headerActions'
+import { SHORTCUTS, symbolizeKey } from '../actions/editorShortcuts'
 
 function mapStateToProps (state, ownProps) {
   const showModal = state.ui.panels.keyShortcuts.visible
