@@ -252,39 +252,3 @@ function gotoPreviousRowCallback (event) {
  tabCombinationPressed = true
  }
  */
-
-// FIXME this is not an action, it is just for display. Put it somewhere else.
-/**
- * Convert strings like cmd into symbols like ⌘
- * @param  {String} combo Key combination, e.g. 'mod+f'
- * @return {String} The key combination with symbols
- */
-export function symbolizeKey (combo) {
-  var map = {
-    command: '⌘',
-    shift: '⇧',
-    left: '←',
-    right: '→',
-    up: '↑',
-    down: '↓',
-    'return': '↩',
-    backspace: '⌫'
-  }
-  combo = combo.split('+')
-
-  for (var i = 0; i < combo.length; i++) {
-    // try to resolve command / ctrl based on OS:
-    if (combo[i] === 'mod') {
-      if (window.navigator &&
-        window.navigator.platform.indexOf('Mac') >= 0) {
-        combo[i] = 'command'
-      } else {
-        combo[i] = 'ctrl'
-      }
-    }
-
-    combo[i] = map[combo[i]] || combo[i]
-  }
-
-  return combo.join(' + ')
-}
