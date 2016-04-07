@@ -1,7 +1,7 @@
 import Combokeys from 'combokeys'
 import globalBind from 'combokeys/plugins/global-bind'
 import { SHORTCUTS } from '../actions/editorShortcuts'
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { map } from 'lodash'
 
@@ -13,8 +13,16 @@ import { map } from 'lodash'
  */
 const sequenceKeyTimeout = 1000
 
-const ShortcutEnabledComponent = React.createClass({
+/**
+ * Wraps a div around the content that can observe for key shortcut combinations
+ * on bubbled events.
+ */
+const KeyShortcutDispatcher = React.createClass({
   combokeys: undefined,
+
+  propTypes: {
+    className: PropTypes.string
+  },
 
   /**
    * Extend a handler to also register the next keys in the sequence.
@@ -64,7 +72,7 @@ const ShortcutEnabledComponent = React.createClass({
       })
     } else {
       console.error('No shortcut container element is bound for this ' +
-                    'ShortcutEnabledComponent')
+                    'KeyShortcutDispatcher')
     }
   },
 
@@ -77,7 +85,9 @@ const ShortcutEnabledComponent = React.createClass({
   render: function () {
     // tabIndex is to make it focusable.
     return (
-      <div tabIndex="0" ref={(c) => this.shortcutContainer = c}>
+      <div tabIndex="0"
+           className={this.props.className}
+           ref={(c) => this.shortcutContainer = c}>
         {this.props.children}
       </div>
     )
@@ -107,4 +117,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(undefined, mapDispatchToProps
-  )(ShortcutEnabledComponent)
+  )(KeyShortcutDispatcher)

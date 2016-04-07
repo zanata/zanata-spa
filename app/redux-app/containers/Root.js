@@ -4,6 +4,7 @@ import MainContent from './MainContent'
 import ParamPropDispatcher from './ParamPropDispatcher'
 import EditorHeader from './EditorHeader'
 import KeyShortcutCheatSheet from './KeyShortcutCheatSheet'
+import KeyShortcutDispatcher from './KeyShortcutDispatcher'
 import SuggestionsPanel from './SuggestionsPanel'
 import { requestPhraseDetail } from '../actions/phrases'
 import { fetchHeaderInfo, fetchUiLocales } from '../actions/headerActions'
@@ -64,7 +65,7 @@ class Root extends Component {
     return (
       // TODO adjust scrollbar width on div like Angular template editor.html
       <ParamPropDispatcher {...this.props}>
-        <div className="Editor is-suggestions-active">
+        <KeyShortcutDispatcher className="Editor is-suggestions-active">
           <EditorHeader/>
           <SplitPane ref="suggestionResizer"
             split="horizontal"
@@ -75,7 +76,7 @@ class Root extends Component {
             <SuggestionsPanel />
           </SplitPane>
           <KeyShortcutCheatSheet/>
-        </div>
+        </KeyShortcutDispatcher>
       </ParamPropDispatcher>
     )
   }

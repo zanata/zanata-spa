@@ -2,7 +2,6 @@ import cx from 'classnames'
 import React, { PropTypes } from 'react'
 import Icon from '../components/Icon'
 import TransUnit from '../components/TransUnit'
-import ShortcutEnabledComponent from './ShortcutEnabledComponent'
 import { connect } from 'react-redux'
 import { getCurrentPagePhrasesFromState } from '../utils/filter-paging-util'
 
@@ -51,21 +50,14 @@ const MainContent = React.createClass({
 
     // TODO scrollbar width container+child were not brought over
     //      from the angular code yet.
-
-    // Note: moved <ShortcutEnabledComponent> deeper in the hierarchy,
-    //       make sure it still works that way
-    // <main> is a top-level layout component, so it is not ok to wrap a div
-    // around it as ShortcutEnabledComponent does.
     return (
       <main role="main"
         id="editor-content"
         className={className}>
         <div className="Editor-translationsWrapper">
-          <ShortcutEnabledComponent>
-            <ul className="Editor-translations">
-              {transUnits}
-            </ul>
-          </ShortcutEnabledComponent>
+          <ul className="Editor-translations">
+            {transUnits}
+          </ul>
         </div>
       </main>
     )
