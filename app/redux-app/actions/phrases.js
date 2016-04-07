@@ -279,7 +279,7 @@ export function savePhraseWithStatus (phrase, status) {
     function startPendingSaveIfPresent (currentPhrase) {
       const pendingSave = currentPhrase.pendingSave
       if (pendingSave) {
-        // TODO this action should move pendingSave to inProgressSave
+        // FIXME this action should move pendingSave to inProgressSave
         // dispatch(initiatedPendingSave(phrase.id))
         doSave(pendingSave)
       }

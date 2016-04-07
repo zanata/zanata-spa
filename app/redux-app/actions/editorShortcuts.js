@@ -8,23 +8,36 @@ import {
 import {toggleDropdown} from './index'
 import { moveNext, movePrevious } from './phraseNavigation'
 
-function shortcutInfo (keys, keyAction, description, eventType) {
+function shortcutInfo (keys, eventActionCreator, description, eventType) {
   keys = Array.isArray(keys) ? keys : [keys]
   return {
     keyConfig: {
-      // Array of key combinations for this action
+      // Array of key combinations that each trigger this action
       keys,
       // (optional) keydown/keyup/keypress
       eventType
     },
-    // The callback that is executed when the key combination is pressed
-    keyAction,
-    // Display description
+    // When the key combination is pressed, this is passed the event and should
+    // return a redux action.
+    eventActionCreator,
+    // Displayed on the key shortcut cheatsheet
     description
   }
 }
 
 /**
+ * Shortcut definitions (key combinations, callback, description and sequences).
+ *
+ * See shortcutInfo(...) for the expected structure.
+ *
+ * CAUTION: with sequence keys, shortcuts are added and removed. They will
+ *          clobber any other shotrcut that uses the same keys. Never use the
+ *          same key combination for a sequence that is used in any of the top-
+ *          level shortcuts.
+ *          Note: this could be fixed if we make use of Combokeys' sequences,
+ *                but we lose the ability to trigger an action after the initial
+ *                combination that starts the sequence.
+ *
  * mod will be replaced by ctrl if on windows/linux or cmd if on mac.
  * By default it listens on keydown event.
  */
@@ -33,8 +46,8 @@ export const SHORTCUTS = {
       copyFromSourceHandler, 'Copy source as translation'),
 
   COPY_SUGGESTION_1: shortcutInfo(
-      'mod+alt+1', curry(copySuggestionCallback)(1),
-      'Copy first suggestion as translation'),
+    'mod+alt+1', curry(copySuggestionCallback)(1),
+    'Copy first suggestion as translation'),
 
   COPY_SUGGESTION_2: shortcutInfo(
     'mod+alt+2', curry(copySuggestionCallback)(2),
@@ -53,29 +66,23 @@ export const SHORTCUTS = {
   SAVE_AS_CURRENT_BUTTON_OPTION: shortcutInfo(
     'mod+s', saveAsCurrentButtonOptionCallback, 'Save'),
 
+  // TODO open the save dropdown and show prominently the letters to press for
+  //      each option (bold in the text itself, or next to it, the latter may
+  //      be better for l10n).
+  //      Also show [Esc] to cancel.
   SAVE_AS_MODE: {
     keyConfig: {
       keys: ['mod+shift+s'],
       sequenceKeys: [
         shortcutInfo('n', saveAs('needswork'), 'Save as Needs Work'),
-        shortcutInfo('t', saveAs('translated'), 'Save as Translated'),
-        shortcutInfo('a', saveAs('needswork'), 'Save as Approved')
+        shortcutInfo('t', saveAs('translated'), 'Save as Translated')
+        // TODO support approved status
+        // shortcutInfo('a', saveAs('approved'), 'Save as Approved')
       ]
     },
-    keyAction: saveAsModeCallback,
+    eventActionCreator: saveAsModeCallback,
     description: 'Save as...'
   },
-
-  // this is just so we can show it in cheatsheet.
-  // see ShortcutEnabledComponent
-  __SAVE_AS_NEEDSWORK: shortcutInfo('mod+shift+s n',
-      undefined, 'Save as needs work'),
-
-  __SAVE_AS_TRANSLATED: shortcutInfo('mod+shift+s t',
-      undefined, 'Save as translated'),
-
-  __SAVE_AS_APPROVED: shortcutInfo('mod+shift+s a',
-      undefined, 'Save as approved'),
 
   GOTO_NEXT_ROW_FAST: shortcutInfo(
     ['mod+enter', 'alt+k', 'alt+down'], gotoNextRowCallback,
@@ -85,7 +92,7 @@ export const SHORTCUTS = {
     ['mod+shift+enter', 'alt+j', 'alt+up'], gotoPreviousRowCallback,
     'Save (if changed) and go to previous string')
 /*
- Disable for now until status navigation implementation
+ Disabled for now until status navigation implementation
  GOTO_NEXT_UNTRANSLATED: new ShortcutInfo(
  'tab+u', gotoToNextUntranslatedCallback)
  */
