@@ -1,5 +1,4 @@
 import { getSaveButtonStatus, hasTranslationChanged } from '../utils/phrase'
-import { curry } from 'lodash'
 import {
   copyFromAlignedSource,
   undoEdit,
@@ -44,22 +43,22 @@ function shortcutInfo (keys, eventActionCreator, description, eventType) {
  */
 export const SHORTCUTS = {
   COPY_SOURCE: shortcutInfo(['alt+c', 'alt+g'],
-      copyFromSourceHandler, 'Copy source as translation'),
+      copyFromSourceActionCreator, 'Copy source as translation'),
 
   COPY_SUGGESTION_1: shortcutInfo(
-    'mod+alt+1', curry(copySuggestionCallback)(1),
+    'mod+alt+1', copySuggestionActionCreator(1),
     'Copy first suggestion as translation'),
 
   COPY_SUGGESTION_2: shortcutInfo(
-    'mod+alt+2', curry(copySuggestionCallback)(2),
+    'mod+alt+2', copySuggestionActionCreator(2),
     'Copy second suggestion as translation'),
 
   COPY_SUGGESTION_3: shortcutInfo(
-    'mod+alt+3', curry(copySuggestionCallback)(3),
+    'mod+alt+3', copySuggestionActionCreator(3),
     'Copy third suggestion as translation'),
 
   COPY_SUGGESTION_4: shortcutInfo(
-    'mod+alt+4', curry(copySuggestionCallback)(4),
+    'mod+alt+4', copySuggestionActionCreator(4),
     'Copy fourth suggestion as translation'),
 
   CANCEL_EDIT: shortcutInfo('esc', cancelEditCallback, 'Cancel edit'),
@@ -99,7 +98,7 @@ export const SHORTCUTS = {
  */
 }
 
-export function copyFromSourceHandler (event) {
+export function copyFromSourceActionCreator (event) {
   event.preventDefault()
   return copyFromAlignedSource()
 }
@@ -111,12 +110,14 @@ export function copyFromSourceHandler (event) {
  *                               this callback will copy
  * @return {function} callback that will copy the nth suggestion.
  */
-function copySuggestionCallback (oneBasedIndex, event) {
-  return (dispatch, getState) => {
-    if (getState().phrases.selectedPhraseId) {
-      const zeroBasedIndex = oneBasedIndex - 1
-      event.preventDefault()
-      dispatch(copySuggestionN(zeroBasedIndex))
+function copySuggestionActionCreator (oneBasedIndex) {
+  return (event) => {
+    return (dispatch, getState) => {
+      if (getState().phrases.selectedPhraseId) {
+        const zeroBasedIndex = oneBasedIndex - 1
+        event.preventDefault()
+        dispatch(copySuggestionN(zeroBasedIndex))
+      }
     }
   }
 }
