@@ -64,7 +64,7 @@ export const SHORTCUTS = {
   CANCEL_EDIT: shortcutInfo('esc', cancelEditCallback, 'Cancel edit'),
 
   SAVE_AS_CURRENT_BUTTON_OPTION: shortcutInfo(
-    'mod+s', saveAsCurrentButtonOptionCallback, 'Save'),
+    'mod+s', saveAsCurrentActionCreator, 'Save'),
 
   // TODO open the save dropdown and show prominently the letters to press for
   //      each option (bold in the text itself, or next to it, the latter may
@@ -163,13 +163,19 @@ function cancelEditCallback (event) {
   }
 }
 
-function saveAsCurrentButtonOptionCallback (event) {
+function saveAsCurrentActionCreator (event) {
   return (dispatch, getState) => {
-    const selectedPhraseId = getState().phrases.selectedPhraseId
-    const phrase = getState().phrases.detail[selectedPhraseId]
-    const status = getSaveButtonStatus(phrase)
+    const { selectedPhraseId, detail } = getState().phrases
     if (selectedPhraseId) {
       event.preventDefault()
+      const phrase = detail[selectedPhraseId]
+      // skip if the button would be disabled
+      // TODO move the save-allowed logic to a central location
+      const isSaving = !!phrase.inProgressSave
+      if (isSaving || !hasTranslationChanged(phrase)) {
+        return
+      }
+      const status = getSaveButtonStatus(phrase)
       dispatch(savePhraseWithStatus(phrase, status))
     }
   }
@@ -222,7 +228,7 @@ function gotoNextRowCallback (event) {
 
       const phrase = getState().phrases.detail[selectedPhraseId]
       if (hasTranslationChanged(phrase)) {
-        dispatch(saveAsCurrentButtonOptionCallback(event))
+        dispatch(saveAsCurrentActionCreator(event))
       }
       const docId = getState().data.context.selectedDoc.id
       dispatch(moveNext(docId, selectedPhraseId))
@@ -238,7 +244,7 @@ function gotoPreviousRowCallback (event) {
       event.stopPropagation()
       const phrase = getState().phrases.detail[selectedPhraseId]
       if (hasTranslationChanged(phrase)) {
-        dispatch(saveAsCurrentButtonOptionCallback(event))
+        dispatch(saveAsCurrentActionCreator(event))
       }
       const docId = getState().data.context.selectedDoc.id
 
