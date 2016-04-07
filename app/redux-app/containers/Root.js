@@ -62,8 +62,8 @@ class Root extends Component {
   render () {
     const pixelHeight = this.props.percentHeight * window.innerHeight
 
+    // TODO adjust scrollbar width on div like Angular template editor.html
     return (
-      // TODO adjust scrollbar width on div like Angular template editor.html
       <ParamPropDispatcher {...this.props}>
         <KeyShortcutDispatcher className="Editor is-suggestions-active">
           <EditorHeader/>

@@ -4,9 +4,10 @@ import {
   copyFromAlignedSource,
   undoEdit,
   cancelEdit,
-  savePhraseWithStatus} from './phrases'
-import {toggleDropdown} from './index'
+  savePhraseWithStatus } from './phrases'
+import { toggleDropdown } from './index'
 import { moveNext, movePrevious } from './phraseNavigation'
+import { copySuggestionN } from './suggestions'
 
 function shortcutInfo (keys, eventActionCreator, description, eventType) {
   keys = Array.isArray(keys) ? keys : [keys]
@@ -113,8 +114,9 @@ export function copyFromSourceHandler (event) {
 function copySuggestionCallback (oneBasedIndex, event) {
   return (dispatch, getState) => {
     if (getState().phrases.selectedPhraseId) {
+      const zeroBasedIndex = oneBasedIndex - 1
       event.preventDefault()
-      // FIXME dispatch suggestion copy action
+      dispatch(copySuggestionN(zeroBasedIndex))
     }
   }
 }
