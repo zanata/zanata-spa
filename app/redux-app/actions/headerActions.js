@@ -210,9 +210,9 @@ export function fetchHeaderInfo (projectSlug, versionSlug, docId, localeId) {
           if (!containsLocale(locales, selectedLocaleId)) {
             selectedLocaleId = locales[0].localeId
           }
-
-          if (getState().data.context.selectedDoc.id !== selectedDocId ||
-              getState().data.context.selectedLocale !== selectedLocaleId) {
+          const { context } = getState().headerData
+          if (context.selectedDoc.id !== selectedDocId ||
+              context.selectedLocale !== selectedLocaleId) {
             fetchStatistics(projectSlug, versionSlug,
                 selectedDocId, selectedLocaleId)
                 .then(checkResponse('fetch statistics failed'))

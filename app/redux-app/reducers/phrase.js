@@ -26,11 +26,13 @@ import {
 } from '../actions/suggestions'
 import { calculateMaxPageIndexFromState } from '../utils/filter-paging-util'
 import { mapValues } from 'lodash'
+import { SET_SAVE_AS_MODE } from '../actions/editorShortcuts'
 import { MOVE_NEXT, MOVE_PREVIOUS } from '../actions/phraseNavigation'
 
 const defaultState = {
   fetchingList: false,
   fetchingDetail: false,
+  saveAsMode: false,
   // docId -> list of phrases (id and state)
   inDoc: {},
   // phraseId -> detail
@@ -149,13 +151,12 @@ const phraseReducer = (state = defaultState, action) => {
         selectedPhraseId: {$set: action.phraseId}
       })
 
+    case SET_SAVE_AS_MODE:
+      return update({
+        saveAsMode: {$set: action.active}
+      })
+
     case TRANSLATION_TEXT_INPUT_CHANGED:
-
-      // FIXME error: cannot read property "detail" of undefined
-      // console.dir(state.detail[action.id].newTranslations)
-      // console.dir(state.detail[action.id].newTranslations[action.index])
-      // console.dir(action.text)
-
       return update({
         detail: {
           [action.id]: {

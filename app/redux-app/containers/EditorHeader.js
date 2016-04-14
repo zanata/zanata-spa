@@ -45,7 +45,7 @@ let EditorHeader = React.createClass({
 function mapStateToProps (state) {
   return {
     navHeaderVisible: state.ui.panels.navHeader.visible,
-    counts: state.data.context.selectedDoc.counts,
+    counts: state.headerData.context.selectedDoc.counts,
     ui: state.ui
   }
 }

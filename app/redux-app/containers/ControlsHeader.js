@@ -158,7 +158,7 @@ function mapStateToProps (state) {
 
   return {
     actions,
-    counts: state.data.context.selectedDoc.counts,
+    counts: state.headerData.context.selectedDoc.counts,
     paging: {
       ...phrases.paging,
       pageCount: calculateMaxPageIndexFromState(state) + 1,

@@ -8,17 +8,12 @@ import {
   RESET_STATUS_FILTERS,
   UPDATE_STATUS_FILTER
 } from '../actions/controlsHeaderActions'
-import { TOGGLE_DROPDOWN } from '../actions'
 import {
   SUGGESTION_PANEL_HEIGHT_CHANGE,
   TOGGLE_SUGGESTIONS
 } from '../actions/suggestions'
 import {prepareLocales} from '../utils/Util'
 import updateObject from 'react-addons-update'
-
-const docsDropdownKey = 'DOCS_DROPDOWN'
-const localeDropdownKey = 'LOCALE_DROPDOWN'
-const uiLocaleDropdownKey = 'UI_LOCALE_DROPDOWN'
 
 // migrated from LocaleService
 const DEFAULT_LOCALE = {
@@ -49,12 +44,6 @@ const defaultState = {
   },
   uiLocales: {},
   selectedUiLocale: DEFAULT_LOCALE.localeId,
-  dropdowns: {
-    current: undefined,
-    docsKey: docsDropdownKey,
-    localeKey: localeDropdownKey,
-    uiLocaleKey: uiLocaleDropdownKey
-  },
   textFlowDisplay: {
     filter: DEFAULT_FILTER_STATE
   },
@@ -152,16 +141,6 @@ const ui = (state = defaultState, action) => {
       return update({
         selectedUiLocale: {
           $set: action.data
-        }
-      })
-
-    case TOGGLE_DROPDOWN:
-      // TODO pahuang this listens to the same action
-      return update({
-        dropdowns: {
-          current: {
-            $set: action.key
-          }
         }
       })
 

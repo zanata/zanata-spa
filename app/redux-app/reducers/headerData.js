@@ -38,6 +38,7 @@ const defaultState = {
   }
 }
 
+// FIXME get this from the api module instead
 const projectPage = (projectSlug, versionSlug) => {
   // TODO pahuang set server context path
   const serverContextPath = ''

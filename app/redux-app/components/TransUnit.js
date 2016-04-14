@@ -25,6 +25,7 @@ import { togglePhraseSuggestions } from '../actions/suggestions'
 const TransUnit = React.createClass({
   propTypes: {
     phrase: PropTypes.object.isRequired,
+    saveAsMode: PropTypes.bool.isRequired,
     selectPhrase: PropTypes.func.isRequired,
     isFirstPhrase: PropTypes.bool.isRequired,
     translationLocale: PropTypes.shape({
@@ -78,6 +79,7 @@ const TransUnit = React.createClass({
       'cancelEdit',
       'openDropdown',
       'phrase',
+      'saveAsMode',
       'savePhraseWithStatus',
       'selected',
       'selectPhrasePluralIndex',
@@ -98,7 +100,7 @@ const TransUnit = React.createClass({
         <TransUnitStatus phrase={this.props.phrase}/>
         <TransUnitSourcePanel {...phraseSourcePanelProps}/>
         <TransUnitTranslationPanel {...phraseTranslationPanelProps}
-          saveDropdownKey={this.state.saveDropdownKey}/>
+          saveDropdownKey={this.props.phrase.id}/>
       </div>
     )
   }
@@ -120,6 +122,8 @@ function mapStateToProps (state, ownProps) {
     'openDropdown'
   ])
 
+  const saveAsMode = state.phrases.saveAsMode
+
   return {
     ...passThroughProps,
     // TODO add something for looking up locale name instead, or check
@@ -134,6 +138,7 @@ function mapStateToProps (state, ownProps) {
       id: sourceLocale.localeId,
       name: sourceLocale.name
     },
+    saveAsMode,
     isFirstPhrase: index === 0,
     selected: state.phrases.selectedPhraseId === phrase.id,
     // savingStatusId: phrase.isSaving ? phrase.savingStatusId : undefined,

@@ -1,6 +1,6 @@
 import Combokeys from 'combokeys'
 import globalBind from 'combokeys/plugins/global-bind'
-import { SHORTCUTS } from '../actions/editorShortcuts'
+import { setSaveAsMode, SHORTCUTS } from '../actions/editorShortcuts'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { map } from 'lodash'
@@ -11,7 +11,7 @@ import { map } from 'lodash'
  * this is so after each key press in the sequence you have 1 second
  * to press the next key before you have to start over
  */
-const sequenceKeyTimeout = 1000
+const sequenceKeyTimeout = 1600
 
 /**
  * Wraps a div around the content that can observe for key shortcut combinations
@@ -26,10 +26,14 @@ const KeyShortcutDispatcher = React.createClass({
 
   /**
    * Extend a handler to also register the next keys in the sequence.
+   *
+   * This is hard-coded to assume a save-as sequence. Need to fix that
+   * before using for anything else.
    */
   makeSequenceHandler (handler, sequenceKeys) {
     return (event) => {
       handler(event)
+      // FIXME cancel when sequence is completed or canceled, not on timeout
       sequenceKeys.forEach(sequenceKey => {
         const { keyConfig, handler } = sequenceKey
         const sequenceHandler = (event) => {
@@ -37,10 +41,9 @@ const KeyShortcutDispatcher = React.createClass({
           handler(event)
         }
         this.enableKeysFor(keyConfig, sequenceHandler)
-        // FIXME change to keep until sequence is completed or canceled
-        setTimeout(() => this.deleteKeys(keyConfig),
-        sequenceKeyTimeout)
+        setTimeout(() => { this.deleteKeys(keyConfig) }, sequenceKeyTimeout)
       })
+      setTimeout(::this.props.cancelSaveAs, sequenceKeyTimeout)
     }
   },
 
@@ -96,6 +99,7 @@ const KeyShortcutDispatcher = React.createClass({
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    cancelSaveAs: () => { dispatch(setSaveAsMode(false)) },
     shortcutInfoList: map(SHORTCUTS, addHandlersRecursively)
   }
 

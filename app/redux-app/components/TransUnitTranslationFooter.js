@@ -19,6 +19,7 @@ const TransUnitTranslationFooter = React.createClass({
     toggleDropdown: PropTypes.func.isRequired,
     saveDropdownKey: PropTypes.any.isRequired,
     openDropdown: PropTypes.any,
+    saveAsMode: PropTypes.bool.isRequired,
     showSuggestions: PropTypes.bool.isRequired,
     suggestionSearchType: PropTypes.oneOf(['phrase', 'text']).isRequired
   },
@@ -37,6 +38,11 @@ const TransUnitTranslationFooter = React.createClass({
     approved: 'Approved'
   },
 
+  statusShortcutKeys: {
+    needswork: <kbd>n</kbd>,
+    translated: <kbd>t</kbd>
+  },
+
   saveButtonElement: function (status) {
     const className = cx('Button u-sizeHeight-1_1-4',
                          'u-sizeFull u-textLeft',
@@ -46,21 +52,25 @@ const TransUnitTranslationFooter = React.createClass({
       this.props.savePhraseWithStatus(this.props.phrase, status, event)
     }
 
+    const shortcutKey = this.props.saveAsMode
+      ? this.statusShortcutKeys[status]
+      : undefined
+
     return (
       <Button
         className={className}
         onClick={saveCallback}>
-        {this.statusNames[status]}
+        {this.statusNames[status]}{shortcutKey}
       </Button>
     )
   },
 
   render: function () {
-    const { openDropdown, phrase, saveDropdownKey, savePhraseWithStatus,
-      showSuggestions, suggestionCount, suggestionSearchType, toggleDropdown,
-      toggleSuggestionPanel } = this.props
+    const { openDropdown, phrase, saveAsMode, saveDropdownKey,
+      savePhraseWithStatus, showSuggestions, suggestionCount,
+      suggestionSearchType, toggleDropdown, toggleSuggestionPanel } = this.props
 
-    const dropdownIsOpen = openDropdown === saveDropdownKey
+    const dropdownIsOpen = openDropdown === saveDropdownKey || saveAsMode
     const translationHasChanged = hasTranslationChanged(phrase)
     const isSaving = !!phrase.inProgressSave
     const selectedButtonStatus =
@@ -102,6 +112,8 @@ const TransUnitTranslationFooter = React.createClass({
         </span>
       : undefined
 
+    const actionButtonKeyShortcut = saveAsMode
+      ? this.statusShortcutKeys[selectedButtonStatus] : undefined
     const actionButton = (
         <Button
           className={cx('Button u-sizeHeight-1_1-4 u-textCapitalize',
@@ -109,7 +121,7 @@ const TransUnitTranslationFooter = React.createClass({
           disabled={isSaving || !translationHasChanged}
           title={selectedButtonTitle}
           onClick={saveCallback}>
-          {selectedButtonTitle}
+          {selectedButtonTitle}{actionButtonKeyShortcut}
         </Button>
     )
 

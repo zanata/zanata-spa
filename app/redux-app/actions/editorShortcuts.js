@@ -80,7 +80,7 @@ export const SHORTCUTS = {
         // shortcutInfo('a', saveAs('approved'), 'Save as Approved')
       ]
     },
-    eventActionCreator: saveAsModeCallback,
+    eventActionCreator: saveAsModeActionCreator,
     description: 'Save as...'
   },
 
@@ -183,35 +183,46 @@ function saveAsCurrentActionCreator (event) {
 
 /**
  * This is to mimic sequence shortcut.
- * e.g. press ctrl-shift-s then press 'n' to save as
- * 'needs work'.
+ * e.g. press ctrl-shift-s then press 'n' to save as 'needs work'.
  */
-function saveAsModeCallback (event) {
+function saveAsModeActionCreator (event) {
   return (dispatch, getState) => {
-    const selectedPhraseId = getState().phrases.selectedPhraseId
-    // const phrase = getState().phrases.detail[selectedPhraseId]
+    const { selectedPhraseId } = getState().phrases
     if (selectedPhraseId) {
       event.preventDefault()
-      // FIXME dispatch action for opening "save-as" mode for phrase
-
-      // TODO pahuang open the dropdown for selected phrase
-      // dispatch(toggleDropdown())
-      // addSaveAsModeExtensionKey(phrase, 'n', 'needsWork')
-      // addSaveAsModeExtensionKey(phrase, 't', 'translated')
-      // addSaveAsModeExtensionKey(phrase, 'a', 'approved')
+      dispatch(setSaveAsMode(true))
     }
   }
+}
+
+export const SET_SAVE_AS_MODE = Symbol('SET_SAVE_AS_MODE')
+/**
+ * Indicate that save-as mode is active or inactive.
+ */
+export function setSaveAsMode (active) {
+  return { type: SET_SAVE_AS_MODE, active }
 }
 
 function saveAs (status) {
   return (event) => {
     return (dispatch, getState) => {
-      const selectedPhraseId = getState().phrases.selectedPhraseId
-      const phrase = getState().phrases.detail[selectedPhraseId]
+      const { detail, selectedPhraseId } = getState().phrases
+      dispatch(setSaveAsMode(false))
       if (selectedPhraseId) {
+        // it would be more surprising to type a character when trying to save
+        // as a disabled state, so always swallow the key event even if the save
+        // operation is disabled.
         event.preventDefault()
+
+        const phrase = detail[selectedPhraseId]
+        // skip if the button would be disabled
+        // TODO move the save-allowed logic to a central location
+        const isSaving = !!phrase.inProgressSave
+        const isCurrentStatus = phrase.status === status
+        if (isSaving || (isCurrentStatus && !hasTranslationChanged(phrase))) {
+          return
+        }
         dispatch(savePhraseWithStatus(phrase, status))
-        console.info('save as ', {phrase: phrase, status: status})
       }
     }
   }

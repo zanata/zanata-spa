@@ -22,6 +22,7 @@ const TransUnitTranslationPanel = React.createClass({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
     }).isRequired,
+    saveAsMode: PropTypes.bool.isRequired,
     selectPhrasePluralIndex: PropTypes.func.isRequired,
     suggestionCount: PropTypes.number.isRequired,
     showSuggestions: PropTypes.bool.isRequired,
@@ -91,6 +92,7 @@ const TransUnitTranslationPanel = React.createClass({
       const footerProps = pick(this.props, [
         'openDropdown',
         'phrase',
+        'saveAsMode',
         'saveDropdownKey',
         'savePhraseWithStatus',
         'showSuggestions',

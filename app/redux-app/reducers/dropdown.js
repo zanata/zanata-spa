@@ -1,7 +1,11 @@
-import { TOGGLE_DROPDOWN } from '../actions'
+import updateObject from 'react-addons-update'
+import { OPEN_DROPDOWN, TOGGLE_DROPDOWN } from '../actions'
 
 const defaultState = {
-  openDropdownKey: undefined
+  openDropdownKey: undefined,
+  docsKey: Symbol('Documents Dropdown'),
+  localeKey: Symbol('Locales Dropdown'),
+  uiLocaleKey: Symbol('UI Locales Dropdown')
 }
 
 /**
@@ -10,13 +14,23 @@ const defaultState = {
  */
 const dropdownReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case OPEN_DROPDOWN:
+      return update({
+        openDropdownKey: {$set: action.key}
+      })
+
     case TOGGLE_DROPDOWN:
       const isOpen = action.key === state.openDropdownKey
-      return {
-        openDropdownKey: isOpen ? undefined : action.key
-      }
+      return update({
+        openDropdownKey: {$set: isOpen ? undefined : action.key}
+      })
+
     default:
       return state
+  }
+
+  function update (commands) {
+    return updateObject(state, commands)
   }
 }
 

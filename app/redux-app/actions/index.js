@@ -11,12 +11,18 @@ export function routingParamsChanged (newParams) {
 }
 
 /**
- * Every dropdown should have a reference-unique key. An empty object is
- * recommended since it is unique with reference equality checks.
+ * Every dropdown should have a reference-unique key. A symbol is recommended
+ * since it is unique with reference equality checks and can have a meaningful
+ * label.
  */
 export const TOGGLE_DROPDOWN = Symbol('TOGGLE_DROPDOWN')
 export function toggleDropdown (dropdownKey) {
   return { type: TOGGLE_DROPDOWN, key: dropdownKey }
+}
+
+export const OPEN_DROPDOWN = Symbol('OPEN_DROPDOWN')
+export function openDropdown (dropdownKey) {
+  return { type: OPEN_DROPDOWN, key: dropdownKey }
 }
 
 /**

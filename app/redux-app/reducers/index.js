@@ -11,7 +11,7 @@ import suggestions from './suggestions'
 
 const rootReducer = combineReducers({
   context,
-  data: headerData,
+  headerData,
   dropdown,
   phrases,
   routing: routeReducer,

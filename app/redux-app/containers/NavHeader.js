@@ -14,7 +14,7 @@ const { any, arrayOf, func, object, shape, string } = PropTypes
 /**
  * Hideable navigation header across the top of the app.
  */
-let NavHeader = React.createClass({
+const NavHeader = React.createClass({
 
   propTypes: {
     actions: shape({
@@ -43,34 +43,35 @@ let NavHeader = React.createClass({
       }).isRequired
     }).isRequired,
 
+    dropdown: shape({
+      openDropdownKey: any,
+      docsKey: any.isRequired,
+      localeKey: any.isRequired,
+      uiLocaleKey: any.isRequired
+    }).isRequired,
+
     ui: shape({
       // locale id for selected locale
       selectedUiLocale: string,
       // localeId -> { id, name }
-      uiLocales: object.isRequired,
-      dropdowns: shape({
-        current: any,
-        docsKey: any.isRequired,
-        localeKey: any.isRequired,
-        uiLocaleKey: any.isRequired
-      }).isRequired
+      uiLocales: object.isRequired
     }).isRequired
   },
 
   render: function () {
-    let props = this.props
-    let ctx = props.data.context
-    let dropdowns = props.ui.dropdowns
+    const props = this.props
+    const ctx = props.data.context
+    const dropdowns = props.dropdown
 
     let docsDropdownProps = {
       context: ctx,
-      isOpen: dropdowns.current === dropdowns.docsKey,
+      isOpen: dropdowns.openDropdownKey === dropdowns.docsKey,
       toggleDropdown: props.actions.toggleDropdown(dropdowns.docsKey)
     }
 
     let langsDropdownProps = {
       context: ctx,
-      isOpen: dropdowns.current === dropdowns.localeKey,
+      isOpen: dropdowns.openDropdownKey === dropdowns.localeKey,
       toggleDropdown: props.actions.toggleDropdown(dropdowns.localeKey)
     }
 
@@ -78,7 +79,7 @@ let NavHeader = React.createClass({
       changeUiLocale: props.actions.changeUiLocale,
       selectedUiLocale: props.ui.selectedUiLocale,
       uiLocales: props.ui.uiLocales,
-      isOpen: dropdowns.current === dropdowns.uiLocaleKey,
+      isOpen: dropdowns.openDropdownKey === dropdowns.uiLocaleKey,
       toggleDropdown: props.actions.toggleDropdown(dropdowns.uiLocaleKey)
     }
 
@@ -127,9 +128,11 @@ let NavHeader = React.createClass({
 })
 
 function mapStateToProps (state) {
+  const { dropdown, headerData, ui } = state
   return {
-    ui: state.ui,
-    data: state.data
+    data: headerData,
+    dropdown,
+    ui
   }
 }
 
