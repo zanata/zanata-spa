@@ -105,7 +105,10 @@ const phraseReducer = (state = defaultState, action) => {
       return update({
         fetchingList: {$set: false},
         inDoc: {[action.docId]: {$set: action.phraseList}},
-        selectedPhraseId: {$set: selectedPhraseId}
+        selectedPhraseId: {$set: selectedPhraseId},
+        paging: {
+          pageIndex: {$set: 0}
+        }
       })
 
     case PHRASE_DETAIL_FETCHED:
@@ -138,18 +141,13 @@ const phraseReducer = (state = defaultState, action) => {
       })
 
     case SELECT_PHRASE:
-      return update({
-        selectedPhraseId: {$set: action.phraseId}
-      })
+      return selectPhrase(state, action.phraseId)
 
     case SELECT_PHRASE_SPECIFIC_PLURAL:
-      // TODO do in a single step to make it more efficient
       const withNewPluralIndex = updatePhrase(action.phraseId, {
         selectedPluralIndex: {$set: action.index}
       })
-      return updateObject(withNewPluralIndex, {
-        selectedPhraseId: {$set: action.phraseId}
-      })
+      return selectPhrase(withNewPluralIndex, action.phraseId)
 
     case SET_SAVE_AS_MODE:
       return update({
@@ -174,14 +172,10 @@ const phraseReducer = (state = defaultState, action) => {
       })
 
     case MOVE_NEXT:
-      return movePhrase(state, action, (cur) => {
-        return cur + 1
-      })
+      return changeSelectedIndex(index => index + 1)
 
     case MOVE_PREVIOUS:
-      return movePhrase(state, action, (cur) => {
-        return cur - 1
-      })
+      return changeSelectedIndex(index => index - 1)
   }
 
   return state
@@ -231,32 +225,49 @@ const phraseReducer = (state = defaultState, action) => {
   function getMaxPageIndex () {
     return calculateMaxPageIndexFromState(action.getState())
   }
-}
 
-/**
- *
- * @param state
- * @param action
- * @param indexOpFunc a function takes current selected phrase index and return
- *        the new index that it should be moved to
- * @returns {*}
- */
-function movePhrase (state, action, indexOpFunc) {
-  const {docId, phraseId} = action.data
-  const phrases = state.inDoc[docId]
-  const currentIndex = phrases.findIndex(x => x.id === phraseId)
+  /**
+  * Generate a state with a different phrase selected.
+  *
+  * @param state
+  * @param action
+  * @param indexUpdateCallback produces new index based on previous index
+  * @returns {*}
+  */
+  function changeSelectedIndex (indexUpdateCallback) {
+    const { docId } = action.getState().context
+    const { inDoc, selectedPhraseId } = state
+    const phrases = inDoc[docId]
+    const currentIndex = phrases.findIndex(x => x.id === selectedPhraseId)
 
-  const moveToIndex = indexOpFunc(currentIndex)
-  if (moveToIndex >= 0 &&
-      moveToIndex < phrases.length &&
-      moveToIndex !== currentIndex) {
-    const moveToId = phrases[moveToIndex].id
-    return updateObject(state, {
-      selectedPhraseId: {$set: moveToId}
-    })
+    const newIndex = indexUpdateCallback(currentIndex)
+    const indexOutOfBounds = newIndex < 0 || newIndex >= phrases.length
+    if (!indexOutOfBounds && newIndex !== currentIndex) {
+      const moveToId = phrases[newIndex].id
+      return selectPhrase(state, moveToId)
+    }
+
+    return state
   }
 
-  return state
+  /**
+  * Select a given phrase and ensure the correct page is showing.
+  */
+  function selectPhrase (state, phraseId) {
+    const { docId } = action.getState().context
+    const { inDoc } = state
+    const phrases = inDoc[docId]
+    const phraseIndex = phrases.findIndex(x => x.id === phraseId)
+    const { countPerPage } = state.paging
+    const desiredPageIndex = Math.floor(phraseIndex / countPerPage)
+
+    return updateObject(state, {
+      selectedPhraseId: {$set: phraseId},
+      paging: {
+        pageIndex: {$set: desiredPageIndex}
+      }
+    })
+  }
 }
 
 function revertEnteredTranslationsToDefault (phraseDetails) {

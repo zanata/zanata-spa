@@ -85,12 +85,12 @@ export const SHORTCUTS = {
     description: 'Save as...'
   },
 
-  GOTO_NEXT_ROW_FAST: shortcutInfo(
-    ['mod+enter', 'alt+k', 'alt+down'], gotoNextRowCallback,
+  GOTO_NEXT_ROW_FAST: shortcutInfo(['mod+enter', 'alt+k', 'alt+down'],
+    makeRowNavigationActionCreator(moveNext),
     'Save (if changed) and go to next string'),
 
-  GOTO_PREVIOUS_ROW: shortcutInfo(
-    ['mod+shift+enter', 'alt+j', 'alt+up'], gotoPreviousRowCallback,
+  GOTO_PREVIOUS_ROW: shortcutInfo(['mod+shift+enter', 'alt+j', 'alt+up'],
+    makeRowNavigationActionCreator(movePrevious),
     'Save (if changed) and go to previous string')
 /*
  Disabled for now until status navigation implementation
@@ -211,38 +211,22 @@ function saveAs (status) {
   }
 }
 
-// TODO pahuang implment these two (first save if unsaved, then move to next,
-// then focus the selected phrase)
-function gotoNextRowCallback (event) {
-  return (dispatch, getState) => {
-    const selectedPhraseId = getState().phrases.selectedPhraseId
-    if (selectedPhraseId) {
-      event.preventDefault()
-      event.stopPropagation()
-
-      const phrase = getState().phrases.detail[selectedPhraseId]
-      if (hasTranslationChanged(phrase)) {
-        dispatch(saveAsCurrentActionCreator(event))
+/**
+ * Make an action creator for moveNext or movePrevious
+ */
+function makeRowNavigationActionCreator (operation) {
+  return (event) => {
+    return (dispatch, getState) => {
+      const { detail, selectedPhraseId } = getState().phrases
+      if (selectedPhraseId) {
+        event.preventDefault()
+        event.stopPropagation()
+        const phrase = detail[selectedPhraseId]
+        if (hasTranslationChanged(phrase)) {
+          dispatch(saveAsCurrentActionCreator(event))
+        }
+        dispatch(operation())
       }
-      const docId = getState().data.context.selectedDoc.id
-      dispatch(moveNext(docId, selectedPhraseId))
-    }
-  }
-}
-
-function gotoPreviousRowCallback (event) {
-  return (dispatch, getState) => {
-    const selectedPhraseId = getState().phrases.selectedPhraseId
-    if (selectedPhraseId) {
-      event.preventDefault()
-      event.stopPropagation()
-      const phrase = getState().phrases.detail[selectedPhraseId]
-      if (hasTranslationChanged(phrase)) {
-        dispatch(saveAsCurrentActionCreator(event))
-      }
-      const docId = getState().data.context.selectedDoc.id
-
-      dispatch(movePrevious(docId, selectedPhraseId))
     }
   }
 }
