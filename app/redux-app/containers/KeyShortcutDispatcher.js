@@ -6,14 +6,6 @@ import { connect } from 'react-redux'
 import { map } from 'lodash'
 
 /**
- * called to set a 1 second timeout on the specified sequence
- *
- * this is so after each key press in the sequence you have 1 second
- * to press the next key before you have to start over
- */
-const sequenceKeyTimeout = 1600
-
-/**
  * Wraps a div around the content that can observe for key shortcut combinations
  * on bubbled events.
  */
@@ -33,17 +25,26 @@ const KeyShortcutDispatcher = React.createClass({
   makeSequenceHandler (handler, sequenceKeys) {
     return (event) => {
       handler(event)
-      // FIXME cancel when sequence is completed or canceled, not on timeout
-      sequenceKeys.forEach(sequenceKey => {
-        const { keyConfig, handler } = sequenceKey
-        const sequenceHandler = (event) => {
+
+      // handler is swapped out directly so that [Esc] will cancel the sequence
+      const originalEscHandler = this.combokeys.directMap['esc:undefined']
+
+      // clear all the sequence key handlers and call an action to clear the
+      // save-as mode state in the application
+      const endSaveAsMode = () => {
+        this.props.cancelSaveAs()
+        sequenceKeys.forEach(({ keyConfig }) => {
           this.deleteKeys(keyConfig)
+        })
+        this.enableKeysFor({ keys: ['esc'] }, originalEscHandler)
+      }
+      sequenceKeys.forEach(({ keyConfig, handler }) => {
+        this.enableKeysFor(keyConfig, (event) => {
+          endSaveAsMode()
           handler(event)
-        }
-        this.enableKeysFor(keyConfig, sequenceHandler)
-        setTimeout(() => { this.deleteKeys(keyConfig) }, sequenceKeyTimeout)
+        })
       })
-      setTimeout(::this.props.cancelSaveAs, sequenceKeyTimeout)
+      this.enableKeysFor({ keys: ['esc'] }, endSaveAsMode)
     }
   },
 

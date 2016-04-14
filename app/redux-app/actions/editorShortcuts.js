@@ -4,7 +4,6 @@ import {
   undoEdit,
   cancelEdit,
   savePhraseWithStatus } from './phrases'
-import { toggleDropdown } from './index'
 import { moveNext, movePrevious } from './phraseNavigation'
 import { copySuggestionN } from './suggestions'
 
@@ -61,7 +60,9 @@ export const SHORTCUTS = {
     'mod+alt+4', copySuggestionActionCreator(4),
     'Copy fourth suggestion as translation'),
 
-  CANCEL_EDIT: shortcutInfo('esc', cancelEditCallback, 'Cancel edit'),
+  CANCEL_EDIT: shortcutInfo(
+    'esc', cancelEditActionCreator,
+    'Cancel edit'),
 
   SAVE_AS_CURRENT_BUTTON_OPTION: shortcutInfo(
     'mod+s', saveAsCurrentActionCreator, 'Save'),
@@ -122,38 +123,21 @@ function copySuggestionActionCreator (oneBasedIndex) {
   }
 }
 
-// FIXME figure out if this is really needed and how to make it work if it is
-function saveAsDropdownIsOpen (state) {
-  // TODO pahuang is this reliable for checking save as dropdown is open?
-  // NO! There is no guarantee that the key is an object
-  return state.dropdown.openDropdownKey &&
-      typeof state.dropdown.openDropdownKey === 'object'
-}
-
-function cancelSaveAsMode () {
-  return toggleDropdown(undefined)
-}
-
-function cancelSaveAsModeIfOn (dispatch, state) {
-  if (saveAsDropdownIsOpen(state)) {
-    // TODO pahuang maybe one cancel edit action will do all of below?
-    dispatch(cancelSaveAsMode())
-  }
-}
-
-function cancelEditCallback (event) {
+/**
+ * The generic [Esc] key action, does different things depending on state.
+ *
+ * Does the first of these actions that has the right condition
+ *  - if save-as mode is on, cancels save-as mode
+ *  - if text has been changed, reverts to last save (FIXME this seems bad)
+ *  - de-select the current phrase (if any)
+ */
+function cancelEditActionCreator (event) {
   event.preventDefault()
   event.stopPropagation()
   return (dispatch, getState) => {
-    const selectedPhraseId = getState().phrases.selectedPhraseId
-    const phrase = getState().phrases.detail[selectedPhraseId]
-    if (saveAsDropdownIsOpen(getState())) {
-      cancelSaveAsModeIfOn()
-      if (selectedPhraseId) {
-        // TODO pahuang dispatch the action
-        // dispatch(focusTranslation())
-      }
-    } else if (selectedPhraseId) {
+    const { detail, selectedPhraseId } = getState().phrases
+    if (selectedPhraseId) {
+      const phrase = detail[selectedPhraseId]
       if (hasTranslationChanged(phrase)) {
         dispatch(undoEdit())
       } else {
@@ -207,7 +191,6 @@ function saveAs (status) {
   return (event) => {
     return (dispatch, getState) => {
       const { detail, selectedPhraseId } = getState().phrases
-      dispatch(setSaveAsMode(false))
       if (selectedPhraseId) {
         // it would be more surprising to type a character when trying to save
         // as a disabled state, so always swallow the key event even if the save
