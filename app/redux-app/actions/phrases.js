@@ -279,8 +279,7 @@ export function savePhraseWithStatus (phrase, status) {
     function startPendingSaveIfPresent (currentPhrase) {
       const pendingSave = currentPhrase.pendingSave
       if (pendingSave) {
-        // FIXME this action should move pendingSave to inProgressSave
-        // dispatch(initiatedPendingSave(phrase.id))
+        dispatch(pendingSaveInitiated(currentPhrase.id))
         doSave(pendingSave)
       }
     }
@@ -288,7 +287,7 @@ export function savePhraseWithStatus (phrase, status) {
 }
 
 export const QUEUE_SAVE = Symbol('QUEUE_SAVE')
-export function queueSave (phraseId, saveInfo) {
+function queueSave (phraseId, saveInfo) {
   return {
     type: QUEUE_SAVE,
     phraseId,
@@ -297,7 +296,7 @@ export function queueSave (phraseId, saveInfo) {
 }
 
 export const SAVE_INITIATED = Symbol('SAVE_INITIATED')
-export function saveInitiated (phraseId, saveInfo) {
+function saveInitiated (phraseId, saveInfo) {
   return {
     type: SAVE_INITIATED,
     phraseId,
@@ -305,12 +304,18 @@ export function saveInitiated (phraseId, saveInfo) {
   }
 }
 
-// FIXME this needs to get the new state into the phrase so that
-//       it will display properly
+export const PENDING_SAVE_INITIATED = Symbol('PENDING_SAVE_INITIATED')
+function pendingSaveInitiated (phraseId) {
+  return {
+    type: PENDING_SAVE_INITIATED,
+    phraseId
+  }
+}
+
 // FIXME should use status and serverStatus to disambiguate
 //       (these would be separate types if there were types.)
 export const SAVE_FINISHED = Symbol('SAVE_FINISHED')
-export function saveFinished (phraseId, transUnitStatus, revision) {
+function saveFinished (phraseId, transUnitStatus, revision) {
   return {
     type: SAVE_FINISHED,
     phraseId,

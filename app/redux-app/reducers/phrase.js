@@ -11,6 +11,7 @@ import {
   COPY_FROM_SOURCE,
   FETCHING_PHRASE_DETAIL,
   FETCHING_PHRASE_LIST,
+  PENDING_SAVE_INITIATED,
   PHRASE_LIST_FETCHED,
   PHRASE_DETAIL_FETCHED,
   SELECT_PHRASE_SPECIFIC_PLURAL,
@@ -95,6 +96,11 @@ const phraseReducer = (state = defaultState, action) => {
     case FETCHING_PHRASE_LIST:
       return update({
         fetchingList: {$set: true}
+      })
+
+    case PENDING_SAVE_INITIATED:
+      return updatePhrase(action.phraseId, {
+        pendingSave: {$set: undefined}
       })
 
     case PHRASE_LIST_FETCHED:
