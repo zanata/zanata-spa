@@ -17,7 +17,9 @@ import rootReducer from './reducers'
 import Root from './containers/Root'
 import NeedSlugMessage from './containers/NeedSlugMessage'
 
-import './temp/app.css'
+// FIXME this will move when redux app moves to top level
+// import '../app.css'
+import './app.css'
 
 /**
  * Top level of the Zanata editor app.

@@ -30,6 +30,9 @@ fakewatch:
 devserver:
 	cd app/redux-app && webpack-dev-server -d --progress --inline --hot
 
+webpack:
+	cd app/redux-app && webpack --progress
+
 fakeredux:
 	${MAKE} -j2 devserver fakeserver
 
