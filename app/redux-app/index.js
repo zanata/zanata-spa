@@ -17,13 +17,18 @@ import rootReducer from './reducers'
 import Root from './containers/Root'
 import NeedSlugMessage from './containers/NeedSlugMessage'
 
+import './temp/app.css'
+
 /**
  * Top level of the Zanata editor app.
+ *
+ * This is the entry-point for the app webpack build.
  *
  * Responsible for:-
  *  - creating the redux store
  *  - binding the redux store to a React component tree
  *  - rendering the React component tree to the page
+ *  - ensuring the required css for the React component tree is available
  */
 
 // TODO add all the relevant locale data
