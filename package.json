@@ -21,7 +21,8 @@
     "test-raw": "babel-tape-runner \"test/**/*.jsx\"",
     "fakewatch": "make fakewatch",
     "storybook": "start-storybook -p 9001",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "spritesheet": "gulp icons"
   },
   "repository": {
     "type": "git",

@@ -211,10 +211,12 @@ gulp.task('icons', function () {
     return file.contents.toString('utf8');
   }
 
-  return gulp.src(paths.app + '/index.html')
+  // TODO change paths when redux app moves to top level
+  var pathReduxApp = paths.app + '/redux-app'
+  return gulp.src(pathReduxApp + '/index.html')
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(inject(svgs, {transform: fileContents}))
-    .pipe(gulp.dest(paths.build));
+    .pipe(gulp.dest(pathReduxApp + '/build'));
 });
 
 gulp.task('images', function(){

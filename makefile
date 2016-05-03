@@ -28,13 +28,19 @@ fakewatch:
 	${MAKE} -j2 watch fakeserver
 
 # run the app on a local development server, automatically rebuild and refresh
-# when the code changes.
-devserver:
-	cd app/redux-app && webpack-dev-server -d --progress --inline --hot
+# when the code changes (sprites are only built at the beginning).
+devserver: spritesheet
+	cd app/redux-app && webpack-dev-server -d --progress --inline --hot --content-base build/
+
+# build and inject an icon spritesheet into index.html, which is placed in the
+# build folder. The spritesheet combines all the individual sprites in
+# app/components/icons/images
+spritesheet:
+	npm run spritesheet
 
 # build the css and javascript bundles using webpack
 # files end up in /app/redux-app/build (app.css, bundle.js)
-webpack:
+webpack: spritesheet
 	cd app/redux-app && webpack --progress
 
 # run the editor on a local server with hot-reload, using API data from a fake
