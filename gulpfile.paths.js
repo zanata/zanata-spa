@@ -2,6 +2,8 @@
  * Path Definitions
  */
 
+/* eslint-disable semi */
+
 var paths = {};
 
 paths.app = './app';

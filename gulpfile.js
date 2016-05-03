@@ -1,4 +1,7 @@
-/*eslint-env node*/
+/* eslint-env node */
+/* eslint-disable semi, one-var, indent, space-before-function-paren,
+                  key-spacing, space-before-blocks, padded-blocks,
+                  spaced-comment */
 'use strict';
 
 var angularTemplatecache = require('gulp-angular-templatecache'),
@@ -14,7 +17,6 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     gulpif = require('gulp-if'),
     imagemin = require('gulp-imagemin'),
     inject = require('gulp-inject'),
-    jshint = require('gulp-jshint'),
     mainBowerFiles = require('main-bower-files'),
     merge = require('merge-stream'),
     modulizr = require('gulp-modulizr'),
@@ -100,7 +102,6 @@ gulp.task('cssBower', ['bowerMain'], function(){
     .pipe(gulpif(env === 'production', csso()))
     .pipe(gulp.dest(paths.build + '/css'));
 });
-
 
 gulp.task('lint-jsx', function () {
   // lint jsx before it is compiled by webpack
@@ -244,7 +245,7 @@ gulp.task('templates', function(){
   //combine all template files of the app into a js file
   return gulp.src(paths.templates)
     .pipe(plumber({errorHandler: notifyError}))
-    .pipe(angularTemplatecache('templates.js',{standalone:true}))
+    .pipe(angularTemplatecache('templates.js', {standalone:true}))
     .pipe(gulp.dest(paths.build + '/js'));
 });
 
@@ -302,7 +303,6 @@ gulp.task('translations', ['filterPotAbsolutePath'], function () {
     .on('end', generateLocaleList);
 });
 
-
 function generateLocaleList() {
   var extension = 'json';
   var files = fs.readdirSync(paths.translations.build).filter(
@@ -315,7 +315,7 @@ function generateLocaleList() {
   for (var i = 0; i < files.length; i++) {
     contents += '\"' + files[i]
       .substring(0, files[i].length - extension.length - 1) + '\"';
-    if(i !== files.length - 1) {
+    if (i !== files.length - 1) {
       contents += ',';
     }
   }
@@ -373,4 +373,3 @@ gulp.task('watch', ['serve'], function(){
 });
 
 gulp.task('default', ['build']);
-
