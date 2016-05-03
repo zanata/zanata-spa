@@ -19,7 +19,9 @@
     "copy-css": "cp ./build/css/app.css ./app/redux-app/temp/app.css",
     "test": "babel-tape-runner \"test/**/*.jsx\" | faucet",
     "test-raw": "babel-tape-runner \"test/**/*.jsx\"",
-    "fakewatch": "make fakewatch"
+    "fakewatch": "make fakewatch",
+    "storybook": "start-storybook -p 9001",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",

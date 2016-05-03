@@ -3,6 +3,7 @@ bower_main
 build
 node_modules
 npm-debug.log
+storybook-static
 
 # idea
 *.idea/
