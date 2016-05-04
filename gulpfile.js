@@ -195,6 +195,8 @@ gulp.task('jsBower', ['bowerMain', 'removeModernizr'], function(){
     .pipe(gulp.dest(paths.build + '/js'));
 });
 
+// generate a new index.html that contains an icon spritesheet. The spritesheet
+// is built from all the icon svg files.
 gulp.task('icons', function () {
   var svgs = gulp.src(paths.icons.app)
     .pipe(plumber({errorHandler: notifyError}))
@@ -216,6 +218,25 @@ gulp.task('icons', function () {
   return gulp.src(pathReduxApp + '/index.html')
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(inject(svgs, {transform: fileContents}))
+    .pipe(gulp.dest(pathReduxApp + '/build'));
+});
+
+// similar to 'icons' but makes a static icons file for use in the storybook
+// since there is no access to inject them into its index file.
+gulp.task('storybook-icons', function () {
+  // TODO change paths when redux app moves to top level
+  var pathReduxApp = paths.app + '/redux-app'
+
+  return gulp.src(paths.icons.app)
+    .pipe(plumber({errorHandler: notifyError}))
+    .pipe(svgSprite({
+      mode: {
+        symbol: {
+          inline: false
+        }
+      }
+    }))
+    .pipe(rename('icons.svg'))
     .pipe(gulp.dest(pathReduxApp + '/build'));
 });
 

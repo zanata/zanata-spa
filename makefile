@@ -38,6 +38,11 @@ devserver: spritesheet
 spritesheet:
 	npm run spritesheet
 
+# like spritesheet, but makes a static file that can be used in the storybook
+# rather than injecting the spritesheet into the index file.
+storybook-spritesheet:
+	npm run storybook-spritesheet
+
 # build the css and javascript bundles using webpack
 # files end up in /app/redux-app/build (app.css, bundle.js)
 webpack: spritesheet
@@ -49,12 +54,16 @@ fakeredux:
 	${MAKE} -j2 devserver fakeserver
 
 # run react-storybook server for development and testing of React components
-storybook:
+storybook: storybook-spritesheet
 	npm run storybook
 
-# build a static version of the React component storybook in /storybook-static
-# (will not display properly from file:// url since it has an iframe)
-storybook-static:
+# try to build a static version of the React component storybook
+#  - outputs to /storybook-static
+#  - will not display properly from file:// url since it uses an iframe
+#  - includes everything from /app/redux-app/build even though it does not need
+#    it all (only needs icons.svg at this point). Not worth the extra complexity
+#    to prevent that.
+storybook-static: storybook-spritesheet
 	npm run build-storybook
 
 test:

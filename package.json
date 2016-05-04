@@ -20,9 +20,10 @@
     "test": "babel-tape-runner \"test/**/*.jsx\" | faucet",
     "test-raw": "babel-tape-runner \"test/**/*.jsx\"",
     "fakewatch": "make fakewatch",
-    "storybook": "start-storybook -p 9001",
-    "build-storybook": "build-storybook",
-    "spritesheet": "gulp icons"
+    "storybook": "start-storybook -p 9001 -s ./app/redux-app/build",
+    "build-storybook": "build-storybook -s ./app/redux-app/build",
+    "spritesheet": "gulp icons",
+    "storybook-spritesheet": "gulp storybook-icons"
   },
   "repository": {
     "type": "git",
