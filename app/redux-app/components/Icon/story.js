@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@kadira/storybook'
-import Icon from '../Icon'
+import Icon from '.'
 
 const iconNames = [
   'admin', 'all', 'attach', 'block', 'chevron-down', 'chevron-down-double',
@@ -16,8 +16,8 @@ const iconNames = [
 ]
 
 /* slightly spaced-out list item with an icon and its name */
-function iconLi (name) {
-  return <li className="u-sM-1-2"><Icon name={name}/> {name}</li>
+function iconLi (name, key) {
+  return <li className="u-sM-1-2" key={key}><Icon name={name}/> {name}</li>
 }
 
 /*
