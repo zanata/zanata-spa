@@ -19,7 +19,7 @@ paths.fonts = {
   bower: paths.bower + '/**/fonts/**/*'
 };
 paths.icons = {
-  app: paths.app + '/components/icon/images/*.svg'
+  app: paths.app + '/redux-app/components/Icon/images/*.svg'
 };
 paths.images = {
   app: [
