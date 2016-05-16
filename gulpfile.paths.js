@@ -4,6 +4,8 @@
 
 /* eslint-disable semi */
 
+// FIXME use path.join in all cases
+
 var paths = {};
 
 paths.app = './app';
@@ -19,7 +21,7 @@ paths.fonts = {
   bower: paths.bower + '/**/fonts/**/*'
 };
 paths.icons = {
-  app: paths.app + '/redux-app/components/Icon/images/*.svg'
+  app: paths.app + '/components/Icon/images/*.svg'
 };
 paths.images = {
   app: [

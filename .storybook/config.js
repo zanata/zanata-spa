@@ -23,7 +23,7 @@ iconXHR.onload = function (e) {
 }
 
 function loadStories () {
-  require('../app/redux-app/components/stories.js')
+  require('../app/components/stories.js')
 }
 
 configure(loadStories, module)

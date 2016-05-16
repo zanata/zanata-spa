@@ -30,7 +30,7 @@ fakewatch:
 # run the app on a local development server, automatically rebuild and refresh
 # when the code changes (sprites are only built at the beginning).
 devserver: spritesheet
-	cd app/redux-app && webpack-dev-server -d --progress --inline --hot --content-base build/
+	cd app && webpack-dev-server -d --progress --inline --hot --content-base build/
 
 # build and inject an icon spritesheet into index.html, which is placed in the
 # build folder. The spritesheet combines all the individual sprites in
@@ -44,9 +44,9 @@ storybook-spritesheet:
 	npm run storybook-spritesheet
 
 # build the css and javascript bundles using webpack
-# files end up in /app/redux-app/build (app.css, bundle.js)
+# files end up in /app/build (app.css, bundle.js)
 webpack: spritesheet
-	cd app/redux-app && webpack --progress
+	cd app && webpack --progress
 
 # run the editor on a local server with hot-reload, using API data from a fake
 # server.
@@ -60,7 +60,7 @@ storybook: storybook-spritesheet
 # try to build a static version of the React component storybook
 #  - outputs to /storybook-static
 #  - will not display properly from file:// url since it uses an iframe
-#  - includes everything from /app/redux-app/build even though it does not need
+#  - includes everything from /app/build even though it does not need
 #    it all (only needs icons.svg at this point). Not worth the extra complexity
 #    to prevent that.
 storybook-static: storybook-spritesheet

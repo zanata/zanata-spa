@@ -213,20 +213,15 @@ gulp.task('icons', function () {
     return file.contents.toString('utf8');
   }
 
-  // TODO change paths when redux app moves to top level
-  var pathReduxApp = paths.app + '/redux-app'
-  return gulp.src(pathReduxApp + '/index.html')
+  return gulp.src(paths.app + '/index.html')
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(inject(svgs, {transform: fileContents}))
-    .pipe(gulp.dest(pathReduxApp + '/build'));
+    .pipe(gulp.dest(paths.app + '/build'));
 });
 
 // similar to 'icons' but makes a static icons file for use in the storybook
 // since there is no access to inject them into its index file.
 gulp.task('storybook-icons', function () {
-  // TODO change paths when redux app moves to top level
-  var pathReduxApp = paths.app + '/redux-app'
-
   return gulp.src(paths.icons.app)
     .pipe(plumber({errorHandler: notifyError}))
     .pipe(svgSprite({
@@ -237,7 +232,7 @@ gulp.task('storybook-icons', function () {
       }
     }))
     .pipe(rename('icons.svg'))
-    .pipe(gulp.dest(pathReduxApp + '/build'));
+    .pipe(gulp.dest(paths.app + '/build'));
 });
 
 gulp.task('images', function(){
