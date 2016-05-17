@@ -27,16 +27,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
-        query: {
-          presets: ['react', 'es2015', 'stage-0'],
-          plugins: [
-            ['react-intl', {
-              messagesDir: './build/messages/',
-              enforceDescriptions: true
-            }]
-          ]
-        }
+        loader: 'babel'
       },
       {
         test: /\.css$/,
@@ -50,8 +41,7 @@ module.exports = {
 
   plugins: [
     // used to output css to a separate file
-    // FIXME just using monkeys as an identifiable name while configuring
-    new ExtractTextPlugin('app.css')
+    new ExtractTextPlugin('bundle.css')
   ],
 
   resolve: {
@@ -64,7 +54,6 @@ module.exports = {
     historyApiFallback: true
   },
   eslint: {
-    // FIXME change when redux app moved up a level
     configFile: '../.eslintrc'
   },
 

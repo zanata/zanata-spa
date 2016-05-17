@@ -17,8 +17,6 @@ import rootReducer from './reducers'
 import Root from './containers/Root'
 import NeedSlugMessage from './containers/NeedSlugMessage'
 
-// FIXME this will move when redux app moves to top level
-// import '../app.css'
 import './index.css'
 
 /**

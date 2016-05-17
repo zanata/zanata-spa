@@ -28,7 +28,7 @@ test('Button markup', (t) => {
   t.end()
 })
 
-test('Button markup', (t) => {
+test('Button markup (disabled)', (t) => {
   var clickFun = function (e) {}
 
   const actual = (
