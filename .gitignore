@@ -1,5 +1,7 @@
+# bower used to be used, so this ensures old build directories are still ignored
 bower_components
 bower_main
+
 build
 node_modules
 npm-debug.log

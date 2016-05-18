@@ -16,45 +16,52 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
+    /* Checks for errors in syntax, and for problematic and inconsistent
+     * code in all JavaScript files.
+     * Configured in .eslintrc
+     */
     preLoaders: [
       {
         test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         loader: 'eslint'
       }
     ],
     loaders: [
+      /* Allows use of newer javascript syntax.
+       *  - mainly ES6/ES2015 syntax, and a few ES2016 things
+       *  - configured in .babelrc
+       */
       {
         test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         loader: 'babel'
       },
+
+      /* Bundles all the css and allows use of various niceities, including
+       * imports, variables, calculations, and non-prefixed codes.
+       */
       {
         test: /\.css$/,
-        // I may have broken it with this, telling it to ignore anything in
-        // these directories?
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         loader: ExtractTextPlugin.extract('style', 'css!csso!postcss!rework')
       }
     ]
   },
 
   plugins: [
-    // used to output css to a separate file
+    /* Outputs css to a separate file. Note the call to .extract above */
     new ExtractTextPlugin('bundle.css')
   ],
 
   resolve: {
-    // subdirectories to check while searching up tree for module
-    // TODO remove when components migrated to use .js
+    /* Subdirectories to check while searching up tree for module */
+    // TODO remove when components migrated to use .js (default is ['', '.js'])
     extensions: ['', '.js', '.jsx']
   },
   devtool: 'source-map',
   devServer: {
     historyApiFallback: true
-  },
-  eslint: {
-    configFile: '../.eslintrc'
   },
 
   /* Used just to run autoprefix */
@@ -71,7 +78,7 @@ module.exports = {
     })
   ],
 
-  /* enables a range of syntax improvements and checks for css files */
+  /* Enables a range of syntax improvements and checks for css files */
   rework: {
     use: [
       reworkNpm(),

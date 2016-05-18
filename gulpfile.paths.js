@@ -10,15 +10,10 @@ var paths = {};
 
 paths.app = './app';
 paths.build = './build';
-paths.bower = './bower_main';
 paths.config = paths.app + '/config.json';
 paths.css = {
   all: paths.app + '/**/*.css',
-  app: paths.app + '/app.css',
-  bower: paths.bower + '/**/*.css'
-};
-paths.fonts = {
-  bower: paths.bower + '/**/fonts/**/*'
+  app: paths.app + '/app.css'
 };
 paths.icons = {
   app: paths.app + '/components/Icon/images/*.svg'
@@ -30,8 +25,7 @@ paths.images = {
     paths.app + '/**/*.jpg',
     paths.app + '/**/*.png',
     paths.app + '/**/*.gif'
-  ],
-  bower: paths.bower + '/**/img/**/*'
+  ]
 };
 
 paths.webpack = {
@@ -61,18 +55,12 @@ paths.js = {
     '!' + paths.app + '/**/suggestionsPanelDirective.js',
     '!' + paths.app + '/**/mainContentDirective.js',
     '!' + paths.app + '/**/transUnitSourceDirective.js'
-  ],
-  bower: [
-    paths.bower + '/**/angular.js',
-    paths.bower + '/**/*.js'
   ]
 }
 
 paths.jsx = paths.app + '/**/*.jsx'
 
 paths.modernizr = {
-  src: paths.bower + '/modernizr/modernizr.js',
-  build: paths.bower + '/modernizr',
   buildName: 'modernizr-custom.js'
 };
 paths.templates = ['!' + paths.app + '/index.html', paths.app + '/**/*.html'];

@@ -86,7 +86,6 @@
     "isomorphic-fetch": "^2.2.1",
     "jshint-stylish": "^0.4.0",
     "lodash": "^3.10.1",
-    "main-bower-files": "^1.0.2",
     "merge-stream": "^1.0.0",
     "postcss-loader": "^0.8.2",
     "react": "^0.14.8",

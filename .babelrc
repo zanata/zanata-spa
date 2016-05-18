@@ -1,5 +1,8 @@
 {
+  // Allows use of modern JavaScript syntax and JSX
   "presets": ["react", "es2015", "stage-0"],
+
+  // Extracts strings for translation.
   "plugins": [
     ["react-intl", {
       "messagesDir": "./build/messages/",

@@ -17,7 +17,6 @@ var angularTemplatecache = require('gulp-angular-templatecache'),
     gulpif = require('gulp-if'),
     imagemin = require('gulp-imagemin'),
     inject = require('gulp-inject'),
-    mainBowerFiles = require('main-bower-files'),
     merge = require('merge-stream'),
     modulizr = require('gulp-modulizr'),
     ngAnnotate = require('gulp-ng-annotate'),
@@ -54,17 +53,6 @@ function notifyError(err) {
   this.emit('end');
 
 }
-
-gulp.task('bowerClean', function() {
-  return gulp.src(paths.bower, { read: false })
-    .pipe(rimraf());
-});
-
-gulp.task('bowerMain', ['bowerClean'], function(){
-  //concatenate vendor JS files
-  return gulp.src(mainBowerFiles(), { base: './bower_components' })
-    .pipe(gulp.dest(paths.bower));
-});
 
 gulp.task('css', function () {
 // Use this when CSS lives here

@@ -18,22 +18,30 @@ var reworkSuitConformance = require('rework-suit-conformance')
 module.exports = {
   module: {
     loaders: [
+      /* Allows use of newer javascript syntax.
+       *  - mainly ES6/ES2015 syntax, and a few ES2016 things
+       *  - configured in .babelrc
+       */
       {
         test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         loader: 'babel'
       },
+
+      /* Bundles all the css and allows use of various niceities, including
+       * imports, variables, calculations, and non-prefixed codes.
+       */
       {
         test: /\.css$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         loader: 'style!css!csso!postcss!rework'
       }
     ]
   },
 
   resolve: {
-    // subdirectories to check while searching up tree for module
-    // TODO remove when components migrated to use .js
+    /* Subdirectories to check while searching up tree for module */
+    // TODO remove when components migrated to use .js (default is ['', '.js'])
     extensions: ['', '.js', '.jsx']
   },
 
@@ -51,7 +59,7 @@ module.exports = {
     })
   ],
 
-  /* enables a range of syntax improvements and checks for css files */
+  /* Enables a range of syntax improvements and checks for css files */
   rework: {
     use: [
       reworkNpm(),
