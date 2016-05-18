@@ -9,20 +9,17 @@ endif
 setup: checkgulp
 	npm install
 
-watch:
-	gulp watch
-
 fakeserver:
 	cd node_modules/fake-zanata-server && npm start
 
-# Genuine Bolex, a fraction of the normal price.
-fakewatch:
-	${MAKE} -j2 watch fakeserver
-
 # run the app on a local development server, automatically rebuild and refresh
 # when the code changes (sprites are only built at the beginning).
-devserver: spritesheet
+watch: spritesheet
 	cd app && webpack-dev-server -d --progress --inline --hot --content-base build/
+
+# run a local development server backed by a fake Zanata server
+watch-fakeserver:
+	${MAKE} -j2 watch fakeserver
 
 # build and inject an icon spritesheet into index.html, which is placed in the
 # build folder. The spritesheet combines all the individual sprites in
@@ -34,16 +31,6 @@ spritesheet:
 # rather than injecting the spritesheet into the index file.
 storybook-spritesheet:
 	npm run storybook-spritesheet
-
-# build the css and javascript bundles using webpack
-# files end up in /app/build (app.css, bundle.js)
-webpack: spritesheet
-	cd app && webpack --progress
-
-# run the editor on a local server with hot-reload, using API data from a fake
-# server.
-fakeredux:
-	${MAKE} -j2 devserver fakeserver
 
 # run react-storybook server for development and testing of React components
 storybook: storybook-spritesheet
@@ -58,10 +45,12 @@ storybook: storybook-spritesheet
 storybook-static: storybook-spritesheet
 	npm run build-storybook
 
+# build the css and javascript bundles using webpack
+# files end up in /app/build (app.css, bundle.js)
+build: spritesheet
+	cd app && NODE_ENV=production webpack --progress
+
 test:
 	npm test
-
-build:
-	NODE_ENV=production gulp build
 
 .PHONY: test build
