@@ -3,7 +3,7 @@ To start the webpack dev server (with fake-zanata-server):
 
 ```
 cd zanata-spa
-make fakeredux
+make watch-fakeserver
 ```
 
 The new redux app is in `zanata-spa/app`

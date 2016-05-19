@@ -5,11 +5,11 @@
 ## Setup and Deployment
 
 1. Make sure [node and npm](http://nodejs.org/) are installed.
-2. Setup dependencies: `npm run setup`.
+2. Setup dependencies: `make setup`.
 
 ### Run with live reload
 
-Build and run a server: `npm run watch`.
+Build and run a server: `make watch`.
 
  - Editor is available at [localhost:8000](http://localhost:8000)
    - the editor will be blank at the base URL, include the project-version to
@@ -20,7 +20,7 @@ Build and run a server: `npm run watch`.
 
 ### Run with live reload and local API server
 
-Build and run server and API server: `npm run fakewatch`.
+Build and run server and API server: `make watch-fakeserver`.
 
  - Editor is available at [localhost:8000](http://localhost:8000)
    - URL for a working document from the default API server [Tiny Project 1, hello.txt to French](http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr)
@@ -30,12 +30,12 @@ Build and run server and API server: `npm run fakewatch`.
 
 ## Running tests
 
-Run tests with `make test` or `npm test` (they do exactly the same thing).
+Run tests with `make test`.
 
 
 ## Code Guidelines
 
-### Javascript/Angular
+### Javascript
 
 And [these](https://github.com/zanata/javascript) for Javascript.
 

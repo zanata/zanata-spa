@@ -12,13 +12,10 @@
     "url": "https://github.com/zanata/zanata-spa/issues"
   },
   "scripts": {
-    "setup": "make setup",
-    "watch": "make watch",
-    "make": "make build",
-    "build": "make build",
+    "watch": "cd app && webpack-dev-server -d --progress --inline --hot --content-base build/",
+    "build": "cd app && NODE_ENV=production webpack --progress",
     "test": "babel-tape-runner \"test/**/*.jsx\" | faucet",
     "test-raw": "babel-tape-runner \"test/**/*.jsx\"",
-    "watch-fakeserver": "make watch-fakeserver",
     "storybook": "start-storybook -p 9001 -s ./app/build",
     "build-storybook": "build-storybook -s ./app/build",
     "spritesheet": "gulp icons",
