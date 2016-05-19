@@ -37,17 +37,13 @@ Run tests with `make test` or `npm test` (they do exactly the same thing).
 
 ### Javascript/Angular
 
-Stick very closely to [these Angular guidelines](https://github.com/zanata/angularjs-styleguide).
-
 And [these](https://github.com/zanata/javascript) for Javascript.
 
-Always add documentation and follow the [ngdoc format](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation).
+Always add documentation.
 
 ### CSS
 
 For CSS I am aiming to move to [these guidelines](https://github.com/suitcss/suit/blob/master/doc/README.md).
-
-For now, CSS still lives in [Zanata Assets](https://github.com/zanata/zanata-assets).
 
 ## License
 
