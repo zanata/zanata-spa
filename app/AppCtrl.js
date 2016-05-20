@@ -79,8 +79,8 @@
           appCtrl.myInfo.gravatarUrl = UrlService.gravatarUrl(
             appCtrl.myInfo.gravatarHash, 72)
         }, function (error) {
-          MessageHandler.displayError('Error loading my info: ' + error)
-        })
+        MessageHandler.displayError('Error loading my info: ' + error)
+      })
     }
 
     function loadUILocale () {

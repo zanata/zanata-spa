@@ -306,14 +306,14 @@
     function loadStatistic (projectSlug, versionSlug, docId, localeId) {
       DocumentService.getStatistics(projectSlug, versionSlug, docId, localeId)
         .then(function (statistics) {
-            editorCtrl.wordStatistic = StatisticUtil
+          editorCtrl.wordStatistic = StatisticUtil
               .getWordStatistic(statistics)
-            editorCtrl.messageStatistic = StatisticUtil
+          editorCtrl.messageStatistic = StatisticUtil
               .getMsgStatistic(statistics)
-          },
-          function (error) {
-            MessageHandler.displayError('Error loading statistic: ' + error)
-          })
+        },
+        function (error) {
+          MessageHandler.displayError('Error loading statistic: ' + error)
+        })
     }
 
     this.settings = UserService.settings.editor

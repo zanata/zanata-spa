@@ -65,7 +65,7 @@
             project: '/project/:projectSlug',
             docs: '/project/:projectSlug/version/:versionSlug/docs',
             locales: '/project/:projectSlug/version/:versionSlug/locales',
-            status: '/project/:projectSlug/version/:versionSlug/doc/:docId/status/:localeId',
+            status: '/project/:projectSlug/version/:versionSlug/status?docId=:docId&localeId=:localeId',
             textFlows: '/source+trans/:localeId',
             docStats: '/stats/project/:projectSlug/version/:versionSlug/doc/:docId/locale/:localeId',
             myInfo: '/user',
