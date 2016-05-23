@@ -56,12 +56,6 @@ const defaultState = {
   }
 }
 
-const isStatusSame = (statuses) => {
-  return statuses.approved === statuses.translated &&
-      statuses.translated === statuses.needswork &&
-      statuses.needswork === statuses.untranslated
-}
-
 const ui = (state = defaultState, action) => {
   switch (action.type) {
     case SUGGESTION_PANEL_HEIGHT_CHANGE:
@@ -154,9 +148,6 @@ const ui = (state = defaultState, action) => {
       })
 
     case UPDATE_STATUS_FILTER:
-    // let newFilter = Object.assign({},
-    //     state.textFlowDisplay.filter, {all: false})
-    // newFilter[action.data] = !newFilter[action.data]
       const newFilter = {
         ...state.textFlowDisplay.filter,
         all: false,
@@ -166,7 +157,7 @@ const ui = (state = defaultState, action) => {
       return update({
         textFlowDisplay: {
           filter: {
-            $set: isStatusSame(newFilter) ? DEFAULT_FILTER_STATE : newFilter
+            $set: allStatusesSame(newFilter) ? DEFAULT_FILTER_STATE : newFilter
           }
         }
       })
@@ -186,6 +177,15 @@ const ui = (state = defaultState, action) => {
     //       see: https://github.com/facebook/react/pull/4968
     return updateObject(state, commands)
   }
+}
+
+/**
+ * Check if statuses are either all true or all false
+ */
+function allStatusesSame (statuses) {
+  return statuses.approved === statuses.translated &&
+    statuses.translated === statuses.needswork &&
+    statuses.needswork === statuses.untranslated
 }
 
 export default ui
