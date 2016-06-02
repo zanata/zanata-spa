@@ -35,9 +35,8 @@ export function requestDocumentList () {
     fetchDocuments(projectSlug, versionSlug)
     .then(response => {
       if (response.status >= 400) {
-        // FIXME dispatch an error saying that document list fetch failed
-        console.error('something broke', response)
-        // FIXME make documentListFetchFailed exist
+        console.error('Document list fetch failed', response)
+        // FIXME implement this action
         // dispatch(documentListFetchFailed())
         return
       }
