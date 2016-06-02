@@ -56,6 +56,7 @@ gulp.task('icons', function () {
 
 // similar to 'icons' but makes a static icons file for use in the storybook
 // since there is no access to inject them into its index file.
+// ( See .storybook/README.md )
 gulp.task('storybook-icons', function () {
   return gulp.src(paths.icons.app)
     .pipe(plumber({errorHandler: notifyError}))
