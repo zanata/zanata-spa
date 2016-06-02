@@ -37,14 +37,6 @@ const unwrapResponse = (dispatch, errorMsg, response) => {
   return response.json()
 }
 
-// FIXME don't handle all the errors in one block, it makes debugging harder
-const catchError = (err) => {
-  // FIXME change this so it reports in a way that makes it easy to
-  //       tell where the actual error happened.
-  console.error('!!!!!!!!!!!!!!!! BAD !!!!!!!!!!!!!!' + err)
-  return {type: FETCH_FAILED, error: err}
-}
-
 export const UI_LOCALES_FETCHED = Symbol('UI_LOCALES_FETCHED')
 export function uiLocaleFetched (uiLocales) {
   return {
@@ -57,7 +49,10 @@ export function fetchUiLocales () {
     fetchLocales()
         .then(curry(unwrapResponse)(dispatch, 'fetch UI locales failed'))
         .then(uiLocales => dispatch(uiLocaleFetched(uiLocales)))
-        .catch(catchError)
+        .catch(err => {
+          console.error('Failed to fetch UI locales', err)
+          return {type: FETCH_FAILED, error: err}
+        })
   }
 }
 
@@ -226,6 +221,9 @@ export function fetchHeaderInfo (projectSlug, versionSlug, docId, localeId) {
           // transitionToEditorSelectedView()
           dispatch(selectLocale(selectedLocaleId))
         })
-        .catch(catchError)
+        .catch(err => {
+          console.error('Failed to fetch all header info', err)
+          return {type: FETCH_FAILED, error: err}
+        })
   }
 }
