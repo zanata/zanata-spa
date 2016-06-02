@@ -55,8 +55,6 @@ const defaultState = {
 }
 
 const phraseReducer = (state = defaultState, action) => {
-  console.warn('phrase reducer with action')
-  console.dir(action)
   switch (action.type) {
     case CLAMP_PAGE:
       return update({

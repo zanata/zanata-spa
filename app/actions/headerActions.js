@@ -6,7 +6,7 @@ import {
   fetchDocuments,
   fetchVersionLocales
 } from '../api'
-import { any, curry } from 'lodash'
+import { any, curry, isEmpty } from 'lodash'
 import { equals } from '../utils/string-utils'
 
 export const TOGGLE_HEADER = Symbol('TOGGLE_HEADER')
@@ -159,7 +159,7 @@ export function fetchHeaderInfo (projectSlug, versionSlug, docId, localeId) {
           const myInfo = all[2]
           const locales = all[3]
 
-          if (!documents || documents.length <= 0) {
+          if (isEmpty(documents)) {
             // redirect if no documents in version
             // FIXME implement message Handler
             // MessageHandler.displayError('No documents in ' +
@@ -168,7 +168,7 @@ export function fetchHeaderInfo (projectSlug, versionSlug, docId, localeId) {
             console.error(`No documents in ${projectSlug}:${versionSlug}`)
             return
           }
-          if (!locales || locales.length <= 0) {
+          if (isEmpty(locales)) {
             // FIXME implement message Handler
             // redirect if no supported locale in version
             // MessageHandler.displayError('No supported locales in ' +
