@@ -138,12 +138,6 @@ function transUnitStatusToPhraseStatus (mixedCaseStatus) {
   return status
 }
 
-// // API lookup of the detail for a set of phrases by id
-// export const FETCH_PHRASE_DETAIL = 'FETCH_PHRASE_DETAIL'
-// export function fetchPhraseDetail (phraseIds) {
-//   return { type: FETCH_PHRASE_DETAIL, phraseIds: phraseIds }
-// }
-
 // detail for phrases has been fetched from API
 export const PHRASE_DETAIL_FETCHED = Symbol('PHRASE_DETAIL_FETCHED')
 export function phraseDetailFetched (phrases) {
