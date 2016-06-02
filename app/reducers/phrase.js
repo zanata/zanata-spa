@@ -1,5 +1,6 @@
 import updateObject from 'react-addons-update'
 import {
+  CLAMP_PAGE,
   FIRST_PAGE,
   LAST_PAGE,
   NEXT_PAGE,
@@ -14,29 +15,37 @@ import {
   PENDING_SAVE_INITIATED,
   PHRASE_LIST_FETCHED,
   PHRASE_DETAIL_FETCHED,
-  SELECT_PHRASE_SPECIFIC_PLURAL,
   QUEUE_SAVE,
   SAVE_FINISHED,
   SAVE_INITIATED,
   SELECT_PHRASE,
+  SELECT_PHRASE_SPECIFIC_PLURAL,
   TRANSLATION_TEXT_INPUT_CHANGED,
   UNDO_EDIT
 } from '../actions/phrases'
+import { COPY_SUGGESTION } from '../actions/suggestions'
 import {
-  COPY_SUGGESTION
-} from '../actions/suggestions'
-import { calculateMaxPageIndexFromState } from '../utils/filter-paging-util'
+  calculatMaxPageIndex,
+  calculateMaxPageIndexFromState,
+  getFilteredPhrasesFromState
+} from '../utils/filter-paging-util'
 import { mapValues } from 'lodash'
 import { SET_SAVE_AS_MODE } from '../actions/editorShortcuts'
 import { MOVE_NEXT, MOVE_PREVIOUS } from '../actions/phraseNavigation'
+
+// TODO use lodash when upgraded
+// clamps a number within the inclusive lower and upper bounds
+function clamp (number, lower, upper) {
+  return Math.max(lower, Math.min(number, upper))
+}
 
 const defaultState = {
   fetchingList: false,
   fetchingDetail: false,
   saveAsMode: false,
-  // docId -> list of phrases (id and state)
+  // expected shape: { [docId1]: [{ id, resId, status }, ...], [docId2]: [...] }
   inDoc: {},
-  // phraseId -> detail
+  // expected shape: { [phraseId1]: phrase-object, [phraseId2]: ..., ...}
   detail: {},
   selectedPhraseId: undefined,
   paging: {
@@ -46,7 +55,16 @@ const defaultState = {
 }
 
 const phraseReducer = (state = defaultState, action) => {
+  console.warn('phrase reducer with action')
+  console.dir(action)
   switch (action.type) {
+    case CLAMP_PAGE:
+      return update({
+        paging: {
+          pageIndex: {$set: clamp(state.paging.pageIndex, 0,
+            calculateMaxPageIndexFromState(action.getState()))}
+        }
+      })
 
     case FIRST_PAGE:
       return updatePageIndex(0)
@@ -260,12 +278,16 @@ const phraseReducer = (state = defaultState, action) => {
   * Select a given phrase and ensure the correct page is showing.
   */
   function selectPhrase (state, phraseId) {
-    const { docId } = action.getState().context
-    const { inDoc } = state
-    const phrases = inDoc[docId]
+    const { countPerPage, pageIndex } = state.paging
+    const phrases = getFilteredPhrasesFromState(action.getState())
+
     const phraseIndex = phrases.findIndex(x => x.id === phraseId)
-    const { countPerPage } = state.paging
-    const desiredPageIndex = Math.floor(phraseIndex / countPerPage)
+    const desiredPageIndex = phraseIndex === -1
+      // Just go to valid page nearest current page when selected phrase is
+      // invisible. Ideal would be page that shows the phrase nearest the
+      // selected one in the unfiltered document, but that is complicated.
+      ? clamp(pageIndex, 0, calculatMaxPageIndex(phrases, countPerPage))
+      : Math.floor(phraseIndex / countPerPage)
 
     return updateObject(state, {
       selectedPhraseId: {$set: phraseId},

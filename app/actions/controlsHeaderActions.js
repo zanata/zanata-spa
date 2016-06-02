@@ -5,7 +5,19 @@ export function resetStatusFilter () {
 
 export const UPDATE_STATUS_FILTER = Symbol('UPDATE_STATUS_FILTER')
 export function updateStatusFilter (status) {
-  return {type: UPDATE_STATUS_FILTER, status}
+  return (dispatch) => {
+    dispatch({type: UPDATE_STATUS_FILTER, status})
+    // needed in case there is a different page count after filtering
+    dispatch(clampPage())
+  }
+}
+
+/* Adjust the page number so it is in the valid range.
+ * Dispatch after changing the filter.
+ */
+export const CLAMP_PAGE = Symbol('CLAMP_PAGE')
+export function clampPage () {
+  return { type: CLAMP_PAGE }
 }
 
 export const FIRST_PAGE = Symbol('FIRST_PAGE')
