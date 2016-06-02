@@ -112,6 +112,12 @@ function extractTranslations (source, trans) {
   return trans ? [trans.content] : []
 }
 
+const STATUS_NEW = 'new'
+const STATUS_UNTRANSLATED = 'untranslated'
+const STATUS_NEEDS_WORK = 'needswork'
+// the server provides this value instead of the one expected by this app
+const STATUS_NEEDS_WORK_SERVER = 'needreview'
+
 /**
  * Correct the incoming status keys to match what is expected in
  * the app. No status is assumed to mean new.
@@ -122,11 +128,11 @@ function transUnitStatusToPhraseStatus (mixedCaseStatus) {
   const status = mixedCaseStatus
     ? mixedCaseStatus.toLowerCase()
     : undefined
-  if (!status || status === 'new') {
-    return 'untranslated'
+  if (!status || status === STATUS_NEW) {
+    return STATUS_UNTRANSLATED
   }
-  if (status === 'needreview') {
-    return 'needswork'
+  if (status === STATUS_NEEDS_WORK_SERVER) {
+    return STATUS_NEEDS_WORK
   }
   // remaining status should be ok just lowercased
   return status
