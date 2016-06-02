@@ -11,7 +11,7 @@ export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
 
     fetchPhraseList(projectSlug, versionSlug, lang, docId)
       .then(response => {
-        if (response.status >= 400) {
+        if (isErrorResponse(response)) {
           // TODO error detail from actual response object
           dispatch(phraseListFetchFailed(
             new Error('Failed to fetch phrase list')))
@@ -59,7 +59,7 @@ export function requestPhraseDetail (localeId, phraseIds) {
     dispatch({ type: FETCHING_PHRASE_DETAIL })
     fetchPhraseDetail(localeId, phraseIds)
       .then(response => {
-        if (response.status >= 400) {
+        if (isErrorResponse(response)) {
           // TODO error info from actual response object
           dispatch(phraseDetailFetchFailed(
             new Error('Failed to fetch phrase detail')))
@@ -262,7 +262,7 @@ export function savePhraseWithStatus (phrase, status) {
       dispatch(saveInitiated(phrase.id, saveInfo))
       savePhrase(currentPhrase, saveInfo)
         .then(response => {
-          if (response.status >= 400) {
+          if (isErrorResponse(response)) {
             // TODO dispatch an error about save failure
             //      this should remove the inProgressSave data
             // FIXME make phraseSaveFailed exist
@@ -322,4 +322,8 @@ function saveFinished (phraseId, transUnitStatus, revision) {
     status: transUnitStatusToPhraseStatus(transUnitStatus),
     revision
   }
+}
+
+function isErrorResponse (response) {
+  return response.status >= 400
 }
