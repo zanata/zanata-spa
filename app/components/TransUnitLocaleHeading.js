@@ -11,9 +11,7 @@ const TransUnitLocaleHeading = React.createClass({
   },
 
   render: function () {
-    const id = this.props.id
-    const name = this.props.name
-
+    const { id, name } = this.props
     return (
       <h3 className="TransUnit-heading">
         {name} <span className="u-textMuted u-textUpper">{id}</span>
