@@ -1,4 +1,9 @@
 import { compact, every, isEmpty } from 'lodash'
+import {
+  STATUS_UNTRANSLATED,
+  STATUS_NEEDS_WORK,
+  STATUS_TRANSLATED
+} from './status'
 
 const nullToEmpty = (value) => {
   return value || ''
@@ -6,11 +11,11 @@ const nullToEmpty = (value) => {
 
 export function getSaveButtonStatus (phrase) {
   if (hasNoTranslation(phrase)) {
-    return 'untranslated'
+    return STATUS_UNTRANSLATED
   } else if (hasEmptyTranslation(phrase)) {
-    return 'needswork'
+    return STATUS_NEEDS_WORK
   } else if (hasTranslationChanged(phrase)) {
-    return 'translated'
+    return STATUS_TRANSLATED
   } else {
     return phrase.status
   }

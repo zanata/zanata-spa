@@ -6,6 +6,10 @@ import {
   savePhraseWithStatus } from './phrases'
 import { moveNext, movePrevious } from './phraseNavigation'
 import { copySuggestionN } from './suggestions'
+import {
+  STATUS_TRANSLATED,
+  STATUS_NEEDS_WORK
+} from '../utils/status'
 
 function shortcutInfo (keys, eventActionCreator, description, eventType) {
   keys = Array.isArray(keys) ? keys : [keys]
@@ -75,8 +79,8 @@ export const SHORTCUTS = {
     keyConfig: {
       keys: ['mod+shift+s'],
       sequenceKeys: [
-        shortcutInfo('n', saveAs('needswork'), 'Save as Needs Work'),
-        shortcutInfo('t', saveAs('translated'), 'Save as Translated')
+        shortcutInfo('n', saveAs(STATUS_NEEDS_WORK), 'Save as Needs Work'),
+        shortcutInfo('t', saveAs(STATUS_TRANSLATED), 'Save as Translated')
         // TODO support approved status
         // shortcutInfo('a', saveAs('approved'), 'Save as Approved')
       ]

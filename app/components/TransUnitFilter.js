@@ -1,5 +1,11 @@
 import FilterToggle from './FilterToggle'
 import React, { PropTypes } from 'react'
+import {
+  STATUS_UNTRANSLATED,
+  STATUS_NEEDS_WORK,
+  STATUS_TRANSLATED,
+  STATUS_APPROVED
+} from '../utils/status'
 
 /**
  * Panel with controls to filter the list of trans units
@@ -75,7 +81,7 @@ const TransUnitFilter = React.createClass({
             id="filter-phrases-approved"
             className="u-textHighlight"
             isChecked={this.props.filter.approved}
-            onChange={onFilterChange.bind(undefined, 'approved')}
+            onChange={onFilterChange.bind(undefined, STATUS_APPROVED)}
             title={gettextCatalog.getString('Approved')}
             count={this.props.counts.approved}/>
         </li>
@@ -84,7 +90,7 @@ const TransUnitFilter = React.createClass({
             id="filter-phrases-translated"
             className="u-textSuccess"
             isChecked={this.props.filter.translated}
-            onChange={onFilterChange.bind(undefined, 'translated')}
+            onChange={onFilterChange.bind(undefined, STATUS_TRANSLATED)}
             title={gettextCatalog.getString('Translated')}
             count={this.props.counts.translated}/>
         </li>
@@ -93,7 +99,7 @@ const TransUnitFilter = React.createClass({
             id="filter-phrases-needs-work"
             className="u-textUnsure"
             isChecked={this.props.filter.needswork}
-            onChange={onFilterChange.bind(undefined, 'needswork')}
+            onChange={onFilterChange.bind(undefined, STATUS_NEEDS_WORK)}
             title={gettextCatalog.getString('Needs Work')}
             count={this.props.counts.needswork}/>
         </li>
@@ -102,7 +108,7 @@ const TransUnitFilter = React.createClass({
             id="filter-phrases-untranslated"
             className="u-textNeutral"
             isChecked={this.props.filter.untranslated}
-            onChange={onFilterChange.bind(undefined, 'untranslated')}
+            onChange={onFilterChange.bind(undefined, STATUS_UNTRANSLATED)}
             title={gettextCatalog.getString('Untranslated')}
             count={this.props.counts.untranslated}/>
         </li>

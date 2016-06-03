@@ -7,6 +7,12 @@
 // (it is just a wrapper around whatwg-fetch)
 import fetch from 'isomorphic-fetch'
 import { encode } from '../utils/doc-id'
+import {
+  STATUS_UNTRANSLATED,
+  STATUS_NEEDS_WORK,
+  STATUS_TRANSLATED,
+  STATUS_APPROVED
+} from '../utils/status'
 
 // FIXME use value from config
 export const serviceUrl = 'http://localhost:7878/zanata'
@@ -146,13 +152,13 @@ export function savePhrase ({ id, revision, plural },
  */
 function phraseStatusToTransUnitStatus (status) {
   switch (status) {
-    case 'untranslated':
+    case STATUS_UNTRANSLATED:
       return 'New'
-    case 'needswork':
+    case STATUS_NEEDS_WORK:
       return 'NeedReview'
-    case 'translated':
+    case STATUS_TRANSLATED:
       return 'Translated'
-    case 'approved':
+    case STATUS_APPROVED:
       return 'Approved'
     default:
       console.error('Save attempt with invalid status', status)

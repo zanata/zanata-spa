@@ -1,6 +1,12 @@
 import { chain } from 'lodash'
 import cx from 'classnames'
 import React, { PropTypes } from 'react'
+import {
+  STATUS_UNTRANSLATED,
+  STATUS_NEEDS_WORK,
+  STATUS_TRANSLATED,
+  STATUS_APPROVED
+} from '../../utils/status'
 
 const ProgressItem = React.createClass({
   propTypes: {
@@ -61,7 +67,8 @@ const ProgressBar = React.createClass({
 
     const total = parseFloat(counts.total)
     const widths = chain(counts)
-      .pick(['approved', 'translated', 'needswork', 'untranslated'])
+      .pick([STATUS_APPROVED, STATUS_TRANSLATED, STATUS_NEEDS_WORK,
+        STATUS_UNTRANSLATED])
       .mapValues((count) => {
         return count ? 100 * parseFloat(count) / total : 0
       })

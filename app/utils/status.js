@@ -2,7 +2,16 @@ import { without } from 'lodash'
 import {
   hasEmptyTranslation,
   hasNoTranslation,
-  hasTranslationChanged } from './phrase'
+  hasTranslationChanged
+} from './phrase'
+
+export const STATUS_NEW = 'new'
+export const STATUS_UNTRANSLATED = 'untranslated'
+export const STATUS_NEEDS_WORK = 'needswork'
+// the server provides this value instead of the one expected by this app
+export const STATUS_NEEDS_WORK_SERVER = 'needreview'
+export const STATUS_TRANSLATED = 'translated'
+export const STATUS_APPROVED = 'approved'
 
 /**
  * Get a string representing the status that should be
@@ -14,13 +23,13 @@ import {
 export function defaultSaveStatus (phrase) {
   if (hasNoTranslation(phrase)) {
     // only possible state is untranslated
-    return 'untranslated'
+    return STATUS_UNTRANSLATED
   } else if (hasEmptyTranslation(phrase)) {
-    return 'needswork'
+    return STATUS_NEEDS_WORK
   } else if (hasTranslationChanged(phrase)) {
     // TODO also need to handle 'approved' and 'rejected'
     //      when user is a reviewer and in review mode
-    return 'translated'
+    return STATUS_TRANSLATED
   } else {
     // TODO when phrase status is a simple value,
     //      change to just return the simple value
@@ -41,12 +50,12 @@ export function nonDefaultValidSaveStatuses (phrase) {
 function allValidSaveStatuses (phrase) {
   if (hasNoTranslation(phrase)) {
     // only possible state is untranslated
-    return ['untranslated']
+    return [STATUS_UNTRANSLATED]
   } else if (hasEmptyTranslation(phrase)) {
-    return ['needswork']
+    return [STATUS_NEEDS_WORK]
   } else {
     // TODO also need to handle 'approved' and 'rejected'
     //      when user is a reviewer and in review mode
-    return ['translated', 'needswork']
+    return [STATUS_TRANSLATED, STATUS_NEEDS_WORK]
   }
 }

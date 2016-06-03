@@ -1,6 +1,12 @@
 import { fetchPhraseList, fetchPhraseDetail, savePhrase } from '../api'
 import { toggleDropdown } from '.'
 import { mapValues } from 'lodash'
+import {
+  STATUS_NEW,
+  STATUS_UNTRANSLATED,
+  STATUS_NEEDS_WORK,
+  STATUS_NEEDS_WORK_SERVER
+} from '../utils/status'
 
 export const FETCHING_PHRASE_LIST = Symbol('FETCHING_PHRASE_LIST')
 
@@ -111,12 +117,6 @@ function extractTranslations (source, trans) {
   }
   return trans ? [trans.content] : []
 }
-
-const STATUS_NEW = 'new'
-const STATUS_UNTRANSLATED = 'untranslated'
-const STATUS_NEEDS_WORK = 'needswork'
-// the server provides this value instead of the one expected by this app
-const STATUS_NEEDS_WORK_SERVER = 'needreview'
 
 /**
  * Correct the incoming status keys to match what is expected in
