@@ -162,10 +162,6 @@ const TransUnitTranslationPanel = React.createClass({
           )
         })
     }
-            // focus-on="phrase-{{phrase.id}}-{{$index}}"
-            // ng-focus="transUnitCtrl.onTextAreaFocus(phrase, $index)"
-            // ng-blur="transUnitCtrl.focused = false"
-            // blur-on="phrase-{{phrase.id}}"
 
     return (
       <div className="TransUnit-panel TransUnit-translation">
