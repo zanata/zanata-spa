@@ -17,8 +17,7 @@ const ProgressItem = React.createClass({
       width: this.props.width + '%'
     }
     return (
-        <span className={className}
-              style={style}/>
+        <span className={className} style={style}/>
     )
   }
 })
