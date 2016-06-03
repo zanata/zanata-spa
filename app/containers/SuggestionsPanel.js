@@ -14,6 +14,8 @@ import {
 } from '../actions/suggestions'
 
 const DO_NOT_RENDER = null
+const SEARCH_TYPE_PHRASE = 'phrase'
+const SEARCH_TYPE_TEXT = 'text'
 
 /**
  * Panel to search for and display suggestions.
@@ -22,7 +24,8 @@ const SuggestionsPanel = React.createClass({
   propTypes: {
     // likely want to move this switching to a higher level
     showPanel: PropTypes.bool.isRequired,
-    searchType: PropTypes.oneOf(['phrase', 'text']).isRequired
+    searchType: PropTypes.oneOf(
+      [SEARCH_TYPE_PHRASE, SEARCH_TYPE_TEXT]).isRequired
   },
 
   render: function () {
@@ -31,7 +34,7 @@ const SuggestionsPanel = React.createClass({
     }
 
     const className = cx('Editor-suggestions Editor-panel u-bgHigh', {
-      'is-search-active': this.props.searchType === 'text'
+      'is-search-active': this.props.searchType === SEARCH_TYPE_TEXT
     })
 
     const headerProps = pick(this.props, ['showDiff', 'onDiffChange',
@@ -64,7 +67,7 @@ function mapStateToProps (state) {
 
   // FIXME seeing search = undefined here even though it is in default state
 
-  if (searchType === 'phrase') {
+  if (searchType === SEARCH_TYPE_PHRASE) {
     if (phraseSelected) {
       const phraseSearch = searchByPhrase[selectedPhraseId]
       if (phraseSearch) {
@@ -90,7 +93,7 @@ function mapStateToProps (state) {
         suggestions: []
       }
     }
-  } else if (searchType === 'text') {
+  } else if (searchType === SEARCH_TYPE_TEXT) {
     specificSearch = {
       ...search,
       ...textSearch
