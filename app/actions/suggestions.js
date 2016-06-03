@@ -208,7 +208,10 @@ export function findTextSuggestions (searchText) {
       timestamp
     }))
 
-    getSuggestions(searchStrings)
+    const { context } = getState()
+    const sourceLocale = context.sourceLocale.localeId
+    const transLocale = context.lang
+    getSuggestions(sourceLocale, transLocale, searchStrings)
       .then(suggestions => {
         // only dispatch results if there is not a newer searches
         // (but do dispatch when timestamp is the same, as it is an update of
@@ -292,7 +295,10 @@ export function findPhraseSuggestions (phrase) {
       }))
     }
 
-    getSuggestions(searchStrings)
+    const { context } = getState()
+    const sourceLocale = context.sourceLocale.localeId
+    const transLocale = context.lang
+    getSuggestions(sourceLocale, transLocale, searchStrings)
       .then(suggestions => {
         dispatch(phraseSuggestionsUpdated({
           phraseId,

@@ -12,10 +12,7 @@ import { oneLiner } from '../utils/string-utils'
  * contents - an array of strings representing each source plural form
  *            (single-element array for singluar strings)
  */
-export function getSuggestions (contents) {
-  // FIXME use real values from getState
-  const sourceLocale = 'en-US'
-  const transLocale = 'fr'
+export function getSuggestions (sourceLocale, transLocale, contents) {
   // TODO allow different search types?
   const searchType = 'FUZZY_PLURAL'
 
