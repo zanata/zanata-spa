@@ -5,7 +5,9 @@ import React, { PropTypes } from 'react'
 const ProgressItem = React.createClass({
   propTypes: {
     state: PropTypes.string.isRequired,
+    /* left position of this part of the bar (percentage of full bar width) */
     start: PropTypes.number.isRequired,
+    /* width of this part of the bar (percentage of full bar width) */
     width: PropTypes.number.isRequired
   },
   render: function () {
