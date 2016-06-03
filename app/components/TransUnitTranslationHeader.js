@@ -6,7 +6,7 @@ import { hasTranslationChanged } from '../utils/phrase'
 /**
  * Heading that displays locale name and ID
  */
-let TransUnitTranslationHeader = React.createClass({
+const TransUnitTranslationHeader = React.createClass({
 
   propTypes: {
     phrase: PropTypes.object.isRequired,

@@ -6,7 +6,7 @@ import React, { PropTypes } from 'react'
 /**
  * Dropdown to select the current document to work on.
  */
-let DocsDropdown = React.createClass({
+const DocsDropdown = React.createClass({
 
   propTypes: {
     context: PropTypes.shape({
@@ -27,19 +27,19 @@ let DocsDropdown = React.createClass({
   },
 
   docUrl: function (docId) {
-    let ctx = this.props.context
-    let project = ctx.projectVersion.project.slug
-    let version = ctx.projectVersion.version
-    let encodedId = encode(docId)
+    const { projectVersion, selectedLocale } = this.props.context
+    const project = projectVersion.project.slug
+    const version = projectVersion.version
+    const encodedId = encode(docId)
     return '#/' + project + '/' + version + '/translate/' +
-      encodedId + '/' + ctx.selectedLocale
+      encodedId + '/' + selectedLocale
   },
 
   render: function () {
-    let ctx = this.props.context
-    let selectedDoc = ctx.selectedDoc.id
-    let items = ctx.projectVersion.docs.map(docId => {
-      let url = this.docUrl(docId)
+    const ctx = this.props.context
+    const selectedDoc = ctx.selectedDoc.id
+    const items = ctx.projectVersion.docs.map(docId => {
+      const url = this.docUrl(docId)
       // TODO highlight selected
       return (
         <li key={docId}>

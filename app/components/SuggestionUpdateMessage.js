@@ -6,7 +6,7 @@ import Icon from './Icon'
  * Show an appropriate message about the source and time of the most
  * recent update to the translation of a suggestion.
  */
-let SuggestionUpdateMessage = React.createClass({
+const SuggestionUpdateMessage = React.createClass({
 
   propTypes: {
     matchType: PropTypes.oneOf(['imported', 'translated', 'approved'])
@@ -16,7 +16,7 @@ let SuggestionUpdateMessage = React.createClass({
   },
 
   message: function () {
-    let date = <FormattedDate value={this.props.lastChanged}
+    const date = <FormattedDate value={this.props.lastChanged}
                               format="medium"/>
 
     switch (this.props.matchType) {

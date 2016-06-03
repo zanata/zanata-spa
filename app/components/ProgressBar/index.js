@@ -2,15 +2,15 @@ import { chain } from 'lodash'
 import cx from 'classnames'
 import React, { PropTypes } from 'react'
 
-let ProgressItem = React.createClass({
+const ProgressItem = React.createClass({
   propTypes: {
     state: PropTypes.string.isRequired,
     start: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired
   },
   render: function () {
-    let className = cx('Progressbar-item', 'Progressbar-' + this.props.state)
-    let style = {
+    const className = cx('Progressbar-item', 'Progressbar-' + this.props.state)
+    const style = {
       marginLeft: this.props.start + '%',
       width: this.props.width + '%'
     }
@@ -24,7 +24,7 @@ let ProgressItem = React.createClass({
 /**
  * Bar showing translation progress
  */
-let ProgressBar = React.createClass({
+const ProgressBar = React.createClass({
 
   propTypes: {
     size: PropTypes.string,
@@ -51,15 +51,15 @@ let ProgressBar = React.createClass({
   },
 
   render: function () {
-    let className = cx('Progressbar', {
+    const className = cx('Progressbar', {
       'Progressbar--sm': this.props.size === 'small',
       'Progressbar--lg': this.props.size === 'large'
     })
 
-    let counts = this.props.counts
+    const { counts } = this.props
 
-    let total = parseFloat(counts.total)
-    let widths = chain(counts)
+    const total = parseFloat(counts.total)
+    const widths = chain(counts)
       .pick(['approved', 'translated', 'needswork', 'untranslated'])
       .mapValues((count) => {
         return count ? 100 * parseFloat(count) / total : 0

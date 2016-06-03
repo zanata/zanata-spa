@@ -6,7 +6,7 @@ import React, { PropTypes } from 'react'
  * translating the document. Presumably it will show
  * 'viewing' when that mode is available.
  */
-let TranslatingIndicator = React.createClass({
+const TranslatingIndicator = React.createClass({
 
   propTypes: {
     // DO NOT RENAME, the translation string extractor looks specifically

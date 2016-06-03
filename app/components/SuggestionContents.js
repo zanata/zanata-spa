@@ -6,7 +6,7 @@ import cx from 'classnames'
  * Display all content strings (singular or plurals) for a suggestion.
  * May show a diff against a set of provided strings.
  */
-let SuggestionContents = React.createClass({
+const SuggestionContents = React.createClass({
   propTypes: {
     plural: PropTypes.bool.isRequired,
     contents: PropTypes.arrayOf(
@@ -23,7 +23,7 @@ let SuggestionContents = React.createClass({
       // FIXME translate the text. Either:
       //    - get it from Angular Gettext
       //    - use react-intl for it
-      let text = index ? 'Plural Form' : 'Singular Form'
+      const text = index ? 'Plural Form' : 'Singular Form'
       return (
         <span className="u-textMeta">
           {text}

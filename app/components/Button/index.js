@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
 /**
  * Button that can be disabled.
  */
-let Button = React.createClass({
+const Button = React.createClass({
 
   propTypes: {
     title: PropTypes.string,
@@ -20,7 +20,7 @@ let Button = React.createClass({
   },
 
   render: function () {
-    let className = cx(this.props.className,
+    const className = cx(this.props.className,
       { 'is-disabled': this.props.disabled })
 
     return (

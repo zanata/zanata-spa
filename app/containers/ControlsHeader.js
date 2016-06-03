@@ -25,7 +25,7 @@ const { bool, func, number, shape } = PropTypes
 /**
  * Header row with editor controls (filtering, paging, etc.)
  */
-let ControlsHeader = React.createClass({
+const ControlsHeader = React.createClass({
 
   propTypes: {
     actions: shape({
@@ -92,7 +92,7 @@ let ControlsHeader = React.createClass({
       actions,
       gettextCatalog
     }
-    let navHeaderHidden = !ui.panels.navHeader.visible
+    const navHeaderHidden = !ui.panels.navHeader.visible
     return (
       <nav className="u-bgHighest u-sPH-1-2 l--cf-of u-sizeHeight-1_1-2">
         <TranslatingIndicator gettextCatalog={gettextCatalog}/>

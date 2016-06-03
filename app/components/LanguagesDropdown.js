@@ -7,7 +7,7 @@ import React, { PropTypes } from 'react'
 /**
  * Dropdown to select the current language to translate to.
  */
-let LanguagesDropdown = React.createClass({
+const LanguagesDropdown = React.createClass({
 
   propTypes: {
     context: PropTypes.shape({
@@ -29,18 +29,18 @@ let LanguagesDropdown = React.createClass({
   },
 
   localeUrl: function (locale) {
-    let ctx = this.props.context
-    let docId = encode(ctx.selectedDoc.id)
-    let project = ctx.projectVersion.project.slug
-    let version = ctx.projectVersion.version
+    const { projectVersion, selectedDoc } = this.props.context
+    const docId = encode(selectedDoc.id)
+    const project = projectVersion.project.slug
+    const version = projectVersion.version
     return '#/' + project + '/' + version + '/translate/' +
            docId + '/' + locale.id
   },
 
   render: function () {
-    let locales = this.props.context.projectVersion.locales
-    let items = values(locales).map(locale => {
-      let url = this.localeUrl(locale)
+    const locales = this.props.context.projectVersion.locales
+    const items = values(locales).map(locale => {
+      const url = this.localeUrl(locale)
       return (
         <li key={locale.id}>
           <a href={url} className="Dropdown-item">
@@ -51,9 +51,9 @@ let LanguagesDropdown = React.createClass({
     })
 
     // sometimes name is not yet available, fall back on id
-    let selectedLocaleId = this.props.context.selectedLocale
-    let selectedLocale = locales[selectedLocaleId]
-    let localeName = selectedLocale ? selectedLocale.name : selectedLocaleId
+    const selectedLocaleId = this.props.context.selectedLocale
+    const selectedLocale = locales[selectedLocaleId]
+    const localeName = selectedLocale ? selectedLocale.name : selectedLocaleId
 
     return (
       <Dropdown onToggle={this.props.toggleDropdown}

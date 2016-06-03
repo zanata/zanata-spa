@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 /**
  * Show a percentage for a match, styled for the match type.
  */
-let SuggestionMatchPercent = React.createClass({
+const SuggestionMatchPercent = React.createClass({
 
   propTypes: {
     matchType: PropTypes.oneOf(['imported', 'translated', 'approved'])

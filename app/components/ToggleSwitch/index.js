@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
 /**
  * Checkbox that appears as a slider-style switch
  */
-let ToggleSwitch = React.createClass({
+const ToggleSwitch = React.createClass({
 
   propTypes: {
     id: PropTypes.string,

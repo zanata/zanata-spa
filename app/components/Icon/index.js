@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
 /**
  * Icon component, usually renders an svg icon
  */
-let Icon = React.createClass({
+const Icon = React.createClass({
 
   propTypes: {
     name: PropTypes.string.isRequired,

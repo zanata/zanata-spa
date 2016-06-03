@@ -6,7 +6,7 @@ import React, { PropTypes } from 'react'
 /**
  * Action button with an icon and title, unstyled.
  */
-let IconButton = React.createClass({
+const IconButton = React.createClass({
 
   propTypes: {
     icon: PropTypes.string.isRequired,
@@ -18,7 +18,7 @@ let IconButton = React.createClass({
   },
 
   render: function () {
-    let iconClass = cx('Icon--sm', this.props.iconClass)
+    const iconClass = cx('Icon--sm', this.props.iconClass)
 
     return (
       <Button

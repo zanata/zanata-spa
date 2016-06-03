@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
 /**
  * Dropdown component that wraps a toggle button and some content to toggle.
  */
-let Dropdown = React.createClass({
+const Dropdown = React.createClass({
 
   propTypes: {
     onToggle: PropTypes.func.isRequired,
@@ -22,12 +22,12 @@ let Dropdown = React.createClass({
   },
 
   toggleDropdown: function () {
-    let node = this.buttonDiv
+    const node = this.buttonDiv
     this.props.onToggle(node)
   },
 
   render: function () {
-    let className = cx({
+    const className = cx({
       'Dropdown': true,
       'is-active': this.props.isOpen
     }, this.props.className)
@@ -35,11 +35,11 @@ let Dropdown = React.createClass({
     var buttonCount = 0
     var contentCount = 0
 
-    let children = React.Children.map(this.props.children, (child) => {
+    const children = React.Children.map(this.props.children, (child) => {
       if (child.type === Dropdown.Button) {
         buttonCount++
         // TODO should be ok just to assign onClick undefined
-        let onClick = this.props.enabled
+        const onClick = this.props.enabled
           ? { onClick: this.toggleDropdown } : {}
         return (
           <div ref={ref => this.buttonDiv = ref}

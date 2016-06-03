@@ -5,7 +5,7 @@ import { pick } from 'lodash'
 /**
  * Display all suggestions that match the current search.
  */
-let SuggestionList = React.createClass({
+const SuggestionList = React.createClass({
   propTypes: {
     search: PropTypes.arrayOf(PropTypes.string),
     showDiff: PropTypes.bool.isRequired,

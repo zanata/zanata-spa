@@ -6,7 +6,7 @@ import React, { PropTypes } from 'react'
 /**
  * Styled text input that displays result count.
  */
-let SuggestionSearchInput = React.createClass({
+const SuggestionSearchInput = React.createClass({
 
   propTypes: {
     text: PropTypes.string.isRequired,

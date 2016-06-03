@@ -4,7 +4,7 @@ import Icon from './Icon'
 /**
  * Display metadata for suggestion source.
  */
-let SuggestionSourceDetails = React.createClass({
+const SuggestionSourceDetails = React.createClass({
   propTypes: {
     suggestion: PropTypes.shape({
       matchDetails: PropTypes.arrayOf(PropTypes.shape({
@@ -21,36 +21,38 @@ let SuggestionSourceDetails = React.createClass({
   },
 
   render: function () {
-    let matchDetails = this.props.suggestion.matchDetails
-    let topMatch = matchDetails[0]
-    let isTextFlow = topMatch.type === 'LOCAL_PROJECT'
+    const { matchDetails } = this.props.suggestion
+    const topMatch = matchDetails[0]
+    const isTextFlow = topMatch.type === 'LOCAL_PROJECT'
 
-    let projectIcon = isTextFlow ? (
+    const projectIcon = isTextFlow ? (
       <li title={topMatch.projectId}>
         <Icon name="project" className="Icon--xsm"/> {topMatch.projectName}
       </li>
     ) : undefined
 
-    let versionIcon = isTextFlow ? (
+    const versionIcon = isTextFlow ? (
       <li>
         <Icon name="version" className="Icon--xsm"/> {topMatch.version}
       </li>
     ) : undefined
 
-    let documentPath = topMatch.documentPath ? topMatch.documentPath + '/' : ''
-    let documentIcon = isTextFlow ? (
+    const documentPath = topMatch.documentPath
+      ? topMatch.documentPath + '/'
+      : ''
+    const documentIcon = isTextFlow ? (
       <li title={documentPath + topMatch.documentName}>
         <Icon name="document" className="Icon--xsm"/> {topMatch.documentName}
       </li>
     ) : undefined
 
-    let importIcon = isTextFlow ? undefined : (
+    const importIcon = isTextFlow ? undefined : (
       <li>
         <Icon name="import" className="Icon--xsm"/> {topMatch.transMemorySlug}
       </li>
     )
 
-    let remainingIcon = matchDetails.length > 1 ? (
+    const remainingIcon = matchDetails.length > 1 ? (
       <li>
         <Icon name="translate" class="Icon--xsm"
         /> {matchDetails.length - 1} more occurrences

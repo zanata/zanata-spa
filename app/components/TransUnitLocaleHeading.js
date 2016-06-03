@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 /**
  * Heading that displays locale name and ID
  */
-let TransUnitLocaleHeading = React.createClass({
+const TransUnitLocaleHeading = React.createClass({
 
   propTypes: {
     id: PropTypes.string.isRequired,

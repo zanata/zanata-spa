@@ -28,14 +28,11 @@ const TransUnitSourcePanel = React.createClass({
 
     const isLoading = !this.props.phrase.sources
 
-    let sources
-
-    if (isLoading) {
-      sources = <span className="u-textMeta">
-                  <Icon name="loader"/>
-                </span>
-    } else {
-      sources = this.props.phrase.sources.map(
+    const sources = isLoading
+      ? <span className="u-textMeta">
+          <Icon name="loader"/>
+        </span>
+      : this.props.phrase.sources.map(
         (source, index) => {
           // TODO make this translatable
           const headerLabel = index === 0
@@ -74,7 +71,6 @@ const TransUnitSourcePanel = React.createClass({
             </div>
           )
         })
-    }
 
     // empty, but this is what is output in the Angular version
     const footer = this.props.selected

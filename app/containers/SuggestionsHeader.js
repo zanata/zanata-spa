@@ -9,7 +9,7 @@ import ToggleSwitch from '../components/ToggleSwitch'
  * Header of the suggestions panel, with some controls and
  * the search input.
  */
-let SuggestionsHeader = React.createClass({
+const SuggestionsHeader = React.createClass({
 
   propTypes: {
     searchType: PropTypes.oneOf(['phrase', 'text']).isRequired,

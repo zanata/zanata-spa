@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react'
 /**
  * Dropdown to select the language to display the user interface in.
  */
-let UiLanguageDropdown = React.createClass({
+const UiLanguageDropdown = React.createClass({
 
   propTypes: {
     changeUiLocale: PropTypes.func.isRequired,
@@ -25,7 +25,7 @@ let UiLanguageDropdown = React.createClass({
   },
 
   render: function () {
-    let items = values(this.props.uiLocales).map(locale => {
+    const items = values(this.props.uiLocales).map(locale => {
       return (
         <li key={locale.id}>
           <a onClick={this.changeUiLocale(locale)}
@@ -36,9 +36,9 @@ let UiLanguageDropdown = React.createClass({
       )
     })
 
-    let selectedLocaleId = this.props.selectedUiLocale
-    let selectedLocale = this.props.uiLocales[selectedLocaleId]
-    let uiLocaleName = selectedLocale ? selectedLocale.name : selectedLocaleId
+    const selectedLocaleId = this.props.selectedUiLocale
+    const selectedLocale = this.props.uiLocales[selectedLocaleId]
+    const uiLocaleName = selectedLocale ? selectedLocale.name : selectedLocaleId
 
     return (
       <Dropdown onToggle={this.props.toggleDropdown}

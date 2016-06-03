@@ -21,12 +21,12 @@ const SuggestionTranslationDetails = React.createClass({
   },
 
   user: function (suggestion) {
-    let topMatch = suggestion.matchDetails[0]
+    const topMatch = suggestion.matchDetails[0]
     return topMatch.lastModifiedBy || 'Anonymous'
   },
 
   lastChanged: function (suggestion) {
-    let topMatch = suggestion.matchDetails[0]
+    const topMatch = suggestion.matchDetails[0]
     if (topMatch.type === 'IMPORTED_TM') {
       return topMatch.lastChanged
     }

@@ -18,7 +18,7 @@ const DO_NOT_RENDER = null
 /**
  * Panel to search for and display suggestions.
  */
-let SuggestionsPanel = React.createClass({
+const SuggestionsPanel = React.createClass({
   propTypes: {
     // likely want to move this switching to a higher level
     showPanel: PropTypes.bool.isRequired,

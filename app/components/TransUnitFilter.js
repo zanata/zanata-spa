@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
 /**
  * Panel with controls to filter the list of trans units
  */
-let TransUnitFilter = React.createClass({
+const TransUnitFilter = React.createClass({
   propTypes: {
     actions: PropTypes.shape({
       resetFilter: PropTypes.func.isRequired,
@@ -55,9 +55,8 @@ let TransUnitFilter = React.createClass({
   },
 
   render: function () {
-    let actions = this.props.actions
-    let onFilterChange = actions.onFilterChange
-    let gettextCatalog = this.props.gettextCatalog
+    const { onFilterChange, resetFilter } = this.props.actions
+    const gettextCatalog = this.props.gettextCatalog
 
     return (
       <ul className="u-listHorizontal u-sizeHeight-1">
@@ -66,7 +65,7 @@ let TransUnitFilter = React.createClass({
             id="filter-phrases-total"
             className="u-textSecondary"
             isChecked={this.props.filter.all}
-            onChange={actions.resetFilter}
+            onChange={resetFilter}
             title={gettextCatalog.getString('Total Phrases')}
             count={this.props.counts.total}
             withDot={false}/>

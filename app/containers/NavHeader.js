@@ -63,19 +63,19 @@ const NavHeader = React.createClass({
     const ctx = props.data.context
     const dropdowns = props.dropdown
 
-    let docsDropdownProps = {
+    const docsDropdownProps = {
       context: ctx,
       isOpen: dropdowns.openDropdownKey === dropdowns.docsKey,
       toggleDropdown: props.actions.toggleDropdown(dropdowns.docsKey)
     }
 
-    let langsDropdownProps = {
+    const langsDropdownProps = {
       context: ctx,
       isOpen: dropdowns.openDropdownKey === dropdowns.localeKey,
       toggleDropdown: props.actions.toggleDropdown(dropdowns.localeKey)
     }
 
-    let uiLangDropdownProps = {
+    const uiLangDropdownProps = {
       changeUiLocale: props.actions.changeUiLocale,
       selectedUiLocale: props.ui.selectedUiLocale,
       uiLocales: props.ui.uiLocales,

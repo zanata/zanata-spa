@@ -5,7 +5,7 @@ import SuggestionList from '../components/SuggestionList'
 /**
  * Display all suggestions that match the current search.
  */
-let SuggestionsBody = React.createClass({
+const SuggestionsBody = React.createClass({
   propTypes: {
     searchType: PropTypes.oneOf(['phrase', 'text']).isRequired,
     search: PropTypes.shape({

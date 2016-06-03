@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 /**
  * Gravatar icon that links to the dashboard page
  */
-let DashboardLink = React.createClass({
+const DashboardLink = React.createClass({
 
   propTypes: {
     dashboardUrl: PropTypes.string.isRequired,
