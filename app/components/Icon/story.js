@@ -21,9 +21,7 @@ function iconLi (name, key) {
 }
 
 /*
- * name
- * title
- * className
+ * See .storybook/README.md for info on the component storybook.
  */
 storiesOf('Icon', module)
   // history icon from suggestion panel

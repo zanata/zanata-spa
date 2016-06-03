@@ -2,6 +2,9 @@ import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import Button from '.'
 
+/*
+ * See .storybook/README.md for info on the component storybook.
+ */
 storiesOf('Button', module)
   .add('plain', () => (
     <Button title="Click should trigger onClick action"

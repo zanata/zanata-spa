@@ -2,6 +2,9 @@ import React from 'react'
 import { storiesOf } from '@kadira/storybook'
 import LogoLoader from '.'
 
+/*
+ * See .storybook/README.md for info on the component storybook.
+ */
 storiesOf('LogoLoader', module)
   .add('default', () => (
     <LogoLoader inverted={false} loading={false}/>

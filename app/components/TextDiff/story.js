@@ -2,6 +2,9 @@ import React from 'react'
 import { storiesOf } from '@kadira/storybook'
 import TextDiff from '.'
 
+/*
+ * See .storybook/README.md for info on the component storybook.
+ */
 storiesOf('TextDiff', module)
   .add('default', () => (
     <TextDiff
