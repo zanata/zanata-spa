@@ -1,10 +1,8 @@
 import { ROUTING_PARAMS_CHANGED } from '../actions'
+import { DEFAULT_LOCALE } from './ui'
 
 const defaultState = {
-  sourceLocale: {
-    localeId: 'en-US',
-    name: 'English'
-  }
+  sourceLocale: DEFAULT_LOCALE
 }
 
 const routingParamsReducer = (state = defaultState, action) => {

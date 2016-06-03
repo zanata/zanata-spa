@@ -15,8 +15,8 @@ import {
 import {prepareLocales} from '../utils/Util'
 import updateObject from 'react-addons-update'
 
-// migrated from LocaleService
-const DEFAULT_LOCALE = {
+// TODO extract this to a common config
+export const DEFAULT_LOCALE = {
   'localeId': 'en-US',
   'name': 'English'
 }
