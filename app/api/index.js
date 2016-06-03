@@ -6,6 +6,7 @@
 // https://www.npmjs.com/package/whatwg-fetch
 // (it is just a wrapper around whatwg-fetch)
 import fetch from 'isomorphic-fetch'
+import { encode } from '../utils/doc-id'
 
 // FIXME use value from config
 export const serviceUrl = 'http://localhost:7878/zanata'
@@ -42,14 +43,10 @@ export function fetchPhraseDetail (localeId, phraseIds) {
   })
 }
 
-function encodeDocId (docId) {
-  return docId ? docId.replace(/\//g, ',') : docId
-}
-
 export function fetchStatistics (_projectSlug, _versionSlug,
                                           _docId, _localeId) {
   const statsUrl =
-    `${baseUrl}/stats/project/${_projectSlug}/version/${_versionSlug}/doc/${encodeDocId(_docId)}/locale/${_localeId}` // eslint-disable-line max-len
+    `${baseUrl}/stats/project/${_projectSlug}/version/${_versionSlug}/doc/${encode(_docId)}/locale/${_localeId}` // eslint-disable-line max-len
 
   return fetch(statsUrl, {
     method: 'GET',
