@@ -6,6 +6,7 @@ import {
 } from '../actions/headerActions'
 import updateObject from 'react-addons-update'
 import {prepareLocales, prepareStats, prepareDocs} from '../utils/Util'
+import { dashboardUrl } from '../api'
 
 const defaultState = {
   user: {
@@ -66,8 +67,7 @@ export default (state = defaultState, action) => {
             $set: `http://www.gravatar.com/avatar/${gravatarHash}?d=mm&ampr=g&amps=${72}` // eslint-disable-line max-len
           },
           dashboardUrl: {
-            // FIXME pahuang dashboard url
-            $set: `http://localhost:8080/zanata/dashboard`
+            $set: dashboardUrl
           }
 
         },
