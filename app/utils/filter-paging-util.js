@@ -30,12 +30,12 @@ export function filterPhrases (filter, phrases) {
 }
 
 export function calculateMaxPageIndexFromState (state) {
-  return calculatMaxPageIndex(getFilteredPhrasesFromState(state),
+  return calculateMaxPageIndex(getFilteredPhrasesFromState(state),
                               state.phrases.paging.countPerPage)
 }
 
 // -1 when there are no pages (i.e. no phrases)
-export function calculatMaxPageIndex (phrases, countPerPage) {
+export function calculateMaxPageIndex (phrases, countPerPage) {
   const phraseCount = phrases.length
 
   const maxPageNumber = Math.ceil(phraseCount / countPerPage)

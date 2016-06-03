@@ -25,7 +25,7 @@ import {
 } from '../actions/phrases'
 import { COPY_SUGGESTION } from '../actions/suggestions'
 import {
-  calculatMaxPageIndex,
+  calculateMaxPageIndex,
   calculateMaxPageIndexFromState,
   getFilteredPhrasesFromState
 } from '../utils/filter-paging-util'
@@ -284,7 +284,7 @@ const phraseReducer = (state = defaultState, action) => {
       // Just go to valid page nearest current page when selected phrase is
       // invisible. Ideal would be page that shows the phrase nearest the
       // selected one in the unfiltered document, but that is complicated.
-      ? clamp(pageIndex, 0, calculatMaxPageIndex(phrases, countPerPage))
+      ? clamp(pageIndex, 0, calculateMaxPageIndex(phrases, countPerPage))
       : Math.floor(phraseIndex / countPerPage)
 
     return updateObject(state, {
