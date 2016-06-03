@@ -6,9 +6,8 @@ import { connect } from 'react-redux'
 import { getCurrentPagePhrasesFromState } from '../utils/filter-paging-util'
 
 /**
- * Single row in the editor displaying a whole phrase.
- * Including source, translation, metadata and editing
- * facilities.
+ * The main content section showing the current page of TransUnit source,
+ * status and translations.
  */
 const MainContent = React.createClass({
 
