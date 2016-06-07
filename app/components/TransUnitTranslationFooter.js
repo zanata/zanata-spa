@@ -44,17 +44,16 @@ const TransUnitTranslationFooter = React.createClass({
   },
 
   saveButtonElement: function (status) {
+    const { phrase, saveAsMode, savePhraseWithStatus } = this.props
     const className = cx('Button u-sizeHeight-1_1-4',
                          'u-sizeFull u-textLeft',
                          this.buttonClassByStatus[status])
 
     const saveCallback = (event) => {
-      this.props.savePhraseWithStatus(this.props.phrase, status, event)
+      savePhraseWithStatus(phrase, status, event)
     }
 
-    const shortcutKey = this.props.saveAsMode
-      ? this.statusShortcutKeys[status]
-      : undefined
+    const shortcutKey = saveAsMode && this.statusShortcutKeys[status]
 
     return (
       <Button
@@ -105,15 +104,14 @@ const TransUnitTranslationFooter = React.createClass({
     }
 
     // TODO translate "Save as"
-    const saveAsLabel = translationHasChanged
-      ? <span className="u-textMeta u-sMR-1-4 u-floatLeft
-                         u-sizeLineHeight-1_1-4">
-            Save as
-        </span>
-      : undefined
+    const saveAsLabel = translationHasChanged &&
+      <span className="u-textMeta u-sMR-1-4 u-floatLeft
+                       u-sizeLineHeight-1_1-4">
+          Save as
+      </span>
 
-    const actionButtonKeyShortcut = saveAsMode
-      ? this.statusShortcutKeys[selectedButtonStatus] : undefined
+    const actionButtonKeyShortcut =
+      saveAsMode && this.statusShortcutKeys[selectedButtonStatus]
     const actionButton = (
         <Button
           className={cx('Button u-sizeHeight-1_1-4 u-textCapitalize',
@@ -134,17 +132,16 @@ const TransUnitTranslationFooter = React.createClass({
       )
     })
 
-    const dropdownToggleButton = otherStatuses.length > 0
-      ? <Button
-          className={cx('Button Button--snug u-sizeHeight-1_1-4',
-                        'Dropdown-toggle',
-                        this.buttonClassByStatus[selectedButtonStatus])}
-          title="Save as…">
-          <Icon name="chevron-down"
-                title="Save as…"
-                className="Icon--sm Dropdown-toggleIcon"/>
-        </Button>
-      : undefined
+    const dropdownToggleButton = otherStatuses.length > 0 &&
+      <Button
+        className={cx('Button Button--snug u-sizeHeight-1_1-4',
+                      'Dropdown-toggle',
+                      this.buttonClassByStatus[selectedButtonStatus])}
+        title="Save as…">
+        <Icon name="chevron-down"
+              title="Save as…"
+              className="Icon--sm Dropdown-toggleIcon"/>
+      </Button>
 
     const otherActionButtonList = (
       <ul className="Dropdown-content Dropdown-content--bordered
