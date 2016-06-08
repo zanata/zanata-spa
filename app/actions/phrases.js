@@ -99,7 +99,7 @@ function transUnitDetailToPhraseDetail (transUnitDetail, localeId) {
       sources: plural ? source.contents : [source.content],
       translations,
       newTranslations: [...translations],
-      status: transUnitStatusToPhraseStatus(trans ? trans.state : undefined),
+      status: transUnitStatusToPhraseStatus(trans && trans.state),
       revision: trans && trans.revision ? parseInt(trans.revision, 10) : 0,
       wordCount: parseInt(source.wordCount, 10)
     }
@@ -125,9 +125,7 @@ function extractTranslations (source, trans) {
  * Expect: untranslated/needswork/translated/approved
  */
 function transUnitStatusToPhraseStatus (mixedCaseStatus) {
-  const status = mixedCaseStatus
-    ? mixedCaseStatus.toLowerCase()
-    : undefined
+  const status = mixedCaseStatus && mixedCaseStatus.toLowerCase()
   if (!status || status === STATUS_NEW) {
     return STATUS_UNTRANSLATED
   }

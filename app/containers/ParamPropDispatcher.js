@@ -23,12 +23,8 @@ class ParamPropDispatcher extends React.Component {
   componentWillReceiveProps (newProps) {
     // console.log('willReceiveProps')
     // debugger
-    const oldPathname = this.props.location
-      ? this.props.location.pathname
-      : undefined
-    const newPathname = newProps.location
-      ? newProps.location.pathname
-      : undefined
+    const oldPathname = this.props.location && this.props.location.pathname
+    const newPathname = newProps.location && newProps.location.pathname
     if (oldPathname !== newPathname) {
       this.props.dispatchParams(newProps.params)
     }
