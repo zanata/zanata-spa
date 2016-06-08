@@ -31,6 +31,7 @@
   },
   "license": "LGPL-2.1",
   "devDependencies": {
+    "@kadira/storybook": "^1.29.3",
     "autoprefixer": "6.3.6",
     "babel-core": "6.9.0",
     "babel-eslint": "4.1.8",
