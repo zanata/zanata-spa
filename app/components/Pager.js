@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react'
  * Paging buttons and current-page indicator.
  */
 
-let PagerButton = React.createClass({
+const PagerButton = React.createClass({
   render: function () {
     return (
         <li>
@@ -21,8 +21,7 @@ let PagerButton = React.createClass({
   }
 })
 
-let Pager = React.createClass({
-
+const Pager = React.createClass({
   propTypes: {
     actions: PropTypes.shape({
       firstPage: PropTypes.func.isRequired,
@@ -41,42 +40,39 @@ let Pager = React.createClass({
   },
 
   render: function () {
-    let gettextCatalog = this.props.gettextCatalog
+    const { actions, gettextCatalog, pageCount, pageNumber } = this.props
+    const { firstPage, previousPage, nextPage, lastPage } = actions
 
-    let pageNumber = this.props.pageNumber
-    let pageCount = this.props.pageCount
-
-    /* FIXME this is using angular gettext
-    let pageXofY = pageCount
+    /* FIXME make this string translatable (was using angular gettext)
+    const pageXofY = pageCount
       ? gettextCatalog.getString(
         '{{currentPage}} of {{totalPages}}', {
           currentPage: pageNumber,
           totalPages: pageCount
         })
       : pageNumber*/
-    let pageXofY = `${pageNumber} of ${pageCount}`
+    const pageXofY = `${pageNumber} of ${pageCount}`
 
-    let actions = this.props.actions
-    let buttons = {
+    const buttons = {
       first: {
         icon: 'previous',
         title: gettextCatalog.getString('First page'),
-        action: actions.firstPage
+        action: firstPage
       },
       prev: {
         icon: 'chevron-left',
         title: gettextCatalog.getString('Previous page'),
-        action: actions.previousPage
+        action: previousPage
       },
       next: {
         icon: 'chevron-right',
         title: gettextCatalog.getString('Next page'),
-        action: actions.nextPage
+        action: nextPage
       },
       last: {
         icon: 'next',
         title: gettextCatalog.getString('Last page'),
-        action: actions.lastPage
+        action: lastPage
       }
     }
 

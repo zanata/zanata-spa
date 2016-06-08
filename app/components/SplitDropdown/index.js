@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
 /**
  * Dropdown with both an action button and a toggle button.
  */
-let SplitDropdown = React.createClass({
+const SplitDropdown = React.createClass({
 
   propTypes: {
     onToggle: PropTypes.func.isRequired,
@@ -25,7 +25,7 @@ let SplitDropdown = React.createClass({
   },
 
   render: function () {
-    let className = cx('Dropdown', this.props.className, {
+    const className = cx('Dropdown', this.props.className, {
       'is-active': this.props.isOpen
     })
 

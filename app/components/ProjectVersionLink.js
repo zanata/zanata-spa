@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
  * Link to open the version page.
  * Label is project + version name
  */
-let ProjectVersionLink = React.createClass({
+const ProjectVersionLink = React.createClass({
 
   propTypes: {
     project: PropTypes.shape({

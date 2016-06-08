@@ -9,7 +9,7 @@ import React, { PropTypes } from 'react'
  *
  * props.className is applied to the icon
  */
-let IconButtonToggle = React.createClass({
+const IconButtonToggle = React.createClass({
 
   propTypes: {
     icon: PropTypes.string.isRequired,
@@ -27,7 +27,7 @@ let IconButtonToggle = React.createClass({
   },
 
   render: function () {
-    let buttonClass = cx(this.props.buttonClass,
+    const buttonClass = cx(this.props.buttonClass,
       'Button Button--snug u-roundish Button--invisible',
       { 'is-active': this.props.active })
 

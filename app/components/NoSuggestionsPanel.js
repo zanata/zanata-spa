@@ -5,7 +5,7 @@ import Icon from './Icon'
  * Generic panel showing an icon and message, to
  * use when there are no suggestions to display.
  */
-let NoSuggestionsPanel = React.createClass({
+const NoSuggestionsPanel = React.createClass({
 
   propTypes: {
     message: PropTypes.string.isRequired,

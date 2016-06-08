@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react'
 /**
  * Styled checkbox to toggle a filter option on and off.
  */
-let FilterToggle = React.createClass({
+const FilterToggle = React.createClass({
 
   propTypes: {
     id: PropTypes.string,
@@ -30,9 +30,8 @@ let FilterToggle = React.createClass({
   },
 
   render: function () {
-    let className = cx('Toggle u-round', this.props.className)
-
-    let dot = this.props.withDot
+    const className = cx('Toggle u-round', this.props.className)
+    const dot = this.props.withDot
       ? <Icon name="dot" className="Icon--xsm"/> : undefined
 
     return (
