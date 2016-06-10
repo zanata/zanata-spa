@@ -11,7 +11,7 @@
 
 Build and run a server: `make watch`.
 
- - Editor is available at [localhost:8000](http://localhost:8000)
+ - Editor is available at [localhost:8080](http://localhost:8080)
    - the editor will be blank at the base URL, include the project-version to
      show content. The format is
      localhost:8000/#/{project-slug}/{version-slug}/translate
@@ -22,8 +22,8 @@ Build and run a server: `make watch`.
 
 Build and run server and API server: `make watch-fakeserver`.
 
- - Editor is available at [localhost:8000](http://localhost:8000)
-   - URL for a working document from the default API server [Tiny Project 1, hello.txt to French](http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr)
+ - Editor is available at [localhost:8080](http://localhost:8080)
+   - URL for a working document from the default API server [Tiny Project 1, hello.txt to French](http://localhost:8080/#/tiny-project/1/translate/hello.txt/fr)
  - REST API server is available at
    [localhost:7878/zanata/rest](http://localhost:7878/zanata/rest)
 
