@@ -53,8 +53,8 @@ const LanguagesDropdown = React.createClass({
     // sometimes name is not yet available, fall back on id
     const selectedLocaleId = this.props.context.selectedLocale
     const selectedLocale = locales[selectedLocaleId]
-    const localeName = selectedLocale ? selectedLocale.name : selectedLocaleId
-
+    const localeName = selectedLocale && selectedLocale.name
+      ? selectedLocale.name : selectedLocaleId
     return (
       <Dropdown onToggle={this.props.toggleDropdown}
                 isOpen={this.props.isOpen}>

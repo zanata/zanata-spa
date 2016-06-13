@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import { baseUrl } from '.'
+import { baseRestUrl } from '.'
 import { chain, sortBy } from 'lodash'
 import { oneLiner } from '../utils/string-utils'
 
@@ -16,17 +16,18 @@ export function getSuggestions (sourceLocale, transLocale, contents) {
   // TODO allow different search types?
   const searchType = 'FUZZY_PLURAL'
 
-  const suggestionsUrl = `${baseUrl}/suggestions?from=${sourceLocale}&to=${transLocale}&searchType=${searchType}` // eslint-disable-line max-len
+  const suggestionsUrl = `${baseRestUrl}/suggestions?from=${sourceLocale}&to=${transLocale}&searchType=${searchType}` // eslint-disable-line max-len
 
   const request = fetch(suggestionsUrl, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     mode: 'cors',
     isArray: true,
-    body: contents
+    body: JSON.stringify(contents)
   })
 
   const rawSuggestions = request

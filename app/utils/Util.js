@@ -9,7 +9,7 @@ export const prepareLocales = (locales) => {
       .map(function (locale) {
         return {
           id: locale.localeId,
-          name: locale.name
+          name: locale.displayName
         }
       })
       .indexBy('id')
