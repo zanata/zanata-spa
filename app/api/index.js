@@ -16,30 +16,27 @@ import {
 
 // FIXME use value from config
 const appPath = 'app'
-/**
- * To run with live-watch, replace with
- * const serviceUrl = getServiceUrl(false)
- */
-const serviceUrl = getServiceUrl(true)
+const serviceUrl = getServiceUrl()
 export const dashboardUrl = serviceUrl + '/dashboard'
 
 export const baseRestUrl = serviceUrl + '/rest'
 
 /**
- * @param isProd = true
+ * if process.env.NODE_ENV === 'development'
+ * @returns 'http://localhost:7878/zanata'
  *
+ * else
  * @returns Root Zanata url with context path.
  * Url will start from index 0 to index of appPath
  *
  * e.g current url= http://localhost:7878/zanata/app/testurl/test.html
  * returns http://localhost:7878/zanata
- *
- * @param isProd = true
- * @returns 'http://localhost:7878/zanata'
- *
  */
-function getServiceUrl (isProd) {
-  if (isProd) {
+function getServiceUrl () {
+  const isDev = process.env && process.env.NODE_ENV === 'development'
+  if (isDev) {
+    return 'http://localhost:7878/zanata'
+  } else {
     let serviceUrl = location.origin + location.pathname
     const index = location.href.indexOf(appPath)
     if (index >= 0) {
@@ -48,8 +45,6 @@ function getServiceUrl (isProd) {
     }
     serviceUrl = serviceUrl.replace(/\/?$/, '') // remove trailing slash
     return serviceUrl
-  } else {
-    return 'http://localhost:7878/zanata'
   }
 }
 

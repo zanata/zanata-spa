@@ -12,8 +12,8 @@
     "url": "https://github.com/zanata/zanata-spa/issues"
   },
   "scripts": {
-    "watch": "cd app && webpack-dev-server -d --progress --inline --hot --content-base build/",
-    "build": "cd app && NODE_ENV=production webpack --progress",
+    "watch": "cd app && webpack-dev-server -d --progress --config webpack.dev.config.js --inline --hot --content-base build/",
+    "build": "cd app && webpack --progress --config webpack.prod.config.js",
     "test": "babel-tape-runner \"test/**/*.jsx\" | faucet",
     "test-raw": "babel-tape-runner \"test/**/*.jsx\"",
     "storybook": "start-storybook -p 9001 -s ./app/build",
