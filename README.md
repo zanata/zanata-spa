@@ -6,6 +6,8 @@
 
 1. Make sure [node and npm](http://nodejs.org/) are installed.
 2. Setup dependencies: `make setup`.
+3. Build compressed files: `make build`, files will be in /app/build
+
 
 ### Run with live reload
 
