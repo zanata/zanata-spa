@@ -156,13 +156,16 @@ const ControlsHeader = React.createClass({
 function mapStateToProps (state) {
   const { actions, phrases, ui } = state
 
+  const pageCount = calculateMaxPageIndexFromState(state) + 1
+  const pageNumber = Math.min(pageCount, phrases.paging.pageIndex + 1)
+
   return {
     actions,
     counts: state.headerData.context.selectedDoc.counts,
     paging: {
       ...phrases.paging,
-      pageCount: calculateMaxPageIndexFromState(state) + 1,
-      pageNumber: phrases.paging.pageIndex + 1
+      pageCount: pageCount,
+      pageNumber: pageNumber
     },
     ui
   }

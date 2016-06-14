@@ -49,7 +49,7 @@ const defaultState = {
   detail: {},
   selectedPhraseId: undefined,
   paging: {
-    countPerPage: 2,
+    countPerPage: 20,
     pageIndex: 0
   }
 }
