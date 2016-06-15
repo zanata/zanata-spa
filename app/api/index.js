@@ -16,7 +16,7 @@ import {
 
 // FIXME use value from config
 const appPath = 'app'
-const serviceUrl = getServiceUrl()
+export const serviceUrl = getServiceUrl()
 export const dashboardUrl = serviceUrl + '/dashboard'
 
 export const baseRestUrl = serviceUrl + '/rest'

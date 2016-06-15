@@ -6,7 +6,7 @@ import {
 } from '../actions/headerActions'
 import updateObject from 'react-addons-update'
 import {prepareLocales, prepareStats, prepareDocs} from '../utils/Util'
-import { dashboardUrl } from '../api'
+import { dashboardUrl, serviceUrl } from '../api'
 
 const defaultState = {
   user: {
@@ -39,11 +39,12 @@ const defaultState = {
   }
 }
 
-// FIXME get this from the api module instead
 const projectPage = (projectSlug, versionSlug) => {
-  // TODO pahuang set server context path
-  const serverContextPath = ''
-  return `${serverContextPath}iteration/view/${projectSlug}/${versionSlug}`
+  return `${serviceUrl}/iteration/view/${projectSlug}/${versionSlug}`
+}
+
+const gravatarUrl = (hash, size) => {
+  return `http://www.gravatar.com/avatar/${hash}?d=mm&ampr=g&amps=${size}`
 }
 
 export default (state = defaultState, action) => {
@@ -63,8 +64,7 @@ export default (state = defaultState, action) => {
             $set: name
           },
           gravatarUrl: {
-            // FIXME put gravatar URL generation in its own module
-            $set: `http://www.gravatar.com/avatar/${gravatarHash}?d=mm&ampr=g&amps=${72}` // eslint-disable-line max-len
+            $set: gravatarUrl(gravatarHash, 72)
           },
           dashboardUrl: {
             $set: dashboardUrl
