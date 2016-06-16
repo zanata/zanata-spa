@@ -1,6 +1,7 @@
 import stateChangeDispatchMiddleware from './state-change-dispatch'
 import { requestDocumentList } from '../actions'
 import { requestPhraseList } from '../actions/phrases'
+import { selectDoc, selectLocale } from '../actions/headerActions'
 
 /**
  * Middleware to fetch new data when the context changes.
@@ -23,11 +24,16 @@ const fetchDocsMiddleware = stateChangeDispatchMiddleware(
     const needPhrases = oldState.context.docId !== newState.context.docId
     if (needPhrases) {
       const { projectSlug, versionSlug, lang, docId } = newState.context
+      dispatch(selectDoc(docId))
+      dispatch(requestPhraseList(projectSlug, versionSlug, lang, docId))
+    }
+    const updateLocale = oldState.context.lang !== newState.context.lang
+    if (updateLocale) {
+      const { projectSlug, versionSlug, lang, docId } = newState.context
+      dispatch(selectLocale(lang))
       dispatch(requestPhraseList(projectSlug, versionSlug, lang, docId))
     }
   }
-  // TODO add callback to fetchNewPhrasesIfNeeded (when docId changes)
-  // TODO add callback to fetchNewTranslationsIfNeeded (when lang changes)
 )
 
 export default fetchDocsMiddleware
