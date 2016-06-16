@@ -52,8 +52,8 @@ addLocaleData({
 const history = hashHistory
 
 const loggerMiddleware = createLogger({
-  // predicate: (getState, action) =>
-  //   process.env && (process.env.NODE_ENV === 'development'),
+  predicate: (getState, action) =>
+    process.env && (process.env.NODE_ENV === 'development'),
   actionTransformer: (action) => {
     if (typeof action.type !== 'symbol') {
       console.warn('You should use a Symbol for this action type: ' +

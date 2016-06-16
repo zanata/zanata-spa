@@ -29,7 +29,6 @@ import {
   calculateMaxPageIndexFromState,
   getFilteredPhrasesFromState
 } from '../utils/filter-paging-util'
-import { mapValues } from 'lodash'
 import { SET_SAVE_AS_MODE } from '../actions/editorShortcuts'
 import { MOVE_NEXT, MOVE_PREVIOUS } from '../actions/phraseNavigation'
 
@@ -82,9 +81,14 @@ const phraseReducer = (state = defaultState, action) => {
 
     case CANCEL_EDIT:
       // Discard any newTranslations that were entered.
+      const currentTrans = state.detail[state.selectedPhraseId].translations
       return update({
         selectedPhraseId: {$set: undefined},
-        detail: {$merge: revertEnteredTranslationsToDefault(state.detail)}
+        detail: {
+          [state.selectedPhraseId]: {
+            newTranslations: {$set: currentTrans}
+          }
+        }
       })
 
     case COPY_FROM_ALIGNED_SOURCE:
@@ -121,9 +125,8 @@ const phraseReducer = (state = defaultState, action) => {
 
     case PHRASE_LIST_FETCHED:
     // select the first phrase if there is one
-      const selectedPhraseId = action.phraseList.length
-        ? action.phraseList[0].id
-        : undefined
+      const selectedPhraseId = action.phraseList.length &&
+        action.phraseList[0].id
       return update({
         fetchingList: {$set: false},
         inDoc: {[action.docId]: {$set: action.phraseList}},
@@ -148,10 +151,12 @@ const phraseReducer = (state = defaultState, action) => {
       })
 
     case SAVE_FINISHED:
-      const { translations } = state.detail[action.phraseId]
+      const phrase = state.detail[action.phraseId]
+      const { newTranslations, translations } = phrase
       return updatePhrase(action.phraseId, {
         inProgressSave: {$set: undefined},
-        translations: {$set: translations},
+        previousTranslations: {$set: translations},
+        translations: {$set: newTranslations},
         // TODO same as inProgressSave.status unless the server adjusted it
         status: {$set: action.status},
         revision: {$set: action.revision}
@@ -188,10 +193,13 @@ const phraseReducer = (state = defaultState, action) => {
       })
 
     case UNDO_EDIT:
-      // Discard any newTranslations that were entered.
-      return update({
-        detail: {$merge: revertEnteredTranslationsToDefault(state.detail)}
-      })
+      return updatePhrase(state.selectedPhraseId, {$apply: (phrase) => {
+        return updateObject(phrase, {
+          newTranslations: {$set: [...phrase.previousTranslations]},
+          translations: {$set: [...phrase.previousTranslations]},
+          previousTranslations: {$set: undefined}
+        })
+      }})
 
     case MOVE_NEXT:
       return changeSelectedIndex(index => index + 1)
@@ -294,14 +302,6 @@ const phraseReducer = (state = defaultState, action) => {
       }
     })
   }
-}
-
-function revertEnteredTranslationsToDefault (phraseDetails) {
-  return mapValues(phraseDetails, phrase => {
-    return updateObject(phrase, {
-      newTranslations: {$set: [...phrase.translations]}
-    })
-  })
 }
 
 function copyFromSource (phrase, sourceIndex) {
