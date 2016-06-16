@@ -1,13 +1,27 @@
 import stateChangeDispatchMiddleware from './state-change-dispatch'
 import { requestDocumentList } from '../actions'
-import { requestPhraseList } from '../actions/phrases'
+import { requestPhraseList, fetchPhraseDetails } from '../actions/phrases'
 import { selectDoc, selectLocale } from '../actions/headerActions'
+import { UPDATE_PAGE } from '../actions/controlsHeaderActions'
+import { max } from 'lodash'
+
+/**
+ * Get page query from url, and check is integer and >= 0
+ * @param state
+ * @returns {number}
+ */
+const getPageIndexFromQuery = (state) => {
+  return state.routing.location.query.page
+    ? max([parseInt(state.routing.location.query.page, 10) - 1, 0]) : 0
+}
 
 /**
  * Middleware to fetch new data when the context changes.
  *
  * e.g.
- *  - when selected doc ID changes, fetch its text flows
+ *  - when selected doc ID changes, fetch text flow info and details
+ *  - when selected locale changes, fetch text flow info and details
+ *  - when page changes, fetch text flows details
  *  - when the project or version change, fetch a new document list
  */
 const fetchDocsMiddleware = stateChangeDispatchMiddleware(
@@ -21,17 +35,36 @@ const fetchDocsMiddleware = stateChangeDispatchMiddleware(
     }
   },
   (dispatch, oldState, newState) => {
-    const needPhrases = oldState.context.docId !== newState.context.docId
-    if (needPhrases) {
-      const { projectSlug, versionSlug, lang, docId } = newState.context
-      dispatch(selectDoc(docId))
-      dispatch(requestPhraseList(projectSlug, versionSlug, lang, docId))
-    }
+    const updateDoc = oldState.context.docId !== newState.context.docId
     const updateLocale = oldState.context.lang !== newState.context.lang
-    if (updateLocale) {
+
+    const newPageIndex = getPageIndexFromQuery(newState)
+    const oldPageIndex = getPageIndexFromQuery(oldState)
+
+    const updatePage = oldPageIndex !== newPageIndex
+    if (updateDoc || updateLocale) {
       const { projectSlug, versionSlug, lang, docId } = newState.context
-      dispatch(selectLocale(lang))
-      dispatch(requestPhraseList(projectSlug, versionSlug, lang, docId))
+      const paging = {
+        ...newState.phrases.paging,
+        pageIndex: newPageIndex
+      }
+      if (updateDoc) {
+        dispatch(selectDoc(docId))
+      }
+      if (updateLocale) {
+        dispatch(selectLocale(lang))
+      }
+      dispatch({type: UPDATE_PAGE, page: newPageIndex})
+      dispatch(requestPhraseList(projectSlug, versionSlug, lang, docId, paging))
+    } else if (updatePage) {
+      const phraseState = newState.phrases
+      const paging = {
+        ...phraseState.paging,
+        pageIndex: newPageIndex
+      }
+      dispatch({type: UPDATE_PAGE, page: newPageIndex})
+      dispatch(fetchPhraseDetails(phraseState.docStatus,
+        newState.context.lang, paging))
     }
   }
 )

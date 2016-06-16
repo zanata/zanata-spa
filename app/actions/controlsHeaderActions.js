@@ -1,3 +1,8 @@
+import {
+  calculateMaxPageIndexFromState
+} from '../utils/filter-paging-util'
+import { replaceRouteQuery } from '../utils/RoutingHelpers'
+
 export const RESET_STATUS_FILTERS = Symbol('RESET_STATUS_FILTERS')
 export function resetStatusFilter () {
   return {type: RESET_STATUS_FILTERS}
@@ -20,22 +25,42 @@ export function clampPage () {
   return { type: CLAMP_PAGE }
 }
 
-export const FIRST_PAGE = Symbol('FIRST_PAGE')
+export const UPDATE_PAGE = Symbol('UPDATE_PAGE')
+
 export function firstPage () {
-  return {type: FIRST_PAGE}
+  return (dispatch, getState) => {
+    const pageIndex = 0
+    updatePage(dispatch, getState().routing.location, pageIndex)
+  }
 }
 
-export const NEXT_PAGE = Symbol('NEXT_PAGE')
 export function nextPage () {
-  return {type: NEXT_PAGE}
+  return (dispatch, getState) => {
+    const currentPageIndex = getState().phrases.paging.pageIndex
+    const pageIndex = Math.min(currentPageIndex + 1,
+      calculateMaxPageIndexFromState(getState()))
+    updatePage(dispatch, getState().routing.location, pageIndex)
+  }
 }
 
-export const PREVIOUS_PAGE = Symbol('PREVIOUS_PAGE')
 export function previousPage () {
-  return {type: PREVIOUS_PAGE}
+  return (dispatch, getState) => {
+    const currentPageIndex = getState().phrases.paging.pageIndex
+    const pageIndex = Math.max(currentPageIndex - 1, 0)
+    updatePage(dispatch, getState().routing.location, pageIndex)
+  }
 }
 
-export const LAST_PAGE = Symbol('LAST_PAGE')
 export function lastPage () {
-  return {type: LAST_PAGE}
+  return (dispatch, getState) => {
+    const pageIndex = calculateMaxPageIndexFromState(getState())
+    updatePage(dispatch, getState().routing.location, pageIndex)
+  }
+}
+
+function updatePage (dispatch, location, pageIndex) {
+  replaceRouteQuery(location, {
+    page: pageIndex + 1
+  })
+  dispatch({type: UPDATE_PAGE, page: pageIndex})
 }

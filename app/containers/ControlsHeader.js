@@ -158,6 +158,7 @@ function mapStateToProps (state) {
 
   const pageCount = calculateMaxPageIndexFromState(state) + 1
   const pageNumber = Math.min(pageCount, phrases.paging.pageIndex + 1)
+  console.info(phrases.paging)
 
   return {
     actions,

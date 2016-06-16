@@ -1,6 +1,6 @@
 import { fetchPhraseList, fetchPhraseDetail, savePhrase } from '../api'
 import { toggleDropdown } from '.'
-import { mapValues } from 'lodash'
+import { mapValues, slice } from 'lodash'
 import {
   STATUS_NEW,
   STATUS_UNTRANSLATED,
@@ -11,8 +11,9 @@ import {
 export const FETCHING_PHRASE_LIST = Symbol('FETCHING_PHRASE_LIST')
 
 // API lookup of the list of phrase id + phrase status for the current document
-export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
-  return (dispatch) => {
+export function requestPhraseList (projectSlug, versionSlug, lang, docId,
+                                   paging) {
+  return (dispatch, getState) => {
     dispatch({ type: FETCHING_PHRASE_LIST })
 
     fetchPhraseList(projectSlug, versionSlug, lang, docId)
@@ -28,28 +29,36 @@ export function requestPhraseList (projectSlug, versionSlug, lang, docId) {
       })
       .then(statusList => {
         // TODO statusList has status format from server, convert
-        dispatch(phraseListFetched(docId, statusList.map(phrase => {
+        dispatch(phraseListFetched(docId, statusList, statusList.map(phrase => {
           return {
             ...phrase,
             status: transUnitStatusToPhraseStatus(phrase.status)
           }
         })))
-
-        // TODO change so it only requests detail for current page.
-        dispatch(requestPhraseDetail(lang, statusList.map(phrase => {
-          return phrase.id
-        })))
+        dispatch(fetchPhraseDetails(statusList, lang, paging))
       })
+  }
+}
+
+export function fetchPhraseDetails (statusList, language, paging) {
+  return (dispatch) => {
+    const startIndex = paging.pageIndex * paging.countPerPage
+    const endIndex = paging.countPerPage + startIndex
+    const ids = slice(statusList, startIndex, endIndex).map(phrase => {
+      return phrase.id
+    })
+    dispatch(requestPhraseDetail(language, ids))
   }
 }
 
 // new phrase list has been fetched from API
 export const PHRASE_LIST_FETCHED = Symbol('PHRASE_LIST_FETCHED')
-export function phraseListFetched (docId, phraseList) {
+export function phraseListFetched (docId, statusList, phraseList) {
   return {
     type: PHRASE_LIST_FETCHED,
     docId: docId,
-    phraseList: phraseList
+    phraseList: phraseList,
+    statusList: statusList
   }
 }
 

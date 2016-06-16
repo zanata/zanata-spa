@@ -38,8 +38,8 @@ const MainContent = React.createClass({
       // phrase is passed as a prop to avoid complexity of trying to get at
       // the phrase from state in mapDispatchToProps
       return (
-        <li key={index}>
-          <TransUnit index={index} phrase={phrase}/>
+        <li key={phrase.id}>
+          <TransUnit index={phrase.id} phrase={phrase}/>
         </li>
       )
     })
@@ -70,7 +70,6 @@ function mapStateToProps (state, ownProps) {
     return detail || phrase
   })
   const maximised = !state.ui.panels.navHeader.visible
-
   return {
     context: state.context,
     maximised,

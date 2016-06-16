@@ -7,15 +7,23 @@ import React, { PropTypes } from 'react'
 
 const PagerButton = React.createClass({
   render: function () {
+    const icon =
+      <Icon name={this.props.icon}
+            title={this.props.title}
+            className="u-sizeWidth-1"/>
     return (
         <li>
-          <a className="Link--neutral u-sizeHeight-1_1-2 u-textNoSelect"
-             title={this.props.title}
-             onClick={this.props.action}>
-            <Icon name={this.props.icon}
-                  title={this.props.title}
-                  className="u-sizeWidth-1"/>
-          </a>
+          {this.props.disabled
+            ? <span className="u-textNeutral u-sizeHeight-1_1-2 u-textNoSelect"
+                  title={this.props.title}>
+                {icon}
+              </span>
+            : <a className="Link--neutral u-sizeHeight-1_1-2 u-textNoSelect"
+               title={this.props.title}
+               onClick={this.props.action}>
+                {icon}
+              </a>
+          }
         </li>
     )
   }
@@ -57,22 +65,26 @@ const Pager = React.createClass({
       first: {
         icon: 'previous',
         title: gettextCatalog.getString('First page'),
-        action: firstPage
+        action: firstPage,
+        disabled: pageNumber <= 1
       },
       prev: {
         icon: 'chevron-left',
         title: gettextCatalog.getString('Previous page'),
-        action: previousPage
+        action: previousPage,
+        disabled: pageNumber <= 1
       },
       next: {
         icon: 'chevron-right',
         title: gettextCatalog.getString('Next page'),
-        action: nextPage
+        action: nextPage,
+        disabled: pageNumber >= pageCount
       },
       last: {
         icon: 'next',
         title: gettextCatalog.getString('Last page'),
-        action: lastPage
+        action: lastPage,
+        disabled: pageNumber >= pageCount
       }
     }
 

@@ -1,10 +1,7 @@
 import updateObject from 'react-addons-update'
 import {
   CLAMP_PAGE,
-  FIRST_PAGE,
-  LAST_PAGE,
-  NEXT_PAGE,
-  PREVIOUS_PAGE
+  UPDATE_PAGE
 } from '../actions/controlsHeaderActions'
 import {
   CANCEL_EDIT,
@@ -63,21 +60,8 @@ const phraseReducer = (state = defaultState, action) => {
         }
       })
 
-    case FIRST_PAGE:
-      return updatePageIndex(0)
-
-    case PREVIOUS_PAGE:
-      return updatePageIndex(
-        Math.max(state.paging.pageIndex - 1, 0)
-      )
-
-    case NEXT_PAGE:
-      return updatePageIndex(
-        Math.min(state.paging.pageIndex + 1, getMaxPageIndex())
-      )
-
-    case LAST_PAGE:
-      return updatePageIndex(getMaxPageIndex())
+    case UPDATE_PAGE:
+      return updatePageIndex(action.page)
 
     case CANCEL_EDIT:
       // Discard any newTranslations that were entered.
@@ -131,9 +115,8 @@ const phraseReducer = (state = defaultState, action) => {
         fetchingList: {$set: false},
         inDoc: {[action.docId]: {$set: action.phraseList}},
         selectedPhraseId: {$set: selectedPhraseId},
-        paging: {
-          pageIndex: {$set: 0}
-        }
+        docStatus: {$set: action.statusList}
+
       })
 
     case PHRASE_DETAIL_FETCHED:
@@ -250,10 +233,6 @@ const phraseReducer = (state = defaultState, action) => {
       })
     }
     return state
-  }
-
-  function getMaxPageIndex () {
-    return calculateMaxPageIndexFromState(action.getState())
   }
 
   /**
