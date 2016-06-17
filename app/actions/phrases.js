@@ -108,7 +108,6 @@ function transUnitDetailToPhraseDetail (transUnitDetail, localeId) {
       sources: plural ? source.contents : [source.content],
       translations,
       newTranslations: [...translations],
-      previousTranslations: undefined,
       status: transUnitStatusToPhraseStatus(trans && trans.state),
       revision: trans && trans.revision ? parseInt(trans.revision, 10) : 0,
       wordCount: parseInt(source.wordCount, 10)

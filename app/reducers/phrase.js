@@ -135,10 +135,9 @@ const phraseReducer = (state = defaultState, action) => {
 
     case SAVE_FINISHED:
       const phrase = state.detail[action.phraseId]
-      const { newTranslations, translations } = phrase
+      const { newTranslations } = phrase
       return updatePhrase(action.phraseId, {
         inProgressSave: {$set: undefined},
-        previousTranslations: {$set: translations},
         translations: {$set: newTranslations},
         // TODO same as inProgressSave.status unless the server adjusted it
         status: {$set: action.status},
@@ -178,9 +177,7 @@ const phraseReducer = (state = defaultState, action) => {
     case UNDO_EDIT:
       return updatePhrase(state.selectedPhraseId, {$apply: (phrase) => {
         return updateObject(phrase, {
-          newTranslations: {$set: [...phrase.previousTranslations]},
-          translations: {$set: [...phrase.previousTranslations]},
-          previousTranslations: {$set: undefined}
+          newTranslations: {$set: [...phrase.translations]}
         })
       }})
 

@@ -3,7 +3,9 @@ import DocsDropdown from '../components/DocsDropdown'
 import Icon from '../components/Icon'
 import LanguagesDropdown from '../components/LanguagesDropdown'
 import ProjectVersionLink from '../components/ProjectVersionLink'
+/* Disabled UI locale changes until zanata-spa is internationalised
 import UiLanguageDropdown from '../components/UiLanguageDropdown'
+*/
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { toggleDropdown } from '../actions'
@@ -75,13 +77,14 @@ const NavHeader = React.createClass({
       toggleDropdown: props.actions.toggleDropdown(dropdowns.localeKey)
     }
 
+    /* Disabled UI locale changes until zanata-spa is internationalised
     const uiLangDropdownProps = {
       changeUiLocale: props.actions.changeUiLocale,
       selectedUiLocale: props.ui.selectedUiLocale,
       uiLocales: props.ui.uiLocales,
       isOpen: dropdowns.openDropdownKey === dropdowns.uiLocaleKey,
       toggleDropdown: props.actions.toggleDropdown(dropdowns.uiLocaleKey)
-    }
+    }*/
 
     return (
       <nav role="navigation"
@@ -102,9 +105,11 @@ const NavHeader = React.createClass({
         </div>
 
         <ul className="u-listHorizontal u-posAbsoluteRight u-sMR-1-2">
-          <li>
+          {/* Disabled UI locale changes until zanata-spa is internationalised
+            <li>
             <UiLanguageDropdown {...uiLangDropdownProps}/>
-          </li>
+          </li>*/
+          }
           {/* A couple of items from the Angular template that were not used
           <li ng-show="appCtrl.PRODUCTION">
             <button class="Link--invert Header-item u-sizeWidth-1_1-2"

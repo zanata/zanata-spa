@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import IconButton from './IconButton'
 import TransUnitLocaleHeading from './TransUnitLocaleHeading'
-import { canUndo } from '../utils/phrase'
+import { hasTranslationChanged } from '../utils/phrase'
 
 /**
  * Heading that displays locale name and ID
@@ -48,7 +48,7 @@ const TransUnitTranslationHeader = React.createClass({
   },
 
   render: function () {
-    const displayUndo = canUndo(this.props.phrase)
+    const displayUndo = hasTranslationChanged(this.props.phrase)
     const button = displayUndo
       ? this.undoButtonElement()
       : this.closeButtonElement()

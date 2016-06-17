@@ -32,10 +32,6 @@ export function hasTranslationChanged (phrase) {
   return !allSame
 }
 
-export function canUndo (phrase) {
-  return phrase.previousTranslations
-}
-
 export function hasNoTranslation (phrase) {
   return isEmpty(compact(phrase.newTranslations))
 }
