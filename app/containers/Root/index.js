@@ -60,7 +60,9 @@ class Root extends Component {
   }
 
   render () {
-    const pixelHeight = this.props.percentHeight * window.innerHeight
+    const pixelHeight = this.props.showSuggestion
+      ? this.props.percentHeight * window.innerHeight
+      : 0
 
     // TODO adjust scrollbar width on div like Angular template editor.html
     return (
@@ -83,7 +85,8 @@ class Root extends Component {
 }
 
 Root.propTypes = {
-  percentHeight: PropTypes.number.isRequired
+  percentHeight: PropTypes.number.isRequired,
+  showSuggestion: PropTypes.bool
 }
 
 function mapStateToProps (state, ownProps) {
@@ -95,7 +98,8 @@ function mapStateToProps (state, ownProps) {
   })
   return {
     phrases: withDetail,
-    percentHeight
+    percentHeight,
+    showSuggestion: ui.panels.suggestions.visible
   }
 }
 
