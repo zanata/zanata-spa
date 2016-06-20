@@ -25,6 +25,11 @@ export function openDropdown (dropdownKey) {
   return { type: OPEN_DROPDOWN, key: dropdownKey }
 }
 
+export const CLOSE_DROPDOWN = Symbol('CLOSE_DROPDOWN')
+export function closeDropdown () {
+  return { type: CLOSE_DROPDOWN }
+}
+
 /**
  * Fetch the list of documents for the current project-version
  */

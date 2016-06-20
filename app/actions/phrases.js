@@ -7,6 +7,8 @@ import {
   STATUS_NEEDS_WORK,
   STATUS_NEEDS_WORK_SERVER
 } from '../utils/status'
+import { defaultSaveStatus } from '../utils/status'
+import { hasTranslationChanged } from '../utils/phrase'
 
 export const FETCHING_PHRASE_LIST = Symbol('FETCHING_PHRASE_LIST')
 
@@ -206,7 +208,10 @@ export function undoEdit () {
  */
 export const SELECT_PHRASE = Symbol('SELECT_PHRASE')
 export function selectPhrase (phraseId) {
-  return { type: SELECT_PHRASE, phraseId }
+  return (dispatch) => {
+    dispatch(savePreviousPhraseIfChanged(phraseId))
+    dispatch({type: SELECT_PHRASE, phraseId})
+  }
 }
 
 /**
@@ -218,7 +223,23 @@ export function selectPhrase (phraseId) {
 export const SELECT_PHRASE_SPECIFIC_PLURAL =
   Symbol('SELECT_PHRASE_SPECIFIC_PLURAL')
 export function selectPhrasePluralIndex (phraseId, index) {
-  return { type: SELECT_PHRASE_SPECIFIC_PLURAL, phraseId, index }
+  return (dispatch) => {
+    dispatch(savePreviousPhraseIfChanged(phraseId))
+    dispatch({ type: SELECT_PHRASE_SPECIFIC_PLURAL, phraseId, index })
+  }
+}
+
+function savePreviousPhraseIfChanged (phraseId) {
+  return (dispatch, getState) => {
+    const previousPhraseId = getState().phrases.selectedPhraseId
+    if (previousPhraseId && previousPhraseId !== phraseId) {
+      const previousPhrase = getState().phrases.detail[previousPhraseId]
+      if (previousPhrase && hasTranslationChanged(previousPhrase)) {
+        dispatch(savePhraseWithStatus(previousPhrase,
+          defaultSaveStatus(previousPhrase)))
+      }
+    }
+  }
 }
 
 // User has typed/pasted/etc. text for a translation (not saved yet)

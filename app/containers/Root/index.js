@@ -40,7 +40,9 @@ class Root extends Component {
     // the size prop will override the dragged size, but specifying size prop
     // stops drag resize from working.
     if (this.refs && this.refs.suggestionResizer) {
-      const pixelHeight = this.props.percentHeight * window.innerHeight
+      const pixelHeight = this.props.showSuggestion
+        ? this.props.percentHeight * window.innerHeight
+        : 0
       this.refs.suggestionResizer.setState({
         draggedSize: pixelHeight
       })
@@ -53,7 +55,8 @@ class Root extends Component {
     // draggedSize is defined as soon as any drag-resize happens,
     // so no need to save the height if it has not been set
     if (this.refs && this.refs.suggestionResizer &&
-      this.refs.suggestionResizer.state.draggedSize) {
+      this.refs.suggestionResizer.state.draggedSize &&
+      this.props.showSuggestion) {
       const panelSize = this.refs.suggestionResizer.state.draggedSize
       this.props.saveSuggestionPanelHeight(panelSize)
     }
@@ -75,7 +78,7 @@ class Root extends Component {
             primary="second"
             onDragFinished={this.resizeFinished}>
             <MainContent/>
-            <SuggestionsPanel />
+            {this.props.showSuggestion && <SuggestionsPanel />}
           </SplitPane>
           <KeyShortcutCheatSheet/>
         </KeyShortcutDispatcher>

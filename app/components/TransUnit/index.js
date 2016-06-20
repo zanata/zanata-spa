@@ -5,7 +5,7 @@ import TransUnitSourcePanel from '../TransUnitSourcePanel'
 import TransUnitTranslationPanel from '../TransUnitTranslationPanel'
 import { connect } from 'react-redux'
 import { pick } from 'lodash'
-import { toggleDropdown } from '../../actions'
+import { toggleDropdown, closeDropdown } from '../../actions'
 import {
   cancelEdit,
   copyFromSource,
@@ -153,6 +153,7 @@ function mapDispatchToProps (dispatch, ownProps) {
     cancelEdit: (event) => {
       event.stopPropagation()
       dispatch(cancelEdit())
+      dispatch(closeDropdown())
     },
     copyFromSource: (sourceIndex) => {
       dispatch(copyFromSource(ownProps.phrase.id, sourceIndex))

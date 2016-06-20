@@ -104,6 +104,9 @@ const TransUnitTranslationPanel = React.createClass({
       footer = <TransUnitTranslationFooter {...footerProps}/>
     }
 
+    const { openDropdown, saveAsMode, saveDropdownKey } = this.props
+    const dropdownIsOpen = openDropdown === saveDropdownKey || saveAsMode
+
     // TODO use dedicated phrase.isLoading variable when available
     const isLoading = !phrase.newTranslations
     const selectedPluralIndex = phrase.selectedPluralIndex || 0
@@ -131,13 +134,12 @@ const TransUnitTranslationPanel = React.createClass({
             ? 'u-textMini u-textPrimary'
             : 'u-textMeta'
 
-          const itemHeader = isPlural
-          ? <div className="TransUnit-itemHeader">
+          const itemHeader = isPlural &&
+            <div className="TransUnit-itemHeader">
               <span className={headerClass}>
                 {headerLabel}
               </span>
             </div>
-          : undefined
 
           const onChange = this.props.textChanged
             .bind(undefined, phrase.id, index)
@@ -153,6 +155,7 @@ const TransUnitTranslationPanel = React.createClass({
               <Textarea
                 ref={(ref) => this.textareas[index] = ref}
                 className="TransUnit-text"
+                disabled={dropdownIsOpen}
                 rows={1}
                 value={translation}
                 placeholder="Enter a translation…"

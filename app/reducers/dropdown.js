@@ -1,5 +1,7 @@
 import updateObject from 'react-addons-update'
-import { OPEN_DROPDOWN, TOGGLE_DROPDOWN } from '../actions'
+import {
+  OPEN_DROPDOWN, CLOSE_DROPDOWN, TOGGLE_DROPDOWN
+} from '../actions'
 
 const defaultState = {
   openDropdownKey: undefined,
@@ -17,6 +19,11 @@ const dropdownReducer = (state = defaultState, action) => {
     case OPEN_DROPDOWN:
       return update({
         openDropdownKey: {$set: action.key}
+      })
+
+    case CLOSE_DROPDOWN:
+      return update({
+        openDropdownKey: {$set: undefined}
       })
 
     case TOGGLE_DROPDOWN:
