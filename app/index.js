@@ -80,9 +80,6 @@ const createStoreWithMiddleware =
   )(createStore)
 
 const store = createStoreWithMiddleware(rootReducer)
-
-// this is shown in the example, but listenForReplays is undefined here so
-// I will leave it out for now
 reduxRouterMiddleware.listenForReplays(store)
 
 const rootElement = document.getElementById('appRoot')
