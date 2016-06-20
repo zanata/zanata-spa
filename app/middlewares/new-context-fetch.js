@@ -35,23 +35,23 @@ const fetchDocsMiddleware = stateChangeDispatchMiddleware(
     }
   },
   (dispatch, oldState, newState) => {
-    const updateDoc = oldState.context.docId !== newState.context.docId
-    const updateLocale = oldState.context.lang !== newState.context.lang
+    const docChanged = oldState.context.docId !== newState.context.docId
+    const localeChanged = oldState.context.lang !== newState.context.lang
 
     const newPageIndex = getPageIndexFromQuery(newState)
     const oldPageIndex = getPageIndexFromQuery(oldState)
 
     const updatePage = oldPageIndex !== newPageIndex
-    if (updateDoc || updateLocale) {
+    if (docChanged || localeChanged) {
       const { projectSlug, versionSlug, lang, docId } = newState.context
       const paging = {
         ...newState.phrases.paging,
         pageIndex: newPageIndex
       }
-      if (updateDoc) {
+      if (docChanged) {
         dispatch(selectDoc(docId))
       }
-      if (updateLocale) {
+      if (localeChanged) {
         dispatch(selectLocale(lang))
       }
       dispatch({type: UPDATE_PAGE, page: newPageIndex})

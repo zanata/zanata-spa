@@ -205,14 +205,11 @@ export function fetchHeaderInfo (projectSlug, versionSlug, docId, localeId) {
           if (!containsLocale(locales, selectedLocaleId)) {
             selectedLocaleId = locales[0].localeId
           }
-          const { context } = getState().headerData
-          if (context.selectedDoc.id !== selectedDocId ||
-              context.selectedLocale !== selectedLocaleId) {
-            fetchStatistics(projectSlug, versionSlug,
-                selectedDocId, selectedLocaleId)
-                .then(checkResponse('fetch statistics failed'))
-                .then(stats => dispatch(statsFetched(stats)))
-          }
+
+          fetchStatistics(projectSlug, versionSlug, selectedDocId,
+            selectedLocaleId)
+            .then(checkResponse('fetch statistics failed'))
+            .then(stats => dispatch(statsFetched(stats)))
 
           // dispatching selected doc and locale must happen after we compare
           // previous state otherwise it will not fetch stats
