@@ -1,6 +1,3 @@
-/* the resizer component is not used any more.
-   but keep this temporarily because we may need to resurrect it */
-
 .Resizer {
   background: rgba(255, 255, 255, 0);
   opacity: .2;
