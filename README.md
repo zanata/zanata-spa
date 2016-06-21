@@ -4,14 +4,16 @@
 
 ## Setup and Deployment
 
-1. Make sure [node and npm](http://nodejs.org/) are installed.
-2. Setup dependencies: `npm run setup`.
+1. Make sure [node and npm](http://nodejs.org/) are installed. Version v5.4.1
+2. Setup dependencies: `make setup`.
+3. Build compressed files: `make build`, files will be in /app/build
+
 
 ### Run with live reload
 
-Build and run a server: `npm run watch`.
+Build and run a server: `make watch`.
 
- - Editor is available at [localhost:8000](http://localhost:8000)
+ - Editor is available at [localhost:8080](http://localhost:8080)
    - the editor will be blank at the base URL, include the project-version to
      show content. The format is
      localhost:8000/#/{project-slug}/{version-slug}/translate
@@ -20,34 +22,30 @@ Build and run a server: `npm run watch`.
 
 ### Run with live reload and local API server
 
-Build and run server and API server: `npm run fakewatch`.
+Build and run server and API server: `make watch-fakeserver`.
 
- - Editor is available at [localhost:8000](http://localhost:8000)
-   - URL for a working document from the default API server [Tiny Project 1, hello.txt to French](http://localhost:8000/#/tiny-project/1/translate/hello.txt/fr)
+ - Editor is available at [localhost:8080](http://localhost:8080)
+   - URL for a working document from the default API server [Tiny Project 1, hello.txt to French](http://localhost:8080/#/tiny-project/1/translate/hello.txt/fr)
  - REST API server is available at
    [localhost:7878/zanata/rest](http://localhost:7878/zanata/rest)
 
 
 ## Running tests
 
-Run tests with `make test` or `npm test` (they do exactly the same thing).
+Run tests with `make test`.
 
 
 ## Code Guidelines
 
-### Javascript/Angular
-
-Stick very closely to [these Angular guidelines](https://github.com/zanata/angularjs-styleguide).
+### Javascript
 
 And [these](https://github.com/zanata/javascript) for Javascript.
 
-Always add documentation and follow the [ngdoc format](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation).
+Always add documentation.
 
 ### CSS
 
 For CSS I am aiming to move to [these guidelines](https://github.com/suitcss/suit/blob/master/doc/README.md).
-
-For now, CSS still lives in [Zanata Assets](https://github.com/zanata/zanata-assets).
 
 ## License
 

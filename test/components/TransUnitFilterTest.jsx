@@ -1,6 +1,6 @@
 import React from 'react'
 import TransUnitFilter from '../../app/components/TransUnitFilter'
-import FilterToggle from '../../app/components/TransUnitFilter/FilterToggle'
+import FilterToggle from '../../app/components/FilterToggle'
 import Icon from '../../app/components/Icon'
 import test from 'retap'
 import mockGettextCatalog from '../mockAngularGettext'

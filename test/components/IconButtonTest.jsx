@@ -1,21 +1,21 @@
 import React from 'react'
-import IconButton from '../../app/components/IconButton'
 import Icon from '../../app/components/Icon'
+import IconButton from '../../app/components/IconButton'
 import test from 'retap'
 
-test('IconButton markup (active)', function IconButtonActiveMarkup (t) {
+test('IconButton markup', (t) => {
   var clickFun = function (e) {}
 
   const actual = <IconButton
     icon="classical"
     title="Mozart"
     onClick={clickFun}
-    active={true}
-    className="pop-icon"/>
+    iconClass="pop-icon"
+    buttonClass="push-me"/>
 
   const expected = (
     <button
-      className="is-active Button Button--snug u-roundish Button--invisible"
+      className="push-me"
       onClick={clickFun}
       title="Mozart">
       <Icon
@@ -29,19 +29,20 @@ test('IconButton markup (active)', function IconButtonActiveMarkup (t) {
   t.end()
 })
 
-test('IconButton markup (inactive)', function IconButtonInactiveMarkup (t) {
+test('IconButton markup (disabled)', (t) => {
   var clickFun = function (e) {}
 
   const actual = <IconButton
     icon="tea"
     title="Tea"
     onClick={clickFun}
-    active={false}
-    className="cultural-icon"/>
+    iconClass="cultural-icon"
+    buttonClass="drink-me"
+    disabled={true}/>
 
   const expected = (
     <button
-      className="Button Button--snug u-roundish Button--invisible"
+      className="drink-me is-disabled"
       onClick={clickFun}
       title="Tea">
       <Icon
@@ -55,7 +56,29 @@ test('IconButton markup (inactive)', function IconButtonInactiveMarkup (t) {
   t.end()
 })
 
-test('IconButton click event', function IconButtonInactiveMarkup (t) {
+test('IconButton click event', (t) => {
+  t.plan(1)
+
+  var clickEvent = 'freshing'
+  var clickFun = function (e) {
+    clickEvent = e
+  }
+
+  const refreshButton = t.createComponent(
+    <IconButton
+      icon="iced-tea"
+      title="Iced Tea"
+      onClick={clickFun}/>
+  )
+
+  // simulate click event
+  refreshButton.onClick('refreshing')
+
+  t.equal(clickEvent, 'refreshing',
+    'IconButton click event should fire with correct event payload')
+})
+
+test('IconButton does not fire click when disabled', (t) => {
   t.plan(1)
 
   var clickEvent = 'freshing'
@@ -68,12 +91,17 @@ test('IconButton click event', function IconButtonInactiveMarkup (t) {
       icon="iced-tea"
       title="Iced Tea"
       onClick={clickFun}
-      active={true}/>
+      disabled={true}/>
   )
 
-  // simulate click event
-  refreshButton.onClick('refreshing')
+  // throws if onClick is not bound
+  try {
+    // simulate click event
+    refreshButton.onClick('refreshing')
+  } catch (e) {
+    // swallow on purpose, valid for code to not bind onClick
+  }
 
-  t.equal(clickEvent, 'refreshing',
-    'IconButton click event should fire with correct event payload')
+  t.equal(clickEvent, 'freshing',
+    'IconButton click event should not fire when props.disabled is true')
 })

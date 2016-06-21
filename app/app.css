@@ -2,52 +2,51 @@
  * Utils
  */
 
-@import './components/utils-layout/index.css';
-@import './components/utils-background/index.css';
-@import './components/utils-display/index.css';
-@import './components/utils-list/index.css';
-@import './components/utils-position/index.css';
-@import './components/utils-size/index.css';
-@import './components/utils-space/index.css';
-@import './components/utils-text/index.css';
-
+@import './css/utils-layout/index.css';
+@import './css/utils-background/index.css';
+@import './css/utils-display/index.css';
+@import './css/utils-list/index.css';
+@import './css/utils-position/index.css';
+@import './css/utils-size/index.css';
+@import './css/utils-space/index.css';
+@import './css/utils-text/index.css';
+@import './css/resizer/index.css';
 
 /**
  * Components
  */
 
 @import 'suitcss-components-grid';
-@import './components/base/index.css';
-@import './components/button-group/index.css';
-@import './components/button/index.css';
-@import './components/input-group/index.css';
-@import './components/dropdown/index.css';
-@import './components/header/index.css';
-@import './components/heading/index.css';
-@import './components/icon/index.css';
-@import './components/links/index.css';
-@import './components/difference/index.css';
-@import './components/logo-loader/index.css';
+@import './css/base/index.css';
+@import './components/SplitDropdown/index.css';
+@import './components/Button/index.css';
+@import './components/SuggestionSearchInput/index.css';
+@import './components/Dropdown/index.css';
+@import './containers/EditorHeader/index.css';
+@import './css/heading/index.css';
+@import './components/Icon/index.css';
+@import './css/links/index.css';
+@import './components/TextDiff/index.css';
+@import './components/LogoLoader/index.css';
 @import './components/ProgressBar/index.css';
-@import './components/modal/index.css';
-@import './components/toggle/index.css';
-@import './components/switch/index.css';
-@import './components/transUnit/index.css';
-@import './components/resizer/index.css';
+@import './containers/KeyShortcutCheatSheet/index.css';
+@import './components/FilterToggle/index.css';
+@import './components/ToggleSwitch/index.css';
+@import './components/TransUnit/index.css';
 
 
 /**
  * Views
  */
 
-@import './editor/index.css';
+@import './containers/Root/index.css';
 
 
 /**
  * Theme
  */
 
-@import './components/theme/index.css';
+@import './css/theme/index.css';
 
 
 /* Fix for hotkeys, remove this when reimplemented */

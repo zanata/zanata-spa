@@ -1,5 +1,5 @@
 <!DOCTYPE>
-<html class="new-zanata" lang="en" ng-app="app" ng-strict-di>
+<html class="new-zanata" lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -7,27 +7,19 @@
 
   <title>Zanata</title>
 
-  <meta name="description" content="Community Powered Translation">
+  <meta name="description" content="Open Translation for Everyone">
   <meta name="author" content="Red Hat">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="cleartype" content="on">
 
-  <!-- <link rel="stylesheet" href="http://localhost/zanata-assets/php/dev/assets/css/style.css"> -->
-  <!-- Currently importing zanata assets with bower into libs.css -->
-  <link rel="stylesheet" href="css/libs.css">
-  <link rel="stylesheet" href="css/app.css">
-
-  <script src="js/libs.js"></script>
-  <script src="js/templates.js"></script>
-  <script src="js/app.js"></script>
-
-  <link
-    href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,400italic'
-    rel='stylesheet' type='text/css' async>
+  <link rel="icon" type="image/x-icon" href="http://assets-zanata.rhcloud.com/master/assets/img/logo/logo.ico">
+  <link rel="stylesheet" type="text/css" href="bundle.css">
+  <link rel="stylesheet" type="text/css" async
+    href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,400italic'>
 
 </head>
 
-<body class="new-zanata" ng-controller="AppCtrl as app">
+<body class="new-zanata">
 <noscript>
   <div class="l__wrapper l--push-v-1">
     <p class="message--danger" translate>We're sorry, this application needs Javascript to
@@ -37,7 +29,8 @@
 
 <!-- inject:svg --><!-- endinject -->
 
-<div ui-view></div>
+  <div id="appRoot"/>
+  <script type="text/javascript" src="bundle.js" charset="utf-8"></script>
 
 </body>
 </html>
