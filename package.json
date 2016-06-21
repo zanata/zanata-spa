@@ -26,8 +26,8 @@
     "url": "http://github.com/zanata/zanata-spa.git"
   },
   "engines": {
-    "node": ">=0.10.28",
-    "npm": ">=1.4.9"
+    "node": ">=5.4.1",
+    "npm": ">=3.3.12"
   },
   "license": "LGPL-2.1",
   "devDependencies": {
