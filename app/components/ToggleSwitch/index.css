@@ -39,10 +39,7 @@
   top: 50%;
   transform: translateY(-50%);
   border-radius: calc(var(--Switch-rhythm) * .75);
-  /* disable transition delay which causes flickers in chrome
-    transition: all .2s ease-out;
-  */
-  transition: all ease-out;
+  transition: all .2s ease-out;
 }
 
 .Switch-label:before {

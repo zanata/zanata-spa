@@ -25,6 +25,14 @@
     border-bottom: 5px solid rgba(0, 0, 0, 0.5);
 }
 
+/*
+  This is needed to fix flicker screen in chrome for
+  css3 transform
+*/
+.Pane {
+  display: block!important;
+}
+
 /* Old resizer component from Angular
 
 .Resizer {
