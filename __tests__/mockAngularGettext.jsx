@@ -8,8 +8,8 @@ const mockGettextCatalog = {
     return isUndefined(replacements)
       ? str
       : reduce(replacements, (acc, value, placeholder) => {
-          return acc.replace('{{' + placeholder + '}}', value)
-        }, str)
+        return acc.replace('{{' + placeholder + '}}', value)
+      }, str)
   }
 }
 
