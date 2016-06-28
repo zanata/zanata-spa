@@ -18,7 +18,7 @@ const UiLanguageDropdown = React.createClass({
 
   changeUiLocale: function (locale) {
     // AppCtrl expects { localeId, name } rather than { id, name }
-    return () => this.props.changeUiLocale({
+    this.props.changeUiLocale({
       localeId: locale.id,
       name: locale.name
     })
@@ -28,7 +28,7 @@ const UiLanguageDropdown = React.createClass({
     const items = values(this.props.uiLocales).map(locale => {
       return (
         <li key={locale.id}>
-          <a onClick={this.changeUiLocale(locale)}
+          <a onClick={() => this.changeUiLocale(locale)}
              className="Dropdown-item">
             {locale.name}
           </a>
