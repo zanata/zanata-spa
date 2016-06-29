@@ -155,7 +155,6 @@ describe('TransUnitFilterTest', () => {
 
     let filterChangeType = 'none'
     const onFilterChange = statusType => {
-      console.log('clicked', statusType)
       filterChangeType = statusType
     }
 

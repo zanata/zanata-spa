@@ -22,10 +22,8 @@ const Dropdown = React.createClass({
   },
 
   toggleDropdown: function () {
-    if (this.props.enabled) {
-      const node = this.buttonDiv
-      this.props.onToggle(node)
-    }
+    const node = this.buttonDiv
+    this.props.onToggle(node)
   },
 
   render: function () {
