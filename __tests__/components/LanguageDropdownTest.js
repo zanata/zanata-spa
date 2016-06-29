@@ -1,48 +1,51 @@
+jest.disableAutomock()
+
 import React from 'react'
+import ReactDOMServer from 'react-dom/server'
 import LanguagesDropdown from '../../app/components/LanguagesDropdown'
 import Dropdown from '../../app/components/Dropdown'
 import Icon from '../../app/components/Icon'
-import test from 'retap'
 
-test('LanguagesDropdown markup', function LanguagesDropdownMarkup (t) {
-  const awayEreBreakOfDay = () => {}
-  const actual = (
-    <LanguagesDropdown
-      context={{
-        projectVersion: {
-          project: {
-            slug: 'middle'
-          },
-          version: 'earth',
-          locales: {
-            wes: {
-              id: 'wes',
-              name: 'Westron'
+describe('LanguageDropdownTest', () => {
+  it('LanguagesDropdown markup', () => {
+    const awayEreBreakOfDay = () => {}
+    const actual = ReactDOMServer.renderToStaticMarkup(
+      <LanguagesDropdown
+        context={{
+          projectVersion: {
+            project: {
+              slug: 'middle'
             },
-            roh: {
-              id: 'roh',
-              name: 'Rohirric'
-            },
-            khu: {
-              id: 'khu',
-              name: 'Khuzdul'
-            },
-            val: {
-              id: 'val',
-              name: 'Valarin'
+            version: 'earth',
+            locales: {
+              wes: {
+                id: 'wes',
+                name: 'Westron'
+              },
+              roh: {
+                id: 'roh',
+                name: 'Rohirric'
+              },
+              khu: {
+                id: 'khu',
+                name: 'Khuzdul'
+              },
+              val: {
+                id: 'val',
+                name: 'Valarin'
+              }
             }
-          }
-        },
-        selectedDoc: {
-          id: 'misty-mountains.txt'
-        },
-        selectedLocale: 'khu'
-      }}
-      toggleDropdown={awayEreBreakOfDay}
-      isOpen={true}/>
-  )
+          },
+          selectedDoc: {
+            id: 'misty-mountains.txt'
+          },
+          selectedLocale: 'khu'
+        }}
+        toggleDropdown={awayEreBreakOfDay}
+        isOpen={true}/>
+    )
 
-  const expected = (
+    const expected = ReactDOMServer.renderToStaticMarkup(
       <Dropdown onToggle={awayEreBreakOfDay}
                 isOpen={true}>
         <Dropdown.Button>
@@ -56,33 +59,32 @@ test('LanguagesDropdown markup', function LanguagesDropdownMarkup (t) {
           <ul>
             <li key="wes">
               <a href="#/middle/earth/translate/misty-mountains.txt/wes"
-                className="Dropdown-item">
+                 className="Dropdown-item">
                 Westron
               </a>
             </li>
             <li key="roh">
               <a href="#/middle/earth/translate/misty-mountains.txt/roh"
-                className="Dropdown-item">
+                 className="Dropdown-item">
                 Rohirric
               </a>
             </li>
             <li key="khu">
               <a href="#/middle/earth/translate/misty-mountains.txt/khu"
-                className="Dropdown-item">
+                 className="Dropdown-item">
                 Khuzdul
               </a>
             </li>
             <li key="val">
               <a href="#/middle/earth/translate/misty-mountains.txt/val"
-                className="Dropdown-item">
+                 className="Dropdown-item">
                 Valarin
               </a>
             </li>
           </ul>
         </Dropdown.Content>
       </Dropdown>
-  )
-
-  t.isSameMarkup(actual, expected)
-  t.end()
+    )
+    expect(actual).toEqual(expected)
+  })
 })
